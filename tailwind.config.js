@@ -8,14 +8,17 @@ module.exports = {
     extend: {
       backgroundColor: theme => ({
         ...theme('colors'),
-        'primary': '#4800c2',
-        'Secondary': '#F59fbc',
+        'primary': '#4E70F7',
+        'primary-focus': '#1F4BF6',
+        'Secondary': '#739CB1',
         'bgContent': '#FAF7F5',
+        'baseBlack': '#181A2A',
       }),
       textColor:  theme => ({
         ...theme('colors'),
-        'primary': '#4800c2',
-        'baseBlack': '#2A1333',
+        'primary': '#4E70F7',
+        'primary-focus': '#1F4BF6',
+        'baseBlack': '#181A2A',
 
       }),
     },
