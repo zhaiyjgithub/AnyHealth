@@ -13,6 +13,9 @@ module.exports = {
         'Secondary': '#739CB1',
         'bgContent': '#FAF7F5',
         'baseBlack': '#181A2A',
+        'base-black': '#181A2A',
+        'green': '#007645',
+        'light-gray': '#5E5E5E'
       }),
       textColor:  theme => ({
         ...theme('colors'),
