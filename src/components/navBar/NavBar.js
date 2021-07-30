@@ -1,9 +1,8 @@
-import React, {useState, Fragment} from "react";
-import icon_logo from '../../assets/images/logo.jpg'
-import { Listbox, Transition, Dialog } from '@headlessui/react'
+import React, {useState, Fragment, useEffect} from "react";
 import ListBox from "./ListBox";
 import {AppointmentType, AvailableTimeRange, GenderType} from "../../utils/constant/Enum";
 import SectionListModal from "./SectionListModal";
+import {SpecialtyList} from "../../utils/constant/SpecialtyList";
 
 
 const GenderListBoxDataSource = [{title: 'Female', value: GenderType.Female}, {title: 'Male', value: GenderType.Male}, {title: 'Trans', value: GenderType.Trans}]
@@ -25,7 +24,12 @@ function NavBar() {
 	const [availableTime, setAvailableTime] = useState(AvailableTimeRange.AnyTime)
 	const [appointmentType, setAppointmentType] = useState(AppointmentType.AnyType)
 	const [isSpecialityModalOpen, setIsSpecialityModalOpen] = useState(false)
+	const [specialtyDataSource, setSpecialtyDataSource] = useState([])
+	const [specialty, setSpecialty] = useState('')
 
+	useEffect(() => {
+		setSpecialtyDataSource( sortSpecialty(SpecialtyList))
+	})
 
 	function onClickSpecialty() {
 		setIsSpecialityModalOpen(true)
@@ -45,6 +49,41 @@ function NavBar() {
 
 	function onCloseSpecialtyModal() {
 		setIsSpecialityModalOpen(false)
+	}
+
+	function onSelectedSpecialty(val) {
+		setIsSpecialityModalOpen(false)
+		setSpecialty(val)
+	}
+
+	function sortSpecialty(dataSource) {
+		if (!dataSource.length) {
+			return []
+		}
+
+		const categories = [
+			'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+			'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+		]
+		let list = []
+		for (let section = 0; section < categories.length; section++) {
+			let rows = []
+			for (let row = 0; row < dataSource.length; row++) {
+				const item = dataSource[row]
+				if (item.startsWith(categories[section])) {
+					rows.push({
+						title: item,
+						specialty: item,
+						sectionID: categories[section],
+						type: 1,
+					})
+				}
+			}
+			if (rows.length) {
+				list.push({sectionID: categories[section], data: rows})
+			}
+		}
+		return list
 	}
 
 	return (
@@ -113,10 +152,12 @@ function NavBar() {
 				</button>
 			</div>
 
-
 			<SectionListModal
+				selected={specialty}
 				isOpen={isSpecialityModalOpen}
 				onClose={onCloseSpecialtyModal}
+				dataSource={specialtyDataSource}
+				onSelected={onSelectedSpecialty}
 			/>
 		</nav>
 	)

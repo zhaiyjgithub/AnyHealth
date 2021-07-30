@@ -3,6 +3,7 @@ import React, {useState, useEffect} from "react";
 import ListWrapper from "../List/ListWrapper";
 import { name } from "faker";
 import DoctorItem from "../../views/finder/DoctorItem";
+import {SpecialtyList} from "../../utils/constant/SpecialtyList";
 
 
 function Admin() {
@@ -16,6 +17,7 @@ function Admin() {
 	const [gender, setGender] = useState('')
 	const [visitType, setVisitType] = useState('')
 	const [sort, setSort] = useState(false)
+
 
 	useEffect(() => {
 
@@ -31,6 +33,8 @@ function Admin() {
 			))
 		}, 2500)
 	};
+
+
 
 	return (
 		<div className={'w-screen h-screen bg-white'}>

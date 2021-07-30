@@ -2,12 +2,33 @@ import React, {Fragment, useState, useEffect} from "react";
 import {Dialog, Transition} from "@headlessui/react";
 
 export default function SectionListModal(props) {
-	const [selected, setSelected] = useState(props.selected)
-
 	function closeModal() {
 		// setIsOpen(false)
 		const {onClose} = props
 		onClose && onClose()
+	}
+
+	function onSelected(val) {
+		const {onSelected} = props
+		onSelected && onSelected(val)
+	}
+
+	function renderItem({sectionID, data}, idx) {
+
+		return (
+			<div key={idx} className={'w-1/4 px-2 py-2 rounded'}>
+				<p className={'font-semibold text-lg text-base-black font-mono'}>{sectionID}</p>
+				<ul className={'w-full mt-1'}>
+					{data.map(({title, specialty}) => {
+						console.log(specialty + ' - ' + props.selected)
+						const isSelected = (specialty === props.selected)
+						return <li onClick={() => {
+							onSelected(specialty)
+						}} className={`py-1 px-0.5 hover:bg-gray-200 text-sm font-mono font-normal ${isSelected ? 'bg-primary text-white' : ' text-base-black'}`}>{title}</li>
+					}) }
+				</ul>
+			</div>
+		)
 	}
 
 	return (
@@ -39,27 +60,37 @@ export default function SectionListModal(props) {
 						leaveFrom="opacity-100 scale-100"
 						leaveTo="opacity-0 scale-95"
 					>
-						<div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+						<div className="inline-block w-full max-w-screen-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
 							<Dialog.Title
 								as="h3"
-								className="text-lg font-medium leading-6 text-gray-900"
+								className="text-lg font-medium leading-6 text-gray-900 border-b pb-2"
 							>
-								Payment successful
+								Select A Specialty
 							</Dialog.Title>
-							<div className="mt-2">
-								<p className="text-sm text-gray-500">
-									Your payment has been successfully submitted. We’ve sent
-									your an email with all of the details of your order.
-								</p>
+
+							<div className={'flex flex-row w-full h-80 flex-wrap overflow-auto'}>
+								{props.dataSource.map((section, idx) => {
+									return renderItem(section, idx)
+								})}
 							</div>
 
-							<div className="mt-4">
+							<div className="mt-4 w-full flex flex-row-reverse">
 								<button
 									type="button"
-									className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+									className=" inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-gray-400 border border-transparent rounded-md hover:bg-gray-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+									onClick={() => {
+										onSelected('')
+									}}
+								>
+									Cancel
+								</button>
+
+								<button
+									type="button"
+									className=" inline-flex justify-center px-4 py-2 mr-2 text-sm font-medium text-white bg-primary border border-transparent rounded-md hover:bg-primary-focus focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
 									onClick={closeModal}
 								>
-									Got it, thanks!
+									Reset
 								</button>
 							</div>
 						</div>
