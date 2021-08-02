@@ -1,8 +1,10 @@
 import React, {useState, Fragment, useEffect} from "react";
 import ListBox from "./ListBox";
 import {AppointmentType, AvailableTimeRange, GenderType} from "../../utils/constant/Enum";
-import SectionListModal from "./SectionListModal";
+import SectionListModal from "../sectionList/SectionListModal";
 import {SpecialtyList} from "../../utils/constant/SpecialtyList";
+import {NY} from  "../../utils/constant/CityList";
+import {Listbox} from "@headlessui/react";
 
 
 const GenderListBoxDataSource = [{title: 'Female', value: GenderType.Female}, {title: 'Male', value: GenderType.Male}, {title: 'Trans', value: GenderType.Trans}]
@@ -11,15 +13,6 @@ const AppointmentTypeListBoxDataSource = [{title: 'In Clinic', value: Appointmen
 
 
 function NavBar() {
-	const people = [
-		{ name: 'Wade Cooper' },
-		{ name: 'Arlene Mccoy' },
-		{ name: 'Devon Webb' },
-		{ name: 'Tom Cook' },
-		{ name: 'Tanya Fox' },
-		{ name: 'Hellen Schmidt' },
-	]
-
 	const [gender, setGender] = useState('')
 	const [availableTime, setAvailableTime] = useState(AvailableTimeRange.AnyTime)
 	const [appointmentType, setAppointmentType] = useState(AppointmentType.AnyType)
@@ -27,13 +20,16 @@ function NavBar() {
 	const [specialtyDataSource, setSpecialtyDataSource] = useState([])
 	const [specialty, setSpecialty] = useState('')
 
-	useEffect(() => {
-		setSpecialtyDataSource( sortSpecialty(SpecialtyList))
-	})
+	const [isCityModalOpen, setIsCityModalOpen] = useState(false)
+	const [cityDataSource, setCityDataSource] = useState([])
+	const [city, setCity] = useState([])
 
-	function onClickSpecialty() {
-		setIsSpecialityModalOpen(true)
-	}
+
+	useEffect(() => {
+		setSpecialtyDataSource(sortList(SpecialtyList))
+		setCityDataSource(sortList(NY))
+	}, [])
+
 
 	function onChangeGender(val) {
 		setGender(val)
@@ -47,6 +43,10 @@ function NavBar() {
 		setAppointmentType(val)
 	}
 
+	function onClickSpecialty() {
+		setIsSpecialityModalOpen(true)
+	}
+
 	function onCloseSpecialtyModal() {
 		setIsSpecialityModalOpen(false)
 	}
@@ -56,7 +56,20 @@ function NavBar() {
 		setSpecialty(val)
 	}
 
-	function sortSpecialty(dataSource) {
+	function onClickCity() {
+		setIsCityModalOpen(true)
+	}
+
+	function onCloseCityModal() {
+		setIsCityModalOpen(false)
+	}
+
+	function onSelectedCity(val) {
+		setIsCityModalOpen(false)
+		setCity(val)
+	}
+
+	function sortList(dataSource) {
 		if (!dataSource.length) {
 			return []
 		}
@@ -73,7 +86,7 @@ function NavBar() {
 				if (item.startsWith(categories[section])) {
 					rows.push({
 						title: item,
-						specialty: item,
+						value: item,
 						sectionID: categories[section],
 						type: 1,
 					})
@@ -95,20 +108,10 @@ function NavBar() {
 				</div>
 
 				<div className={'flex flex-grow flex-row items-center justify-center mx-8 h-10 rounded overflow-hidden'}>
-					<input className={'w-3/5 h-10 px-2 font-medium text-baseBlack text-base focus:outline-none bg-gray-200 '} placeholder={'Doctor Name'} />
-					<div className={'w-2/5 flex border-l-2 bg-gray-200 h-full border-gray-300'}>
-						<div className={'flex-grow h-6 px-2 font-medium text-baseBlack text-base h-full border-r-2 border-gray-300'}>
-							<button type={'button'} onClick={onClickSpecialty} className="relative w-full py-2 pl-3 pr-3 text-left bg-white cursor-default bg-gray-200 rounded flex flex-row items-center justify-between">
-								<span className="block truncate font-medium font-mono">Specialty</span>
-								<span className="">
-									<i className="fas fa-chevron-down"></i>
-            					</span>
-							</button>
-						</div>
-						<button className={'flex-none px-4'}>
-							<i className="fas fa-search"></i>
-						</button>
-					</div>
+					<input className={'w-full h-10 px-2 font-medium text-baseBlack text-base focus:outline-none bg-gray-200 '} placeholder={'Doctor Name'} />
+					<button className={'flex-none px-4 bg-gray-200 h-full border-l-2 border-gray-300'}>
+						<i className="fas fa-search"></i>
+					</button>
 				</div>
 
 				<button type={'button'} className={'flex-none bg-primary rounded px-4 h-10 rounded text-white font-medium font-mono hover:bg-primary-focus transition duration-200 each-in-out '}>
@@ -118,6 +121,24 @@ function NavBar() {
 
 			{/*filter*/}
 			<div className={'w-full flex flex-row items-center mt-4'}>
+				{/*specialty*/}
+				<button onClick={onClickSpecialty} className={` relative py-1 px-4 cursor-default rounded-full flex flex-row items-center justify-between ${specialty.length ? 'bg-green' : 'border border-gray-400 bg-white hover:bg-gray-200'}`}>
+					<span className={` font-mono text-sm mr-2 ${specialty.length ? 'font-bold text-white' : ' font-semibold text-gray-600'}`}>{specialty.length ? specialty : 'Specialty'}</span>
+					<span className="">
+						<i className={`fas fa-chevron-down ${specialty.length ? 'text-white' : 'text-gray-600'}`}></i>
+					</span>
+				</button>
+
+				<div className={'w-2'}/>
+
+				<button onClick={onClickCity} className={` relative py-1 px-4 cursor-default rounded-full flex flex-row items-center justify-between ${city.length ? 'bg-green' : 'border border-gray-400 bg-white hover:bg-gray-200'}`}>
+					<span className={` font-mono text-sm mr-2 ${city.length ? 'font-bold text-white' : ' font-semibold text-gray-600'}`}>{city.length ? city : 'City'}</span>
+					<span className="">
+						<i className={`fas fa-chevron-down ${city.length ? 'text-white' : 'text-gray-600'}`}></i>
+					</span>
+				</button>
+
+				<div className={'w-2'}/>
 				{/*gender*/}
 				<ListBox
 					dataSource={GenderListBoxDataSource}
@@ -144,20 +165,26 @@ function NavBar() {
 					onChangeValue={onChangeAppointmentType}
 				/>
 
-				<button className="relative ml-4 w-48 py-2 pl-3 pr-3 text-left bg-white cursor-default bg-gray-200 rounded flex flex-row items-center justify-between">
-					<span className="block truncate font-medium font-mono">City</span>
-					<span className="">
-									<i className="fas fa-chevron-down"></i>
-            					</span>
-				</button>
+				<div className={'w-2'}/>
 			</div>
 
 			<SectionListModal
+				title ={'Select A Specialty'}
 				selected={specialty}
 				isOpen={isSpecialityModalOpen}
 				onClose={onCloseSpecialtyModal}
 				dataSource={specialtyDataSource}
 				onSelected={onSelectedSpecialty}
+			/>
+
+
+			<SectionListModal
+				title ={'Select A City'}
+				selected={city}
+				isOpen={isCityModalOpen}
+				onClose={onCloseCityModal}
+				dataSource={cityDataSource}
+				onSelected={onSelectedCity}
 			/>
 		</nav>
 	)
