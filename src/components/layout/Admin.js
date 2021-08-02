@@ -40,7 +40,7 @@ function Admin() {
 		<div className={'w-screen h-screen bg-white'}>
 			<NavBar />
 			<div className={'w-full h-full flex flex-row items-center justify-center bg-white'}>
-				<div className={'w-full max-w-screen-md h-full pt-16 bg-red-200'}>
+				<div className={'w-full h-full md:w-1/2 pt-16 bg-red-200'}>
 					<div className={'mt-2'}>
 						<div className={'flex flex-row items-center'}>
 							<p className={'font-medium mr-2'}>{'Sort: '}</p>
