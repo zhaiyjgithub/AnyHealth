@@ -100,92 +100,94 @@ function NavBar() {
 	}
 
 	return (
-		<nav className={'w-full bg-white py-3 px-32 border-b z-50'}>
-			<div className={'flex flex-row items-center justify-between '}>
-				<div className={'flex-none'}>
-					<span className="text-primary font-mono font-bold text-3xl">Any</span>
-					<span className="text-white font-mono font-bold text-3xl bg-primary p-0.5 ml-1 rounded">Health</span>
-				</div>
+		<nav className={'w-full bg-white py-3 px-4 md:px-20 border-b'}>
+			<div className={'w-full md:max-w-screen-xl'}>
+				<div className={'flex flex-row items-center justify-between '}>
+					<div className={'flex-none'}>
+						<span className="text-primary font-mono font-bold text-3xl">Any</span>
+						<span className="text-white font-mono font-bold text-3xl bg-primary p-0.5 ml-1 rounded">Health</span>
+					</div>
 
-				<div className={'flex flex-grow flex-row items-center justify-center mx-8 h-10 rounded overflow-hidden'}>
-					<input className={'w-full h-10 px-2 font-medium text-baseBlack text-base focus:outline-none bg-gray-200 '} placeholder={'Doctor Name'} />
-					<button className={'flex-none px-4 bg-gray-200 h-full border-l-2 border-gray-300'}>
-						<i className="fas fa-search"></i>
+					<div className={'flex flex-grow flex-row items-center justify-center mx-8 h-10 rounded overflow-hidden'}>
+						<input className={'w-full h-10 px-2 font-medium text-baseBlack text-base focus:outline-none bg-gray-200 '} placeholder={'Doctor Name'} />
+						<button className={'flex-none px-4 bg-gray-200 h-full border-l-2 border-gray-300'}>
+							<i className="fas fa-search"></i>
+						</button>
+					</div>
+
+					<button type={'button'} className={'flex-none bg-primary rounded px-4 h-10 rounded-full text-white font-medium font-mono hover:bg-primary-focus transition duration-200 each-in-out '}>
+						Sign In
 					</button>
 				</div>
 
-				<button type={'button'} className={'flex-none bg-primary rounded px-4 h-10 rounded text-white font-medium font-mono hover:bg-primary-focus transition duration-200 each-in-out '}>
-					Sign In
-				</button>
-			</div>
-
-			{/*filter*/}
-			<div className={'w-full flex flex-row items-center mt-4'}>
-				{/*specialty*/}
-				<button onClick={onClickSpecialty} className={` relative py-1 px-4 cursor-default rounded-full flex flex-row items-center justify-between ${specialty.length ? 'bg-green' : 'border border-gray-400 bg-white hover:bg-gray-200'}`}>
-					<span className={` font-mono text-sm mr-2 ${specialty.length ? 'font-bold text-white' : ' font-semibold text-gray-600'}`}>{specialty.length ? specialty : 'Specialty'}</span>
-					<span className="">
+				{/*filter*/}
+				<div className={'w-full flex flex-row items-center mt-4'}>
+					{/*specialty*/}
+					<button onClick={onClickSpecialty} className={` relative py-1 px-4 cursor-default rounded-full flex flex-row items-center justify-between ${specialty.length ? 'bg-green' : 'border border-gray-400 bg-white hover:bg-gray-200'}`}>
+						<span className={` font-mono text-sm mr-2 ${specialty.length ? 'font-bold text-white' : ' font-semibold text-gray-600'}`}>{specialty.length ? specialty : 'Specialty'}</span>
+						<span className="">
 						<i className={`fas fa-chevron-down ${specialty.length ? 'text-white' : 'text-gray-600'}`}></i>
 					</span>
-				</button>
+					</button>
 
-				<div className={'w-2'}/>
+					<div className={'w-2'}/>
 
-				<button onClick={onClickCity} className={` relative py-1 px-4 cursor-default rounded-full flex flex-row items-center justify-between ${city.length ? 'bg-green' : 'border border-gray-400 bg-white hover:bg-gray-200'}`}>
-					<span className={` font-mono text-sm mr-2 ${city.length ? 'font-bold text-white' : ' font-semibold text-gray-600'}`}>{city.length ? city : 'City'}</span>
-					<span className="">
+					<button onClick={onClickCity} className={` relative py-1 px-4 cursor-default rounded-full flex flex-row items-center justify-between ${city.length ? 'bg-green' : 'border border-gray-400 bg-white hover:bg-gray-200'}`}>
+						<span className={` font-mono text-sm mr-2 ${city.length ? 'font-bold text-white' : ' font-semibold text-gray-600'}`}>{city.length ? city : 'City'}</span>
+						<span className="">
 						<i className={`fas fa-chevron-down ${city.length ? 'text-white' : 'text-gray-600'}`}></i>
 					</span>
-				</button>
+					</button>
 
-				<div className={'w-2'}/>
-				{/*gender*/}
-				<ListBox
-					dataSource={GenderListBoxDataSource}
-					defaultTitle = {'Gender'}
-					selected={gender}
-					onChangeValue={onChangeGender}
+					<div className={'w-2'}/>
+					{/*gender*/}
+					<ListBox
+						dataSource={GenderListBoxDataSource}
+						defaultTitle = {'Gender'}
+						selected={gender}
+						onChangeValue={onChangeGender}
+					/>
+
+					<div className={'w-2'}/>
+					{/*next available date*/}
+					<ListBox
+						dataSource={AvailableTimeListBoxDataSource}
+						defaultTitle = {'Any Time'}
+						selected={availableTime}
+						onChangeValue={onChangeAvailableTime}
+					/>
+
+					<div className={'w-2'}/>
+					{/*Appointment type*/}
+					<ListBox
+						dataSource={AppointmentTypeListBoxDataSource}
+						defaultTitle = {'Any Type'}
+						selected={appointmentType}
+						onChangeValue={onChangeAppointmentType}
+					/>
+
+					<div className={'w-2'}/>
+				</div>
+
+				<SectionListModal
+					title ={'Select A Specialty'}
+					selected={specialty}
+					isOpen={isSpecialityModalOpen}
+					onClose={onCloseSpecialtyModal}
+					dataSource={specialtyDataSource}
+					onSelected={onSelectedSpecialty}
 				/>
 
-				<div className={'w-2'}/>
-				{/*next available date*/}
-				<ListBox
-					dataSource={AvailableTimeListBoxDataSource}
-					defaultTitle = {'Any Time'}
-					selected={availableTime}
-					onChangeValue={onChangeAvailableTime}
-				/>
 
-				<div className={'w-2'}/>
-				{/*Appointment type*/}
-				<ListBox
-					dataSource={AppointmentTypeListBoxDataSource}
-					defaultTitle = {'Any Type'}
-					selected={appointmentType}
-					onChangeValue={onChangeAppointmentType}
+				<SectionListModal
+					title ={'Select A City'}
+					selected={city}
+					isOpen={isCityModalOpen}
+					onClose={onCloseCityModal}
+					dataSource={cityDataSource}
+					onSelected={onSelectedCity}
 				/>
-
-				<div className={'w-2'}/>
 			</div>
-
-			<SectionListModal
-				title ={'Select A Specialty'}
-				selected={specialty}
-				isOpen={isSpecialityModalOpen}
-				onClose={onCloseSpecialtyModal}
-				dataSource={specialtyDataSource}
-				onSelected={onSelectedSpecialty}
-			/>
-
-
-			<SectionListModal
-				title ={'Select A City'}
-				selected={city}
-				isOpen={isCityModalOpen}
-				onClose={onCloseCityModal}
-				dataSource={cityDataSource}
-				onSelected={onSelectedCity}
-			/>
 		</nav>
 	)
 }

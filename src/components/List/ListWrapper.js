@@ -1,7 +1,10 @@
 import React from "react";
-import { FixedSizeList as List } from "react-window";
+import { VariableSizeList as List } from "react-window";
 import InfiniteLoader from "react-window-infinite-loader";
 import AutoSizer from "react-virtualized-auto-sizer"
+import DoctorItem from "../../views/finder/DoctorItem";
+import LoadingFooter from "./LoadingFooter";
+import SortBar from "../../views/finder/SortBar";
 
 export default function ListWrapper({
 										   // Are there more items to load?
@@ -30,15 +33,28 @@ export default function ListWrapper({
 
 	// Render an item or a loading indicator.
 	const Item = ({ index, style }) => {
-		let content;
 		if (!isItemLoaded(index)) {
-			content = "Loading...";
+			return (
+				<div style={style}>
+					<LoadingFooter />
+				</div>
+			)
 		} else {
-			content = items[index].name;
+			if (index === 0) {
+				return <div style={style}>
+					<SortBar />
+				</div>
+			}
 		}
 
-		return <div style={style}>{content}</div>;
+		return <div style={style}>
+			<DoctorItem  />
+		</div>
 	};
+
+	const getItemSize = (index) => {
+		return index === 0 ? 64 : 200
+	}
 
 	return (
 		<InfiniteLoader
@@ -50,14 +66,13 @@ export default function ListWrapper({
 				<AutoSizer>
 					{({ height, width }) => (
 						<List
-							className={'bg-red-400'}
+							className={'h-full w-full'}
 							height={height}
 							itemCount={itemCount}
-							itemSize={30}
+							itemSize={getItemSize}
 							onItemsRendered={onItemsRendered}
 							width={width}
 							ref={ref}
-
 						>
 							{Item}
 						</List>

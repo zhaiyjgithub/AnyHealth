@@ -23,6 +23,7 @@ module.exports = {
         'primary': '#4E70F7',
         'primary-focus': '#1F4BF6',
         'baseBlack': '#181A2A',
+        'base-green': '#007645',
 
       }),
     },

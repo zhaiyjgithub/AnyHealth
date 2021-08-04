@@ -13,7 +13,6 @@ function Section(props) {
 			<p className={'font-semibold text-lg text-base-black font-mono px-1'}>{props.sectionID}</p>
 			<ul className={'w-full mt-1'}>
 				{props.data.map(({title, value}) => {
-					console.log('title: ', title, ' value: ', value, "selected: ", props.selected)
 					const isSelected = (value === props.selected)
 					return (
 						<ListItem title={title} isSelected={isSelected} onClick={() => {
