@@ -53,7 +53,7 @@ export default function ListWrapper({
 	};
 
 	const getItemSize = (index) => {
-		return index === 0 ? 64 : 200
+		return (index === 0 || (!isItemLoaded(index))) ? 64 : 200
 	}
 
 	return (

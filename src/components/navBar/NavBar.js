@@ -115,7 +115,7 @@ function NavBar() {
 						</button>
 					</div>
 
-					<button type={'button'} className={'flex-none bg-primary rounded px-4 h-10 rounded-full text-white font-medium font-mono hover:bg-primary-focus transition duration-200 each-in-out '}>
+					<button type={'button'} className={'flex-none bg-primary rounded px-4 py-2 rounded-full text-white font-medium font-mono hover:bg-primary-focus transition duration-200 each-in-out '}>
 						Sign In
 					</button>
 				</div>

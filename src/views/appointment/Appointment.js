@@ -9,23 +9,25 @@ const Appointment = ({fullName, specialty, subSpecialty,
 
 	const genderTitle = gender === 'M' ? 'Male' : 'Female'
 	return (
-		<div className={'w-full h-full pl-4 pt-2'}>
-			<div className={'w-full border rounded'}>
-				<div className={'w-full p-4 '}>
-					<img src={"https://randomuser.me/api/portraits/men/82.jpg"} className={'w-16 h-16 bg-yellow-300 rounded mr-2'}/>
-					<p className={'text-black text-xl font-semibold font-mono mt-1'}>{fullName}</p>
-					<p className={'text-base-black text-base mt-1 font-semibold font-mono'}>{specialty}</p>
-					<p className={'text-gray-500 text-base'}>{subSpecialty}</p>
+		<div className={'w-full h-full px-4 pt-2 '}>
+			<div className={'w-full'}>
+				<div className={'w-full border rounded'}>
+					<div className={'w-full p-4'}>
+						<img src={"https://randomuser.me/api/portraits/men/82.jpg"} className={'w-16 h-16 bg-yellow-300 rounded mr-2'}/>
+						<p className={'text-black text-xl font-semibold font-mono mt-1'}>{fullName}</p>
+						<p className={'text-base-black text-base mt-1 font-semibold font-mono'}>{specialty}</p>
+						<p className={'text-gray-500 text-base'}>{subSpecialty}</p>
 
-					<div className={'mt-1 flex flex-row items-center mt-1'}>
-						<div className={'w-4 flex flex-col justify-center items-center mr-2'}>
-							<i className="fas fa-info-circle text-base-black"></i>
+						<div className={'mt-1 flex flex-row items-center mt-1'}>
+							<div className={'w-4 flex flex-col justify-center items-center mr-2'}>
+								<i className="fas fa-info-circle text-base-black"></i>
+							</div>
+							<p className={'text-sm text-black font-medium'}>{genderTitle}</p>
+							<div className={'w-2 h-2 rounded-full bg-gray-400 mx-2 '}/>
+							<p className={'text-sm text-black font-medium'}>{yearsOfExperience} Years of Experience</p>
+							<div className={'w-2 h-2 rounded-full bg-gray-400 mx-2'}/>
+							<p className={'text-sm text-black font-medium'}>{language}</p>
 						</div>
-						<p className={'text-sm text-black font-medium'}>{genderTitle}</p>
-						<div className={'w-2 h-2 rounded-full bg-gray-400 mx-2 '}/>
-						<p className={'text-sm text-black font-medium'}>{yearsOfExperience} Years of Experience</p>
-						<div className={'w-2 h-2 rounded-full bg-gray-400 mx-2'}/>
-						<p className={'text-sm text-black font-medium'}>{language}</p>
 					</div>
 				</div>
 			</div>
@@ -37,7 +39,7 @@ const Appointment = ({fullName, specialty, subSpecialty,
 
 			<div className={'w-full mt-4'}>
 				<p className={'font-bold text-base text-base-black '}>Appointment information</p>
-				<table className={'table-auto border-collapse border w-full mt-2'}>
+				<table className={'table-auto border-collapse border w-full mt-2 rounded'}>
 					<tr className={'border'}>
 						<th className={'font-medium text-base text-gray-600 h-10'}>Appointment Type</th>
 						<th className={'font-medium text-base text-gray-600 h-10'}>Available Date Time</th>
@@ -81,11 +83,13 @@ const Appointment = ({fullName, specialty, subSpecialty,
 				</div>
 			</div>
 
-			<div className={'w-full mt-4 flex flex-row items-center justify-center'}>
-				<button type={'button'} className={'text-base font-semibold rounded-full px-4 py-2 bg-primary text-white'}>
+			<div className={'w-full my-4 flex flex-row items-center justify-center'}>
+				<button type={'button'} className={'text-base font-semibold rounded-full px-4 py-2 text-white bg-gradient-to-r from-pink-400 to-blue-500 hover:from-pink-500 hover:to-blue-600'}>
 					Click for More
 				</button>
 			</div>
+
+			<div className={'w-full h-4'}/>
 		</div>
 	)
 }
