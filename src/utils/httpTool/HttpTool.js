@@ -23,7 +23,7 @@ const checkStatus = (response) => {
 }
 
 const request = (url, options) => {
-	const BaseUrl = '/AnyHealth'
+	const BaseUrl = '/AnyHealth/'
 	const requestUrl = `${BaseUrl}${url}`;
 	console.log(requestUrl + '\n')
 	console.log(JSON.stringify(options.body) + '\n')
