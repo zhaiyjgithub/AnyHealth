@@ -19,7 +19,8 @@ export default function ListWrapper({
 										   items,
 
 										   // Callback function responsible for loading the next page of items.
-										   loadNextPage
+										   loadNextPage,
+										onChangeSegmentTab,
 									   }) {
 	// If there are more items to be loaded then add an extra row to hold a loading indicator.
 	const itemCount = hasNextPage ? items.length + 1 : items.length;
@@ -41,19 +42,19 @@ export default function ListWrapper({
 			)
 		} else {
 			if (index === 0) {
-				return <div style={style}>
-					<SortBar />
+				return <div style={style} className={'flex flex-row items-center justify-center pr-2'}>
+					<SortBar onChangeSegmentTab={onChangeSegmentTab}/>
 				</div>
 			}
 		}
 
-		return <div style={style}>
+		return <div style={style} className={'pr-2'}>
 			<DoctorItem  />
 		</div>
 	};
 
 	const getItemSize = (index) => {
-		return (index === 0 || (!isItemLoaded(index))) ? 64 : 200
+		return (index === 0 || (!isItemLoaded(index))) ? 72 : 200
 	}
 
 	return (

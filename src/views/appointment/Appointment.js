@@ -13,7 +13,7 @@ const Appointment = ({fullName, specialty, subSpecialty,
 			<div className={'w-full'}>
 				<div className={'w-full border rounded'}>
 					<div className={'w-full p-4'}>
-						<img src={"https://randomuser.me/api/portraits/men/82.jpg"} className={'w-16 h-16 bg-yellow-300 rounded mr-2'}/>
+						<img src={"https://randomuser.me/api/portraits/women/44.jpg"} className={'w-16 h-16 bg-yellow-300 rounded mr-2'}/>
 						<p className={'text-black text-xl font-semibold font-mono mt-1'}>{fullName}</p>
 						<p className={'text-base-black text-base mt-1 font-semibold font-mono'}>{specialty}</p>
 						<p className={'text-gray-500 text-base'}>{subSpecialty}</p>
@@ -39,8 +39,8 @@ const Appointment = ({fullName, specialty, subSpecialty,
 
 			<div className={'w-full mt-4'}>
 				<p className={'font-bold text-base text-base-black '}>Appointment information</p>
-				<table className={'table-auto border-collapse border w-full mt-2 rounded'}>
-					<tr className={'border'}>
+				<table className={'table-auto border-collapse border w-full mt-2'}>
+					<tr className={'border rounded'}>
 						<th className={'font-medium text-base text-gray-600 h-10'}>Appointment Type</th>
 						<th className={'font-medium text-base text-gray-600 h-10'}>Available Date Time</th>
 						<th className={'font-medium text-base text-gray-600 h-10'}>Action</th>

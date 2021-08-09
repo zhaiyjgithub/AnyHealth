@@ -2,19 +2,45 @@ import NavBar from "../navBar/NavBar";
 import React, {useState, useEffect} from "react";
 import ListWrapper from "../List/ListWrapper";
 import { name } from "faker";
-import DoctorItem from "../../views/finder/DoctorItem";
-import {SpecialtyList} from "../../utils/constant/SpecialtyList";
 import Appointment from "../../views/appointment/Appointment";
+import {HTTP} from "../../utils/httpTool/HttpTool";
+import {ApiDoctor} from "../../utils/httpTool/Api";
+import {SortBy} from "../../utils/constant/Enum";
 
 
 function Admin() {
 	const [hasNextPage, setHasNextPage] = useState(true)
 	const [isNextPageLoading, setIsNextPageLoading] = useState(false)
 	const [items, setItems] = useState([])
+	const [sortBy, setSortBy] = useState(SortBy.Default)
 
 	useEffect(() => {
+		testRequest()
+	}, [])
 
-	})
+	const testRequest = () => {
+		const param = {
+			"Keyword": "",
+			"IsInClinicEnable": true,
+			"IsVirtualEnable": true,
+			"AppointmentType": 2,
+			"NextAvailableDate": "2021-07-05T14:36:41Z",
+			"Gender": "M",
+			"Specialty": "",
+			"City": "",
+			"Lat": 40.747898,
+			"Lon": -73.324025,
+			"Distance": 200,
+			"Page": 1,
+			"PageSize": 20,
+			"SortType": 1
+		}
+		HTTP.post(ApiDoctor.SearchDoctor, param).then((response) => {
+			console.log(JSON.stringify(response))
+		}).catch((error) => {
+			alert(error)
+		})
+	}
 
 	const loadNextPage = (...args) => {
 		setIsNextPageLoading(true)
@@ -27,6 +53,10 @@ function Admin() {
 		}, 2500)
 	};
 
+	const onChangeSegmentTab = (val) => {
+		setSortBy(val)
+	}
+
 	return (
 		<div className={'w-screen h-screen bg-white'}>
 			<NavBar />
@@ -37,6 +67,7 @@ function Admin() {
 						isNextPageLoading={isNextPageLoading}
 						items={items}
 						loadNextPage={loadNextPage}
+						onChangeSegmentTab={onChangeSegmentTab}
 					/>
 				</div>
 

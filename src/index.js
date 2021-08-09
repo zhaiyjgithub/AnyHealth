@@ -5,6 +5,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Switch, Redirect, withRouter } from "react-router-dom";
 import Admin from "./components/layout/Admin";
+import TestView from "./test/TestView";
 
 ReactDOM.render(
     <BrowserRouter>

@@ -11,7 +11,7 @@ function Item(props) {
 	return (
 		<div style={style} className={'w-full flex flex-row justify-between px-4 bg-white rounded py-4 border'}>
 			<div className={'flex flex-row '}>
-				<img src={"https://randomuser.me/api/portraits/men/82.jpg"} className={'w-24 h-24 bg-yellow-300 rounded mr-2'}/>
+				<img src={"https://randomuser.me/api/portraits/women/44.jpg"} className={'w-24 h-24 bg-yellow-300 rounded mr-2'}/>
 				<div className={'ml-2'}>
 					<p className={'text-black text-lg font-medium font-mono'}>{fullName}</p>
 					<p className={'text-base-black text-base mt-1 font-medium'}>{specialty}</p>

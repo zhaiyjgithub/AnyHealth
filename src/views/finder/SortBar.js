@@ -1,22 +1,19 @@
-import React from "react";
+import React, {useState} from "react";
+import SegmentTab from "../../components/SegmentTab/SegmentTab";
+import {SortBy} from "../../utils/constant/Enum";
 
-const SortBar = () => {
+const SortBar = ({selectedSortBy = 0, onChangeSegmentTab}) => {
+	const buttons = [{title: 'Default', value: SortBy.Default}, {title: 'Distance', value: SortBy.Distance}]
+
+	const onClickSegmentTab = (val) => {
+		onChangeSegmentTab && onChangeSegmentTab(val)
+	}
 	return (
-		<div className={'flex flex-row items-center justify-between p-2 border rounded mt-3'}>
+		<div className={'w-full flex flex-row items-center justify-between p-2 border'}>
 			<p className={'font-semibold text-base text-primary font-mono'}>Doctors for you</p>
 			<div className={'flex flex-row items-center'}>
-				<p className={'font-semibold mr-2 text-base text-base-black'}>{'Sort: '}</p>
-				<label className="inline-flex items-center">
-					<input type="radio" className=" h-4 w-4 rounded-full" checked={true} />
-					<span
-						className="ml-2 text-gray-700 font-mono text-base">Default</span>
-				</label>
-
-				<label className="inline-flex items-center ml-4">
-					<input type="radio" className=" h-4 w-4 rounded-full" checked={false} />
-					<span
-						className="ml-2 text-gray-700 font-mono text-base font-semibold">By distance</span>
-				</label>
+				<p className={'font-semibold mr-2 text-base text-base-black'}>Sort By:</p>
+				<SegmentTab buttons={buttons} selected={selectedSortBy} onClick={onClickSegmentTab}/>
 			</div>
 		</div>
 	)

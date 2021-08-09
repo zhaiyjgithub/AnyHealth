@@ -17,8 +17,14 @@ const AppointmentType = {
 	Virtual: 'Virtual'
 }
 
+const SortBy = {
+	Default: 0,
+	Distance: 1
+}
+
 export {
 	GenderType,
 	AvailableTimeRange,
-	AppointmentType
+	AppointmentType,
+	SortBy
 }
