@@ -1,11 +1,12 @@
 import React, {useState, Fragment, useEffect} from "react";
 import ListBox from "./ListBox";
-import {AppointmentType, AvailableTimeRange, GenderType} from "../../utils/constant/Enum";
+import {AppointmentType, AvailableTimeRange, GenderType, SortBy} from "../../utils/constant/Enum";
 import SectionListModal from "../sectionList/SectionListModal";
 import {SpecialtyList} from "../../utils/constant/SpecialtyList";
 import {NY} from  "../../utils/constant/CityList";
-import {Listbox} from "@headlessui/react";
-
+import {FilterContext} from "../../hooks/filter/Provider";
+import {FilterActionType} from "../../hooks/filter/Reducer";
+import {findDoctor} from "../../views/finder/Service";
 
 const GenderListBoxDataSource = [{title: 'Female', value: GenderType.Female}, {title: 'Male', value: GenderType.Male}, {title: 'Trans', value: GenderType.Trans}]
 const AvailableTimeListBoxDataSource = [{title: 'Today', value: AvailableTimeRange.Today}, {title: 'In a Week', value: AvailableTimeRange.InWeek}, {title: 'Any Time', value: AvailableTimeRange.AnyTime}]
@@ -13,6 +14,7 @@ const AppointmentTypeListBoxDataSource = [{title: 'In Clinic', value: Appointmen
 
 
 function NavBar() {
+	const [keyword, setKeyword] = useState('')
 	const [gender, setGender] = useState('')
 	const [availableTime, setAvailableTime] = useState(AvailableTimeRange.AnyTime)
 	const [appointmentType, setAppointmentType] = useState(AppointmentType.AnyType)
@@ -24,26 +26,85 @@ function NavBar() {
 	const [cityDataSource, setCityDataSource] = useState([])
 	const [city, setCity] = useState([])
 
+	const [state, dispatch] = React.useContext(FilterContext)
 
 	useEffect(() => {
 		setSpecialtyDataSource(sortList(SpecialtyList))
 		setCityDataSource(sortList(NY))
 	}, [])
 
+	const onChangeFilterValue = (type, val) => {
+		let newState = state
+		switch (type) {
+			case FilterActionType.KeyWord:
+				setKeyword(val)
+				newState = {...state, keyword: val}
+				break
+			case FilterActionType.Specialty:
+				setIsSpecialityModalOpen(false)
+				setSpecialty(val)
+				newState = {...state, specialty: val}
+				break
+			case FilterActionType.City:
+				setIsCityModalOpen(false)
+				setCity(val)
+				newState = {...state, city: val}
+				break
+			case FilterActionType.Gender:
+				setGender(val)
+				newState = {...state, gender: val}
+				break
+			case FilterActionType.AppointmentType:
+				setAppointmentType(val)
+				newState = {...state, appointmentType: val}
+				break
+			case FilterActionType.AvailableTime:
+				setAvailableTime(val)
+				newState = {...state, availableTime: val}
+				break
+			default:
+				return
+				break
+		}
+		console.log('new state: ', JSON.stringify(newState))
+		// dispatch({type: FilterActionType.Gender, gender: val})
+		const {
+			keyword,
+			isInClinicEnable,
+			isVirtualEnable,
+			appointmentType,
+			nextAvailableDate,
+			gender,
+			specialty,
+			city,
+			lat,
+			lon,
+			distance,
+			page,
+			pageSize,
+			sortType
+		} = state
+		findDoctor(keyword,
+			isInClinicEnable ,
+			isVirtualEnable,
+			appointmentType,
+			nextAvailableDate,
+			gender,
+			specialty,
+			city,
+			lat,
+			lon,
+			distance,
+			page,
+			pageSize,
+			sortType, (data) => {
+				console.log(data)
+			}, (error) => {
 
-	function onChangeGender(val) {
-		setGender(val)
+			})
 	}
 
-	function onChangeAvailableTime(val) {
-		setAvailableTime(val)
-	}
-
-	function onChangeAppointmentType(val) {
-		setAppointmentType(val)
-	}
-
-	function onClickSpecialty() {
+	function onShowSpecialtyListBox() {
 		setIsSpecialityModalOpen(true)
 	}
 
@@ -51,22 +112,12 @@ function NavBar() {
 		setIsSpecialityModalOpen(false)
 	}
 
-	function onSelectedSpecialty(val) {
-		setIsSpecialityModalOpen(false)
-		setSpecialty(val)
-	}
-
-	function onClickCity() {
+	function onShowCityListBox() {
 		setIsCityModalOpen(true)
 	}
 
 	function onCloseCityModal() {
 		setIsCityModalOpen(false)
-	}
-
-	function onSelectedCity(val) {
-		setIsCityModalOpen(false)
-		setCity(val)
 	}
 
 	function sortList(dataSource) {
@@ -99,6 +150,10 @@ function NavBar() {
 		return list
 	}
 
+	const onChangeKeyword = (e) => {
+		onChangeFilterValue(FilterActionType.KeyWord, e.target.value)
+	}
+
 	return (
 		<nav className={'w-full bg-white py-3 px-4 md:px-20 border-b'}>
 			<div className={'w-full md:max-w-screen-xl'}>
@@ -109,7 +164,7 @@ function NavBar() {
 					</div>
 
 					<div className={'flex flex-grow flex-row items-center justify-center mx-8 h-10 rounded overflow-hidden'}>
-						<input className={'w-full h-10 px-2 font-medium text-baseBlack text-base focus:outline-none bg-gray-200 '} placeholder={'Doctor Name'} />
+						<input onChange={onChangeKeyword} className={'w-full h-10 px-2 font-medium text-baseBlack text-base focus:outline-none bg-gray-200 '} placeholder={'Doctor Name'} />
 						<button className={'flex-none px-4 bg-gray-200 h-full border-l-2 border-gray-300'}>
 							<i className="fas fa-search"></i>
 						</button>
@@ -123,7 +178,7 @@ function NavBar() {
 				{/*filter*/}
 				<div className={'w-full flex flex-row items-center mt-4'}>
 					{/*specialty*/}
-					<button onClick={onClickSpecialty} className={` relative py-1 px-4 cursor-default rounded-full flex flex-row items-center justify-between ${specialty.length ? 'bg-green' : 'border border-gray-400 bg-white hover:bg-gray-200'}`}>
+					<button onClick={onShowSpecialtyListBox} className={` relative py-1 px-4 cursor-default rounded-full flex flex-row items-center justify-between ${specialty.length ? 'bg-green' : 'border border-gray-400 bg-white hover:bg-gray-200'}`}>
 						<span className={` font-mono text-sm mr-2 ${specialty.length ? 'font-bold text-white' : ' font-semibold text-gray-600'}`}>{specialty.length ? specialty : 'Specialty'}</span>
 						<span className="">
 						<i className={`fas fa-chevron-down ${specialty.length ? 'text-white' : 'text-gray-600'}`}></i>
@@ -132,7 +187,7 @@ function NavBar() {
 
 					<div className={'w-2'}/>
 
-					<button onClick={onClickCity} className={` relative py-1 px-4 cursor-default rounded-full flex flex-row items-center justify-between ${city.length ? 'bg-green' : 'border border-gray-400 bg-white hover:bg-gray-200'}`}>
+					<button onClick={onShowCityListBox} className={` relative py-1 px-4 cursor-default rounded-full flex flex-row items-center justify-between ${city.length ? 'bg-green' : 'border border-gray-400 bg-white hover:bg-gray-200'}`}>
 						<span className={` font-mono text-sm mr-2 ${city.length ? 'font-bold text-white' : ' font-semibold text-gray-600'}`}>{city.length ? city : 'City'}</span>
 						<span className="">
 						<i className={`fas fa-chevron-down ${city.length ? 'text-white' : 'text-gray-600'}`}></i>
@@ -145,7 +200,9 @@ function NavBar() {
 						dataSource={GenderListBoxDataSource}
 						defaultTitle = {'Gender'}
 						selected={gender}
-						onChangeValue={onChangeGender}
+						onChangeValue={(value) => {
+							onChangeFilterValue(FilterActionType.Gender, value)
+						}}
 					/>
 
 					<div className={'w-2'}/>
@@ -154,7 +211,9 @@ function NavBar() {
 						dataSource={AvailableTimeListBoxDataSource}
 						defaultTitle = {'Any Time'}
 						selected={availableTime}
-						onChangeValue={onChangeAvailableTime}
+						onChangeValue={(value) => {
+							onChangeFilterValue(FilterActionType.AvailableTime, value)
+						}}
 					/>
 
 					<div className={'w-2'}/>
@@ -163,7 +222,9 @@ function NavBar() {
 						dataSource={AppointmentTypeListBoxDataSource}
 						defaultTitle = {'Any Type'}
 						selected={appointmentType}
-						onChangeValue={onChangeAppointmentType}
+						onChangeValue={(value) => {
+							onChangeFilterValue(FilterActionType.AppointmentType, value)
+						}}
 					/>
 
 					<div className={'w-2'}/>
@@ -175,9 +236,10 @@ function NavBar() {
 					isOpen={isSpecialityModalOpen}
 					onClose={onCloseSpecialtyModal}
 					dataSource={specialtyDataSource}
-					onSelected={onSelectedSpecialty}
+					onSelected={(value) => {
+						onChangeFilterValue(FilterActionType.Specialty, value)
+					}}
 				/>
-
 
 				<SectionListModal
 					title ={'Select A City'}
@@ -185,7 +247,9 @@ function NavBar() {
 					isOpen={isCityModalOpen}
 					onClose={onCloseCityModal}
 					dataSource={cityDataSource}
-					onSelected={onSelectedCity}
+					onSelected={(value) => {
+						onChangeFilterValue(FilterActionType.City, value)
+					}}
 				/>
 			</div>
 		</nav>

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import SegmentTab from "../../components/SegmentTab/SegmentTab";
+import SegmentTab from "../../components/segmentsTab/SegmentTab";
 import {SortBy} from "../../utils/constant/Enum";
 
 const SortBar = ({selectedSortBy = 0, onChangeSegmentTab}) => {

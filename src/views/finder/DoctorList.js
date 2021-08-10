@@ -2,15 +2,18 @@ import {SortBy} from "../../utils/constant/Enum";
 import {HTTP} from "../../utils/httpTool/HttpTool";
 import {ApiDoctor} from "../../utils/httpTool/Api";
 import {name} from "faker";
-import ListWrapper from "../../components/List/ListWrapper";
+import ListWrapper from "../../components/listView/ListWrapper";
 import React, {useEffect, useState} from "react";
-
+import {FilterContext} from "../../hooks/filter/Provider";
 
 const DoctorList = () => {
 	const [hasNextPage, setHasNextPage] = useState(true)
 	const [isNextPageLoading, setIsNextPageLoading] = useState(false)
 	const [items, setItems] = useState([])
 	const [sortBy, setSortBy] = useState(SortBy.Default)
+	const [state, dispatch] = React.useContext(FilterContext)
+
+	console.log('hooks state', JSON.stringify(state))
 
 	useEffect(() => {
 		testRequest()

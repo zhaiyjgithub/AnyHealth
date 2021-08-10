@@ -6,9 +6,9 @@ const GenderType = {
 }
 
 const AvailableTimeRange = {
-	AnyTime: '',
-	Today: 'Today',
-	InWeek: 'InWeek',
+	AnyTime: 0,
+	Today: 1,
+	InWeek: 2,
 }
 
 const AppointmentType = {

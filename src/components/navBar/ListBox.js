@@ -1,27 +1,23 @@
 import {Listbox, Transition} from "@headlessui/react";
 import React, {Fragment, useState} from "react";
 
-export default function ListBox(props) {
-	const [selected, setSelected] = useState(props.selected)
-
-	function onChange(value) {
-		setSelected(value)
-		const {onChangeValue} = props
+const ListBox = React.memo(({selected, defaultTitle, dataSource, onChangeValue}) => {
+	const onChange = (value) => {
 		onChangeValue && onChangeValue(value)
 	}
 
-	function getTitle(value) {
-		const item = props.dataSource.find((_item) => {
+	const getTitle = (value) => {
+		const item = dataSource.find((_item) => {
 			return _item && _item.value.length && _item.value === value
 		})
-		return item ? item.title : props.defaultTitle
+		return item ? item.title : defaultTitle
 	}
 
 	const isSelectedValue = selected.length > 0
 	const title = getTitle(selected)
 
 	return (
-		<div className="min-w-min">
+		<div className="min-w-min z-20">
 			<Listbox value={selected} onChange={onChange} >
 				<div className="relative mt-0">
 					<Listbox.Button className={` relative py-1 px-4 cursor-default rounded-full flex flex-row items-center justify-between ${isSelectedValue ? 'bg-green' : 'border border-gray-400 bg-white hover:bg-gray-200'}`}>
@@ -40,14 +36,13 @@ export default function ListBox(props) {
 						leaveTo="transform scale-95 opacity-0"
 					>
 						<Listbox.Options className="absolute w-48 py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-2xl border max-h-72">
-							{props.dataSource.map((gender, idx) => {
+							{dataSource.map((gender, idx) => {
 								return (
 									<Listbox.Option
 										key={idx}
 										value={gender.value}
 									>
 										{({ selected, active }) => {
-											console.log('isSelected', selected)
 											return (
 												<div
 													className={`${
@@ -68,7 +63,7 @@ export default function ListBox(props) {
 			</Listbox>
 		</div>
 	)
-}
+})
 
 ListBox.defaultProps = {
 	selected: '',
@@ -76,3 +71,5 @@ ListBox.defaultProps = {
 	dataSource: [],
 	onChangeValue: undefined
 }
+
+export default ListBox

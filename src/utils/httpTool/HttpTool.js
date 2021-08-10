@@ -1,6 +1,13 @@
+import {ApiDoctor} from "./Api";
+
 /**
  * Created by zack on 2018/3/14.
  */
+
+const ResponseCode = {
+	OK: 0,
+	Fail: 1,
+}
 
 const parseJSON = (response) => {
 	if (response.status === 204 || response.status === 401) {
@@ -26,7 +33,7 @@ const request = (url, options) => {
 	const BaseUrl = '/AnyHealth/'
 	const requestUrl = `${BaseUrl}${url}`;
 	console.log(requestUrl + '\n')
-	console.log(JSON.stringify(options.body) + '\n')
+	console.log(options.body + '\n')
 
 	let token = ''//(global.UserInfo.Token ? global.UserInfo.Token : '')
 	return fetch(requestUrl, Object.assign({}, {
@@ -76,4 +83,17 @@ export const HTTP = {
 		body: JSON.stringify(param),
 		method: 'DELETE',
 	}),
+}
+
+export const Request = (api, param, success, fail) => {
+	HTTP.post(ApiDoctor.SearchDoctor, param).then((response) => {
+		console.log(JSON.stringify(response))
+		if (response.code === ResponseCode.OK) {
+			success && success(response.data, response.msg)
+		}else {
+			console.log('request fail: ', response.code, response.msg)
+		}
+	}).catch((error) => {
+		console.log('request error: ', error)
+	})
 }
