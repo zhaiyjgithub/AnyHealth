@@ -12,9 +12,9 @@ const AvailableTimeRange = {
 }
 
 const AppointmentType = {
-	AnyType: '',
-	InClinic: 'InClinic',
-	Virtual: 'Virtual'
+	AnyType: 0,
+	InClinic: 1,
+	Virtual: 2
 }
 
 const SortBy = {

@@ -6,7 +6,6 @@ import {SpecialtyList} from "../../utils/constant/SpecialtyList";
 import {NY} from  "../../utils/constant/CityList";
 import {FilterContext} from "../../hooks/filter/Provider";
 import {FilterActionType} from "../../hooks/filter/Reducer";
-import {findDoctor} from "../../views/finder/Service";
 
 const GenderListBoxDataSource = [{title: 'Female', value: GenderType.Female}, {title: 'Male', value: GenderType.Male}, {title: 'Trans', value: GenderType.Trans}]
 const AvailableTimeListBoxDataSource = [{title: 'Today', value: AvailableTimeRange.Today}, {title: 'In a Week', value: AvailableTimeRange.InWeek}, {title: 'Any Time', value: AvailableTimeRange.AnyTime}]
@@ -26,7 +25,7 @@ function NavBar() {
 	const [cityDataSource, setCityDataSource] = useState([])
 	const [city, setCity] = useState([])
 
-	const [state, dispatch] = React.useContext(FilterContext)
+	const [onChangeFilter, onLoadMore, filter] = React.useContext(FilterContext)
 
 	useEffect(() => {
 		setSpecialtyDataSource(sortList(SpecialtyList))
@@ -34,74 +33,39 @@ function NavBar() {
 	}, [])
 
 	const onChangeFilterValue = (type, val) => {
-		let newState = state
+		let newFilter = filter
 		switch (type) {
 			case FilterActionType.KeyWord:
 				setKeyword(val)
-				newState = {...state, keyword: val}
+				newFilter = {...filter, keyword: val}
 				break
 			case FilterActionType.Specialty:
 				setIsSpecialityModalOpen(false)
 				setSpecialty(val)
-				newState = {...state, specialty: val}
+				newFilter = {...filter, specialty: val}
 				break
 			case FilterActionType.City:
 				setIsCityModalOpen(false)
 				setCity(val)
-				newState = {...state, city: val}
+				newFilter = {...filter, city: val}
 				break
 			case FilterActionType.Gender:
 				setGender(val)
-				newState = {...state, gender: val}
+				newFilter = {...filter, gender: val}
 				break
 			case FilterActionType.AppointmentType:
 				setAppointmentType(val)
-				newState = {...state, appointmentType: val}
+				newFilter = {...filter, appointmentType: val}
 				break
 			case FilterActionType.AvailableTime:
 				setAvailableTime(val)
-				newState = {...state, availableTime: val}
+				newFilter = {...filter, availableTime: val}
 				break
 			default:
 				return
 				break
 		}
-		console.log('new state: ', JSON.stringify(newState))
-		// dispatch({type: FilterActionType.Gender, gender: val})
-		const {
-			keyword,
-			isInClinicEnable,
-			isVirtualEnable,
-			appointmentType,
-			nextAvailableDate,
-			gender,
-			specialty,
-			city,
-			lat,
-			lon,
-			distance,
-			page,
-			pageSize,
-			sortType
-		} = state
-		findDoctor(keyword,
-			isInClinicEnable ,
-			isVirtualEnable,
-			appointmentType,
-			nextAvailableDate,
-			gender,
-			specialty,
-			city,
-			lat,
-			lon,
-			distance,
-			page,
-			pageSize,
-			sortType, (data) => {
-				console.log(data)
-			}, (error) => {
-
-			})
+		onChangeFilter && onChangeFilter(newFilter)
 	}
 
 	function onShowSpecialtyListBox() {

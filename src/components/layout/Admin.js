@@ -1,27 +1,102 @@
 import NavBar from "../navBar/NavBar";
-import React from "react";
+import React, {useState, useContext, useEffect} from "react";
 import Appointment from "../../views/appointment/Appointment";
 import DoctorList from "../../views/finder/DoctorList";
-import {initialState, Reducer} from "../../hooks/filter/Reducer";
-import {FilterProvider} from "../../hooks/filter/Provider";
+import {FilterContext, initialFilter} from "../../hooks/filter/Provider";
+import {findDoctor} from "../../views/finder/Service";
+import {name} from "faker";
 
 function Admin() {
+	const [dataSource, setDataSource] = useState([])
+	const [filter, setFilter] = useState(initialFilter)
+	const [hasNextPage, setHasNextPage] = useState(true)
+	const [isNextPageLoading, setIsNextPageLoading] = useState(false)
+	const [page, setPage] = useState(1)
 
+	const [userLocation, setUserLocation] = useState({lat:  40.747898, lon: -73.324025})
+	const pageSize = 10
+	let distance = 200
+
+	useEffect(() => {
+		console.log('filter is updated....', filter, page, )
+	}, [filter])
+
+	// //多个useEffect, 根据
+	// useEffect(() => {
+	// 	console.log('sortBy is changed, exec func.......', filter, page, )
+	// }, [sortBy])
+
+	const onChangeFilter = (newFilter) =>{
+		console.log('exec onChangeFilter:', newFilter)
+		setDataSource([])
+		setPage(1)
+		setFilter(newFilter)
+	}
+
+	const onLoadMore = () => {
+		console.log('on load more...')
+		setIsNextPageLoading(true)
+		requestDoctorList((data) => {
+			setPage(page + 1)
+			setHasNextPage(data.length === pageSize)
+			setIsNextPageLoading(false)
+			setDataSource([...dataSource].concat(data))
+		})
+	}
+
+	const requestDoctorList = (success, fail) => {
+		const {
+			keyword,
+			specialty,
+			city,
+			gender,
+			availableTime,
+			appointmentType,
+			sortBy,
+		} = filter
+
+		let isInClinicEnable = true // keep
+		let	isVirtualEnable = true //keep
+		let nextAvailableDate = (new Date(2021, 3,4)).toISOString()
+		findDoctor(keyword,
+			isInClinicEnable ,
+			isVirtualEnable,
+			appointmentType,
+			nextAvailableDate,
+			gender,
+			specialty,
+			city,
+			userLocation.lat,
+			userLocation.lon,
+			distance,
+			page,
+			pageSize,
+			sortBy, (data) => {
+				success && success(data)
+			}, (error) => {
+
+			})
+	}
 
 	return (
-		<FilterProvider>
+		<FilterContext.Provider value={[onChangeFilter, onLoadMore, filter]}>
 			<div className={'w-screen h-screen bg-white'}>
 				<NavBar />
 				<div className={'w-full h-full flex flex-row justify-center bg-white px-4 md:px-20'}>
 					<div className={'h-full w-full md:w-1/2 z-10'}>
-						<DoctorList />
+						<DoctorList
+							hasNextPage={hasNextPage}
+							isNextPageLoading={isNextPageLoading}
+							items={dataSource}
+							onLoadMore={onLoadMore}
+						/>
 					</div>
 					<div className={'hidden md:flex md:w-1/2 h-full overflow-scroll z-10'}>
 						<Appointment />
 					</div>
 				</div>
 			</div>
-		</FilterProvider>
+		</FilterContext.Provider>
 
 	)
 }

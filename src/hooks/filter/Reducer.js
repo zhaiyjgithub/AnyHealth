@@ -32,9 +32,10 @@ export const Reducer = (state, action) => {
 				gender: action.gender
 			}
 		case FilterActionType.AvailableTime:
+			const dateISO = (new Date()).toISOString()
 			return {
 				...state,
-				availableTime: action.availableTime
+				availableTime: dateISO
 			}
 		case FilterActionType.AppointmentType:
 			return {

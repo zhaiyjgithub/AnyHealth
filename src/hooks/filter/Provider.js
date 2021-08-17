@@ -1,16 +1,20 @@
 import React, {} from 'react'
 import {initialState, Reducer} from './Reducer'
-export const FilterContext = React.createContext({
-	state: initialState,
-	dispatch: () => null
-})
+import {AppointmentType, AvailableTimeRange, GenderType, SortBy} from "../../utils/constant/Enum";
 
-export const FilterProvider = ({children}) => {
-	const [state, dispatch] = React.useReducer(Reducer, initialState)
-
-	return (
-		<FilterContext.Provider value={[state, dispatch]}>
-			{children}
-		</FilterContext.Provider>
-	)
+export const initialFilter = {
+	keyword: '',
+	specialty: '',
+	city: '',
+	gender: GenderType.Trans,
+	availableTime: AvailableTimeRange.AnyTime,
+	appointmentType: AppointmentType.AnyType,
+	sortBy: SortBy.Distance
 }
+
+export const FilterContext = React.createContext({
+	dataSource: [],
+	filter: initialFilter,
+	onChangeFilter: () => null,
+	onLoadMore: () => null
+})
