@@ -19,6 +19,7 @@ function Admin() {
 
 	useEffect(() => {
 		console.log('filter is updated....', filter, page, )
+		onLoadMore()
 	}, [filter])
 
 	// //多个useEffect, 根据

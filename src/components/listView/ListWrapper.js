@@ -48,8 +48,46 @@ export default function ListWrapper({
 			}
 		}
 
+		const {
+			Npi,
+			LastName,
+			FirstName,
+			MiddleName ,
+			FullName,
+			NamePrefix,
+			Credential,
+			Gender,
+			Address,
+			City,
+			State,
+			Zip,
+			Phone,
+			Specialty,
+			SubSpecialty,
+			JobTitle,
+			Summary,
+			Fax,
+			AddressSuit,
+			Lang,
+			YearOfExperience,
+			Location,
+			Distance,
+		} = items[index - 1]
 		return <div style={style} className={'pr-2'}>
-			<DoctorItem  />
+			<DoctorItem
+				fullName= {FullName}
+				specialty = {Specialty}
+				subSpecialty = {SubSpecialty}
+				nextAvailableDateInClinic={'08/07 2021'}
+				nextAvailableDateVirtual={'08/07 2021'}
+				gender={Gender}
+				yearsOfExperience={YearOfExperience}
+				language = {Lang}
+				distance={Distance}
+				address={Address}
+				lat={Location.lat}
+				lng={Location.lon}
+			/>
 		</div>
 	};
 
