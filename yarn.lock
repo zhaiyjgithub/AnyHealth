@@ -1494,6 +1494,18 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
+"@monsonjeremy/react-leaflet-core@1.1.1":
+  version "1.1.1"
+  resolved "https://registry.nlark.com/@monsonjeremy/react-leaflet-core/download/@monsonjeremy/react-leaflet-core-1.1.1.tgz#123aaf1f500214c0585967c5efd9f43453846220"
+  integrity sha1-EjqvH1ACFMBYWWfF79n0NFOEYiA=
+
+"@monsonjeremy/react-leaflet@3.2.2":
+  version "3.2.2"
+  resolved "https://registry.nlark.com/@monsonjeremy/react-leaflet/download/@monsonjeremy/react-leaflet-3.2.2.tgz#06dab9befb46105e945ed7a125a26e9743c99580"
+  integrity sha1-Btq5vvtGEF6UXtehJaJul0PJlYA=
+  dependencies:
+    "@monsonjeremy/react-leaflet-core" "1.1.1"
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.nlark.com/@nodelib/fs.scandir/download/@nodelib/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -6977,6 +6989,11 @@ last-call-webpack-plugin@^3.0.0:
   dependencies:
     lodash "^4.17.5"
     webpack-sources "^1.1.0"
+
+leaflet@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.npm.taobao.org/leaflet/download/leaflet-1.7.1.tgz#10d684916edfe1bf41d688a3b97127c0322a2a19"
+  integrity sha1-ENaEkW7f4b9B1oijuXEnwDIqKhk=
 
 leven@^3.1.0:
   version "3.1.0"

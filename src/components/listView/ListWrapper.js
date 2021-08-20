@@ -86,7 +86,7 @@ export default function ListWrapper({
 				distance={Distance}
 				address={Address}
 				lat={Location.lat}
-				lng={Location.lon}
+				lon={Location.lon}
 			/>
 		</div>
 	};

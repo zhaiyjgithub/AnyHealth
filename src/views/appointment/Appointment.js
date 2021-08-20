@@ -1,12 +1,11 @@
-import React from "react";
-
+import React, {useEffect} from "react";
+import {MapContainer, Marker, Popup, TileLayer} from "@monsonjeremy/react-leaflet";
 
 const Appointment = ({fullName, specialty, subSpecialty,
 						 nextAvailableDateInClinic, nextAvailableDateVirtual,
 						 gender, yearsOfExperience, language,
-						 distance, address, lat, lng
+						 distance, address, lat, lon
 					 }) => {
-
 	const genderTitle = gender === 'M' ? 'Male' : 'Female'
 	return (
 		<div className={'w-full h-full px-4 pt-2 '}>
@@ -69,7 +68,23 @@ const Appointment = ({fullName, specialty, subSpecialty,
 
 			<div className={'w-full mt-4'}>
 				<p className={'font-bold text-base text-base-black '}>Location & Contacts</p>
-				<div className={'w-full h-56 bg-gray-300 rounded mt-1'}/>
+				<div className={'w-full h-56 bg-gray-300 rounded mt-1'}>
+					<MapContainer
+						center={[lat, lon]}
+						className={'w-full h-full'}
+						zoom={13}
+						scrollWheelZoom={false}>
+						<TileLayer
+							attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+							url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+						/>
+						<Marker position={[lat, lon]}>
+							<Popup>
+								{address}
+							</Popup>
+						</Marker>
+					</MapContainer>
+				</div>
 
 				<div className={'w-full flex flex-row items-start mt-2'}>
 					<div className={'flex flex-col justify-center items-center mr-2 mt-1'}>
@@ -105,8 +120,8 @@ Appointment.defaultProps = {
 	language: 'English',
 	distance: 26,
 	address: 'Aroostook Medical Center',
-	lat: 0,
-	lng: ''
+	lat: 41,
+	lon: -75
 }
 
 

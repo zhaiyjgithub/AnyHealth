@@ -1,10 +1,11 @@
 import React, {Fragment} from "react";
+import { MapContainer, TileLayer, Marker, Popup } from '@monsonjeremy/react-leaflet'
 
 function Item(props) {
 	const {fullName, specialty, subSpecialty,
 		nextAvailableDateInClinic, nextAvailableDateVirtual,
 		gender, yearsOfExperience, language,
-		distance, address, lat, lng, style
+		distance, address, lat, lon, style
 	} = props
 
 	const genderTitle = gender === 'M' ? 'Male' : 'Female'
@@ -59,7 +60,19 @@ function Item(props) {
 			</div>
 
 			<div className={'flex-none flex-col items-center justify-center hidden md:w-24 md:flex'}>
-				<div className={'w-24 h-24 bg-red-500 rounded w-full'} />
+				<div className={'w-24 h-24 rounded w-full'} >
+					<MapContainer zoomControl={false} className={'w-24 h-24 rounded'} center={[lat, lon]} zoom={13} scrollWheelZoom={false}>
+						<TileLayer
+							attribution='' // '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+							url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+						/>
+						<Marker position={[lat, lon]}>
+							{/*<Popup>*/}
+							{/*	{address}*/}
+							{/*</Popup>*/}
+						</Marker>
+					</MapContainer>
+				</div>
 				<p className={'text-sm text-base-black mt-2 font-mono font-medium'}>{distanceTitle}</p>
 			</div>
 		</div>
@@ -79,7 +92,7 @@ Item.defaultProps = {
 	distance: 26,
 	address: 'Aroostook Medical Center',
 	lat: 0,
-	lng: 0,
+	lon: 0,
 
 }
 

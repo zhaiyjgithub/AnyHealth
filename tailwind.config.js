@@ -13,7 +13,7 @@ module.exports = {
         'secondary': '#739CB1',
         'secondary-focus': '#58789B',
         'bgContent': '#FAF7F5',
-        'baseBlack': '#181A2A',
+        'bg-gray': '#FAF7F5',
         'base-black': '#181A2A',
         'green': '#007645',
         'light-gray': '#5E5E5E'
@@ -22,7 +22,7 @@ module.exports = {
         ...theme('colors'),
         'primary': '#4E70F7',
         'primary-focus': '#1F4BF6',
-        'baseBlack': '#181A2A',
+        'base-black': '#181A2A',
         'base-green': '#007645',
 
       }),
