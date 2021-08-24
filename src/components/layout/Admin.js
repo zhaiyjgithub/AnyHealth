@@ -1,11 +1,12 @@
 import NavBar from "../navBar/NavBar";
 import React, {useState, useContext, useEffect} from "react";
-import Appointment from "../../views/appointment/Appointment";
+import DoctorProfile from "../../views/doctorProfile/DoctorProfile";
 import DoctorList from "../../views/finder/DoctorList";
-import {FilterContext, initialFilter} from "../../hooks/filter/Provider";
 import {findDoctor} from "../../views/finder/Service";
 import {name} from "faker";
-import {DoctorProfileProvider} from "../../hooks/doctorProfile/DoctorProfileProvider";
+import {DoctorProfileContext, DoctorProfileProvider} from "../../hooks/doctorProfile/DoctorProfileProvider";
+import SortBar from "../../views/finder/SortBar";
+import {initialFilter, FilterContext} from "../../hooks/filter/FilterProvider";
 
 function Admin() {
 	const [dataSource, setDataSource] = useState([])
@@ -40,9 +41,9 @@ function Admin() {
 		setIsNextPageLoading(true)
 		requestDoctorList((data) => {
 			setPage(page + 1)
-			setHasNextPage(data.length === pageSize)
-			setIsNextPageLoading(false)
+			setHasNextPage(true)
 			setDataSource([...dataSource].concat(data))
+			console.log('on end request....')
 		})
 	}
 
@@ -81,21 +82,21 @@ function Admin() {
 	}
 
 	return (
-		<FilterContext.Provider value={[onChangeFilter, onLoadMore, filter]}>
+		<FilterContext.Provider value={{onChangeFilter, onLoadMore, filter}}>
 			<DoctorProfileProvider>
 				<div className={'w-screen h-screen bg-white'}>
 					<NavBar />
 					<div className={'w-full h-full flex flex-row justify-center bg-white px-4 md:px-20'}>
 						<div className={'h-full w-full md:w-1/2 z-10'}>
+							<SortBar />
 							<DoctorList
 								hasNextPage={hasNextPage}
-								isNextPageLoading={isNextPageLoading}
-								items={dataSource}
+								dataSource={dataSource}
 								onLoadMore={onLoadMore}
 							/>
 						</div>
 						<div className={'hidden md:flex md:w-1/2 h-full overflow-scroll z-10'}>
-							<Appointment />
+							<DoctorProfile dataSource={dataSource}/>
 						</div>
 					</div>
 				</div>

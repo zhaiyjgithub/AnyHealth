@@ -1,23 +1,21 @@
 import React, {useReducer, createContext} from 'react'
 
 const reducer = (state, action) => {
-	console.log('action')
-	return state
+	return {...state, selectedIndex: action.index}
 };
 
 const initState = {
-	doctorProfile: null
+	selectedIndex: 0
 }
-
 export const DoctorProfileContext = createContext({
 	state: initState,
-	dispatch: () => null
+	onClickItem: () => null
 })
 
 
 export const DoctorProfileProvider = ({ children }) => {
-	const [state, dispatch] = useReducer(reducer, initState);
+	const [state, onClickItem] = useReducer(reducer, initState);
 	return (
-		<DoctorProfileContext.Provider value={[state, dispatch]}>{children}</DoctorProfileContext.Provider>
+		<DoctorProfileContext.Provider value={{state, onClickItem}}>{children}</DoctorProfileContext.Provider>
 	);
 };

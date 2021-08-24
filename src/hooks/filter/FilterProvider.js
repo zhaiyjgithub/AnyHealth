@@ -1,4 +1,5 @@
-import {AppointmentType, AvailableTimeRange, GenderType} from "../../utils/constant/Enum";
+import React, {} from 'react'
+import {AppointmentType, AvailableTimeRange, GenderType, SortBy} from "../../utils/constant/Enum";
 
 export const FilterActionType = {
 	KeyWord: 0,
@@ -55,3 +56,19 @@ export const initialState = {
 	availableTime: AvailableTimeRange.AnyTime,
 	appointmentType: AppointmentType.AnyType
 }
+
+export const initialFilter = {
+	keyword: '',
+	specialty: '',
+	city: '',
+	gender: GenderType.Trans,
+	availableTime: AvailableTimeRange.AnyTime,
+	appointmentType: AppointmentType.AnyType,
+	sortBy: SortBy.Distance
+}
+
+export const FilterContext = React.createContext({
+	filter: initialFilter,
+	onChangeFilter: () => null,
+	onLoadMore: () => null
+})

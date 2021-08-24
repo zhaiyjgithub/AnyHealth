@@ -1,21 +1,48 @@
-import React, {useEffect} from "react";
-import {MapContainer, Marker, Popup, TileLayer} from "@monsonjeremy/react-leaflet";
+import React, {useEffect, useContext} from "react";
+import {DoctorProfileContext} from "../../hooks/doctorProfile/DoctorProfileProvider";
+import LeafletMap from "../../components/map/LeafletMap";
 
-const Appointment = ({fullName, specialty, subSpecialty,
-						 nextAvailableDateInClinic, nextAvailableDateVirtual,
-						 gender, yearsOfExperience, language,
-						 distance, address, lat, lon
-					 }) => {
-	const genderTitle = gender === 'M' ? 'Male' : 'Female'
+const DoctorProfile = ({dataSource}) => {
+	const {state} = useContext(DoctorProfileContext)
+	const doctorProfile = dataSource.length ? dataSource[state.selectedIndex] : {}
+
+	const {
+		Npi,
+		LastName,
+		FirstName,
+		MiddleName,
+		FullName,
+		NamePrefix,
+		Credential,
+		Gender,
+		Address,
+		City,
+		State,
+		Zip,
+		Phone,
+		Specialty,
+		SubSpecialty,
+		JobTitle,
+		Summary,
+		Fax,
+		AddressSuit,
+		Lang,
+		YearOfExperience,
+		Location,
+		Distance,
+	} = doctorProfile
+	const genderTitle = Gender === 'M' ? 'Male' : 'Female'
+	const position = Location ? [Location.lat, Location.lon] : null
+
 	return (
-		<div className={'w-full h-full px-4 pt-2 '}>
-			<div className={'w-full'}>
+		<div className={'w-full h-full px-4 pt-2'}>
+			<div className={' w-full'}>
 				<div className={'w-full border rounded'}>
 					<div className={'w-full p-4'}>
 						<img src={"https://randomuser.me/api/portraits/women/44.jpg"} className={'w-16 h-16 bg-yellow-300 rounded mr-2'}/>
-						<p className={'text-black text-xl font-semibold font-mono mt-1'}>{fullName}</p>
-						<p className={'text-base-black text-base mt-1 font-semibold font-mono'}>{specialty}</p>
-						<p className={'text-gray-500 text-base'}>{subSpecialty}</p>
+						<p className={'text-black text-xl font-semibold font-mono mt-1'}>{FullName}</p>
+						<p className={'text-base-black text-base mt-1 font-semibold font-mono'}>{Specialty}</p>
+						<p className={'text-gray-500 text-base'}>{SubSpecialty}</p>
 
 						<div className={'mt-1 flex flex-row items-center mt-1'}>
 							<div className={'w-4 flex flex-col justify-center items-center mr-2'}>
@@ -23,9 +50,9 @@ const Appointment = ({fullName, specialty, subSpecialty,
 							</div>
 							<p className={'text-sm text-black font-medium'}>{genderTitle}</p>
 							<div className={'w-2 h-2 rounded-full bg-gray-400 mx-2 '}/>
-							<p className={'text-sm text-black font-medium'}>{yearsOfExperience} Years of Experience</p>
+							<p className={'text-sm text-black font-medium'}>{YearOfExperience} Years of Experience</p>
 							<div className={'w-2 h-2 rounded-full bg-gray-400 mx-2'}/>
-							<p className={'text-sm text-black font-medium'}>{language}</p>
+							<p className={'text-sm text-black font-medium'}>{Lang}</p>
 						</div>
 					</div>
 				</div>
@@ -69,21 +96,12 @@ const Appointment = ({fullName, specialty, subSpecialty,
 			<div className={'w-full mt-4'}>
 				<p className={'font-bold text-base text-base-black '}>Location & Contacts</p>
 				<div className={'w-full h-56 bg-gray-300 rounded mt-1'}>
-					<MapContainer
-						center={[lat, lon]}
-						className={'w-full h-full'}
+					<LeafletMap
+						position={position}
 						zoom={13}
-						scrollWheelZoom={false}>
-						<TileLayer
-							attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-							url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-						/>
-						<Marker position={[lat, lon]}>
-							<Popup>
-								{address}
-							</Popup>
-						</Marker>
-					</MapContainer>
+						scrollWheelZoom={false}
+						address={Address}
+					/>
 				</div>
 
 				<div className={'w-full flex flex-row items-start mt-2'}>
@@ -109,20 +127,5 @@ const Appointment = ({fullName, specialty, subSpecialty,
 	)
 }
 
-Appointment.defaultProps = {
-	fullName: 'Lucy C. Richard NP',
-	specialty: 'Women\'s Health Nurse Practitioner',
-	subSpecialty: 'Obstetrics & Gynecology',
-	nextAvailableDateInClinic: '08/07 2021',
-	nextAvailableDateVirtual: '08/07 2021',
-	gender: 'M',
-	yearsOfExperience: '21',
-	language: 'English',
-	distance: 26,
-	address: 'Aroostook Medical Center',
-	lat: 41,
-	lon: -75
-}
 
-
-export default Appointment
+export default DoctorProfile

@@ -4,8 +4,7 @@ import {AppointmentType, AvailableTimeRange, GenderType, SortBy} from "../../uti
 import SectionListModal from "../sectionList/SectionListModal";
 import {SpecialtyList} from "../../utils/constant/SpecialtyList";
 import {NY} from  "../../utils/constant/CityList";
-import {FilterContext} from "../../hooks/filter/Provider";
-import {FilterActionType} from "../../hooks/filter/Reducer";
+import {FilterContext, FilterActionType} from "../../hooks/filter/FilterProvider";
 
 const GenderListBoxDataSource = [{title: 'Female', value: GenderType.Female}, {title: 'Male', value: GenderType.Male}, {title: 'Trans', value: GenderType.Trans}]
 const AvailableTimeListBoxDataSource = [{title: 'Today', value: AvailableTimeRange.Today}, {title: 'In a Week', value: AvailableTimeRange.InWeek}, {title: 'Any Time', value: AvailableTimeRange.AnyTime}]
@@ -25,7 +24,7 @@ function NavBar() {
 	const [cityDataSource, setCityDataSource] = useState([])
 	const [city, setCity] = useState([])
 
-	const [onChangeFilter, onLoadMore, filter] = React.useContext(FilterContext)
+	const {onChangeFilter, filter} = React.useContext(FilterContext)
 
 	useEffect(() => {
 		setSpecialtyDataSource(sortList(SpecialtyList))
