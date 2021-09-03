@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import SegmentTab from "../../components/segmentsTab/SegmentTab";
 import {SortBy} from "../../utils/constant/Enum";
 
-const SortBar = ({selectedSortBy = 0, onChangeSegmentTab}) => {
+const SortBar = ({selectedSortBy = SortBy.Default, onChangeSegmentTab}) => {
 	const buttons = [{title: 'Default', value: SortBy.Default}, {title: 'Distance', value: SortBy.Distance}]
 
 	const onClickSegmentTab = (val) => {

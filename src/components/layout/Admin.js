@@ -7,6 +7,7 @@ import {name} from "faker";
 import {DoctorProfileContext, DoctorProfileProvider} from "../../hooks/doctorProfile/DoctorProfileProvider";
 import SortBar from "../../views/finder/SortBar";
 import {initialFilter, FilterContext} from "../../hooks/filter/FilterProvider";
+import {SortBy} from "../../utils/constant/Enum";
 
 function Admin() {
 	const [dataSource, setDataSource] = useState([])
@@ -14,6 +15,7 @@ function Admin() {
 	const [hasNextPage, setHasNextPage] = useState(true)
 	const [isNextPageLoading, setIsNextPageLoading] = useState(false)
 	const [page, setPage] = useState(1)
+	const [sortBy, setSortBy] = useState(SortBy.Distance)
 
 	const [userLocation, setUserLocation] = useState({lat:  40.747898, lon: -73.324025})
 	const pageSize = 10
@@ -23,11 +25,6 @@ function Admin() {
 		console.log('filter is updated....', filter, page, )
 		onLoadMore()
 	}, [filter])
-
-	// //多个useEffect, 根据
-	// useEffect(() => {
-	// 	console.log('sortBy is changed, exec func.......', filter, page, )
-	// }, [sortBy])
 
 	const onChangeFilter = (newFilter) =>{
 		console.log('exec onChangeFilter:', newFilter)
@@ -55,7 +52,6 @@ function Admin() {
 			gender,
 			availableTime,
 			appointmentType,
-			sortBy,
 		} = filter
 
 		let isInClinicEnable = true // keep
@@ -81,6 +77,16 @@ function Admin() {
 			})
 	}
 
+	useEffect(() => {
+		onLoadMore()
+	}, [sortBy])
+
+	const onChangeSegmentTab = (sortBy) => {
+		setPage(1)
+		setDataSource([])
+		setSortBy(sortBy)
+	}
+
 	return (
 		<FilterContext.Provider value={{onChangeFilter, onLoadMore, filter}}>
 			<DoctorProfileProvider>
@@ -88,7 +94,7 @@ function Admin() {
 					<NavBar />
 					<div className={'w-full h-full flex flex-row justify-center bg-white px-4 md:px-20 pt-2'}>
 						<div className={'h-full w-full flex flex-col md:w-1/2 z-10'}>
-							<SortBar />
+							<SortBar selectedSortBy={sortBy} onChangeSegmentTab={onChangeSegmentTab}/>
 							<div className={'w-full h-full'}>
 								<DoctorList
 									hasNextPage={hasNextPage}

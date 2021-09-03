@@ -28,8 +28,6 @@ const DoctorList = ({dataSource, hasNextPage, onLoadMore}) => {
 		},
 	});
 
-	console.log('height: ', height)
-
 	const renderItem = (item, idx) => {
 		const {
 			Npi,
