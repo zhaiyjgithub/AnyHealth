@@ -35,7 +35,7 @@ const DoctorProfile = ({dataSource}) => {
 	const position = Location ? [Location.lat, Location.lon] : null
 
 	return (
-		<div className={'w-full h-full px-4 pt-2'}>
+		<div className={'w-full h-full px-4'}>
 			<div className={' w-full'}>
 				<div className={'w-full border rounded'}>
 					<div className={'w-full p-4'}>

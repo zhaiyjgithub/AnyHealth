@@ -1,9 +1,5 @@
 import {ApiDoctor} from "./Api";
 
-/**
- * Created by zack on 2018/3/14.
- */
-
 const ResponseCode = {
 	OK: 0,
 	Fail: 1,

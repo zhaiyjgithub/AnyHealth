@@ -86,14 +86,16 @@ function Admin() {
 			<DoctorProfileProvider>
 				<div className={'w-screen h-screen bg-white'}>
 					<NavBar />
-					<div className={'w-full h-full flex flex-row justify-center bg-white px-4 md:px-20'}>
-						<div className={'h-full w-full md:w-1/2 z-10'}>
+					<div className={'w-full h-full flex flex-row justify-center bg-white px-4 md:px-20 pt-2'}>
+						<div className={'h-full w-full flex flex-col md:w-1/2 z-10'}>
 							<SortBar />
-							<DoctorList
-								hasNextPage={hasNextPage}
-								dataSource={dataSource}
-								onLoadMore={onLoadMore}
-							/>
+							<div className={'w-full h-full'}>
+								<DoctorList
+									hasNextPage={hasNextPage}
+									dataSource={dataSource}
+									onLoadMore={onLoadMore}
+								/>
+							</div>
 						</div>
 						<div className={'hidden md:flex md:w-1/2 h-full overflow-scroll z-10'}>
 							<DoctorProfile dataSource={dataSource}/>
