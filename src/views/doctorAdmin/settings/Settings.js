@@ -1,5 +1,16 @@
 
 export default function Settings() {
+    const renderWorkingHourItem = () => {
+        return (
+            <tr>
+                <td>Monday</td>
+                <td>
+
+                </td>
+                <td>$100</td>
+            </tr>
+        )
+    }
     return (
         <div className={'w-full h-screen bg-yellow-500'}>
             <div className={'m-4 border-b'}>
