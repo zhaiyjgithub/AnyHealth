@@ -2,7 +2,6 @@ import {SortBy} from "../../utils/constant/Enum";
 import {HTTP} from "../../utils/httpTool/HttpTool";
 import {ApiDoctor} from "../../utils/httpTool/Api";
 import {name} from "faker";
-import ListWrapper from "../../components/listView/ListWrapper";
 import React, {useEffect, useState} from "react";
 import {DoctorProfileContext} from "../../hooks/doctorProfile/DoctorProfileProvider";
 import InfiniteScroll from "react-infinite-scroll-component";

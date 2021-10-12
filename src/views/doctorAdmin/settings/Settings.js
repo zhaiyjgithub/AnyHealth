@@ -1,11 +1,49 @@
+import React, { useState } from 'react'
+import { Switch } from '@headlessui/react'
+import {FilterActionType} from "../../../hooks/filter/FilterProvider";
+import ListBox from "../../../components/navBar/ListBox";
 
 export default function Settings() {
+    const [enabled, setEnabled] = useState(false)
+    const dateTimeDateSource = [{title: '08:00', value: "08:00"}, {title: '08:00', value: "08:00"}, {title: '08:00', value: "08:00"}]
     const renderWorkingHourItem = () => {
         return (
             <tr>
                 <td>Monday</td>
-                <td>
+                <td className={'flex flex-row items-center'}>
+                    <Switch
+                        checked={enabled}
+                        onChange={setEnabled}
+                        className={`${
+                            enabled ? 'bg-blue-600' : 'bg-gray-200'
+                        } relative inline-flex items-center h-6 rounded-full w-11 mr-4`}
+                    >
+                        <span className="sr-only">Enable notifications</span>
+                        <span
+                            className={`${
+                                enabled ? 'translate-x-6' : 'translate-x-1'
+                            } inline-block w-4 h-4 transform bg-white rounded-full`}
+                        />
+                    </Switch>
 
+                    <ListBox
+                        dataSource={dateTimeDateSource}
+                        defaultTitle = {''}
+                        selected={'08:00'}
+                        onChangeValue={(value) => {
+
+                        }}
+                    />
+
+                    <p className={'mx-2 font-black'}>{' -- '}</p>
+                    <ListBox
+                        dataSource={dateTimeDateSource}
+                        defaultTitle = {''}
+                        selected={'08:00'}
+                        onChangeValue={(value) => {
+
+                        }}
+                    />
                 </td>
                 <td>$100</td>
             </tr>
@@ -21,8 +59,8 @@ export default function Settings() {
                     <thead>
                         <tr>
                             <th></th>
-                            <th>Month</th>
-                            <th>Savings</th>
+                            <th>AM</th>
+                            <th>PM</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -32,10 +70,7 @@ export default function Settings() {
                         </tr>
                     </tfoot>
                     <tbody>
-                        <tr>
-                            <td>January</td>
-                            <td>$100</td>
-                        </tr>
+                    {renderWorkingHourItem()}
                         <tr>
                             <td>February</td>
                             <td>$80</td>
