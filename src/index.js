@@ -11,6 +11,7 @@ import L from "leaflet";
 import icon from "./assets/images/map/marker-icon.png";
 import iconRetina from "./assets/images/map/marker-icon-2x.png";
 import iconShadow from "./assets/images/map/marker-shadow.png";
+import DoctorAdmin from "./components/layout/DoctorAdmin";
 
 let DefaultIcon = L.icon({
     iconUrl: icon,
@@ -23,7 +24,8 @@ L.Marker.prototype.options.icon = DefaultIcon;
 ReactDOM.render(
     <BrowserRouter>
         <Switch>
-            <Route path="/" render={(props) => <Admin />} />
+            {/*<Route path="/" render={(props) => <Admin />} />*/}
+            <Route path="/doctor" render={(props) => <DoctorAdmin />} />
         </Switch>
     </BrowserRouter>,
   document.getElementById('root')
