@@ -1,7 +1,7 @@
 import {Listbox, Transition} from "@headlessui/react";
 import React, {Fragment, useState} from "react";
 
-const DateTimeListBox = React.memo(({selected, isDisabled, dataSource, onChangeValue}) => {
+const DateTimeListBox = React.memo(({selected, isDisabled, isEdit, dataSource, onChangeValue}) => {
     const onChange = (value) => {
         onChangeValue && onChangeValue(value)
     }
@@ -19,7 +19,7 @@ const DateTimeListBox = React.memo(({selected, isDisabled, dataSource, onChangeV
         <div className="min-w-min z-20">
             <Listbox disabled={isDisabled} value={selected} onChange={onChange} >
                 <div className="relative mt-0">
-                    <Listbox.Button className={`relative py-1 px-4 cursor-default rounded-full flex flex-row items-center justify-between border border-gray-400  ${isDisabled ? 'bg-gray-200': 'bg-white hover:bg-gray-100'}`}>
+                    <Listbox.Button className={`relative py-1 px-4 cursor-default rounded-full flex flex-row items-center justify-between border ${isEdit ? 'border-gray-400' : 'border-transparent'}  ${isDisabled ? 'bg-gray-200': 'bg-white hover:bg-gray-100'}`}>
                         <span className={`font-mono text-sm font-semibold text-gray-600 mr-2`}>{title}</span>
                         <span className="">
 									<i className={`fas fa-chevron-down text-sm text-gray-600`}></i>
