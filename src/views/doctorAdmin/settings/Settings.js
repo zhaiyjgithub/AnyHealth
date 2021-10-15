@@ -2,11 +2,25 @@ import React, { useState, useEffect } from 'react'
 import { Switch } from '@headlessui/react'
 import DateTimeListBox from "./DateTimeListBox";
 import {mySettings} from './settingsData'
-import {APM, WeekDay} from "../../../utils/constant/Enum";
+import {APM, AppointmentType, TimeFormat, WeekDay} from "../../../utils/constant/Enum";
+import moment from "moment";
+import AppointmentTypeListBox from "./AppointmentTypeListBox";
+
+const DateTimePoint = {
+    StartTime: 0,
+    EndTime: 1
+}
 
 export default function Settings() {
     const [isEdit, setIsEdit] = useState(true)
     const [userSettings, setUserSettings] = useState(mySettings)
+    const [mondayAmSelectedStartTime, setMondayAmSelectedStartTime] = useState(mySettings.mondayAmStartTime)
+    const [mondayAmSelectedEndTime, setMondayAmSelectedEndTime] = useState(mySettings.mondayAmEndTime)
+    const [mondayAmSelectedAppointmentType, setMondayAmSelectedAppointmentType] = useState(mySettings.mondayAmAppointmentType)
+
+    const [mondayPmSelectedStartTime, setMondayPmSelectedStartTime] = useState(mySettings.mondayPmStartTime)
+    const [mondayPmSelectedEndTime, setMondayPmSelectedEndTime] = useState(mySettings.mondayPmEndTime)
+    const [mondayPmSelectedAppointmentType, setMondayPmSelectedAppointmentType] = useState(mySettings.mondayPmAppointmentType)
 
     const weekDayNames = ['Sunday', 'Monday', "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     const dateTimeDateSource = [{title: '08:00', value: "08:00"}, {title: '08:00', value: "08:00"}, {title: '08:00', value: "08:00"}]
@@ -54,51 +68,84 @@ export default function Settings() {
         </Switch>
     }
 
-    const renderEachDateTimeGroup = (isEdit, isEnable, onSwitchChange, onListBoxChange) => {
+    const renderEachDateTimeGroup = (isEdit, duration, isEnable, startTime, endTime,
+                                     selectedStartTime, selectedEndTime, appointmentType, onSwitchChange, onListBoxChange, onAppointmentTypeChange) => {
+        const dateTimeDataSource = calcDropdownListDataSource(startTime, endTime, duration)
+        const endTimeDataSource = getNextEndTimeRange(selectedStartTime, dateTimeDataSource)
         return <div className={'flex flex-row items-center'}>
             {renderBaseSwitch(isEdit, isEnable, onSwitchChange)}
             <DateTimeListBox
-                isEdit={isEdit}
-                isDisabled={!isEnable}
-                dataSource={dateTimeDateSource}
-                selected={'08:00'}
-                onChangeValue={onListBoxChange}
+                isDisabled={!isEdit}
+                dataSource={dateTimeDataSource.slice(0, dateTimeDataSource.length - 1)}
+                selected={selectedStartTime}
+                onChangeValue={(value) => {
+                    onListBoxChange && onListBoxChange(DateTimePoint.StartTime, value)
+                }}
             />
             <p className={'mx-2 text-sm text-base-black font-semibold'}>{' to '}</p>
             <DateTimeListBox
-                isEdit={isEdit}
-                isDisabled={!isEnable}
-                dataSource={dateTimeDateSource}
-                selected={'08:00'}
-                onChangeValue={onListBoxChange}
+                isDisabled={!isEdit}
+                dataSource={endTimeDataSource}
+                selected={selectedEndTime}
+                onChangeValue={(value) => {
+                    onListBoxChange && onListBoxChange(DateTimePoint.EndTime, value)
+                }}
+            />
+            <div className={'h-full w-4'}/>
+            <AppointmentTypeListBox
+                isDisabled={!isEdit}
+                dataSource={[{title: 'In-Clinic', value: AppointmentType.InClinic,}, {title: 'Virtual', value: AppointmentType.Virtual,}]}
+                selected={appointmentType}
+                onChangeValue={onAppointmentTypeChange}
             />
         </div>
     }
 
-    const renderWorkingHourItem = (isEdit, weekDay,
-                                   isAmEnable, amStartTime, amEndTime,
-                                   isPmEnable, pmStartTime, pmEndTime,
-                                   onSwitchChange, onListBoxChange ) => {
+    const getNextEndTimeRange = (startTime, dateTimeDataSource) => {
+        const prefix = '2000-01-01 '
+        const startTimeMoment = moment(prefix + startTime, TimeFormat.YYYYMMDDHHmm)
+        return dateTimeDataSource.filter(({title}) => {
+            const endTimeMoment = moment(prefix + title, TimeFormat.YYYYMMDDHHmm)
+            return endTimeMoment.isAfter(startTimeMoment)
+        })
+    }
+
+    const renderEachDayWorkingHourItem = (isEdit, weekDay, duration,
+                                   isAmEnable,  amStartTime, amEndTime, amAppointmentType,
+                                   isPmEnable, pmStartTime, pmEndTime, pmAppointmentType,
+                                   onSwitchChange, onListBoxChange, onAppointmentTypeChange ) => {
         return (
             <tr>
                 <td>
                     <p className={'mx-4 font-semibold text-black'}>{weekDayNames[weekDay]}</p>
                 </td>
                 <td>
-                    {renderEachDateTimeGroup(isEdit, isAmEnable, (value) => {
-                        onSwitchChange(weekDay, APM.AM, value)
+                    {renderEachDateTimeGroup(isEdit, duration, isAmEnable,
+                        amStartTime, amEndTime,
+                        mondayAmSelectedStartTime, mondayAmSelectedEndTime,
+                        amAppointmentType,
+                        (dateTimePoint, value) => {
+                        onSwitchChange && onSwitchChange(weekDay, APM.AM, dateTimePoint, value)
+                    }, (dateTimePoint, value) => {
+                        onListBoxChange && onListBoxChange(weekDay, APM.AM, dateTimePoint, value)
                     }, (value) => {
-                        onListBoxChange(weekDay, APM.AM, value)
+                        onAppointmentTypeChange && onAppointmentTypeChange(weekDay, APM.AM, value)
                     })}
                 </td>
                 <td>
-                    <div className={'w-px h-full bg-gray-400 mx-5'}/>
+                    <div className={'w-px h-6 bg-gray-400 mx-5'}/>
                 </td>
                 <td>
-                    {renderEachDateTimeGroup(isEdit, isPmEnable, (value) => {
-                        onSwitchChange(weekDay, APM.PM, value)
+                    {renderEachDateTimeGroup(isEdit, duration, isPmEnable,
+                        pmStartTime, pmEndTime,
+                        mondayPmSelectedStartTime, mondayPmSelectedEndTime,
+                        pmAppointmentType,
+                        (dateTimePoint, value) => {
+                        onSwitchChange && onSwitchChange(weekDay, APM.PM, dateTimePoint, value)
+                    }, (dateTimePoint, value) => {
+                        onListBoxChange && onListBoxChange(weekDay, APM.PM, dateTimePoint, value)
                     }, (value) => {
-                        onListBoxChange(weekDay, APM.PM, value)
+                            onAppointmentTypeChange && onAppointmentTypeChange(weekDay, APM.PM, value)
                     })}
                 </td>
             </tr>
@@ -106,15 +153,39 @@ export default function Settings() {
     }
 
     const onSwitchChange = (weekday, apm, value) => {
-        console.log(weekday, apm, value)
         if (weekday === WeekDay.Monday) {
             userSettings.mondayAmIsEnable = !userSettings.mondayAmIsEnable
         }
         setUserSettings({...userSettings})
     }
 
-    const onListBoxChange = (weekday, apm, value) => {
+    const onListBoxChange = (weekday, apm, dateTimePoint, value) => {
+        if (weekday === WeekDay.Monday) {
+            if (apm === APM.AM) {
+                if (dateTimePoint === DateTimePoint.StartTime) {
+                    setMondayAmSelectedStartTime(value)
+                }else if (dateTimePoint === DateTimePoint.EndTime) {
+                    setMondayAmSelectedEndTime(value)
+                }
+            }else if (apm === APM.PM) {
+                if (dateTimePoint === DateTimePoint.StartTime) {
+                    setMondayPmSelectedStartTime(value)
+                }else if (dateTimePoint === DateTimePoint.EndTime) {
+                    setMondayPmSelectedEndTime(value)
+                }
+            }
+        }
+    }
+
+    const onAppointmentTypeChange = (weekday, apm, value) => {
         console.log(weekday, apm, value)
+        if (weekday === WeekDay.Monday) {
+            if (apm === APM.AM) {
+                setMondayAmSelectedAppointmentType(value)
+            }else if (apm === APM.PM) {
+                setMondayPmSelectedAppointmentType(value)
+            }
+        }
     }
 
     return (
@@ -143,10 +214,10 @@ export default function Settings() {
                         </tr>
                     </tfoot>
                     <tbody>
-                        {renderWorkingHourItem(isEdit, WeekDay.Monday,
-                            userSettings.mondayAmIsEnable, userSettings.mondayAmStartTime, userSettings.mondayAmEndTime,
-                            userSettings.mondayPmIsEnable, userSettings.mondayPmStartTime, userSettings.mondayPmEndTime,
-                            onSwitchChange, onListBoxChange
+                        {renderEachDayWorkingHourItem(isEdit, WeekDay.Monday, userSettings.durationPerSlot,
+                            userSettings.mondayAmIsEnable, userSettings.mondayAmStartTime, userSettings.mondayAmEndTime, mondayAmSelectedAppointmentType,
+                            userSettings.mondayPmIsEnable, userSettings.mondayPmStartTime, userSettings.mondayPmEndTime, mondayPmSelectedAppointmentType,
+                            onSwitchChange, onListBoxChange, onAppointmentTypeChange
                         )}
                         <tr>
                             <td>February</td>

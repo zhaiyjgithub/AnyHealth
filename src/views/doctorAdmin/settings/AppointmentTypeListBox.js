@@ -1,7 +1,7 @@
 import {Listbox, Transition} from "@headlessui/react";
 import React, {Fragment, useState} from "react";
 
-const DateTimeListBox = React.memo(({selected, isDisabled, dataSource, onChangeValue}) => {
+const AppointmentTypeListBox = React.memo(({selected, isDisabled, dataSource, onChangeValue}) => {
     if (!dataSource.length) {
         return null
     }
@@ -11,7 +11,7 @@ const DateTimeListBox = React.memo(({selected, isDisabled, dataSource, onChangeV
 
     const getTitle = (value) => {
         const item = dataSource.find((_item) => {
-            return _item && _item.value.length && _item.value === value
+            return _item && _item.value === value
         })
         return item ? item.title : dataSource[0].title
     }
@@ -66,11 +66,11 @@ const DateTimeListBox = React.memo(({selected, isDisabled, dataSource, onChangeV
     )
 })
 
-DateTimeListBox.defaultProps = {
+AppointmentTypeListBox.defaultProps = {
     isDisabled: true,
     selected: '',
     dataSource: [],
     onChangeValue: undefined
 }
 
-export default DateTimeListBox
+export default AppointmentTypeListBox

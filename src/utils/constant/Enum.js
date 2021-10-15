@@ -37,11 +37,16 @@ const APM = {
 	PM: 1
 }
 
+const TimeFormat = {
+	YYYYMMDDHHmm: 'YYYY-MM-DD HH:mm'
+}
+
 export {
 	GenderType,
 	AvailableTimeRange,
 	AppointmentType,
 	SortBy,
 	WeekDay,
-	APM
+	APM,
+	TimeFormat
 }
