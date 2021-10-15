@@ -19,10 +19,10 @@ const AppointmentTypeListBox = React.memo(({selected, isDisabled, dataSource, on
     const title = getTitle(selected)
 
     return (
-        <div className="min-w-min z-20">
+        <div className="min-w-min">
             <Listbox disabled={isDisabled} value={selected} onChange={onChange} >
                 <div className="relative mt-0">
-                    <Listbox.Button className={`relative py-1 px-4 cursor-default rounded-full flex flex-row items-center justify-between border ${!isDisabled ? 'border-gray-400 bg-white hover:bg-gray-100' : 'border-transparent bg-gray-100'}`}>
+                    <Listbox.Button className={`z-10 relative py-1 px-4 cursor-default rounded-full flex flex-row items-center justify-between border ${!isDisabled ? 'border-gray-400 bg-white hover:bg-gray-100' : 'border-transparent bg-gray-100'}`}>
                         <span className={`font-mono text-sm font-semibold text-gray-600 mr-2`}>{title}</span>
                         <span className="">
 									<i className={`fas fa-chevron-down text-sm text-gray-600`}></i>
@@ -37,7 +37,7 @@ const AppointmentTypeListBox = React.memo(({selected, isDisabled, dataSource, on
                         leaveFrom="transform scale-100 opacity-100"
                         leaveTo="transform scale-95 opacity-0"
                     >
-                        <Listbox.Options className="absolute w-48 py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-2xl border max-h-72">
+                        <Listbox.Options className="z-50 absolute w-48 py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-2xl border max-h-72">
                             {dataSource.map((gender, idx) => {
                                 return (
                                     <Listbox.Option

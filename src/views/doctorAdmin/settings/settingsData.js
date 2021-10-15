@@ -59,6 +59,4 @@ export const mySettings = {
     "sundayPmStartTime": "01:00",
     "sundayPmEndTime": "06:00",
     "sundayPmAppointmentType": 0,
-    "updatedAt": "2021-09-30T16:45:55+08:00",
-    "createdAt": "2021-09-30T15:45:37+08:00"
 }
