@@ -11,17 +11,24 @@ const PageType = {
 export default function Settings() {
     const [page, setPage] = useState(PageType.workingHour)
     const [isEditWorkingHour, setIsEditWorkingHour] = useState(false)
+    const [isEditClosedDate, setIsEditClosedDate] = useState(false)
 
-    const renderAddNewClosedDateHeaderButtons = () => {
-        return (
-            <button type={'button'} className={'rounded bg-primary hover:bg-primary-focus'}>
-                <p className={'px-4 py-2 font-semibold text-white '}>{'Add'}</p>
-            </button>
-        )
+    const onCloseModal = () => {
+        setIsEditClosedDate(false)
     }
 
     const saveWorkingHours = () => {
         setIsEditWorkingHour(false)
+    }
+
+    const renderAddNewClosedDateHeaderButtons = () => {
+        return (
+            <button type={'button'} onClick={() => {
+                setIsEditClosedDate(true)
+            }} className={'rounded bg-primary hover:bg-primary-focus uppercase'}>
+                <p className={'px-4 py-2 font-semibold text-white '}>{'Add'}</p>
+            </button>
+        )
     }
 
     const renderWorkingHoursHeaderConfirmButtons = () => {
@@ -30,13 +37,13 @@ export default function Settings() {
                <button onClick={() => {
                    saveWorkingHours()
                }} type={'button'} className={'rounded bg-primary hover:bg-primary-focus'}>
-                   <p className={'px-4 py-2 font-semibold text-white '}>{'Confirm'}</p>
+                   <p className={'px-4 py-2 font-semibold text-white uppercase'}>{'Confirm'}</p>
                </button>
 
                <button onClick={() => {
                    setIsEditWorkingHour(false)
                }} type={'button'} className={'ml-4 rounded bg-white border hover:bg-gray-200'}>
-                   <p className={'px-4 py-2 font-semibold text-base-black '}>{'Cancel'}</p>
+                   <p className={'px-4 py-2 font-semibold text-base-black uppercase'}>{'Cancel'}</p>
                </button>
            </div>
         )
@@ -46,7 +53,7 @@ export default function Settings() {
         return (
             <div className={'flex flex-row items-center justify-center'}>
                 <button onClick={setIsEditWorkingHour} type={'button'} className={'rounded bg-primary hover:bg-primary-focus'}>
-                    <p className={'px-4 py-2 font-semibold text-white '}>{'Edit'}</p>
+                    <p className={'px-4 py-2 font-semibold text-white uppercase'}>{'Edit'}</p>
                 </button>
             </div>
         )
@@ -82,7 +89,7 @@ export default function Settings() {
                     <p className={`font-mono text-base text-base-black ${page === PageType.closedDate ? 'font-semibold' : 'font-base'}`}>{'Closed Date'}</p>
                 </button>
             </div>
-            {page === PageType.workingHour ? <ScheduleSettings isEdit={isEditWorkingHour}/> : <ClosedDateSettings />}
+            {page === PageType.workingHour ? <ScheduleSettings isEdit={isEditWorkingHour}/> : <ClosedDateSettings isOpenModal={isEditClosedDate} onCloseModal={onCloseModal}/>}
         </div>
     )
 }
