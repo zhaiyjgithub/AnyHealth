@@ -11,8 +11,7 @@ const DateTimePoint = {
     EndTime: 1
 }
 
-export default function ScheduleSettings() {
-    const [isEdit, setIsEdit] = useState(true)
+export default function ScheduleSettings({isEdit}) {
     const [selectedUserSettings, setSelectedUserSettings] = useState(mySettings)
     const weekDayNames = ['Sunday', 'Monday', "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 

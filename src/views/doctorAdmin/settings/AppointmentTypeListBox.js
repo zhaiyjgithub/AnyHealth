@@ -24,9 +24,9 @@ const AppointmentTypeListBox = React.memo(({selected, isDisabled, dataSource, on
                 <div className="relative mt-0">
                     <Listbox.Button className={`z-10 relative py-1 px-4 cursor-default rounded-full flex flex-row items-center justify-between border ${!isDisabled ? 'border-gray-400 bg-white hover:bg-gray-100' : 'border-transparent bg-gray-100'}`}>
                         <span className={`font-mono text-sm font-semibold text-gray-600 mr-2`}>{title}</span>
-                        <span className="">
+                        {!isDisabled ? (<span className="">
 									<i className={`fas fa-chevron-down text-sm text-gray-600`}></i>
-            					</span>
+            					</span>) : null}
                     </Listbox.Button>
                     <Transition
                         as={Fragment}
