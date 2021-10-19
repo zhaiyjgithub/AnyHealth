@@ -1,13 +1,16 @@
-import {WeekDay} from "../../../utils/constant/Enum";
-import {mySettings} from "./settingsData";
-import React, {useState} from "react";
+import React from "react";
 import ClosedDateEditModal from "./ClosedDateEditModal";
 
 export default function ClosedDateSettings({isOpenModal, onCloseModal}) {
-
     const closeModal = () => {
         onCloseModal && onCloseModal(false)
     }
+
+    const onConfirm = (closedDateSettings) => {
+        onCloseModal && onCloseModal(false)
+        closedDateSettings && alert(JSON.stringify(closedDateSettings))
+    }
+
     const renderEachDate = () => {
         return <tr className={'border-b'}>
             <td>
@@ -66,7 +69,7 @@ export default function ClosedDateSettings({isOpenModal, onCloseModal}) {
                 </tbody>
             </table>
 
-            <ClosedDateEditModal isOpen={isOpenModal} closeModal={closeModal}/>
+            <ClosedDateEditModal isOpen={isOpenModal} closeModal={closeModal} onConfirm={onConfirm}/>
         </div>
     )
 }

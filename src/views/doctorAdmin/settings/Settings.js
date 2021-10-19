@@ -26,7 +26,7 @@ export default function Settings() {
             <button type={'button'} onClick={() => {
                 setIsEditClosedDate(true)
             }} className={'rounded bg-primary hover:bg-primary-focus uppercase'}>
-                <p className={'px-4 py-2 font-semibold text-white '}>{'Add'}</p>
+                <p className={'px-4 py-2 font-medium text-sm text-white '}>{'Add'}</p>
             </button>
         )
     }
@@ -37,13 +37,13 @@ export default function Settings() {
                <button onClick={() => {
                    saveWorkingHours()
                }} type={'button'} className={'rounded bg-primary hover:bg-primary-focus'}>
-                   <p className={'px-4 py-2 font-semibold text-white uppercase'}>{'Confirm'}</p>
+                   <p className={'px-4 py-2 font-medium text-sm text-white uppercase'}>{'Confirm'}</p>
                </button>
 
                <button onClick={() => {
                    setIsEditWorkingHour(false)
                }} type={'button'} className={'ml-4 rounded bg-white border hover:bg-gray-200'}>
-                   <p className={'px-4 py-2 font-semibold text-base-black uppercase'}>{'Cancel'}</p>
+                   <p className={'px-4 py-2 font-medium text-sm text-base-black uppercase'}>{'Cancel'}</p>
                </button>
            </div>
         )
@@ -53,7 +53,7 @@ export default function Settings() {
         return (
             <div className={'flex flex-row items-center justify-center'}>
                 <button onClick={setIsEditWorkingHour} type={'button'} className={'rounded bg-primary hover:bg-primary-focus'}>
-                    <p className={'px-4 py-2 font-semibold text-white uppercase'}>{'Edit'}</p>
+                    <p className={'px-4 py-2 font-medium text-sm text-white uppercase'}>{'Edit'}</p>
                 </button>
             </div>
         )

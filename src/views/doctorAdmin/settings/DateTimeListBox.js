@@ -37,7 +37,7 @@ const DateTimeListBox = React.memo(({selected, isDisabled, dataSource, onChangeV
                         leaveFrom="transform scale-100 opacity-100"
                         leaveTo="transform scale-95 opacity-0"
                     >
-                        <Listbox.Options className=" z-50 absolute w-48 py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-2xl border max-h-72">
+                        <Listbox.Options className="z-50 absolute w-24 py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-2xl border max-h-48">
                             {dataSource.map((gender, idx) => {
                                 return (
                                     <Listbox.Option

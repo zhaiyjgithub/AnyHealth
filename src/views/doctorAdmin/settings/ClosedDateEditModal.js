@@ -1,7 +1,80 @@
-import { Dialog, Transition } from '@headlessui/react'
-import { Fragment, useState } from 'react'
+import {Dialog, Transition} from '@headlessui/react'
+import React, {Fragment, useState} from 'react'
+import DateTimeListBox from "./DateTimeListBox";
+import AppointmentTypeListBox from "./AppointmentTypeListBox";
+import {APM, AppointmentType, TimeFormat} from "../../../utils/constant/Enum";
+import {calcDropdownListDataSource, DateTimePoint, getNextEndTimeRange} from "./SettingsService";
+import moment from "moment";
 
-export default function ClosedDateEditModal({isOpen, closeModal}) {
+export default function ClosedDateEditModal({isOpen, closeModal, onConfirm}) {
+    const [closedDateSettings, setClosedDateSettings] = useState({
+        startDate: moment().format(TimeFormat.YYYYMMDD),
+        endDate: moment().format(TimeFormat.YYYYMMDD),
+        amStartTime: '09:00',
+        amEndTime: '12:00',
+        amAppointmentType: AppointmentType.InClinic,
+        pmStartTime: '01:00',
+        pmEndTime: '06:00',
+        pmAppointmentType: AppointmentType.InClinic,
+    })
+    const [isShowMoreOptions, setIsShowMoreOptions] = useState(false)
+    const renderEachDateTimeGroup = (title, duration, startTime, endTime,
+                                     selectedStartTime, selectedEndTime, appointmentType, onListBoxChange, onAppointmentTypeChange) => {
+        const dateTimeDataSource = calcDropdownListDataSource(startTime, endTime, duration)
+        const endTimeDataSource = getNextEndTimeRange(selectedStartTime, dateTimeDataSource)
+        return <div className={'z-50 flex flex-row items-center'}>
+            <p className={'text-sm font-medium mr-4'}>{title}</p>
+            <DateTimeListBox
+                isDisabled={false}
+                dataSource={dateTimeDataSource.slice(0, dateTimeDataSource.length - 1)}
+                selected={selectedStartTime}
+                onChangeValue={(value) => {
+                    onListBoxChange && onListBoxChange(DateTimePoint.StartTime, value)
+                }}
+            />
+            <p className={'mx-2 text-sm text-base-black font-semibold'}>{' to '}</p>
+            <DateTimeListBox
+                isDisabled={false}
+                dataSource={endTimeDataSource}
+                selected={selectedEndTime}
+                onChangeValue={(value) => {
+                    onListBoxChange && onListBoxChange(DateTimePoint.EndTime, value)
+                }}
+            />
+            <div className={'h-full w-4'}/>
+            <AppointmentTypeListBox
+                isDisabled={false}
+                dataSource={[{title: 'In-Clinic', value: AppointmentType.InClinic,}, {title: 'Virtual', value: AppointmentType.Virtual,}]}
+                selected={appointmentType}
+                onChangeValue={onAppointmentTypeChange}
+            />
+        </div>
+    }
+
+    const onListBoxChange = (apm, dateTimePoint, value) => {
+        if (apm === APM.AM) {
+            if (dateTimePoint === DateTimePoint.StartTime) {
+                setClosedDateSettings({...closedDateSettings, amStartTime: value})
+            }else if (dateTimePoint === DateTimePoint.EndTime) {
+                setClosedDateSettings({...closedDateSettings, amEndTime: value})
+            }
+        }else {
+            if (dateTimePoint === DateTimePoint.StartTime) {
+                setClosedDateSettings({...closedDateSettings, pmStartTime: value})
+            }else if (dateTimePoint === DateTimePoint.EndTime) {
+                setClosedDateSettings({...closedDateSettings, pmEndTime: value})
+            }
+        }
+    }
+
+    const onAppointmentTypeChange = (apm, value) => {
+        if (apm === APM.AM) {
+            setClosedDateSettings({...closedDateSettings, amAppointmentType: value})
+        } else if (apm === APM.PM) {
+            setClosedDateSettings({...closedDateSettings, pmAppointmentType: value})
+        }
+    }
+
     return (
         <>
             <Transition appear show={isOpen} as={Fragment}>
@@ -39,7 +112,7 @@ export default function ClosedDateEditModal({isOpen, closeModal}) {
                             leaveFrom="opacity-100 scale-100"
                             leaveTo="opacity-0 scale-95"
                         >
-                            <div className="border inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                            <div className="border inline-block w-full max-w-md p-6 my-8 text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                                 <Dialog.Title
                                     as="h3"
                                     className="text-lg font-medium leading-6 text-gray-900"
@@ -52,21 +125,75 @@ export default function ClosedDateEditModal({isOpen, closeModal}) {
                                 {/*        an email with all of the details of your order.*/}
                                 {/*    </p>*/}
                                 {/*</div>*/}
-                                <div className={'w-full mt-2'}>
-                                    <div className={'w-full px-4 flex flex-row items-center justify-between'}>
-                                        <input placeholder={'start-date'} className={'h-10 w-full border border-gray-200 rounded px-2 text-left'}/>
+                                <div className={'w-full mt-4'}>
+                                    <div className={'w-full px-0 flex flex-row items-center justify-between'}>
+                                        <input value={closedDateSettings.startDate} onChange={(e) => {
+                                            if (moment(closedDateSettings.endDate, TimeFormat.YYYYMMDD).isBefore(moment(e.target.value, TimeFormat.YYYYMMDD))) {
+                                                setClosedDateSettings({...closedDateSettings, startDate: e.target.value, endDate: e.target.value})
+                                            }else {
+                                                setClosedDateSettings({...closedDateSettings, startDate: e.target.value})
+                                            }
+
+                                        }} type={'date'} placeholder={'Start-Date'} className={'h-10 w-full border border-gray-200 rounded px-2 text-left'}/>
                                         <p className={'flex-none text-sm mx-2 text-base-black'}>to</p>
-                                        <input placeholder={'end-date'} className={'h-10 w-full border border-gray-200 rounded px-2 text-left'}/>
+                                        <input onChange={(e) => {
+                                            setClosedDateSettings({...closedDateSettings, endDate: e.target.value})
+                                        }} min={closedDateSettings.startDate} value={closedDateSettings.endDate} type={'date'} placeholder={'End-Date'} className={'h-10 w-full border border-gray-200 rounded px-2 text-left'}/>
+                                    </div>
+                                    <div className={'w-full mt-2 flex flex-row items-center justify-between'}>
+                                        <div>
+                                            <label className="inline-flex items-center">
+                                                <input type="checkbox" className="form-checkbox" checked={!isShowMoreOptions} onChange={() => {
+                                                    setIsShowMoreOptions(false)
+                                                }}/>
+                                                    <span className="ml-2 text-sm font-medium">All Day Long</span>
+                                            </label>
+                                        </div>
+                                        <button onClick={() => {
+                                            setIsShowMoreOptions(!isShowMoreOptions)
+                                        }} type={'button'} className={'py-2 px-4 hover:bg-gray-200'}>
+                                            <p className={'text-sm font-medium text-primary'}>{isShowMoreOptions ? '- Hide options' : '+ More Options'}</p>
+                                        </button>
+                                    </div>
+
+                                    <div className={`mt-4 ${isShowMoreOptions ? '' : 'hidden'}`}>
+                                        {renderEachDateTimeGroup('AM', 15,'09:00', "12:00",
+                                            closedDateSettings.amStartTime, closedDateSettings.amEndTime, closedDateSettings.amAppointmentType,
+                                            (datePoint, value) => {
+                                                onListBoxChange(APM.AM, datePoint, value)
+                                            }, (value) => {
+                                                onAppointmentTypeChange(APM.AM, value)
+                                            }
+                                        )}
+                                        <div className={'h-4 w-full'}/>
+                                        {renderEachDateTimeGroup('PM', 15,'01:00', "06:00",
+                                            closedDateSettings.pmStartTime, closedDateSettings.pmEndTime, closedDateSettings.pmAppointmentType,
+                                            (datePoint, value) => {
+                                                onListBoxChange(APM.PM, datePoint, value)
+                                            }, (value) => {
+                                                onAppointmentTypeChange(APM.PM, value)
+                                            }
+                                        )}
                                     </div>
                                 </div>
 
-                                <div className="mt-4">
+                                <div className={`${isShowMoreOptions ? 'mt-8' : 'mt-4'} flex flex-row items-center justify-end`}>
                                     <button
                                         type="button"
-                                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                                        className="mr-4 inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-600 bg-gray-200 border border-transparent rounded-md hover:bg-gray-300 focus:outline-none"
                                         onClick={closeModal}
                                     >
-                                        Got it, thanks!
+                                        Cancel
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-primary border border-transparent rounded-md hover:bg-primary-focus focus:outline-none"
+                                        onClick={() => {
+                                            onConfirm(closedDateSettings)
+                                        }}
+                                    >
+                                        Confirm
                                     </button>
                                 </div>
                             </div>
