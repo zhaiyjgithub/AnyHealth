@@ -1,8 +1,7 @@
 import {Dialog, Transition} from '@headlessui/react'
 import React, {Fragment, useState} from 'react'
 import DateTimeListBox from "./DateTimeListBox";
-import AppointmentTypeListBox from "./AppointmentTypeListBox";
-import {APM, AppointmentType, TimeFormat} from "../../../utils/constant/Enum";
+import {APM, TimeFormat} from "../../../utils/constant/Enum";
 import {calcDropdownListDataSource, DateTimePoint, getNextEndTimeRange} from "./SettingsService";
 import moment from "moment";
 
@@ -12,14 +11,12 @@ export default function ClosedDateEditModal({isOpen, closeModal, onConfirm}) {
         endDate: moment().format(TimeFormat.YYYYMMDD),
         amStartTime: '09:00',
         amEndTime: '12:00',
-        amAppointmentType: AppointmentType.InClinic,
         pmStartTime: '01:00',
         pmEndTime: '06:00',
-        pmAppointmentType: AppointmentType.InClinic,
     })
     const [isShowMoreOptions, setIsShowMoreOptions] = useState(false)
     const renderEachDateTimeGroup = (title, duration, startTime, endTime,
-                                     selectedStartTime, selectedEndTime, appointmentType, onListBoxChange, onAppointmentTypeChange) => {
+                                     selectedStartTime, selectedEndTime, onListBoxChange) => {
         const dateTimeDataSource = calcDropdownListDataSource(startTime, endTime, duration)
         const endTimeDataSource = getNextEndTimeRange(selectedStartTime, dateTimeDataSource)
         return <div className={'z-50 flex flex-row items-center'}>
@@ -42,12 +39,6 @@ export default function ClosedDateEditModal({isOpen, closeModal, onConfirm}) {
                 }}
             />
             <div className={'h-full w-4'}/>
-            <AppointmentTypeListBox
-                isDisabled={false}
-                dataSource={[{title: 'In-Clinic', value: AppointmentType.InClinic,}, {title: 'Virtual', value: AppointmentType.Virtual,}]}
-                selected={appointmentType}
-                onChangeValue={onAppointmentTypeChange}
-            />
         </div>
     }
 
@@ -158,7 +149,7 @@ export default function ClosedDateEditModal({isOpen, closeModal, onConfirm}) {
 
                                     <div className={`mt-4 ${isShowMoreOptions ? '' : 'hidden'}`}>
                                         {renderEachDateTimeGroup('AM', 15,'09:00', "12:00",
-                                            closedDateSettings.amStartTime, closedDateSettings.amEndTime, closedDateSettings.amAppointmentType,
+                                            closedDateSettings.amStartTime, closedDateSettings.amEndTime,
                                             (datePoint, value) => {
                                                 onListBoxChange(APM.AM, datePoint, value)
                                             }, (value) => {
@@ -167,7 +158,7 @@ export default function ClosedDateEditModal({isOpen, closeModal, onConfirm}) {
                                         )}
                                         <div className={'h-4 w-full'}/>
                                         {renderEachDateTimeGroup('PM', 15,'01:00', "06:00",
-                                            closedDateSettings.pmStartTime, closedDateSettings.pmEndTime, closedDateSettings.pmAppointmentType,
+                                            closedDateSettings.pmStartTime, closedDateSettings.pmEndTime,
                                             (datePoint, value) => {
                                                 onListBoxChange(APM.PM, datePoint, value)
                                             }, (value) => {
