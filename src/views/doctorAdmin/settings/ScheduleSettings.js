@@ -1,17 +1,31 @@
 import React, {useEffect, useState} from 'react'
 import {Switch} from '@headlessui/react'
 import DateTimeListBox from "./DateTimeListBox";
-import {mySettings} from './settingsData'
 import {APM, AppointmentType, WeekDay} from "../../../utils/constant/Enum";
 import AppointmentTypeListBox from "./AppointmentTypeListBox";
-import {calcDropdownListDataSource, DateTimePoint, getNextEndTimeRange} from "./SettingsService";
+import {
+    calcDropdownListDataSource,
+    DateTimePoint,
+    getNextEndTimeRange,
+    getScheduleSettings,
+    InitialSettings, updateScheduleSettings
+} from "./SettingsService";
 
-export default function ScheduleSettings({isEdit}) {
-    const [selectedUserSettings, setSelectedUserSettings] = useState(mySettings)
+export default function ScheduleSettings({}) {
+    const [isEdit, setIsEdit] = useState(false)
+    const [selectedUserSettings, setSelectedUserSettings] = useState(InitialSettings)
     const weekDayNames = ['Sunday', 'Monday', "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    let npi = 1902809254
 
     useEffect(() => {
+        getScheduleSettings(npi, (data) => {
+            if (data) {
+                console.log('data', JSON.stringify(data))
+                setSelectedUserSettings(data)
+            }
+        }, () => {
 
+        })
     }, [])
 
     const renderBaseSwitch = (isEdit, checked, onChange) => {
@@ -154,10 +168,6 @@ export default function ScheduleSettings({isEdit}) {
             }
         }
     }
-
-    useEffect(() => {
-        console.log(selectedUserSettings)
-    }, [selectedUserSettings])
 
     const onListBoxChange = (weekday, apm, dateTimePoint, value) => {
         console.log(weekday, apm, dateTimePoint, value)
@@ -309,17 +319,59 @@ export default function ScheduleSettings({isEdit}) {
         }
     }
 
+    const onSave = () => {
+        setIsEdit(false)
+        selectedUserSettings.npi = npi
+        updateScheduleSettings(selectedUserSettings, () => {
+            console.log('update success')
+        }, () => {
+            alert('update failed')
+        })
+    }
+
+    const onCancel = () => {
+        setIsEdit(false)
+    }
+
+    const renderSaveButtons = () => {
+        return (
+            <>
+                <button onClick={onCancel} type={'button'} className={'rounded bg-white border hover:bg-gray-200'}>
+                    <p className={'px-4 py-2 font-medium text-sm text-base-black'}>{'Cancel'}</p>
+                </button>
+
+                <button onClick={onSave}  type={'button'} className={'ml-4 rounded bg-primary hover:bg-primary-focus'}>
+                    <p className={'px-4 py-2 font-medium text-sm text-white'}>{'Save'}</p>
+                </button>
+            </>
+        )
+    }
+
+    const renderEditButton = () => {
+        return (
+            <button onClick={() => {
+                setIsEdit(true)
+            }} type={'button'} className={'rounded bg-primary hover:bg-primary-focus'}>
+                <p className={'px-4 py-2 font-medium text-sm text-white'}>{'Edit'}</p>
+            </button>
+        )
+    }
+
     return (
-        <div className={'w-full h-screen bg-white mt-8'}>
+        <div className={'w-max  h-screen bg-white mt-4'}>
             <div className={'w-1/2  flex flex-row items-center '}>
                 <p className={'font-semibold text-base-black ml-4'}>Duration of Per Slot(minutes):</p>
-                <input className={'w-20 h-8 rounded font-base text-black border border-gray-300 px-2 text-left ml-2'}/>
+                <input onChange={(e) => {
+                    setSelectedUserSettings({...selectedUserSettings, durationPerSlot: e.target.value})
+                }} defaultValue={selectedUserSettings.durationPerSlot} className={'w-20 h-8 rounded font-base text-black border border-gray-300 px-2 text-left ml-2'}/>
             </div>
             <div className={'flex flex-row items-center mt-4 '}>
                 <p className={'font-semibold text-base-black ml-4'}>Number of Per Slot(minutes):</p>
-                <input className={'w-20 h-8 rounded font-base text-black border border-gray-300 px-2 text-left ml-2'}/>
+                <input onChange={(e) => {
+                    setSelectedUserSettings({...selectedUserSettings, numberPerSlot: e.target.value})
+                }} defaultValue={selectedUserSettings.numberPerSlot} className={'w-20 h-8 rounded font-base text-black border border-gray-300 px-2 text-left ml-2'}/>
             </div>
-            <div className={'mt-8'}>
+            <div className={'mt-6'}>
                 <table>
                     <thead>
                     <tr>
@@ -334,44 +386,49 @@ export default function ScheduleSettings({isEdit}) {
                     </tr>
                     </thead>
                     <tbody>
-                    {renderEachDayWorkingHourItem(isEdit, WeekDay.Sunday, mySettings.durationPerSlot,
-                        selectedUserSettings.sundayAmIsEnable, mySettings.sundayAmStartTime, mySettings.sundayAmEndTime, selectedUserSettings.sundayAmStartTime, selectedUserSettings.sundayAmEndTime, selectedUserSettings.sundayAmAppointmentType,
-                        selectedUserSettings.sundayPmIsEnable, mySettings.sundayPmStartTime, mySettings.sundayPmEndTime, selectedUserSettings.sundayPmStartTime, selectedUserSettings.sundayPmEndTime,  selectedUserSettings.sundayPmAppointmentType,
+                    {renderEachDayWorkingHourItem(isEdit, WeekDay.Sunday, InitialSettings.durationPerSlot,
+                        selectedUserSettings.sundayAmIsEnable, InitialSettings.sundayAmStartTime, InitialSettings.sundayAmEndTime, selectedUserSettings.sundayAmStartTime, selectedUserSettings.sundayAmEndTime, selectedUserSettings.sundayAmAppointmentType,
+                        selectedUserSettings.sundayPmIsEnable, InitialSettings.sundayPmStartTime, InitialSettings.sundayPmEndTime, selectedUserSettings.sundayPmStartTime, selectedUserSettings.sundayPmEndTime,  selectedUserSettings.sundayPmAppointmentType,
                         onSwitchChange, onListBoxChange, onAppointmentTypeChange
                     )}
-                    {renderEachDayWorkingHourItem(isEdit, WeekDay.Monday, mySettings.durationPerSlot,
-                        selectedUserSettings.mondayAmIsEnable, mySettings.mondayAmStartTime, mySettings.mondayAmEndTime, selectedUserSettings.mondayAmStartTime, selectedUserSettings.mondayAmEndTime,  selectedUserSettings.mondayAmAppointmentType,
-                        selectedUserSettings.mondayPmIsEnable, mySettings.mondayPmStartTime, mySettings.mondayPmEndTime, selectedUserSettings.mondayPmStartTime, selectedUserSettings.mondayPmEndTime,  selectedUserSettings.mondayPmAppointmentType,
+                    {renderEachDayWorkingHourItem(isEdit, WeekDay.Monday, InitialSettings.durationPerSlot,
+                        selectedUserSettings.mondayAmIsEnable, InitialSettings.mondayAmStartTime, InitialSettings.mondayAmEndTime, selectedUserSettings.mondayAmStartTime, selectedUserSettings.mondayAmEndTime,  selectedUserSettings.mondayAmAppointmentType,
+                        selectedUserSettings.mondayPmIsEnable, InitialSettings.mondayPmStartTime, InitialSettings.mondayPmEndTime, selectedUserSettings.mondayPmStartTime, selectedUserSettings.mondayPmEndTime,  selectedUserSettings.mondayPmAppointmentType,
                         onSwitchChange, onListBoxChange, onAppointmentTypeChange
                     )}
-                    {renderEachDayWorkingHourItem(isEdit, WeekDay.Tuesday, mySettings.durationPerSlot,
-                        selectedUserSettings.tuesdayAmIsEnable, mySettings.tuesdayAmStartTime, mySettings.tuesdayAmEndTime, selectedUserSettings.tuesdayAmStartTime, selectedUserSettings.tuesdayAmEndTime, selectedUserSettings.tuesdayAmAppointmentType,
-                        selectedUserSettings.tuesdayPmIsEnable, mySettings.tuesdayPmStartTime, mySettings.tuesdayPmEndTime, selectedUserSettings.tuesdayPmStartTime, selectedUserSettings.tuesdayPmEndTime, selectedUserSettings.tuesdayPmAppointmentType,
+                    {renderEachDayWorkingHourItem(isEdit, WeekDay.Tuesday, InitialSettings.durationPerSlot,
+                        selectedUserSettings.tuesdayAmIsEnable, InitialSettings.tuesdayAmStartTime, InitialSettings.tuesdayAmEndTime, selectedUserSettings.tuesdayAmStartTime, selectedUserSettings.tuesdayAmEndTime, selectedUserSettings.tuesdayAmAppointmentType,
+                        selectedUserSettings.tuesdayPmIsEnable, InitialSettings.tuesdayPmStartTime, InitialSettings.tuesdayPmEndTime, selectedUserSettings.tuesdayPmStartTime, selectedUserSettings.tuesdayPmEndTime, selectedUserSettings.tuesdayPmAppointmentType,
                         onSwitchChange, onListBoxChange, onAppointmentTypeChange
                     )}
-                    {renderEachDayWorkingHourItem(isEdit, WeekDay.Wednesday, mySettings.durationPerSlot,
-                        selectedUserSettings.wednesdayAmIsEnable, mySettings.wednesdayAmStartTime, mySettings.wednesdayAmEndTime, selectedUserSettings.wednesdayAmStartTime, selectedUserSettings.wednesdayAmEndTime, selectedUserSettings.wednesdayAmAppointmentType,
-                        selectedUserSettings.wednesdayPmIsEnable, mySettings.wednesdayPmStartTime, mySettings.wednesdayPmEndTime, selectedUserSettings.wednesdayPmStartTime, selectedUserSettings.wednesdayPmEndTime, selectedUserSettings.wednesdayPmAppointmentType,
+                    {renderEachDayWorkingHourItem(isEdit, WeekDay.Wednesday, InitialSettings.durationPerSlot,
+                        selectedUserSettings.wednesdayAmIsEnable, InitialSettings.wednesdayAmStartTime, InitialSettings.wednesdayAmEndTime, selectedUserSettings.wednesdayAmStartTime, selectedUserSettings.wednesdayAmEndTime, selectedUserSettings.wednesdayAmAppointmentType,
+                        selectedUserSettings.wednesdayPmIsEnable, InitialSettings.wednesdayPmStartTime, InitialSettings.wednesdayPmEndTime, selectedUserSettings.wednesdayPmStartTime, selectedUserSettings.wednesdayPmEndTime, selectedUserSettings.wednesdayPmAppointmentType,
                         onSwitchChange, onListBoxChange, onAppointmentTypeChange
                     )}
-                    {renderEachDayWorkingHourItem(isEdit, WeekDay.Thursday, mySettings.durationPerSlot,
-                        selectedUserSettings.thursdayAmIsEnable, mySettings.thursdayAmStartTime, mySettings.thursdayAmEndTime, selectedUserSettings.thursdayAmStartTime, selectedUserSettings.thursdayAmEndTime, selectedUserSettings.thursdayAmAppointmentType,
-                        selectedUserSettings.thursdayPmIsEnable, mySettings.thursdayPmStartTime, mySettings.thursdayPmEndTime, selectedUserSettings.thursdayPmStartTime, selectedUserSettings.thursdayPmEndTime, selectedUserSettings.thursdayPmAppointmentType,
+                    {renderEachDayWorkingHourItem(isEdit, WeekDay.Thursday, InitialSettings.durationPerSlot,
+                        selectedUserSettings.thursdayAmIsEnable, InitialSettings.thursdayAmStartTime, InitialSettings.thursdayAmEndTime, selectedUserSettings.thursdayAmStartTime, selectedUserSettings.thursdayAmEndTime, selectedUserSettings.thursdayAmAppointmentType,
+                        selectedUserSettings.thursdayPmIsEnable, InitialSettings.thursdayPmStartTime, InitialSettings.thursdayPmEndTime, selectedUserSettings.thursdayPmStartTime, selectedUserSettings.thursdayPmEndTime, selectedUserSettings.thursdayPmAppointmentType,
                         onSwitchChange, onListBoxChange, onAppointmentTypeChange
                     )}
-                    {renderEachDayWorkingHourItem(isEdit, WeekDay.Friday, mySettings.durationPerSlot,
-                        selectedUserSettings.fridayAmIsEnable, mySettings.fridayAmStartTime, mySettings.fridayAmEndTime, selectedUserSettings.fridayAmStartTime, selectedUserSettings.fridayAmEndTime, selectedUserSettings.fridayAmAppointmentType,
-                        selectedUserSettings.fridayPmIsEnable, mySettings.fridayPmStartTime, mySettings.fridayPmEndTime, selectedUserSettings.fridayPmStartTime, selectedUserSettings.fridayPmEndTime, selectedUserSettings.fridayPmAppointmentType,
+                    {renderEachDayWorkingHourItem(isEdit, WeekDay.Friday, InitialSettings.durationPerSlot,
+                        selectedUserSettings.fridayAmIsEnable, InitialSettings.fridayAmStartTime, InitialSettings.fridayAmEndTime, selectedUserSettings.fridayAmStartTime, selectedUserSettings.fridayAmEndTime, selectedUserSettings.fridayAmAppointmentType,
+                        selectedUserSettings.fridayPmIsEnable, InitialSettings.fridayPmStartTime, InitialSettings.fridayPmEndTime, selectedUserSettings.fridayPmStartTime, selectedUserSettings.fridayPmEndTime, selectedUserSettings.fridayPmAppointmentType,
                         onSwitchChange, onListBoxChange, onAppointmentTypeChange
                     )}
-                    {renderEachDayWorkingHourItem(isEdit, WeekDay.Saturday, mySettings.durationPerSlot,
-                        selectedUserSettings.saturdayAmIsEnable, mySettings.saturdayAmStartTime, mySettings.saturdayAmEndTime, selectedUserSettings.saturdayAmStartTime, selectedUserSettings.fridayAmStartTime, selectedUserSettings.saturdayAmAppointmentType,
-                        selectedUserSettings.saturdayPmIsEnable, mySettings.saturdayPmStartTime, mySettings.saturdayPmEndTime, selectedUserSettings.saturdayPmStartTime, selectedUserSettings.saturdayPmEndTime, selectedUserSettings.saturdayPmAppointmentType,
+                    {renderEachDayWorkingHourItem(isEdit, WeekDay.Saturday, InitialSettings.durationPerSlot,
+                        selectedUserSettings.saturdayAmIsEnable, InitialSettings.saturdayAmStartTime, InitialSettings.saturdayAmEndTime, selectedUserSettings.saturdayAmStartTime, selectedUserSettings.fridayAmStartTime, selectedUserSettings.saturdayAmAppointmentType,
+                        selectedUserSettings.saturdayPmIsEnable, InitialSettings.saturdayPmStartTime, InitialSettings.saturdayPmEndTime, selectedUserSettings.saturdayPmStartTime, selectedUserSettings.saturdayPmEndTime, selectedUserSettings.saturdayPmAppointmentType,
                         onSwitchChange, onListBoxChange, onAppointmentTypeChange
                     )}
                     </tbody>
                 </table>
             </div>
+
+            <div className={'ml-4 flex flex-row items-center justify-end mt-6 border-t pt-4'}>
+                {isEdit ? renderSaveButtons() : renderEditButton()}
+            </div>
+
         </div>
     )
 }

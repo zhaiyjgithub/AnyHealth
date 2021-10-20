@@ -1,8 +1,9 @@
 
-const ApiDoctor = {
+export const ApiDoctor = {
 	SearchDoctor: 'Doctor/SearchDoctor'
 }
 
-export {
-	ApiDoctor
+export const ApiSchedule = {
+	SetScheduleSettings: "Schedule/SetScheduleSettings",
+	GetScheduleSettings: "Schedule/GetScheduleSettings"
 }
