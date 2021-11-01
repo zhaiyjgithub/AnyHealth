@@ -1,7 +1,7 @@
 import SettingsHeader from "./SettingsHeader";
-import ScheduleSettings from "./ScheduleSettings";
+import ScheduleSettings from "./schedule/ScheduleSettings";
 import {useState} from "react";
-import ClosedDateSettings from "./ClosedDateSettings";
+import ClosedDateSettings from "./closedDate/ClosedDateSettings";
 
 const PageType = {
     workingHour: 0,
@@ -10,7 +10,6 @@ const PageType = {
 
 export default function Settings() {
     const [page, setPage] = useState(PageType.workingHour)
-    const [isEditWorkingHour, setIsEditWorkingHour] = useState(false)
     const [isEditClosedDate, setIsEditClosedDate] = useState(false)
 
     const onCloseModal = () => {

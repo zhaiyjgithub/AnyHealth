@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Switch} from '@headlessui/react'
 import DateTimeListBox from "./DateTimeListBox";
-import {APM, AppointmentType, WeekDay} from "../../../utils/constant/Enum";
+import {APM, AppointmentType, WeekDay} from "../../../../utils/constant/Enum";
 import AppointmentTypeListBox from "./AppointmentTypeListBox";
 import {
     calcDropdownListDataSource,

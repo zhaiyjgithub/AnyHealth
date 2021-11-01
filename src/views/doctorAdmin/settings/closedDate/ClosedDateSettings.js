@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import ClosedDateEditModal from "./ClosedDateEditModal";
-import CustomModal, {CustomModalAction} from "../../../components/modal/CustomModal";
+import CustomModal, {CustomModalAction} from "../../../../components/modal/CustomModal";
 
 export default function ClosedDateSettings({isOpenModal, onCloseModal}) {
     const [settingsList, setSettingsList] = useState([])
