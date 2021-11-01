@@ -1,11 +1,22 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import ClosedDateEditModal from "./ClosedDateEditModal";
 import CustomModal, {CustomModalAction} from "../../../../components/modal/CustomModal";
+import {getClosedDateSettings} from "./ClosedDateService";
 
 export default function ClosedDateSettings({isOpenModal, onCloseModal}) {
     const [settingsList, setSettingsList] = useState([])
     const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
     const [selectedDeleteIndex, setSelectedDeleteIndex] = useState(-1)
+
+    let npi = 1902809254
+
+    useEffect(() => {
+        getClosedDateSettings(npi, (data) => {
+            console.log("getClosedDateSettings: ", data)
+        }, () => {
+
+        })
+    }, [])
 
     const onCloseDeleteModal = () => {
         setIsShowDeleteModal(false)

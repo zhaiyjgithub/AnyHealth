@@ -5,5 +5,8 @@ export const ApiDoctor = {
 
 export const ApiSchedule = {
 	SetScheduleSettings: "Schedule/SetScheduleSettings",
-	GetScheduleSettings: "Schedule/GetScheduleSettings"
+	GetScheduleSettings: "Schedule/GetScheduleSettings",
+	AddClosedDateSettings: "Schedule/AddClosedDateSettings",
+	DeleteClosedDateSettings: "Schedule/DeleteClosedDateSettings",
+	GetClosedDateSettings: "Schedule/GetClosedDateSettings",
 }
