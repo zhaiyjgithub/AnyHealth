@@ -110,12 +110,6 @@ export default function ClosedDateEditModal({isOpen, closeModal, onConfirm}) {
                                 >
                                     Add new closed date
                                 </Dialog.Title>
-                                {/*<div className="mt-2">*/}
-                                {/*    <p className="text-sm text-gray-500">*/}
-                                {/*        Your payment has been successfully submitted. We’ve sent you*/}
-                                {/*        an email with all of the details of your order.*/}
-                                {/*    </p>*/}
-                                {/*</div>*/}
                                 <div className={'w-full mt-4'}>
                                     <div className={'w-full px-0 flex flex-row items-center justify-between'}>
                                         <input value={closedDateSettings.startDate} onChange={(e) => {
@@ -124,12 +118,11 @@ export default function ClosedDateEditModal({isOpen, closeModal, onConfirm}) {
                                             }else {
                                                 setClosedDateSettings({...closedDateSettings, startDate: e.target.value})
                                             }
-
-                                        }} type={'date'} placeholder={'Start-Date'} className={'h-10 w-full border border-gray-200 rounded px-2 text-left'}/>
-                                        <p className={'flex-none text-sm mx-2 text-base-black'}>to</p>
+                                        }} type={'date'} placeholder={'Start-Date'} className={'h-10 w-full border border-gray-200 rounded px-2 text-left bg-gray-200'}/>
+                                        <p className={'flex-none font-semibold text-sm mx-2 text-base-black'}>to</p>
                                         <input onChange={(e) => {
                                             setClosedDateSettings({...closedDateSettings, endDate: e.target.value})
-                                        }} min={closedDateSettings.startDate} value={closedDateSettings.endDate} type={'date'} placeholder={'End-Date'} className={'h-10 w-full border border-gray-200 rounded px-2 text-left'}/>
+                                        }} min={closedDateSettings.startDate} value={closedDateSettings.endDate} type={'date'} placeholder={'End-Date'} className={'h-10 w-full border border-gray-200 rounded px-2 text-left bg-gray-200'}/>
                                     </div>
                                     <div className={'w-full mt-2 flex flex-row items-center justify-between'}>
                                         <div>

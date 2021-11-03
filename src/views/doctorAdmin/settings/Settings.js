@@ -32,7 +32,7 @@ export default function Settings() {
                     <p className={`font-mono text-base text-base-black ${page === PageType.closedDate ? 'font-semibold' : 'font-base'}`}>{'Closed Date'}</p>
                 </button>
             </div>
-            {page === PageType.workingHour ? <ScheduleSettings /> : <ClosedDateSettings isOpenModal={isEditClosedDate} onCloseModal={onCloseModal}/>}
+            {page === PageType.workingHour ? <ScheduleSettings /> : <ClosedDateSettings />}
         </div>
     )
 }

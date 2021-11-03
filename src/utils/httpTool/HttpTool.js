@@ -83,7 +83,7 @@ export const HTTP = {
 
 export const Request = (api, param, success, fail) => {
 	HTTP.post(api, param).then((response) => {
-		// console.log(JSON.stringify(response))
+		console.log((response))
 		if (response.code === ResponseCode.OK) {
 			success && success(response.data, response.msg)
 		}else {

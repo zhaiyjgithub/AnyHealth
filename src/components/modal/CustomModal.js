@@ -8,9 +8,10 @@ export const CustomModalAction = {
 }
 
 export default function CustomModal({title, description, buttons, isOpen, closeModal}) {
-    const renderCancelButton = (title, action) => {
+    const renderCancelButton = (title, action, idx) => {
         return (
             <button
+                key={idx}
                 type="button"
                 className="ml-4 inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-600 bg-gray-200 border border-transparent rounded-md hover:bg-gray-300 focus:outline-none"
                 onClick={action}
@@ -20,9 +21,10 @@ export default function CustomModal({title, description, buttons, isOpen, closeM
         )
     }
 
-    const renderNormalButton = (title, action) => {
+    const renderNormalButton = (title, action, idx) => {
         return (
             <button
+                key={idx}
                 type="button"
                 className="ml-4 inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-600 bg-gray-200 border border-transparent rounded-md hover:bg-gray-300 focus:outline-none"
                 onClick={action}
@@ -32,9 +34,10 @@ export default function CustomModal({title, description, buttons, isOpen, closeM
         )
     }
 
-    const renderDangerButton = (title, action) => {
+    const renderDangerButton = (title, action, idx) => {
         return (
             <button
+                key={idx}
                 type="button"
                 className="ml-4 inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-500 border border-transparent rounded-md hover:bg-red-600 focus:outline-none"
                 onClick={action}
@@ -94,13 +97,13 @@ export default function CustomModal({title, description, buttons, isOpen, closeM
                                 </div>
 
                                 <div className="mt-4 flex flex-row items-center justify-end">
-                                    {buttons.map(({type, title, action}) => {
+                                    {buttons.map(({type, title, action}, idx) => {
                                         if (type === CustomModalAction.Cancel) {
-                                            return renderCancelButton(title, action)
+                                            return renderCancelButton(title, action, idx)
                                         }else if (type === CustomModalAction.Normal) {
-                                            return renderNormalButton(title, action)
+                                            return renderNormalButton(title, action, idx)
                                         }else if (type === CustomModalAction.Danger) {
-                                            return renderDangerButton(title, action)
+                                            return renderDangerButton(title, action, idx)
                                         }
                                     })}
                                 </div>

@@ -1,18 +1,19 @@
 import React, {useEffect, useState} from "react";
 import ClosedDateEditModal from "./ClosedDateEditModal";
 import CustomModal, {CustomModalAction} from "../../../../components/modal/CustomModal";
-import {getClosedDateSettings} from "./ClosedDateService";
+import {addClosedDateSettings, deleteClosedDateSettingsByID, getClosedDateSettings} from "./ClosedDateService";
 
-export default function ClosedDateSettings({isOpenModal, onCloseModal}) {
+export default function ClosedDateSettings({onCloseModal}) {
     const [settingsList, setSettingsList] = useState([])
     const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
     const [selectedDeleteIndex, setSelectedDeleteIndex] = useState(-1)
+    const [isOpenModal, setIsOpenModal] = useState(false)
 
     let npi = 1902809254
 
     useEffect(() => {
         getClosedDateSettings(npi, (data) => {
-            console.log("getClosedDateSettings: ", data)
+            setSettingsList(data)
         }, () => {
 
         })
@@ -27,49 +28,65 @@ export default function ClosedDateSettings({isOpenModal, onCloseModal}) {
         setIsShowDeleteModal(true)
     }
 
+    const openModal = () => {
+        setIsOpenModal(true)
+    }
+
     const closeModal = () => {
-        onCloseModal && onCloseModal(false)
+        setIsOpenModal(false)
     }
 
     const onConfirm = (closedDateSettings) => {
-        onCloseModal && onCloseModal(false)
+        closeModal()
         if (closedDateSettings) {
-            setSettingsList([].concat(settingsList).concat([closedDateSettings]))
+            addClosedDateSettings(npi, closedDateSettings, () => {
+                setSettingsList([].concat(settingsList).concat([closedDateSettings]))
+            })
         }
     }
 
     const onDelete = () => {
-        const list = settingsList.filter((item, idx) => {
-            return idx !== selectedDeleteIndex
-        })
-        setSettingsList(list)
         onCloseDeleteModal()
+        const sid = settingsList[selectedDeleteIndex].sid
+        deleteClosedDateSettingsByID(npi, sid, () => {
+            const list = settingsList.filter((item, idx) => {
+                return idx !== selectedDeleteIndex
+            })
+            setSettingsList(list)
+        }, () => {
+
+        })
+
+    }
+
+    const formatDisplayDate = (dateString) => {
+        return dateString.length ? dateString : '--'
     }
 
     const renderEachDate = (settings, idx) => {
         return <tr className={'border-b'}>
             <td>
-               <div className={'flex flex-row items-center justify-center my-5 ml-4'}>
+               <div className={'flex flex-row items-center justify-center my-4 ml-4'}>
                    <i className="fas fa-user-clock"></i>
                </div>
             </td>
             <td>
-               <div className={'flex flex-row items-center justify-center my-5'}>
+               <div className={'flex flex-row items-center justify-center my-4'}>
                    <p className={'text-sm font-semibold text-base-black'}>{settings.startDate}{' to '}{settings.endDate}</p>
                </div>
             </td>
             <td>
-               <div className={'flex flex-row items-center justify-center px-8 my-5'}>
-                   <p className={'text-sm font-semibold text-base-black'}>{settings.amStartTime}{' to '}{settings.amEndTime}</p>
+               <div className={'flex flex-row items-center justify-center px-8 my-4'}>
+                   <p className={'text-sm font-semibold text-base-black'}>{formatDisplayDate(settings.amStartTime)}{' to '}{formatDisplayDate(settings.amEndTime)}</p>
                </div>
             </td>
             <td>
-                <div className={'flex flex-row items-center justify-center my-5'}>
-                    <p className={'text-sm font-semibold text-base-black'}>{settings.pmStartTime}{' to '}{settings.pmEndTime}</p>
+                <div className={'flex flex-row items-center justify-center my-4'}>
+                    <p className={'text-sm font-semibold text-base-black'}>{formatDisplayDate(settings.pmStartTime)}{' to '}{formatDisplayDate(settings.pmEndTime)}</p>
                 </div>
             </td>
             <td>
-                <div className={'flex flex-row items-center justify-center my-5 mr-4'}>
+                <div className={'flex flex-row items-center justify-center my-4 mr-4'}>
                     <button onClick={() => {
                         onShowDeleteModal(idx)
                     }} type={'button'} className={'px-4 py-2 hover:bg-gray-200'}>
@@ -79,6 +96,8 @@ export default function ClosedDateSettings({isOpenModal, onCloseModal}) {
             </td>
         </tr>
     }
+
+
     return (
         <div className={'mt-8'}>
             <table className={`w-full ${!settingsList.length ? 'hidden' : ''}`}>
@@ -104,11 +123,15 @@ export default function ClosedDateSettings({isOpenModal, onCloseModal}) {
                 </tbody>
             </table>
 
+            <button onClick={openModal} type={'button'} className={'shadow-xl bg-primary fixed right-8 bottom-8 w-14 h-14 rounded-full flex flex-row items-center justify-center hover:bg-primary-focus'}>
+                <i className="fas fa-plus text-white"></i>
+            </button>
+
             <ClosedDateEditModal isOpen={isOpenModal} closeModal={closeModal} onConfirm={onConfirm}/>
             <CustomModal buttons={[
                 {type: CustomModalAction.Cancel, title: 'Cancel', action: onCloseDeleteModal},
                 {type: CustomModalAction.Danger, title: 'Delete', action: onDelete},
-            ]} isOpen={isShowDeleteModal} title={'Delete closed date'} description={'Are you sure to delete closed date?'} closeModal={onCloseDeleteModal} />
+            ]} isOpen={isShowDeleteModal} title={'Delete closed date'} description={'Are you sure to delete this closed date?'} closeModal={onCloseDeleteModal} />
         </div>
     )
 }
