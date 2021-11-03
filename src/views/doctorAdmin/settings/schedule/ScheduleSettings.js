@@ -9,7 +9,7 @@ import {
     getNextEndTimeRange,
     getScheduleSettings,
     InitialSettings, updateScheduleSettings
-} from "./SettingsService";
+} from "./ScheduleSettingsService";
 
 export default function ScheduleSettings({}) {
     const [isEdit, setIsEdit] = useState(false)
