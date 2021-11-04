@@ -170,7 +170,7 @@ export default function ScheduleSettings({}) {
     }
 
     const onListBoxChange = (weekday, apm, dateTimePoint, value) => {
-        console.log(weekday, apm, dateTimePoint, value)
+        console.log('onListBoxChange: ', weekday, apm, dateTimePoint, value)
         if (weekday === WeekDay.Sunday) {
             if (apm === APM.AM) {
                 if (dateTimePoint === DateTimePoint.StartTime) {
@@ -417,7 +417,7 @@ export default function ScheduleSettings({}) {
                         onSwitchChange, onListBoxChange, onAppointmentTypeChange
                     )}
                     {renderEachDayWorkingHourItem(isEdit, WeekDay.Saturday, InitialSettings.durationPerSlot,
-                        selectedUserSettings.saturdayAmIsEnable, InitialSettings.saturdayAmStartTime, InitialSettings.saturdayAmEndTime, selectedUserSettings.saturdayAmStartTime, selectedUserSettings.fridayAmStartTime, selectedUserSettings.saturdayAmAppointmentType,
+                        selectedUserSettings.saturdayAmIsEnable, InitialSettings.saturdayAmStartTime, InitialSettings.saturdayAmEndTime, selectedUserSettings.saturdayAmStartTime, selectedUserSettings.saturdayAmEndTime, selectedUserSettings.saturdayAmAppointmentType,
                         selectedUserSettings.saturdayPmIsEnable, InitialSettings.saturdayPmStartTime, InitialSettings.saturdayPmEndTime, selectedUserSettings.saturdayPmStartTime, selectedUserSettings.saturdayPmEndTime, selectedUserSettings.saturdayPmAppointmentType,
                         onSwitchChange, onListBoxChange, onAppointmentTypeChange
                     )}

@@ -2,6 +2,7 @@ import moment from "moment";
 import {TimeFormat} from "../../../../utils/constant/Enum";
 import {Request} from "../../../../utils/httpTool/HttpTool";
 import {ApiSchedule} from "../../../../utils/httpTool/Api";
+import {convertHHmmStringToHHmm} from "../../../../utils/util/dateParse";
 
 export const DateTimePoint = {
     StartTime: 0,
@@ -54,44 +55,117 @@ export const getScheduleSettings = (npi, success, fail) => {
 }
 
 export const updateScheduleSettings = (settings, success, fail) => {
-    const param = convertDateTimeToMinutesOffsetWithSettings(settings)
-    Request(ApiSchedule.SetScheduleSettings, param, (data) => {
-        success && success()
-    }, () => {
-        fail && fail()
-    })
+    const nSettings = convertWeekDayStartDateTimeToUTCDateTime(settings)
+    const param = convertDateTimeToMinutesOffsetWithSettings(nSettings)
+    console.log(param)
+    // Request(ApiSchedule.SetScheduleSettings, param, (data) => {
+    //     success && success()
+    // }, () => {
+    //     fail && fail()
+    // })
+}
+
+const convertHHmmToUTCHHmm = (hhmm, isAM) => {
+    const {hour, min} = convertHHmmStringToHHmm(hhmm)
+    const d = (new Date(2000, 0, 1, isAM ? hour : hour + 12, min, 0, 0))
+    const utcHour = d.getUTCHours()
+    const utcMin = d.getUTCMinutes()
+    return `${utcHour < 10 ? '0' : ''}${utcHour}` + ':' + `${utcMin < 10 ? '0' : ''}${utcMin}`
+}
+
+const convertWeekDayStartDateTimeToUTCDateTime = (settings) => {
+    return {
+        ...settings,
+        //start time
+        mondayAmStartTime: convertHHmmToUTCHHmm(settings.mondayAmStartTime, true),
+        mondayPmStartTime: convertHHmmToUTCHHmm(settings.mondayPmStartTime, false),
+
+        tuesdayAmStartTime: convertHHmmToUTCHHmm(settings.tuesdayAmStartTime, true),
+        tuesdayPmStartTime: convertHHmmToUTCHHmm(settings.tuesdayPmStartTime, false),
+
+        wednesdayAmStartTime: convertHHmmToUTCHHmm(settings.wednesdayAmStartTime, true),
+        wednesdayPmStartTime: convertHHmmToUTCHHmm(settings.wednesdayPmStartTime, false),
+
+        thursdayAmStartTime: convertHHmmToUTCHHmm(settings.thursdayAmStartTime, true),
+        thursdayPmStartTime: convertHHmmToUTCHHmm(settings.thursdayPmStartTime, false),
+
+        fridayAmStartTime: convertHHmmToUTCHHmm(settings.fridayAmStartTime, true),
+        fridayPmStartTime: convertHHmmToUTCHHmm(settings.fridayPmStartTime, false),
+
+        saturdayAmStartTime: convertHHmmToUTCHHmm(settings.saturdayAmStartTime, true),
+        saturdayPmStartTime: convertHHmmToUTCHHmm(settings.saturdayPmStartTime, false),
+
+        sundayAmStartTime: convertHHmmToUTCHHmm(settings.sundayAmStartTime, true),
+        sundayPmStartTime: convertHHmmToUTCHHmm(settings.sundayPmStartTime, false),
+
+        //end time
+        mondayAmEndTime: convertHHmmToUTCHHmm(settings.mondayAmEndTime, true),
+        mondayPmEndTime: convertHHmmToUTCHHmm(settings.mondayPmEndTime, false),
+
+        tuesdayAmEndTime: convertHHmmToUTCHHmm(settings.tuesdayAmEndTime, true),
+        tuesdayPmEndTime: convertHHmmToUTCHHmm(settings.tuesdayPmEndTime, false),
+
+        wednesdayAmEndTime: convertHHmmToUTCHHmm(settings.wednesdayAmEndTime, true),
+        wednesdayPmEndTime: convertHHmmToUTCHHmm(settings.wednesdayPmEndTime, false),
+
+        thursdayAmEndTime: convertHHmmToUTCHHmm(settings.thursdayAmEndTime, true),
+        thursdayPmEndTime: convertHHmmToUTCHHmm(settings.thursdayPmEndTime, false),
+
+        fridayAmEndTime: convertHHmmToUTCHHmm(settings.fridayAmEndTime, true),
+        fridayPmEndTime: convertHHmmToUTCHHmm(settings.fridayPmEndTime, false),
+
+        saturdayAmEndTime: convertHHmmToUTCHHmm(settings.saturdayAmEndTime, true),
+        saturdayPmEndTime: convertHHmmToUTCHHmm(settings.saturdayPmEndTime, false),
+
+        sundayAmEndTime: convertHHmmToUTCHHmm(settings.sundayAmEndTime, true),
+        sundayPmEndTime: convertHHmmToUTCHHmm(settings.sundayPmEndTime, false),
+    }
+}
+
+const calcEndTimeOffset = (endTime, startTime) => {
+    return reverseDateTimeStringToMinutes(endTime) - reverseDateTimeStringToMinutes(startTime)
 }
 
 export const convertDateTimeToMinutesOffsetWithSettings = (settings) => {
     return {
         ...settings,
-        mondayAmEndTimeOffset: reverseDateTimeStringToMinutes(settings.mondayAmEndTime),
-        mondayPmEndTimeOffset: reverseDateTimeStringToMinutes(settings.mondayPmEndTime),
+        mondayAmEndTimeOffset: calcEndTimeOffset(settings.mondayAmEndTime, settings.mondayAmStartTime),
+        mondayPmEndTimeOffset: calcEndTimeOffset(settings.mondayPmEndTime, settings.mondayPmStartTime),
 
-        tuesdayAmEndTimeOffset: reverseDateTimeStringToMinutes(settings.tuesdayAmEndTime),
-        tuesdayPmEndTimeOffset: reverseDateTimeStringToMinutes(settings.tuesdayPmEndTime),
+        tuesdayAmEndTimeOffset: calcEndTimeOffset(settings.tuesdayAmEndTime, settings.tuesdayAmStartTime),
+        tuesdayPmEndTimeOffset: calcEndTimeOffset(settings.tuesdayPmEndTime, settings.tuesdayPmStartTime),
 
-        wednesdayAmEndTimeOffset: reverseDateTimeStringToMinutes(settings.wednesdayAmEndTime),
-        wednesdayPmEndTimeOffset: reverseDateTimeStringToMinutes(settings.wednesdayPmEndTime),
+        wednesdayAmEndTimeOffset: calcEndTimeOffset(settings.wednesdayAmEndTime, settings.wednesdayAmStartTime),
+        wednesdayPmEndTimeOffset: calcEndTimeOffset(settings.wednesdayPmEndTime, settings.wednesdayPmStartTime),
 
-        thursdayAmEndTimeOffset: reverseDateTimeStringToMinutes(settings.thursdayAmEndTime),
-        thursdayPmEndTimeOffset: reverseDateTimeStringToMinutes(settings.thursdayPmEndTime),
+        thursdayAmEndTimeOffset: calcEndTimeOffset(settings.thursdayAmEndTime, settings.thursdayAmStartTime),
+        thursdayPmEndTimeOffset: calcEndTimeOffset(settings.thursdayPmEndTime, settings.thursdayPmStartTime),
 
-        fridayAmEndTimeOffset: reverseDateTimeStringToMinutes(settings.fridayAmEndTime),
-        fridayPmEndTimeOffset: reverseDateTimeStringToMinutes(settings.fridayPmEndTime),
+        fridayAmEndTimeOffset: calcEndTimeOffset(settings.fridayAmEndTime, settings.fridayAmStartTime),
+        fridayPmEndTimeOffset: calcEndTimeOffset(settings.fridayPmEndTime, settings.fridayPmStartTime),
 
-        saturdayAmEndTimeOffset: reverseDateTimeStringToMinutes(settings.saturdayAmEndTime),
-        saturdayPmEndTimeOffset: reverseDateTimeStringToMinutes(settings.saturdayPmEndTime),
+        saturdayAmEndTimeOffset: calcEndTimeOffset(settings.saturdayAmEndTime, settings.saturdayAmStartTime),
+        saturdayPmEndTimeOffset: calcEndTimeOffset(settings.saturdayPmEndTime, settings.saturdayPmStartTime),
 
-        sundayAmEndTimeOffset: reverseDateTimeStringToMinutes(settings.sundayAmEndTime),
-        sundayPmEndTimeOffset: reverseDateTimeStringToMinutes(settings.sundayPmEndTime),
+        sundayAmEndTimeOffset: calcEndTimeOffset(settings.sundayAmEndTime, settings.sundayAmStartTime),
+        sundayPmEndTimeOffset: calcEndTimeOffset(settings.sundayPmEndTime, settings.sundayPmStartTime),
     }
+}
+
+export const reverseEndTimeOffsetWithEndTime = (startTime, offset, isAM) => {
+    const {hour, min} = convertHHmmStringToHHmm(startTime)
+    const minutes = hour*60 + min
+    // const d = (new Date(2000, 0, 1, isAM ? hour : hour + 12, min, 0, 0))
+    const mutc = moment.utc([2000, 1, 1, isAM ? hour : hour + 12, min]).add(offset, "minute")
+    const utcHour = mutc.hours()
+    const utcMin = mutc.minutes()
+    return `${utcHour < 10 ? '0' : ''}${utcHour}` + ':' + `${utcMin < 10 ? '0' : ''}${utcMin}`
 }
 
 export const reverseMinutesOffsetToDateTimeStringWithSettings = (settings) => {
     return {
         ...settings,
-        mondayAmEndTime: reverseDateTimeStringToMinutes(settings.mondayAmEndTimeOffset),
+        mondayAmEndTime: reverseDateTimeStringToMinutes(settings.mondayAmEndTimeOffset), // 根据startTime + offset
         mondayPmEndTime: reverseDateTimeStringToMinutes(settings.mondayPmEndTimeOffset),
 
         tuesdayAmEndTime: reverseDateTimeStringToMinutes(settings.tuesdayAmEndTimeOffset),
