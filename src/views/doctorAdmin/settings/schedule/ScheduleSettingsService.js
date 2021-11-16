@@ -42,7 +42,8 @@ export const getNextEndTimeRange = (startTime, dateTimeDataSource) => {
 
 //about update settings
 export const updateScheduleSettings = (settings, success, fail) => {
-    const utcSettings = convertLocalStartDateTimeToUTCStartDateTimeOffset(settings)
+    const dateTime24HSettings = convertLocalPmTime12HTo24H(settings)
+    const utcSettings = convertLocalStartDateTimeToUTCStartDateTimeOffset(dateTime24HSettings)
     const param = convertDateTimeToDateTimeOffset(utcSettings)
     console.log(param)
     // Request(ApiSchedule.SetScheduleSettings, param, (data) => {
@@ -52,24 +53,50 @@ export const updateScheduleSettings = (settings, success, fail) => {
     // })
 }
 
-export const convertLocalStartDateTimeToUTCStartDateTimeOffset = (settings) => {
-    const localDateTimeToUTCDateTimeOffset = (hhmm) => {
-        const {hour, min} = convertHHmmStringToHHmm(hhmm)
-        const d = (new Date(2000, 0, 1, hour, min, 0, 0))
-        const utcHour = d.getUTCHours()
-        const utcMin = d.getUTCMinutes()
-        return (utcHour*60 + utcMin)
-    }
+const localDateTimeToUTCDateTimeOffset = (hhmm) => {
+    const {hour, min} = convertHHmmStringToHHmm(hhmm)
+    const d = (new Date(2000, 0, 1, hour, min, 0, 0))
+    const utcHour = d.getUTCHours()
+    const utcMin = d.getUTCMinutes()
+    return (utcHour*60 + utcMin)
+}
 
+const dateTime12HTo24H = (dateTime12H) => {
+    const {hour, min} = convertHHmmStringToHHmm(dateTime12H)
+    return `${hour + 12}:${(min < 10 ? '0' + min : min)}`
+}
+
+export const convertLocalPmTime12HTo24H = (settings) => {
     return {
         ...settings,
-        mondayAmStartTimeOffset: localDateTimeToUTCDateTimeOffset(settings.mondayAmStartTime, true),
-        tuesdayAmStartTimeOffset: localDateTimeToUTCDateTimeOffset(settings.tuesdayAmStartTime, true),
-        wednesdayAmStartTimeOffset: localDateTimeToUTCDateTimeOffset(settings.wednesdayAmStartTime, true),
-        thursdayAmStartTimeOffset: localDateTimeToUTCDateTimeOffset(settings.thursdayAmStartTime, true),
-        fridayAmStartTimeOffset: localDateTimeToUTCDateTimeOffset(settings.fridayAmStartTime, true),
-        saturdayAmStartTimeOffset: localDateTimeToUTCDateTimeOffset(settings.saturdayAmStartTime, true),
-        sundayAmStartTimeOffset: localDateTimeToUTCDateTimeOffset(settings.sundayAmStartTime, true),
+        mondayPmStartTime: dateTime12HTo24H(settings.mondayPmStartTime),
+        tuesdayPmStartTime: dateTime12HTo24H(settings.tuesdayPmStartTime),
+        wednesdayPmStartTime: dateTime12HTo24H(settings.wednesdayPmStartTime),
+        thursdayPmStartTime: dateTime12HTo24H(settings.thursdayPmStartTime),
+        fridayPmStartTime: dateTime12HTo24H(settings.fridayPmStartTime),
+        saturdayPmStartTime: dateTime12HTo24H(settings.saturdayPmStartTime),
+        sundayPmStartTime: dateTime12HTo24H(settings.sundayPmStartTime),
+
+        mondayPmEndTime: dateTime12HTo24H(settings.mondayPmEndTime),
+        tuesdayPmEndTime: dateTime12HTo24H(settings.tuesdayPmEndTime),
+        wednesdayPmEndTime: dateTime12HTo24H(settings.wednesdayPmEndTime),
+        thursdayPmEndTime: dateTime12HTo24H(settings.thursdayPmEndTime),
+        fridayPmEndTime: dateTime12HTo24H(settings.fridayPmEndTime),
+        saturdayPmEndTime: dateTime12HTo24H(settings.saturdayPmEndTime),
+        sundayPmEndTime: dateTime12HTo24H(settings.sundayPmEndTime),
+    }
+}
+
+export const convertLocalStartDateTimeToUTCStartDateTimeOffset = (settings) => {
+    return {
+        ...settings,
+        mondayAmStartTimeOffset: localDateTimeToUTCDateTimeOffset(settings.mondayAmStartTime),
+        tuesdayAmStartTimeOffset: localDateTimeToUTCDateTimeOffset(settings.tuesdayAmStartTime),
+        wednesdayAmStartTimeOffset: localDateTimeToUTCDateTimeOffset(settings.wednesdayAmStartTime),
+        thursdayAmStartTimeOffset: localDateTimeToUTCDateTimeOffset(settings.thursdayAmStartTime),
+        fridayAmStartTimeOffset: localDateTimeToUTCDateTimeOffset(settings.fridayAmStartTime),
+        saturdayAmStartTimeOffset: localDateTimeToUTCDateTimeOffset(settings.saturdayAmStartTime),
+        sundayAmStartTimeOffset: localDateTimeToUTCDateTimeOffset(settings.sundayAmStartTime),
     }
 }
 
@@ -78,6 +105,7 @@ export const convertDateTimeStringToMinutes = (dateTime) => {
 }
 
 const calcDateTimeOffset = (endTime, startTime) => {
+    console.log(endTime, startTime)
     return convertDateTimeStringToMinutes(endTime) - convertDateTimeStringToMinutes(startTime)
 }
 
@@ -151,9 +179,10 @@ export const convertUTCStartDateOffsetToLocalStartDateOffset = (settings) => {
 
 export const convertUTCDateTimeOffsetToLocalDateTime = (settings) => {
     const minutesToDateTime = (minutes) => {
-        const hour = parseInt((minutes/60) + '')
+        let hour = parseInt((minutes/60) + '')
+        hour = hour > 12 ? hour - 12 : hour
         const min = parseInt((minutes%60) + '')
-        return ((hour > 12 ? hour - 12 : hour) < 10 ? '0' + hour : hour) + ':' +  (min < 10 ? '0' + min : min)
+        return (hour < 10 ? '0' + hour : hour) + ':' +  (min < 10 ? '0' + min : min)
     }
     return {
         ...settings,
@@ -161,37 +190,37 @@ export const convertUTCDateTimeOffsetToLocalDateTime = (settings) => {
         mondayAmStartTime: minutesToDateTime(settings.mondayAmStartTimeOffset),
         mondayAmEndTime: minutesToDateTime(settings.mondayAmStartTimeOffset + settings.mondayAmEndTimeOffset),
         mondayPmStartTime: minutesToDateTime(settings.mondayPmStartTimeOffset + settings.mondayAmStartTimeOffset),
-        mondayPmEndTime: minutesToDateTime(settings.mondayPmStartTimeOffset + settings.mondayPmEndTimeOffset),
+        mondayPmEndTime: minutesToDateTime(settings.mondayAmStartTimeOffset + settings.mondayPmStartTimeOffset + settings.mondayPmEndTimeOffset),
 
         tuesdayAmStartTime: minutesToDateTime(settings.tuesdayAmStartTimeOffset),
         tuesdayAmEndTime: minutesToDateTime(settings.tuesdayAmStartTimeOffset + settings.tuesdayAmEndTimeOffset),
         tuesdayPmStartTime: minutesToDateTime(settings.tuesdayPmStartTimeOffset + settings.tuesdayAmStartTimeOffset),
-        tuesdayPmEndTime: minutesToDateTime(settings.tuesdayPmStartTimeOffset + settings.tuesdayPmEndTimeOffset),
+        tuesdayPmEndTime: minutesToDateTime(settings.tuesdayAmStartTimeOffset + settings.tuesdayPmStartTimeOffset + settings.tuesdayPmEndTimeOffset),
 
         wednesdayAmStartTime: minutesToDateTime(settings.wednesdayAmStartTimeOffset),
         wednesdayAmEndTime: minutesToDateTime(settings.wednesdayAmStartTimeOffset + settings.wednesdayAmEndTimeOffset),
         wednesdayPmStartTime: minutesToDateTime(settings.wednesdayPmStartTimeOffset + settings.wednesdayAmStartTimeOffset),
-        wednesdayPmEndTime: minutesToDateTime(settings.wednesdayPmStartTimeOffset + settings.wednesdayPmEndTimeOffset),
+        wednesdayPmEndTime: minutesToDateTime(settings.wednesdayAmStartTimeOffset + settings.wednesdayPmStartTimeOffset + settings.wednesdayPmEndTimeOffset),
 
         thursdayAmStartTime: minutesToDateTime(settings.thursdayAmStartTimeOffset),
         thursdayAmEndTime: minutesToDateTime(settings.thursdayAmStartTimeOffset + settings.thursdayAmEndTimeOffset),
         thursdayPmStartTime: minutesToDateTime(settings.thursdayPmStartTimeOffset + settings.thursdayAmStartTimeOffset),
-        thursdayPmEndTime: minutesToDateTime(settings.thursdayPmStartTimeOffset + settings.thursdayPmEndTimeOffset),
+        thursdayPmEndTime: minutesToDateTime(settings.thursdayAmStartTimeOffset + settings.thursdayPmStartTimeOffset + settings.thursdayPmEndTimeOffset),
 
         fridayAmStartTime: minutesToDateTime(settings.fridayAmStartTimeOffset),
         fridayAmEndTime: minutesToDateTime(settings.fridayAmStartTimeOffset + settings.fridayAmEndTimeOffset),
         fridayPmStartTime: minutesToDateTime(settings.fridayPmStartTimeOffset + settings.fridayAmStartTimeOffset),
-        fridayPmEndTime: minutesToDateTime(settings.fridayPmStartTimeOffset + settings.fridayPmEndTimeOffset),
+        fridayPmEndTime: minutesToDateTime(settings.fridayAmStartTimeOffset + settings.fridayPmStartTimeOffset + settings.fridayPmEndTimeOffset),
 
         saturdayAmStartTime: minutesToDateTime(settings.saturdayAmStartTimeOffset),
         saturdayAmEndTime: minutesToDateTime(settings.saturdayAmStartTimeOffset + settings.saturdayAmEndTimeOffset),
         saturdayPmStartTime: minutesToDateTime(settings.saturdayPmStartTimeOffset + settings.saturdayAmStartTimeOffset),
-        saturdayPmEndTime: minutesToDateTime(settings.saturdayPmStartTimeOffset + settings.saturdayPmEndTimeOffset),
+        saturdayPmEndTime: minutesToDateTime(settings.saturdayAmStartTimeOffset + settings.saturdayPmStartTimeOffset + settings.saturdayPmEndTimeOffset),
 
         sundayAmStartTime: minutesToDateTime(settings.sundayAmStartTimeOffset),
         sundayAmEndTime: minutesToDateTime(settings.sundayAmStartTimeOffset + settings.sundayAmEndTimeOffset),
         sundayPmStartTime: minutesToDateTime(settings.sundayPmStartTimeOffset + settings.sundayAmStartTimeOffset),
-        sundayPmEndTime: minutesToDateTime(settings.sundayPmStartTimeOffset + settings.sundayPmEndTimeOffset),
+        sundayPmEndTime: minutesToDateTime(settings.sundayAmStartTimeOffset + settings.sundayPmStartTimeOffset + settings.sundayPmEndTimeOffset),
     }
 }
 
@@ -199,96 +228,95 @@ export const InitialSettings = {
     "npi": 0,
     "durationPerSlot": 15,
     "numberPerSlot": 1,
-    
+
     "mondayAmIsEnable": true,
-    "mondayAmStartTime": "08:00",
-    "mondayAmStartTimeOffset": 480,
-    "mondayAmEndTime": "12:00",
+    "mondayAmStartTime": "00:00",
+    "mondayAmStartTimeOffset": 0,
+    "mondayAmEndTime": "04:00",
     "mondayAmEndTimeOffset": 240,
     "mondayAmAppointmentType": 1,
     "mondayPmIsEnable": true,
-    "mondayPmStartTime": "01:00",
+    "mondayPmStartTime": "05:00",
     "mondayPmStartTimeOffset": 300,
-    "mondayPmEndTime": "05:00",
+    "mondayPmEndTime": "09:00",
     "mondayPmEndTimeOffset": 240,
     "mondayPmAppointmentType": 1,
 
     "tuesdayAmIsEnable": true,
-    "tuesdayAmStartTime": "08:00",
-    "tuesdayAmStartTimeOffset": 480,
-    "tuesdayAmEndTime": "12:00",
+    "tuesdayAmStartTime": "00:00",
+    "tuesdayAmStartTimeOffset": 0,
+    "tuesdayAmEndTime": "04:00",
     "tuesdayAmEndTimeOffset": 240,
     "tuesdayAmAppointmentType": 1,
     "tuesdayPmIsEnable": true,
-    "tuesdayPmStartTime": "01:00",
+    "tuesdayPmStartTime": "05:00",
     "tuesdayPmStartTimeOffset": 300,
-    "tuesdayPmEndTime": "05:00",
+    "tuesdayPmEndTime": "09:00",
     "tuesdayPmEndTimeOffset": 240,
     "tuesdayPmAppointmentType": 1,
 
     "wednesdayAmIsEnable": true,
-    "wednesdayAmStartTime": "08:00",
-    "wednesdayAmStartTimeOffset": 480,
-    "wednesdayAmEndTime": "12:00",
+    "wednesdayAmStartTime": "00:00",
+    "wednesdayAmStartTimeOffset": 0,
+    "wednesdayAmEndTime": "04:00",
     "wednesdayAmEndTimeOffset": 240,
     "wednesdayAmAppointmentType": 1,
     "wednesdayPmIsEnable": true,
-    "wednesdayPmStartTime": "01:00",
+    "wednesdayPmStartTime": "05:00",
     "wednesdayPmStartTimeOffset": 300,
-    "wednesdayPmEndTime": "05:00",
+    "wednesdayPmEndTime": "09:00",
     "wednesdayPmEndTimeOffset": 240,
     "wednesdayPmAppointmentType": 1,
 
     "thursdayAmIsEnable": true,
-    "thursdayAmStartTime": "08:00",
-    "thursdayAmStartTimeOffset": 480,
-    "thursdayAmEndTime": "12:00",
+    "thursdayAmStartTime": "00:00",
+    "thursdayAmStartTimeOffset": 0,
+    "thursdayAmEndTime": "04:00",
     "thursdayAmEndTimeOffset": 240,
     "thursdayAmAppointmentType": 1,
     "thursdayPmIsEnable": true,
-    "thursdayPmStartTime": "01:00",
+    "thursdayPmStartTime": "05:00",
     "thursdayPmStartTimeOffset": 300,
-    "thursdayPmEndTime": "05:00",
+    "thursdayPmEndTime": "09:00",
     "thursdayPmEndTimeOffset": 240,
     "thursdayPmAppointmentType": 1,
 
     "fridayAmIsEnable": true,
-    "fridayAmStartTime": "08:00",
-    "fridayAmStartTimeOffset": 480,
-    "fridayAmEndTime": "12:00",
+    "fridayAmStartTime": "00:00",
+    "fridayAmStartTimeOffset": 0,
+    "fridayAmEndTime": "04:00",
     "fridayAmEndTimeOffset": 240,
     "fridayAmAppointmentType": 1,
     "fridayPmIsEnable": true,
-    "fridayPmStartTime": "01:00",
+    "fridayPmStartTime": "05:00",
     "fridayPmStartTimeOffset": 300,
-    "fridayPmEndTime": "05:00",
+    "fridayPmEndTime": "09:00",
     "fridayPmEndTimeOffset": 240,
     "fridayPmAppointmentType": 1,
 
     "saturdayAmIsEnable": true,
-    "saturdayAmStartTime": "08:00",
-    "saturdayAmStartTimeOffset": 480,
-    "saturdayAmEndTime": "12:00",
+    "saturdayAmStartTime": "00:00",
+    "saturdayAmStartTimeOffset": 0,
+    "saturdayAmEndTime": "04:00",
     "saturdayAmEndTimeOffset": 240,
     "saturdayAmAppointmentType": 1,
     "saturdayPmIsEnable": true,
-    "saturdayPmStartTime": "01:00",
+    "saturdayPmStartTime": "05:00",
     "saturdayPmStartTimeOffset": 300,
-    "saturdayPmEndTime": "05:00",
+    "saturdayPmEndTime": "09:00",
     "saturdayPmEndTimeOffset": 240,
     "saturdayPmAppointmentType": 1,
 
     "sundayAmIsEnable": true,
-    "sundayAmStartTime": "08:00",
-    "sundayAmStartTimeOffset": 480,
-    "sundayAmEndTime": "12:00",
+    "sundayAmStartTime": "00:00",
+    "sundayAmStartTimeOffset": 0,
+    "sundayAmEndTime": "04:00",
     "sundayAmEndTimeOffset": 240,
     "sundayAmAppointmentType": 1,
     "sundayPmIsEnable": true,
-    "sundayPmStartTime": "01:00",
+    "sundayPmStartTime": "05:00",
     "sundayPmStartTimeOffset": 300,
-    "sundayPmEndTime": "05:00",
+    "sundayPmEndTime": "09:00",
     "sundayPmEndTimeOffset": 240,
     "sundayPmAppointmentType": 1,
-
 }
