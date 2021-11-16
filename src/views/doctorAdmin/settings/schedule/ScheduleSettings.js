@@ -4,14 +4,16 @@ import DateTimeListBox from "./DateTimeListBox";
 import {APM, AppointmentType, WeekDay} from "../../../../utils/constant/Enum";
 import AppointmentTypeListBox from "./AppointmentTypeListBox";
 import {
-    calcDropdownListDataSource,
-    DateTimePoint,
+    calcDropdownListDataSource, convertUTCSettingToLocalSetting,
+    DateTimePoint, DefaultUTCSettings,
     getNextEndTimeRange,
     getScheduleSettings,
-    InitialSettings, updateScheduleSettings
+    updateScheduleSettings
 } from "./ScheduleSettingsService";
 
+
 export default function ScheduleSettings({}) {
+    const InitialSettings = convertUTCSettingToLocalSetting(DefaultUTCSettings)
     const [isEdit, setIsEdit] = useState(false)
     const [selectedUserSettings, setSelectedUserSettings] = useState(InitialSettings)
     const weekDayNames = ['Sunday', 'Monday', "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]

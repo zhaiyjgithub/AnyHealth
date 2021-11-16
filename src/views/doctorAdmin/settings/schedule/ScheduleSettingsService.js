@@ -46,11 +46,11 @@ export const updateScheduleSettings = (settings, success, fail) => {
     const utcSettings = convertLocalStartDateTimeToUTCStartDateTimeOffset(dateTime24HSettings)
     const param = convertDateTimeToDateTimeOffset(utcSettings)
     console.log(param)
-    // Request(ApiSchedule.SetScheduleSettings, param, (data) => {
-    //     success && success()
-    // }, () => {
-    //     fail && fail()
-    // })
+    Request(ApiSchedule.SetScheduleSettings, param, (data) => {
+        success && success()
+    }, () => {
+        fail && fail()
+    })
 }
 
 const localDateTimeToUTCDateTimeOffset = (hhmm) => {
@@ -142,13 +142,16 @@ export const convertDateTimeToDateTimeOffset = (settings) => {
     }
 }
 
+export const convertUTCSettingToLocalSetting = (utcSetting) => {
+    const localSettings = convertUTCStartDateOffsetToLocalStartDateOffset(utcSetting)
+    return convertUTCDateTimeOffsetToLocalDateTime(localSettings)
+}
+
 //about get schedule settings
 export const getScheduleSettings = (npi, success, fail) => {
     const param = {Npi: npi}
     Request(ApiSchedule.GetScheduleSettings, param, (data) => {
-        //convert to local time from utc.
-        const localSettings = convertUTCStartDateOffsetToLocalStartDateOffset(data)
-        const settings = convertUTCDateTimeOffsetToLocalDateTime(localSettings)
+        const settings = convertUTCSettingToLocalSetting(data)
         success && success(settings)
     }, () => {
         fail && fail()
@@ -224,7 +227,7 @@ export const convertUTCDateTimeOffsetToLocalDateTime = (settings) => {
     }
 }
 
-export const InitialSettings = {
+export const DefaultUTCSettings = {
     "npi": 0,
     "durationPerSlot": 15,
     "numberPerSlot": 1,

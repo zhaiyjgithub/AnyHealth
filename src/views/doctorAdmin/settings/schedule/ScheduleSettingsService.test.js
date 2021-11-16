@@ -1,8 +1,7 @@
 
 import {
-    convertUTCHHmmToHHmm,
     getScheduleSettings,
-    InitialSettings,
+    DefaultUTCSettings,
     convertUTCStartDateOffsetToLocalStartDateOffset,
     convertUTCDateTimeOffsetToLocalDateTime,
     convertLocalStartDateTimeToUTCStartDateTimeOffset,
@@ -12,16 +11,12 @@ import {
 
 const npi = 1902809254
 
-test("convertUTCHHmmToHHmm", () => {
-    expect(convertUTCHHmmToHHmm("03:00", false)).toBe("11:00")
-})
-
 test("convertUTCStartDateOffsetToLocalStartDateOffset", () => {
-    const localStartDate = convertUTCStartDateOffsetToLocalStartDateOffset(InitialSettings)
+    const localStartDate = convertUTCStartDateOffsetToLocalStartDateOffset(DefaultUTCSettings)
     const settings = convertUTCDateTimeOffsetToLocalDateTime(localStartDate)
     console.log((settings))
     // expect(() => {
-    //    const data = convertUTCWeekDayStartDateTimeToLocalDateTime(InitialSettings)
+    //    const data = convertUTCWeekDayStartDateTimeToLocalDateTime(DefaultUTCSettings)
     //     console.log(JSON.stringify(data))
     //     return null
     // }).toBe(null)
