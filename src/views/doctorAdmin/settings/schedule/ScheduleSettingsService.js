@@ -45,7 +45,6 @@ export const updateScheduleSettings = (settings, success, fail) => {
     const dateTime24HSettings = convertLocalPmTime12HTo24H(settings)
     const utcSettings = convertLocalStartDateTimeToUTCStartDateTimeOffset(dateTime24HSettings)
     const param = convertDateTimeToDateTimeOffset(utcSettings)
-    console.log(param)
     Request(ApiSchedule.SetScheduleSettings, param, (data) => {
         success && success()
     }, () => {
@@ -105,7 +104,6 @@ export const convertDateTimeStringToMinutes = (dateTime) => {
 }
 
 const calcDateTimeOffset = (endTime, startTime) => {
-    console.log(endTime, startTime)
     return convertDateTimeStringToMinutes(endTime) - convertDateTimeStringToMinutes(startTime)
 }
 
