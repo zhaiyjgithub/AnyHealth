@@ -1,5 +1,7 @@
+import {useState} from 'react'
 
 export default function GeneralProfile() {
+    const [userInfo, setUserInfo] = useState({})
     return (
         <div className={'w-full bg-white mx-4 my-4 '}>
             <div className={'grid grid-flow-row auto-rows-max gap-y-4 w-max'}>
@@ -18,6 +20,29 @@ export default function GeneralProfile() {
                         <p className={'text-black text-sm font-semibold'}>{'Last Name'}</p>
                         <input placeholder={'Last Name'} className={'mt-1 w-48 py-2 px-4 text-sm border border-gray-300 rounded'}/>
                     </div>
+                </div>
+
+                <div className={'grid grid-flow-col auto-cols-max gap-x-4'}>
+                    <label className="inline-flex items-center ">
+                        <input type="checkbox" className="form-checkbox h-5 w-5 text-primary" checked />
+                        <span
+                            className="ml-2 text-gray-700">Female
+                        </span>
+                    </label>
+
+                    <label className="inline-flex items-center">
+                        <input type="checkbox" className="form-checkbox h-5 w-5 text-primary" checked />
+                        <span
+                            className="ml-2 text-gray-700">Male
+                        </span>
+                    </label>
+
+                    <label className="inline-flex items-center">
+                        <input type="checkbox" className="form-checkbox h-5 w-5 text-primary" checked />
+                        <span
+                            className="ml-2 text-gray-700">Trans
+                        </span>
+                    </label>
                 </div>
 
                 <div className={'w-full grid grid-cols-2 gap-x-4'}>
