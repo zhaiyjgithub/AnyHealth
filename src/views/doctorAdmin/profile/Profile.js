@@ -1,5 +1,6 @@
 import PageHeader from "../../../components/navBar/PageHeader";
 import GeneralProfile from "./general/GeneralProfile";
+import CustomProfile from "./custom/CustomProfile";
 
 export default function Profile() {
     return (

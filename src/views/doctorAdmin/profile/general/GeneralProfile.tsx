@@ -1,6 +1,6 @@
-import {useState} from 'react'
+import React, {useState} from 'react'
 
-export default function GeneralProfile() {
+const GeneralProfile: React.FC = () => {
     const [userInfo, setUserInfo] = useState({})
     return (
         <div className={'w-full bg-white mx-4 my-4 '}>
@@ -107,3 +107,5 @@ export default function GeneralProfile() {
         </div>
     )
 }
+
+export default GeneralProfile
