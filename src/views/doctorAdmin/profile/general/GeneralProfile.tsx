@@ -1,7 +1,19 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
+import {DoctorProfile} from "./GeneralProfileService";
 
 const GeneralProfile: React.FC = () => {
-    const [userInfo, setUserInfo] = useState({})
+    const [userInfo, setUserInfo] = useState<DoctorProfile | undefined>(undefined)
+
+    if (userInfo === undefined) {
+        return <div className={'w-full h-full flex content-center'}>
+            <p className={'text-base text-base-black'}>Loading...</p>
+        </div>
+    }
+
+    useEffect(() => {
+
+    }, [])
+
     return (
         <div className={'w-full bg-white mx-4 my-4 '}>
             <div className={'grid grid-flow-row auto-rows-max gap-y-4 w-max'}>
@@ -58,6 +70,10 @@ const GeneralProfile: React.FC = () => {
                 </div>
 
                 {/*Gender*/}
+                <div className={'w-full flex flex-col'}>
+                    <p className={'text-black text-sm font-semibold'}>{'Job Title'}</p>
+                    <input placeholder={'Job Title'} className={'mt-1 w-full py-2 px-4 text-sm border border-gray-300 rounded'}/>
+                </div>
 
                 <div className={'w-full flex flex-col'}>
                     <p className={'text-black text-sm font-semibold'}>{'Phone Number'}</p>

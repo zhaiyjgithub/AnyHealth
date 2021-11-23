@@ -1,11 +1,11 @@
 import React from "react";
 
 interface OtherProps {
-    name?: string;
+    readonly name?: string;
     color: string;
 }
 
-const CustomProfile: React.FC<OtherProps> = () => {
+const CustomProfile: React.FC<OtherProps> = (props) => {
     return <div></div>
 }
 

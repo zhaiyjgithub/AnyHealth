@@ -31,7 +31,7 @@ const request = (url, options) => {
 	console.log(requestUrl + '\n')
 	console.log(options.body + '\n')
 
-	let token = ''//(global.UserInfo.Token ? global.UserInfo.Token : '')
+	let token = ''//(global.DoctorProfile.Token ? global.DoctorProfile.Token : '')
 	return fetch(requestUrl, Object.assign({}, {
 		credentials: 'include',
 		headers: {

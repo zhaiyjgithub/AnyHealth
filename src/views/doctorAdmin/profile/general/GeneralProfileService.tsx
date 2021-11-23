@@ -1,43 +1,36 @@
 import React from "react";
+import exp from "constants";
+import {Request} from "../../../../utils/httpTool/HttpTool";
+import {ApiDoctor} from "../../../../utils/httpTool/Api";
+import {sendRequest} from "../../../../utils/httpTool/HTTP";
 
-type ApiConfig<Params = any, Data = any> = {} & {
-    url: string
-    method?: 'POST'
-    params?: Params
-    data?: Params
-    _response?: Data
-    [x: string]: any
+
+export interface DoctorProfile {
+    npi: number,
+    firstName: string,
+    midName: string,
+    lastName: string,
+    fullName: string,
+    gender: string,
+    address: string,
+    city: string,
+    state: string,
+    zip: string,
+    phone: string,
+    email: string,
+    specialty: string,
+    subSpecialty: string,
+    jobTitle: string,
+    summary: string,
+    language: string,
+    yearOfExperience: string
 }
 
-type Service<Params = any, Data = any> = (headParams: Params, otherSet?: object) => ApiConfig<Params, Data>
-
-const identity = < T extends {} >(arg: T): T => { return arg; }
-
-const createGetApi = <T, U>(apiConfig: ApiConfig): Service<T, U> =>(headParams, otherSet) => {
-    return {
-        ...apiConfig,
-        params: headParams,
-        ...otherSet
+export const getDoctorProfile = (npi: number, success: (_data : DoctorProfile | undefined) => void) => {
+    const param = {
+        Npi: npi
     }
+    sendRequest<DoctorProfile>(ApiDoctor.GetDoctor, param, (data) => {
+        success(data)
+    })
 }
-
-createGetApi<{}, {}>({url: '', method:'POST'})
-
-// const createGetApi = <Params = any, Data = any>(
-//     apiConfig: ApiConfig
-// ): Service<Params, Data> => (headParams: Params, otherSet = {}) => {
-//     return {
-//         ...apiConfig,
-//         params: headParams,
-//         ...otherSet
-//     }
-// }
-
-// // 用用看
-// const getUser = createGetApi<
-//     { id: number },
-//     {userName: string, password: string}
-//     >({
-//     url: 'http',
-//     method: 'get'
-// })
