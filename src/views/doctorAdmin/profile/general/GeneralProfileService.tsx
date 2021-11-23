@@ -1,9 +1,6 @@
 import React from "react";
-import exp from "constants";
-import {Request} from "../../../../utils/httpTool/HttpTool";
 import {ApiDoctor} from "../../../../utils/httpTool/Api";
 import {sendRequest} from "../../../../utils/httpTool/HTTP";
-
 
 export interface DoctorProfile {
     npi: number,
@@ -16,6 +13,7 @@ export interface DoctorProfile {
     city: string,
     state: string,
     zip: string,
+    country: string,
     phone: string,
     email: string,
     specialty: string,

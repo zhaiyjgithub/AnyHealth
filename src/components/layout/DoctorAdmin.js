@@ -8,11 +8,9 @@ import Settings from "../../views/doctorAdmin/settings/Settings";
 
 export default function DoctorAdmin() {
     return (
-        <div className={'w-full flex flex-row'}>
-            <div className={'w-max min-h-full'}>
-                <SideBar />
-            </div>
-            <div className={'w-full h-full'}>
+        <div className={'w-full h-screen flex flex-row'}>
+            <SideBar />
+            <div className={'w-full flex-grow'}>
                 <Switch>
                     <Route path={'/doctor/dashboard'} exact
                            render={(props) => <Dashboard />}

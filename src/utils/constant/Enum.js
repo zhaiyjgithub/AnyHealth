@@ -42,6 +42,8 @@ const TimeFormat = {
 	YYYYMMDD: 'YYYY-MM-DD',
 }
 
+export const testNpi = 1902809254
+
 export {
 	GenderType,
 	AvailableTimeRange,
