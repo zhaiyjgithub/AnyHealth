@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function SideBar() {
     return <>
-        <div className={'flex-none w-48 h-full border-r bg-primary-focus'}>
+        <div className={'w-48 fixed left-0 top-0 bottom-0 bg-primary-focus'}>
             <div className={'flex flex-col justify-center items-center border-b border-opacity-30 '}>
                 <img alt={'#avatar'} src={"https://randomuser.me/api/portraits/women/32.jpg"} className={'w-16 h-16 rounded border mt-6'}/>
                 <p className={'my-6 font-semibold text-lg px-4 text-white'}>{'Sheldon Alter'}</p>

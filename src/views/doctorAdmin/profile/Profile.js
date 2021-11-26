@@ -4,9 +4,9 @@ import CustomProfile from "./custom/CustomProfile";
 
 export default function Profile() {
     return (
-        <div className={'flex flex-col h-full bg-white'}>
+        <div className={'flex flex-col bg-white'}>
             <PageHeader title={'Profile'}/>
-            <div className={'flex flex-grow'}>
+            <div className={'flex'}>
                 <GeneralProfile />
             </div>
         </div>

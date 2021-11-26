@@ -18,7 +18,7 @@ const GeneralProfile: React.FC = () => {
     }
 
     return (
-        <div className={'w-full bg-white mx-4 my-4 '}>
+        <div className={'w-full bg-white mx-4 my-4 relative'}>
             <div className={'grid grid-flow-row auto-rows-max gap-y-4 w-max'}>
                 <div className={'grid grid-flow-col auto-cols-max gap-x-4'}>
                     <div className={'flex flex-col'}>
@@ -28,7 +28,7 @@ const GeneralProfile: React.FC = () => {
                                 ...doctorProfile,
                                 firstName: e.target.value
                             })
-                        }} placeholder={'First Name'} className={'mt-1 w-48 py-2 px-4 text-sm border border-gray-300 rounded'}/>
+                        }} placeholder={'First Name'} className={'mt-1 w-48 p-2 text-sm border border-gray-300 rounded'}/>
                     </div>
 
                     <div className={'flex flex-col'}>
@@ -38,7 +38,7 @@ const GeneralProfile: React.FC = () => {
                                 ...doctorProfile,
                                 midName: e.target.value
                             })
-                        }} placeholder={'Middle Name'} className={' mt-1 w-32 py-2 px-4 text-sm border border-gray-300 rounded'}/>
+                        }} placeholder={'Middle Name'} className={' mt-1 w-32 p-2 text-sm border border-gray-300 rounded'}/>
                     </div>
 
                     <div className={'flex flex-col'}>
@@ -48,7 +48,7 @@ const GeneralProfile: React.FC = () => {
                                 ...doctorProfile,
                                 lastName: e.target.value
                             })
-                        }} placeholder={'Last Name'} className={'mt-1 w-48 py-2 px-4 text-sm border border-gray-300 rounded'}/>
+                        }} placeholder={'Last Name'} className={'mt-1 w-48 p-2 text-sm border border-gray-300 rounded'}/>
                     </div>
                 </div>
 
@@ -83,7 +83,7 @@ const GeneralProfile: React.FC = () => {
                                 ...doctorProfile,
                                 specialty: e.target.value
                             })
-                        }} placeholder={'Specialty'} className={'mt-1 w-full py-2 px-4 text-sm border border-gray-300 rounded'}/>
+                        }} placeholder={'Specialty'} className={'mt-1 w-full p-2 text-sm border border-gray-300 rounded'}/>
                     </div>
 
                     <div className={'flex flex-col'}>
@@ -93,19 +93,19 @@ const GeneralProfile: React.FC = () => {
                                 ...doctorProfile,
                                 subSpecialty: e.target.value
                             })
-                        }} placeholder={'Sub-Specialty'} className={' mt-1 w-full py-2 px-4 text-sm border border-gray-300 rounded'}/>
+                        }} placeholder={'Sub-Specialty'} className={' mt-1 w-full p-2 text-sm border border-gray-300 rounded'}/>
                     </div>
                 </div>
 
                 {/*Gender*/}
                 <div className={'w-full flex flex-col'}>
                     <p className={'text-black text-sm font-semibold'}>{'Job Title'}</p>
-                    <input value={doctorProfile.jobTitle} onChange={(e) => {
+                    <input value={doctorProfile.credential} onChange={(e) => {
                         setDoctorProfile({
                             ...doctorProfile,
                             jobTitle: e.target.value
                         })
-                    }} placeholder={'Job Title'} className={'mt-1 w-full py-2 px-4 text-sm border border-gray-300 rounded'}/>
+                    }} placeholder={'Job Title'} className={'mt-1 w-full p-2 text-sm border border-gray-300 rounded'}/>
                 </div>
 
                 <div className={'w-full flex flex-col'}>
@@ -115,7 +115,7 @@ const GeneralProfile: React.FC = () => {
                             ...doctorProfile,
                             phone: e.target.value
                         })
-                    }} placeholder={'Phone Number'} className={'mt-1 w-full py-2 px-4 text-sm border border-gray-300 rounded'}/>
+                    }} placeholder={'Phone Number'} className={'mt-1 w-full p-2 text-sm border border-gray-300 rounded'}/>
                 </div>
 
                 <div className={'w-full flex flex-col'}>
@@ -125,7 +125,7 @@ const GeneralProfile: React.FC = () => {
                             ...doctorProfile,
                             email: e.target.value
                         })
-                    }} placeholder={'Email'} className={'mt-1 w-full py-2 px-4 text-sm border border-gray-300 rounded'}/>
+                    }} placeholder={'Email'} className={'mt-1 w-full p-2 text-sm border border-gray-300 rounded'}/>
                 </div>
 
                 <div className={'w-full flex flex-col'}>
@@ -135,7 +135,7 @@ const GeneralProfile: React.FC = () => {
                             ...doctorProfile,
                             address: e.target.value
                         })
-                    }} placeholder={'Address'} className={'mt-1 w-full py-2 px-4 text-sm border border-gray-300 rounded'}/>
+                    }} placeholder={'Address'} className={'mt-1 w-full p-2 text-sm border border-gray-300 rounded'}/>
                 </div>
 
                 <div className={'w-full flex flex-col'}>
@@ -145,7 +145,7 @@ const GeneralProfile: React.FC = () => {
                             ...doctorProfile,
                             city: e.target.value
                         })
-                    }} placeholder={'City'} className={'mt-1 w-full py-2 px-4 text-sm border border-gray-300 rounded'}/>
+                    }} placeholder={'City'} className={'mt-1 w-full p-2 text-sm border border-gray-300 rounded'}/>
                 </div>
 
                 <div className={'w-full flex flex-col'}>
@@ -155,7 +155,7 @@ const GeneralProfile: React.FC = () => {
                             ...doctorProfile,
                             state: e.target.value
                         })
-                    }} placeholder={'State'} className={'mt-1 w-full py-2 px-4 text-sm border border-gray-300 rounded'}/>
+                    }} placeholder={'State'} className={'mt-1 w-full p-2 text-sm border border-gray-300 rounded'}/>
                 </div>
 
                 <div className={'w-full flex flex-col'}>
@@ -165,7 +165,7 @@ const GeneralProfile: React.FC = () => {
                             ...doctorProfile,
                             zip: e.target.value
                         })
-                    }} placeholder={'Zip'} className={'mt-1 w-full py-2 px-4 text-sm border border-gray-300 rounded'}/>
+                    }} placeholder={'Zip'} className={'mt-1 w-full p-2 text-sm border border-gray-300 rounded'}/>
                 </div>
 
                 <div className={'w-full flex flex-col'}>
@@ -175,7 +175,7 @@ const GeneralProfile: React.FC = () => {
                             ...doctorProfile,
                             country: e.target.value
                         })
-                    }} placeholder={'Country'} className={'mt-1 w-full py-2 px-4 text-sm border border-gray-300 rounded'}/>
+                    }} placeholder={'Country'} className={'mt-1 w-full p-2 text-sm border border-gray-300 rounded'}/>
                 </div>
 
                 <div className={'w-full flex flex-col'}>
@@ -185,7 +185,7 @@ const GeneralProfile: React.FC = () => {
                             ...doctorProfile,
                             yearOfExperience: e.target.value
                         })
-                    }}  placeholder={'Experience'} className={'mt-1 w-full py-2 px-4 text-sm border border-gray-300 rounded'}/>
+                    }}  placeholder={'Experience'} className={'mt-1 w-full p-2 text-sm border border-gray-300 rounded'}/>
                 </div>
 
                 <div className={'w-full flex flex-col'}>
@@ -195,11 +195,17 @@ const GeneralProfile: React.FC = () => {
                             ...doctorProfile,
                             summary: e.target.value
                         })
-                    }} placeholder={'My Profile'} className={'mt-1 w-full py-2 px-4 text-sm border border-gray-300 rounded'}/>
+                    }} placeholder={'My Profile'} className={'mt-1 w-full p-2 text-sm border border-gray-300 rounded'}/>
                 </div>
             </div>
 
-            <div className={'h-24 w-full bg-red-300 absolute left-0 bottom-0 right-0'}>
+            <div className={'py-4 bg-white fixed left-48 bottom-0 right-0 border-t flex flex-row items-center justify-end pr-16'}>
+                <button onClick={() => {
+
+                }} type={'button'} className={'rounded bg-primary hover:bg-primary-focus'}>
+                    <p className={'px-4 py-2 font-medium text-sm text-white'}>Save</p>
+                </button>
+
 
             </div>
         </div>

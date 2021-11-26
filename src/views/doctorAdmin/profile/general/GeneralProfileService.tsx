@@ -19,6 +19,7 @@ export interface DoctorProfile {
     specialty: string,
     subSpecialty: string,
     jobTitle: string,
+    credential: string,
     summary: string,
     language: string,
     yearOfExperience: string
