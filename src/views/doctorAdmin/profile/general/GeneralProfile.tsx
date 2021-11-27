@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {DoctorProfile, getDoctorProfile} from "./GeneralProfileService";
 import {testNpi} from "../../../../utils/constant/Enum";
+import {Gender} from "../../../../utils/constant/Enums";
 
 const GeneralProfile: React.FC = () => {
     const [doctorProfile, setDoctorProfile] = useState<DoctorProfile | undefined>(undefined)
@@ -17,6 +18,15 @@ const GeneralProfile: React.FC = () => {
         </div>
     }
 
+    const renderErrorMessage = (isShow: boolean, msg: string) => {
+        if (!isShow) {
+            return null
+        }
+        return (
+            <label className={'font-mono text-sm italic font-semibold text-red-500 py-1'}>{msg}</label>
+        )
+    }
+
     return (
         <div className={'w-full bg-white mx-4 my-4 relative'}>
             <div className={'grid grid-flow-row auto-rows-max gap-y-4 w-max'}>
@@ -29,6 +39,7 @@ const GeneralProfile: React.FC = () => {
                                 firstName: e.target.value
                             })
                         }} placeholder={'First Name'} className={'mt-1 w-48 p-2 text-sm border border-gray-300 rounded'}/>
+                        {renderErrorMessage(!doctorProfile.firstName.length,"First name is required!")}
                     </div>
 
                     <div className={'flex flex-col'}>
@@ -49,26 +60,42 @@ const GeneralProfile: React.FC = () => {
                                 lastName: e.target.value
                             })
                         }} placeholder={'Last Name'} className={'mt-1 w-48 p-2 text-sm border border-gray-300 rounded'}/>
+                        {renderErrorMessage(!doctorProfile.lastName.length, "Last name is required!")}
                     </div>
                 </div>
 
                 <div className={'grid grid-flow-col auto-cols-max gap-x-4'}>
                     <label className="inline-flex items-center ">
-                        <input type="checkbox" className="form-checkbox h-5 w-5 text-primary" checked />
+                        <input onChange={() => {
+                            setDoctorProfile({
+                                ...doctorProfile,
+                                gender: Gender.female
+                            })
+                        }} type="radio" className="form-radio h-5 w-5 text-primary" checked={doctorProfile.gender === Gender.female} />
                         <span
                             className="ml-2 text-gray-700">Female
                         </span>
                     </label>
 
                     <label className="inline-flex items-center">
-                        <input type="checkbox" className="form-checkbox h-5 w-5 text-primary" checked />
+                        <input onChange={() => {
+                            setDoctorProfile({
+                                ...doctorProfile,
+                                gender: Gender.male
+                            })
+                        }} type="radio" className="form-radio h-5 w-5 text-primary" checked={doctorProfile.gender === Gender.male} />
                         <span
                             className="ml-2 text-gray-700">Male
                         </span>
                     </label>
 
                     <label className="inline-flex items-center">
-                        <input type="checkbox" className="form-checkbox h-5 w-5 text-primary" checked />
+                        <input onChange={() => {
+                            setDoctorProfile({
+                                ...doctorProfile,
+                                gender: Gender.trans
+                            })
+                        }} type="radio" className="form-radio h-5 w-5 text-primary" checked={doctorProfile.gender === Gender.trans} />
                         <span
                             className="ml-2 text-gray-700">Trans
                         </span>
@@ -84,6 +111,7 @@ const GeneralProfile: React.FC = () => {
                                 specialty: e.target.value
                             })
                         }} placeholder={'Specialty'} className={'mt-1 w-full p-2 text-sm border border-gray-300 rounded'}/>
+                        {renderErrorMessage(!doctorProfile.specialty.length, "Specialty is required!")}
                     </div>
 
                     <div className={'flex flex-col'}>
@@ -94,6 +122,7 @@ const GeneralProfile: React.FC = () => {
                                 subSpecialty: e.target.value
                             })
                         }} placeholder={'Sub-Specialty'} className={' mt-1 w-full p-2 text-sm border border-gray-300 rounded'}/>
+                        {renderErrorMessage(!doctorProfile.subSpecialty.length, "Sub specialty is required!")}
                     </div>
                 </div>
 
@@ -106,6 +135,7 @@ const GeneralProfile: React.FC = () => {
                             jobTitle: e.target.value
                         })
                     }} placeholder={'Job Title'} className={'mt-1 w-full p-2 text-sm border border-gray-300 rounded'}/>
+                    {renderErrorMessage(!doctorProfile.credential.length, "Job title is required!")}
                 </div>
 
                 <div className={'w-full flex flex-col'}>
@@ -116,6 +146,7 @@ const GeneralProfile: React.FC = () => {
                             phone: e.target.value
                         })
                     }} placeholder={'Phone Number'} className={'mt-1 w-full p-2 text-sm border border-gray-300 rounded'}/>
+                    {renderErrorMessage(!doctorProfile.phone.length, "Phone number is required!")}
                 </div>
 
                 <div className={'w-full flex flex-col'}>
@@ -136,6 +167,7 @@ const GeneralProfile: React.FC = () => {
                             address: e.target.value
                         })
                     }} placeholder={'Address'} className={'mt-1 w-full p-2 text-sm border border-gray-300 rounded'}/>
+                    {renderErrorMessage(!doctorProfile.address.length, "Address is required!")}
                 </div>
 
                 <div className={'w-full flex flex-col'}>
@@ -146,6 +178,7 @@ const GeneralProfile: React.FC = () => {
                             city: e.target.value
                         })
                     }} placeholder={'City'} className={'mt-1 w-full p-2 text-sm border border-gray-300 rounded'}/>
+                    {renderErrorMessage(!doctorProfile.city.length, "City is required!")}
                 </div>
 
                 <div className={'w-full flex flex-col'}>
@@ -166,6 +199,7 @@ const GeneralProfile: React.FC = () => {
                             zip: e.target.value
                         })
                     }} placeholder={'Zip'} className={'mt-1 w-full p-2 text-sm border border-gray-300 rounded'}/>
+                    {renderErrorMessage(!doctorProfile.zip.length, "Zip code is required!")}
                 </div>
 
                 <div className={'w-full flex flex-col'}>
@@ -205,8 +239,6 @@ const GeneralProfile: React.FC = () => {
                 }} type={'button'} className={'rounded bg-primary hover:bg-primary-focus'}>
                     <p className={'px-4 py-2 font-medium text-sm text-white'}>Save</p>
                 </button>
-
-
             </div>
         </div>
     )

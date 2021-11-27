@@ -1,6 +1,7 @@
 import React from "react";
 import {ApiDoctor} from "../../../../utils/httpTool/Api";
 import {sendRequest} from "../../../../utils/httpTool/HTTP";
+import {Gender} from "../../../../utils/constant/Enums";
 
 export interface DoctorProfile {
     npi: number,
@@ -8,7 +9,7 @@ export interface DoctorProfile {
     midName: string,
     lastName: string,
     fullName: string,
-    gender: string,
+    gender: Gender,
     address: string,
     city: string,
     state: string,
