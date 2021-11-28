@@ -1,7 +1,8 @@
 
 export const ApiDoctor = {
 	SearchDoctor: 'Doctor/SearchDoctor',
-	GetDoctor: 'Doctor/GetDoctor'
+	GetDoctor: 'Doctor/GetDoctor',
+	SaveDoctor: 'Doctor/SaveDoctor'
 }
 
 export const ApiSchedule = {

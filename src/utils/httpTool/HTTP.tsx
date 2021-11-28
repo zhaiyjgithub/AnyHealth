@@ -55,8 +55,8 @@ const post = (url: string, param={}) => request(url, {
 })
 
 
-type Success<T> = (data: T | undefined, msg: string | undefined) => void
-type Fail = (errCode: number, msg: string | undefined) => void
+export type Success<T> = (data: T | undefined, msg: string | undefined) => void
+export type Fail = (errCode: number, msg: string | undefined) => void
 
 export const sendRequest = <T extends {}>(api: string, param: object, success: Success<T>, fail?: Fail) => {
     post(api, param).then((response) => {

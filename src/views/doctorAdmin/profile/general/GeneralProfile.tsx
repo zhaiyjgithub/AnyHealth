@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import {DoctorProfile, getDoctorProfile} from "./GeneralProfileService";
 import {testNpi} from "../../../../utils/constant/Enum";
-import {Gender} from "../../../../utils/constant/Enums";
+import {Gender, InfoStatus} from "../../../../utils/constant/Enums";
+import {Transition} from '@headlessui/react'
+import {Toast} from "../../../../components/toast/toast";
 
 const GeneralProfile: React.FC = () => {
     const [doctorProfile, setDoctorProfile] = useState<DoctorProfile | undefined>(undefined)
+    const [isShowToast, setIsShowToast] = useState(false)
 
     useEffect(() => {
         getDoctorProfile(testNpi, (profile) => {
@@ -25,6 +28,31 @@ const GeneralProfile: React.FC = () => {
         return (
             <label className={'font-mono text-sm italic font-semibold text-red-500 py-1'}>{msg}</label>
         )
+    }
+
+    const onSave = (profile: DoctorProfile) => {
+        // saveDoctorProfile(profile, () => {
+        //
+        // })
+        setIsShowToast(true)
+        setTimeout(() => {
+            setIsShowToast(false)
+        }, 1500)
+    }
+
+    const renderToast = () => {
+        return <Transition
+            show={isShowToast}
+            enter="transition-opacity duration-75"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity duration-150"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+        >
+            <p className={'py-4 px-2 rounded bg-red-300 text-white fixed top-4 right-4'}>I will fade in and out</p>
+        </Transition>
+
     }
 
     return (
@@ -235,11 +263,13 @@ const GeneralProfile: React.FC = () => {
 
             <div className={'py-4 bg-white fixed left-48 bottom-0 right-0 border-t flex flex-row items-center justify-end pr-16'}>
                 <button onClick={() => {
-
+                    onSave(doctorProfile)
                 }} type={'button'} className={'rounded bg-primary hover:bg-primary-focus'}>
                     <p className={'px-4 py-2 font-medium text-sm text-white'}>Save</p>
                 </button>
             </div>
+
+            <Toast isShow={isShowToast} status={InfoStatus.success} msg={"Save successss!!!"} />
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import {ApiDoctor} from "../../../../utils/httpTool/Api";
-import {sendRequest} from "../../../../utils/httpTool/HTTP";
+import {sendRequest, Success} from "../../../../utils/httpTool/HTTP";
 import {Gender} from "../../../../utils/constant/Enums";
 
 export interface DoctorProfile {
@@ -26,11 +26,35 @@ export interface DoctorProfile {
     yearOfExperience: string
 }
 
-export const getDoctorProfile = (npi: number, success: (_data : DoctorProfile | undefined) => void) => {
+export const getDoctorProfile = (npi: number, success: Success<DoctorProfile>) => {
     const param = {
         Npi: npi
     }
     sendRequest<DoctorProfile>(ApiDoctor.GetDoctor, param, (data) => {
-        success(data)
+        success(data, "")
+    })
+}
+
+export const checkSaveProfile = (profile: DoctorProfile) => {
+    return (!profile.firstName.length ||
+            !profile.lastName.length ||
+            !profile.credential.length ||
+            !profile.phone.length ||
+            !profile.address.length ||
+            !profile.city.length ||
+            !profile.zip.length ||
+            !profile.summary.length
+    )
+}
+
+export const saveDoctorProfile = (profile: DoctorProfile, success: Success<undefined>) => {
+    if (!checkSaveProfile(profile)) {
+        return false
+    }
+    const param = {
+        Doctor: profile
+    }
+    sendRequest(ApiDoctor.SaveDoctor, param, () => {
+        success(undefined, "")
     })
 }

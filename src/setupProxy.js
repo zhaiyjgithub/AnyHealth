@@ -3,7 +3,7 @@ module.exports = (app) => {
 	app.use(
 		"/AnyHealth/*",
 		createProxyMiddleware({
-			target: 'http://192.168.0.14:8090',//'http://192.168.1.195:8090',//'http://42.192.92.99:8090',
+			target: 'http://192.168.1.4:8090',//'http://192.168.1.195:8090',//'http://42.192.92.99:8090',
 			changeOrigin: true,
 			// pathRewrite: {
 			// 	"^/api": "",

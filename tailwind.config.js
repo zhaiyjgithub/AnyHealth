@@ -15,7 +15,7 @@ module.exports = {
         'bgContent': '#FAF7F5',
         'bg-gray': '#FAF7F5',
         'base-black': '#181A2A',
-        'green': '#007645',
+        'base-green': '#007645',
         'light-gray': '#5E5E5E'
       }),
       textColor:  theme => ({
