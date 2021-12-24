@@ -10,6 +10,7 @@ import {
     getScheduleSettings,
     updateScheduleSettings
 } from "./ScheduleSettingsService";
+import FormInput from "../../../../components/form/formInput";
 
 
 export default function ScheduleSettings({}) {
@@ -60,7 +61,7 @@ export default function ScheduleSettings({}) {
                     onListBoxChange && onListBoxChange(DateTimePoint.StartTime, value)
                 }}
             />
-            <p className={'mx-2 text-sm text-base-black font-semibold'}>{' to '}</p>
+            <p className={'mx-2 text-sm text-base-black font-semibold'}>{' To '}</p>
             <DateTimeListBox
                 isDisabled={!isEdit}
                 dataSource={endTimeDataSource}
@@ -86,7 +87,7 @@ export default function ScheduleSettings({}) {
         return (
             <tr>
                 <td>
-                    <p className={'mx-4 font-semibold text-black mt-2'}>{weekDayNames[weekDay]}</p>
+                    <p className={'mx-4 font-semibold text-netural mt-2'}>{weekDayNames[weekDay]}</p>
                 </td>
                 <td>
                     <div className={'mt-2'}>
@@ -338,13 +339,8 @@ export default function ScheduleSettings({}) {
     const renderSaveButtons = () => {
         return (
             <>
-                <button onClick={onCancel} type={'button'} className={'rounded bg-white border hover:bg-gray-200'}>
-                    <p className={'px-4 py-2 font-medium text-sm text-base-black'}>{'Cancel'}</p>
-                </button>
-
-                <button onClick={onSave}  type={'button'} className={'ml-4 rounded bg-primary hover:bg-primary-focus'}>
-                    <p className={'px-4 py-2 font-medium text-sm text-white'}>{'Save'}</p>
-                </button>
+                <button onClick={onCancel} className="btn btn-ghost mr-4">Cancel</button>
+                <button onClick={onSave} className="btn btn-primary">Save</button>
             </>
         )
     }
@@ -353,37 +349,36 @@ export default function ScheduleSettings({}) {
         return (
             <button onClick={() => {
                 setIsEdit(true)
-            }} type={'button'} className={'rounded bg-primary hover:bg-primary-focus'}>
-                <p className={'px-4 py-2 font-medium text-sm text-white'}>{'Edit'}</p>
-            </button>
+            }} className="btn btn-primary">Edit</button>
         )
     }
 
+    const $timeSlots = (
+        <div className={'grid grid-flow-col auto-cols-max gap-x-4'}>
+            <FormInput title={'Duration of Per Slot(minutes)'} value={selectedUserSettings.durationPerSlot}  onChangeText={(text) => {
+                setSelectedUserSettings({...selectedUserSettings, durationPerSlot: text})
+            }} />
+
+            <FormInput title={'Number of Per Slot(minutes):'} value={selectedUserSettings.numberPerSlot} onChangeText={(text) => {
+                setSelectedUserSettings({...selectedUserSettings, numberPerSlot: text})
+            }} />
+        </div>
+    )
+
     return (
-        <div className={'w-max  h-screen bg-white mt-4'}>
-            <div className={'w-1/2  flex flex-row items-center '}>
-                <p className={'font-semibold text-base-black ml-4'}>Duration of Per Slot(minutes):</p>
-                <input onChange={(e) => {
-                    setSelectedUserSettings({...selectedUserSettings, durationPerSlot: e.target.value})
-                }} defaultValue={selectedUserSettings.durationPerSlot} className={'w-20 h-8 rounded font-base text-black border border-gray-300 px-2 text-left ml-2'}/>
-            </div>
-            <div className={'flex flex-row items-center mt-4 '}>
-                <p className={'font-semibold text-base-black ml-4'}>Number of Per Slot(minutes):</p>
-                <input onChange={(e) => {
-                    setSelectedUserSettings({...selectedUserSettings, numberPerSlot: e.target.value})
-                }} defaultValue={selectedUserSettings.numberPerSlot} className={'w-20 h-8 rounded font-base text-black border border-gray-300 px-2 text-left ml-2'}/>
-            </div>
+        <div className={' w-max h-screen bg-white mt-4 px-4'}>
+            {$timeSlots}
             <div className={'mt-6'}>
                 <table>
                     <thead>
                     <tr>
                         <th></th>
                         <th>
-                            <p className={'font-mono text-md text-base-black font-semibold '}>AM</p>
+                            <p className={'font-mono text-sm text-neutral font-semibold '}>AM</p>
                         </th>
                         <th></th>
                         <th>
-                            <p className={'font-mono text-md text-base-black font-semibold'}>PM</p>
+                            <p className={'font-mono text-sm text-neutral font-semibold'}>PM</p>
                         </th>
                     </tr>
                     </thead>

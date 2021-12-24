@@ -8,8 +8,8 @@ export default function MenuHeader({dataSource, onClick, selectedType}) {
                 return (
                     <button key={idx} onClick={() => {
                         onClick && onClick(type)
-                    }} type={'button'} className={`p-4 border-b-4 ${isSelected ? 'border-primary' : 'border-transparent'}`}>
-                        <p className={`font-mono text-base text-base-black ${isSelected ? 'font-semibold' : 'font-base'}`}>{title}</p>
+                    }} type={'button'} className={`p-4 border-b-4 text-sm ${isSelected ? 'border-primary font-semibold text-neutral' : 'border-transparent font-base text-gray-500 hover:text-neutral'}`}>
+                        {title}
                     </button>
                 )
             })}
