@@ -9,12 +9,6 @@ interface Props  {
 }
 
 export const Toast: React.FC<Props> = (props) => {
-    // const statusColors = new Map()
-    // statusColors.set(InfoStatus.none, "bg-gray-300")
-    // statusColors.set(InfoStatus.success, "bg-green-400")
-    // statusColors.set(InfoStatus.fail, "bg-red-400")
-    // statusColors.set(InfoStatus.warning, "bg-yellow-400")
-
     const {isShow, status, msg} = props
     return <Transition
         show={isShow}
@@ -25,10 +19,15 @@ export const Toast: React.FC<Props> = (props) => {
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
     >
-       <div className={'rounded bg-green-600 fixed top-4 right-8 flex flex-row items-center py-2 pl-4 pr-16'}>
-           <i className="fas fa-check mr-2 text-white"></i>
-           <p className={'text-left font-medium text-md  text-white'}>{msg}</p>
-       </div>
+
+
+           <div className="alert alert-info fixed top-4 right-8 flex py-2 pl-4 bg-primary">
+               <div className="flex flex-row items-center">
+                   <i className="fas fa-check mr-2 text-white" />
+                   <label className={'text-white'}>{msg}</label>
+               </div>
+           </div>
+
     </Transition>
 
 }

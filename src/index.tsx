@@ -4,7 +4,7 @@ import './index.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import 'leaflet/dist/leaflet.css';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Switch, Redirect, withRouter } from "react-router-dom";
+import {BrowserRouter, Route, Switch, Redirect, withRouter, HashRouter} from "react-router-dom";
 import Admin from "./components/layout/Admin";
 import TestView from "./test/TestView";
 import L from "leaflet";
@@ -22,12 +22,12 @@ let DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 ReactDOM.render(
-    <BrowserRouter>
+    <HashRouter>
         <Switch>
             {/*<Route path="/" render={(props) => <Admin />} />*/}
-            <Route path="/doctor" render={(props) => <DoctorAdmin />} />
+            <Route path="/doctor" component={DoctorAdmin} />
         </Switch>
-    </BrowserRouter>,
+    </HashRouter>,
   document.getElementById('root')
 );
 
