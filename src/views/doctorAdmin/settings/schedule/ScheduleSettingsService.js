@@ -20,7 +20,7 @@ export const calcDropdownListDataSource = (startTime, endTime, duration) => {
     const list = []
     for (let i = startMinutes; i <= endMinutes; i += duration) {
         const dateTime = convertMinutesToDateTimeString(i)
-        list.push({title: dateTime, value: dateTime})
+        list.push({name: dateTime, id: dateTime})
     }
     return list
 }
@@ -34,8 +34,8 @@ export const convertMinutesToDateTimeString = (minutes) => { // 12h
 export const getNextEndTimeRange = (startTime, dateTimeDataSource) => {
     const prefix = '2000-01-01 '
     const startTimeMoment = moment(prefix + startTime, TimeFormat.YYYYMMDDHHmm)
-    return dateTimeDataSource.filter(({title}) => {
-        const endTimeMoment = moment(prefix + title, TimeFormat.YYYYMMDDHHmm)
+    return dateTimeDataSource.filter(({name}) => {
+        const endTimeMoment = moment(prefix + name, TimeFormat.YYYYMMDDHHmm)
         return endTimeMoment.isAfter(startTimeMoment)
     })
 }

@@ -1,9 +1,9 @@
 import {Dialog, Transition} from '@headlessui/react'
 import React, {Fragment, useState} from 'react'
-import DateTimeListBox from "../schedule/DateTimeListBox";
 import {APM, TimeFormat} from "../../../../utils/constant/Enum";
 import {calcDropdownListDataSource, DateTimePoint, getNextEndTimeRange} from "../schedule/ScheduleSettingsService";
 import moment from "moment";
+import DropdownListForm from "../../../../components/form/DropdownListItem";
 
 export default function ClosedDateEditModal({isOpen, closeModal, onConfirm}) {
     const [closedDateSettings, setClosedDateSettings] = useState({
@@ -21,23 +21,13 @@ export default function ClosedDateEditModal({isOpen, closeModal, onConfirm}) {
         const endTimeDataSource = getNextEndTimeRange(selectedStartTime, dateTimeDataSource)
         return <div className={'z-50 flex flex-row items-center'}>
             <p className={'text-sm font-medium mr-4'}>{title}</p>
-            <DateTimeListBox
-                isDisabled={false}
-                dataSource={dateTimeDataSource.slice(0, dateTimeDataSource.length - 1)}
-                selected={selectedStartTime}
-                onChangeValue={(value) => {
-                    onListBoxChange && onListBoxChange(DateTimePoint.StartTime, value)
-                }}
-            />
+            <DropdownListForm id={selectedStartTime} data={dateTimeDataSource.slice(0, dateTimeDataSource.length - 1)} onChange={(value) => {
+                onListBoxChange && onListBoxChange(DateTimePoint.StartTime, value)
+            }} />
             <p className={'mx-2 text-sm text-base-black font-semibold'}>{' to '}</p>
-            <DateTimeListBox
-                isDisabled={false}
-                dataSource={endTimeDataSource}
-                selected={selectedEndTime}
-                onChangeValue={(value) => {
-                    onListBoxChange && onListBoxChange(DateTimePoint.EndTime, value)
-                }}
-            />
+            <DropdownListForm id={selectedEndTime} data={endTimeDataSource} onChange={(value) => {
+                onListBoxChange && onListBoxChange(DateTimePoint.EndTime, value)
+            }} />
             <div className={'h-full w-4'}/>
         </div>
     }
