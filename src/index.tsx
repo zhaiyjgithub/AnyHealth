@@ -1,22 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import 'leaflet/dist/leaflet.css';
-import reportWebVitals from './reportWebVitals';
-import {BrowserRouter, Route, Switch, Redirect, withRouter, HashRouter} from "react-router-dom";
-import Admin from "./components/layout/Admin";
-import TestView from "./test/TestView";
+import "leaflet/dist/leaflet.css";
+import reportWebVitals from "./reportWebVitals";
+import {HashRouter, Route, Switch} from "react-router-dom";
 import L from "leaflet";
-import icon from "./assets/images/map/marker-icon.png";
-import iconRetina from "./assets/images/map/marker-icon-2x.png";
-import iconShadow from "./assets/images/map/marker-shadow.png";
-import DoctorAdmin from "./components/layout/DoctorAdmin";
+import DoctorAdmin from "./views/doctor/doctorAdmin";
 
 let DefaultIcon = L.icon({
-    iconUrl: icon,
+    iconUrl: "",
     // iconRetinaUrl: iconRetina,
-    shadowUrl: iconShadow
+    shadowUrl: "",
 });
 
 L.Marker.prototype.options.icon = DefaultIcon;
@@ -24,11 +19,10 @@ L.Marker.prototype.options.icon = DefaultIcon;
 ReactDOM.render(
     <HashRouter>
         <Switch>
-            {/*<Route path="/" render={(props) => <Admin />} />*/}
             <Route path="/doctor" component={DoctorAdmin} />
         </Switch>
     </HashRouter>,
-  document.getElementById('root')
+    document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

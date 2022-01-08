@@ -15,14 +15,14 @@ export default function FormSwitch(props: IProps) {
                 onChange && onChange()
             }}
             className={`${
-                checked ? 'bg-primary' : 'bg-gray-200'
+                checked ? "bg-primary" : "bg-gray-200"
             } relative inline-flex items-center h-6 rounded-full w-11 mr-4`}
         >
-                            <span
-                                className={`${
-                                    checked ? 'translate-x-6' : 'translate-x-1'
-                                } inline-block w-4 h-4 transform bg-white rounded-full`}
-                            />
+            <span
+                className={`${
+                    checked ? "translate-x-6" : "translate-x-1"
+                } inline-block w-4 h-4 transform bg-white rounded-full`}
+            />
         </Switch>
     )
 }

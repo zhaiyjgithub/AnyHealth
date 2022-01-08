@@ -12,8 +12,8 @@ interface IProps {
 }
 
 export default function FormInput (props: IProps) {
-    const {title,placeholder,
-        value, errMsg, onChangeText, type, addedStyle = '', disabled = false} = props
+    const {title, placeholder,
+        onChangeText, type, addedStyle = "", disabled = false} = props
 
     return (
         <div className="form-control">

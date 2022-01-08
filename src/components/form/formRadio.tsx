@@ -12,7 +12,7 @@ export default function FormRadio(props:IProps) {
         <div className="form-control">
             <label className="cursor-pointer label">
                 <input onChange={() => {
-                   onChange && onChange()
+                    onChange && onChange()
                 }} type="radio" name="opt" checked={checked} className="radio radio-primary" value="" />
                 <span className="label-text ml-2">{title}</span>
             </label>
