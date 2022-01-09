@@ -38,6 +38,6 @@ export enum APM {
 }
 
 export enum TimeFormat {
-    YYYYMMDDHHmm= "YYYY-MM-DD HH=mm",
+    YYYYMMDDHHmm= "YYYY-MM-DD HH:mm",
     YYYYMMDD= "YYYY-MM-DD",
 }

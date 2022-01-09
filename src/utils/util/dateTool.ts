@@ -1,4 +1,5 @@
 import moment from "moment";
+import {TimeFormat} from "../enum/enum";
 
 export const DisabledDate = "2000-01-01T00:00:00Z"
 
@@ -13,4 +14,9 @@ export const convertHHmmStringToHHmm = (HHmm: string) => {
     const hour = parseInt(HHmm.slice(0, 2))
     const min = parseInt(HHmm.slice(3))
     return {hour: hour, min: min}
+}
+
+export const convertDateTimeToUTC = (date: string, dateTime: string): string => {
+    const dateTimeString = `${date} ${dateTime}`
+    return moment.utc(moment(dateTimeString, TimeFormat.YYYYMMDDHHmm)).format(TimeFormat.YYYYMMDDHHmm)
 }

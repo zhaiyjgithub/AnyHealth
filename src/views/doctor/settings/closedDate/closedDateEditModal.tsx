@@ -2,7 +2,7 @@ import {Dialog, Transition} from "@headlessui/react"
 import React, {Fragment, useState} from "react"
 import {ClosedDate} from "./service";
 import DropdownListForm from "../../../../components/form/dropdownListItem";
-import {APM, AppointmentType, TimeFormat} from "../../../../utils/enum/enum";
+import {APM, TimeFormat} from "../../../../utils/enum/enum";
 import {calcDropdownListDataSource, getNextEndTimeRange} from "../workingHour/service";
 import {DateTimePoint} from "../workingHour/dataForSchedule";
 import moment from "moment"
@@ -21,8 +21,6 @@ export default function ClosedDateEditModal({isOpen, onClose, onConfirm}: IProps
         amEndTime: "12:00",
         pmStartTime: "01:00",
         pmEndTime: "06:00",
-        amAppointmentType: AppointmentType.InClinic,
-        pmAppointmentType: AppointmentType.Virtual,
     })
     const [isShowMoreOptions, setIsShowMoreOptions] = useState(false)
     const renderEachDateTimeGroup = (title: string, duration: number, startTime: string, endTime: string,

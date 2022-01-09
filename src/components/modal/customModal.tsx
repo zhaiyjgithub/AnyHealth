@@ -3,11 +3,13 @@ import React, { Fragment } from "react"
 
 interface IProps {
     isOpen: boolean,
+    title: string,
+    description?: string,
     children: any
 }
 
 export default function CustomModal(props: IProps) {
-    const {isOpen, children} = props
+    const {isOpen, children, description, title} = props
     return (
         <>
             <Transition appear show={isOpen} as={Fragment}>
@@ -15,7 +17,7 @@ export default function CustomModal(props: IProps) {
                     as="div"
                     className="fixed inset-0 z-10 overflow-y-auto"
                     onClose={() => {
-                        console.log()
+                        //
                     }}
                 >
                     <div className="min-h-screen px-4 text-center">
@@ -47,8 +49,21 @@ export default function CustomModal(props: IProps) {
                             leaveFrom="opacity-100 scale-100"
                             leaveTo="opacity-0 scale-95"
                         >
-                            <div className="inline-block max-w-max py-8 overflow-hidden text-center align-middle transition-all transform bg-white shadow-xl rounded-lg">
-                                {children}
+                            <div className="inline-block border border-base-300 w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                                <Dialog.Title
+                                    as="h3"
+                                    className="text-lg font-medium leading-6 text-gray-900"
+                                >
+                                    {title}
+                                </Dialog.Title>
+                                <div className="mt-2">
+                                    <p className="text-sm text-gray-500">
+                                        {description}
+                                    </p>
+                                </div>
+                                <div className={"mt-4 text-right"}>
+                                    {children}
+                                </div>
                             </div>
                         </Transition.Child>
                     </div>

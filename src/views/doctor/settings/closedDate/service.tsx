@@ -1,7 +1,11 @@
 import moment from "moment";
 import {TimeFormat} from "../../../../utils/enum/enum";
 import {ApiSchedule} from "../../../../utils/http/api";
-import {convertDateToHHmm, convertHHmmStringToHHmm, DisabledDate} from "../../../../utils/util/dateTool";
+import {
+    convertDateToHHmm,
+    convertHHmmStringToHHmm,
+    DisabledDate,
+} from "../../../../utils/util/dateTool";
 import {sendRequest} from "../../../../utils/http/http";
 
 export interface ClosedDate {
@@ -52,9 +56,10 @@ export const getClosedDateSettings = (npi: number, success: (list: Array<ClosedD
 
 export const addClosedDateSettings = (npi: number, settings: ClosedDate, success: (data: any) => void, fail: () => void) => {
     const sm = moment(settings.startDate, TimeFormat.YYYYMMDD)
-    const startDate = new Date(sm.year(), sm.month(), sm.day(), 0, 0, 0, 0)
-    const em = moment(settings.startDate, TimeFormat.YYYYMMDD)
-    const endDate = new Date(em.year(), em.month(), em.day(), 0, 0, 0, 0)
+    const startDate = new Date(sm.year(), sm.month(), sm.date(), 0, 0, 0, 0)
+    const em = moment(settings.endDate, TimeFormat.YYYYMMDD)
+    const endDate = new Date(em.year(), em.month(), em.date(), 0, 0, 0, 0)
+
     const param = {
         npi: npi,
         startDate: startDate.toISOString(),
@@ -75,7 +80,7 @@ export const addClosedDateSettings = (npi: number, settings: ClosedDate, success
 const convertDateToUTCDate = (date: Date, hhmm: string, offsetHour: number) => {
     const m = moment(date)
     const {hour, min} = convertHHmmStringToHHmm(hhmm)
-    const fd = new Date(m.year(), m.month(), m.day(), hour + offsetHour, min, 0, 0)
+    const fd = new Date(m.year(), m.month(), m.date(), hour + offsetHour, min, 0, 0)
     return fd.toISOString()
 }
 
