@@ -84,7 +84,7 @@ export default function ClosedDateEditModal({isOpen, onClose, onConfirm}: IProps
                 <label className="label">
                     <span className="label-text">Start Date</span>
                 </label>
-                <input value={closedDateSettings.startDate} type="date" placeholder="Start Date" className="input input-bordered" onChange={(e) => {
+                <input value={closedDateSettings.startDate} min={moment().format(TimeFormat.YYYYMMDD)} type="date" placeholder="Start Date" className="input input-bordered" onChange={(e) => {
                     if (moment(closedDateSettings.endDate, TimeFormat.YYYYMMDD).isBefore(moment(e.target.value, TimeFormat.YYYYMMDD))) {
                         setClosedDateSettings({...closedDateSettings, startDate: e.target.value, endDate: e.target.value})
                     } else {
