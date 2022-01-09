@@ -1,5 +1,6 @@
 import React, {useState} from "react";
-import WorkingHourSettings from "./workingHourSettings";
+import WorkingHourSettings from "./workingHour/workingHourSettings";
+import ClosedDateSettings from "./closedDate/closedDateSettings";
 
 export default function Settings() {
     const [tab, setTab] = useState<number>(0)
@@ -25,10 +26,16 @@ export default function Settings() {
         <WorkingHourSettings />
     )
 
+    const $closedDate = (
+        <ClosedDateSettings />
+    )
+
+    const $content = tab === 0 ? $workingHour : $closedDate
+
     return (
         <div className={"w-full flex-1 bg-base-100 pt-2"}>
             {$tab}
-            {$workingHour}
+            {$content}
         </div>
     )
 }

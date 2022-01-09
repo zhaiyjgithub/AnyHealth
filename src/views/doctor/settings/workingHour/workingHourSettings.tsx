@@ -5,10 +5,10 @@ import {
     getScheduleSettings,
     updateScheduleSettings,
 } from "./service";
-import DropdownListForm from "../../../components/form/dropdownListItem";
-import {APM, AppointmentType, WeekDay} from "../../../utils/enum/enum";
-import FormInput from "../../../components/form/formInput";
-import FormSwitch from "../../../components/form/formSwitch";
+import DropdownListForm from "../../../../components/form/dropdownListItem";
+import {APM, AppointmentType, WeekDay} from "../../../../utils/enum/enum";
+import FormInput from "../../../../components/form/formInput";
+import FormSwitch from "../../../../components/form/formSwitch";
 import {DateTimePoint} from "./dataForSchedule"
 
 export default function WorkingHourSettings() {
@@ -16,7 +16,7 @@ export default function WorkingHourSettings() {
     const [isEdit, setIsEdit] = useState(false)
     const [selectedUserSettings, setSelectedUserSettings] = useState(InitialSettings)
     const weekDayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    const dataForAptTypes = [{name: "In-Clinic", id: AppointmentType.InClinic}, {name: "Virtual", id: AppointmentType.Virtual}]
+    const dataForAptTypes = [{name: "IN-CLINIC", id: AppointmentType.InClinic}, {name: "VIRTUAL", id: AppointmentType.Virtual}]
     let npi = 1902809254
 
     useEffect(() => {
@@ -41,7 +41,7 @@ export default function WorkingHourSettings() {
             <DropdownListForm disabled={!isEdit} id={selectedStartTime} data={dateTimeDataSource.slice(0, dateTimeDataSource.length - 1)} onChange={(id) => {
                 onListBoxChange && onListBoxChange(DateTimePoint.StartTime, id)
             }} />
-            <p className={"mx-2 text-sm text-base-black font-semibold"}>{" To "}</p>
+            <p className={"mx-2 text-sm text-base-black font-semibold"}>{" to "}</p>
             <DropdownListForm disabled={!isEdit} id={selectedEndTime} data={endTimeDataSource} onChange={(id) => {
                 onListBoxChange && onListBoxChange(DateTimePoint.EndTime, id)
             }} />
@@ -306,12 +306,12 @@ export default function WorkingHourSettings() {
     }
 
     const $timeSlots = (
-        <div className={"grid grid-flow-col auto-cols-max gap-x-4"}>
+        <div className={"grid grid-flow-col auto-cols-max gap-x-4 mt-4"}>
             <FormInput title={"Duration of Per Slot(minutes)"} value={selectedUserSettings.durationPerSlot.toString()} onChangeText={(text) => {
                 setSelectedUserSettings({...selectedUserSettings, durationPerSlot: parseInt(text)})
             }} />
 
-            <FormInput title={"Number of Per Slot(minutes):"} value={selectedUserSettings.numberPerSlot.toString()} onChangeText={(text) => {
+            <FormInput title={"Number of Per Slot:"} value={selectedUserSettings.numberPerSlot.toString()} onChangeText={(text) => {
                 setSelectedUserSettings({...selectedUserSettings, numberPerSlot: parseInt(text)})
             }} />
         </div>
@@ -385,7 +385,7 @@ export default function WorkingHourSettings() {
         </div>
     )
     return (
-        <div className={"px-4 "}>
+        <div className={"px-4"}>
             {$timeSlots}
             {$table}
         </div>

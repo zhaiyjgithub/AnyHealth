@@ -1,10 +1,10 @@
 import moment from "moment";
 import {WorkDaySetting} from "./dataForSchedule";
-import {TimeFormat} from "../../../utils/enum/enum";
-import {ApiSchedule} from "../../../utils/http/api";
-import {convertHHmmStringToHHmm} from "../../../utils/util/dateTool";
-import {sendRequest} from "../../../utils/http/http";
-import {DropdownListItem} from "../../../components/form/dropdownListItem";
+import {TimeFormat} from "../../../../utils/enum/enum";
+import {ApiSchedule} from "../../../../utils/http/api";
+import {convertHHmmStringToHHmm} from "../../../../utils/util/dateTool";
+import {sendRequest} from "../../../../utils/http/http";
+import {DropdownListItem} from "../../../../components/form/dropdownListItem";
 
 export const calcDropdownListDataSource = (startTime: string, endTime: string, duration: number) => {
     const regx = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/
@@ -145,7 +145,7 @@ export const convertUTCSettingToLocalSetting = (utcSetting: WorkDaySetting) => {
 // about get schedule settings
 export const getScheduleSettings = (npi: number, success: (settings: WorkDaySetting) => void, fail: () => void) => {
     const param = {Npi: npi}
-    sendRequest<WorkDaySetting>(ApiSchedule.GetScheduleSettings, param, (data) => {
+    sendRequest(ApiSchedule.GetScheduleSettings, param, (data) => {
         if (!data) {
             return
         }

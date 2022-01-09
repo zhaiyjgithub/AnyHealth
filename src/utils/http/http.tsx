@@ -1,7 +1,7 @@
 
-const ResponseCode = {
-    OK: 0,
-    Fail: 1,
+export enum ResponseCode {
+    OK= 0,
+    Fail= 1,
 }
 
 const parseJSON = (response: any) => {
@@ -55,10 +55,7 @@ const post = (url: string, param = {}) => request(url, {
     method: "POST",
 })
 
-export type Success<T> = (data: T | undefined, msg: string | undefined) => void
-export type Fail = (errCode: number, msg: string | undefined) => void
-
-export const sendRequest = <T extends {}>(api: string, param: object, success: Success<T>, fail?: Fail) => {
+export const sendRequest = (api: string, param: object, success: (data: any, msg?: string) => void, fail?: (errCode: ResponseCode, errMsg: string) => void) => {
     post(api, param).then((response) => {
         if (response.code === ResponseCode.OK) {
             success && success(response.data, response.msg)

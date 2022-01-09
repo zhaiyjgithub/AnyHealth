@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export const DisableDate = "2000-01-01T00:00:00Z"
+export const DisabledDate = "2000-01-01T00:00:00Z"
 
 export const convertDateToHHmm = (date: Date) => {
     const m = moment(date)
