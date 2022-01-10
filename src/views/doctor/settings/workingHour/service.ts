@@ -1,10 +1,111 @@
 import moment from "moment";
-import {WorkDaySetting} from "./dataForSchedule";
 import {TimeFormat} from "../../../../utils/enum/enum";
 import {ApiSchedule} from "../../../../utils/http/api";
 import {convertHHmmStringToHHmm} from "../../../../utils/util/dateTool";
 import {sendRequest} from "../../../../utils/http/http";
 import {DropdownListItem} from "../../../../components/form/dropdownListItem";
+
+export interface WorkDaySetting {
+    npi: number
+    durationPerSlot: number,
+    numberPerSlot: number,
+
+    mondayAmIsEnable: boolean,
+    mondayAmStartTime: string,
+    mondayAmStartTimeOffset: number
+    mondayAmEndTime: string,
+    mondayAmEndTimeOffset: number,
+    mondayAmAppointmentType: number,
+    mondayPmIsEnable: boolean,
+    mondayPmStartTime: string,
+    mondayPmStartTimeOffset: number,
+    mondayPmEndTime: string,
+    mondayPmEndTimeOffset: number,
+    mondayPmAppointmentType: number,
+
+    tuesdayAmIsEnable: boolean,
+    tuesdayAmStartTime: string,
+    tuesdayAmStartTimeOffset: number
+    tuesdayAmEndTime: string,
+    tuesdayAmEndTimeOffset: number,
+    tuesdayAmAppointmentType: number,
+    tuesdayPmIsEnable: boolean,
+    tuesdayPmStartTime: string,
+    tuesdayPmStartTimeOffset: number,
+    tuesdayPmEndTime: string,
+    tuesdayPmEndTimeOffset: number,
+    tuesdayPmAppointmentType: number,
+
+    wednesdayAmIsEnable: boolean,
+    wednesdayAmStartTime: string,
+    wednesdayAmStartTimeOffset: number
+    wednesdayAmEndTime: string,
+    wednesdayAmEndTimeOffset: number,
+    wednesdayAmAppointmentType: number,
+    wednesdayPmIsEnable: boolean,
+    wednesdayPmStartTime: string,
+    wednesdayPmStartTimeOffset: number,
+    wednesdayPmEndTime: string,
+    wednesdayPmEndTimeOffset: number,
+    wednesdayPmAppointmentType: number,
+
+    thursdayAmIsEnable: boolean,
+    thursdayAmStartTime: string,
+    thursdayAmStartTimeOffset: number
+    thursdayAmEndTime: string,
+    thursdayAmEndTimeOffset: number,
+    thursdayAmAppointmentType: number,
+    thursdayPmIsEnable: boolean,
+    thursdayPmStartTime: string,
+    thursdayPmStartTimeOffset: number,
+    thursdayPmEndTime: string,
+    thursdayPmEndTimeOffset: number,
+    thursdayPmAppointmentType: number,
+
+    fridayAmIsEnable: boolean,
+    fridayAmStartTime: string,
+    fridayAmStartTimeOffset: number
+    fridayAmEndTime: string,
+    fridayAmEndTimeOffset: number,
+    fridayAmAppointmentType: number,
+    fridayPmIsEnable: boolean,
+    fridayPmStartTime: string,
+    fridayPmStartTimeOffset: number,
+    fridayPmEndTime: string,
+    fridayPmEndTimeOffset: number,
+    fridayPmAppointmentType: number,
+
+    saturdayAmIsEnable: boolean,
+    saturdayAmStartTime: string,
+    saturdayAmStartTimeOffset: number
+    saturdayAmEndTime: string,
+    saturdayAmEndTimeOffset: number,
+    saturdayAmAppointmentType: number,
+    saturdayPmIsEnable: boolean,
+    saturdayPmStartTime: string,
+    saturdayPmStartTimeOffset: number,
+    saturdayPmEndTime: string,
+    saturdayPmEndTimeOffset: number,
+    saturdayPmAppointmentType: number,
+
+    sundayAmIsEnable: boolean,
+    sundayAmStartTime: string,
+    sundayAmStartTimeOffset: number
+    sundayAmEndTime: string,
+    sundayAmEndTimeOffset: number,
+    sundayAmAppointmentType: number,
+    sundayPmIsEnable: boolean,
+    sundayPmStartTime: string,
+    sundayPmStartTimeOffset: number,
+    sundayPmEndTime: string,
+    sundayPmEndTimeOffset: number,
+    sundayPmAppointmentType: number,
+}
+
+export enum DateTimePoint {
+    StartTime= 0,
+    EndTime= 1,
+}
 
 export const calcDropdownListDataSource = (startTime: string, endTime: string, duration: number) => {
     const regx = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/

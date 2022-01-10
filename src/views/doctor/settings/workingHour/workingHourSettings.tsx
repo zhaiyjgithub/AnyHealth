@@ -4,12 +4,12 @@ import {
     getNextEndTimeRange,
     getScheduleSettings,
     updateScheduleSettings,
+    DateTimePoint,
 } from "./service";
 import DropdownListForm from "../../../../components/form/dropdownListItem";
 import {APM, AppointmentType, WeekDay} from "../../../../utils/enum/enum";
 import FormInput from "../../../../components/form/formInput";
 import FormSwitch from "../../../../components/form/formSwitch";
-import {DateTimePoint} from "./dataForSchedule"
 
 export default function WorkingHourSettings() {
     const InitialSettings = convertUTCSettingToLocalSetting(DefaultUTCSettings)

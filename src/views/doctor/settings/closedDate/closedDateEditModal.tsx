@@ -3,8 +3,7 @@ import React, {Fragment, useState} from "react"
 import {ClosedDate} from "./service";
 import DropdownListForm from "../../../../components/form/dropdownListItem";
 import {APM, TimeFormat} from "../../../../utils/enum/enum";
-import {calcDropdownListDataSource, getNextEndTimeRange} from "../workingHour/service";
-import {DateTimePoint} from "../workingHour/dataForSchedule";
+import {calcDropdownListDataSource, getNextEndTimeRange, DateTimePoint} from "../workingHour/service";
 import moment from "moment"
 
 interface IProps {
