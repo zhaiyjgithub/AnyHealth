@@ -323,8 +323,8 @@ export default function WorkingHourSettings() {
 
     const $renderSaveButtons = (
         <>
-            <button onClick={onCancel} className="btn btn-outline btn-ghost mr-4">Cancel</button>
-            <button onClick={onSave} className="btn btn-outline btn-primary">Save</button>
+            <Button title={'Cancel'} status={ButtonStatus.light} onClick={onCancel} />
+            <Button title={'Save'} status={ButtonStatus.primary} onClick={onSave} />
         </>)
 
     const $renderEditButton = (
@@ -334,13 +334,13 @@ export default function WorkingHourSettings() {
     )
 
     const $footer = (
-        <div className={"flex flex-row items-center justify-end mt-8"}>
+        <div className={"flex flex-row items-center justify-end mt-8 space-x-4"}>
             {isEdit ? $renderSaveButtons : $renderEditButton}
         </div>
     )
 
     const $table = (
-        <div className={"mt-6 w-max bg-base-300 p-4 rounded border"}>
+        <div className={"mt-6 w-max bg-base-100 p-4 rounded border"}>
             <table>
                 <thead>
                     <tr>
