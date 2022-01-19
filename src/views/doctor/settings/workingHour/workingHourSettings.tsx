@@ -1,15 +1,19 @@
 import React, {useEffect, useState} from "react"
 import {
-    calcDropdownListDataSource, convertUTCSettingToLocalSetting, DefaultUTCSettings,
+    calcDropdownListDataSource,
+    convertUTCSettingToLocalSetting,
+    DateTimePoint,
+    DefaultUTCSettings,
     getNextEndTimeRange,
     getScheduleSettings,
     updateScheduleSettings,
-    DateTimePoint,
 } from "./service";
 import DropdownListForm from "../../../../components/form/dropdownListItem";
 import {APM, AppointmentType, WeekDay} from "../../../../utils/enum/enum";
 import FormInput from "../../../../components/form/formInput";
 import FormSwitch from "../../../../components/form/formSwitch";
+import Button from "../../../../components/buttons/button";
+import {ButtonStatus} from "../../../../components/buttons/enum";
 
 export default function WorkingHourSettings() {
     const InitialSettings = convertUTCSettingToLocalSetting(DefaultUTCSettings)
@@ -324,9 +328,9 @@ export default function WorkingHourSettings() {
         </>)
 
     const $renderEditButton = (
-        <button onClick={() => {
+        <Button title={'Edit'} status={ButtonStatus.primary} onClick={() => {
             setIsEdit(true)
-        }} className="btn btn-outline btn-primary">Edit</button>
+        }} />
     )
 
     const $footer = (
