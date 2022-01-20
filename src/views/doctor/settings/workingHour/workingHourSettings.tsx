@@ -13,7 +13,7 @@ import {APM, AppointmentType, WeekDay} from "../../../../utils/enum/enum";
 import FormInput from "../../../../components/form/formInput";
 import FormSwitch from "../../../../components/form/formSwitch";
 import Button from "../../../../components/buttons/button";
-import {ButtonStatus} from "../../../../components/buttons/enum";
+import {ButtonStatus, ButtonType} from "../../../../components/buttons/enum";
 
 export default function WorkingHourSettings() {
     const InitialSettings = convertUTCSettingToLocalSetting(DefaultUTCSettings)
@@ -323,14 +323,14 @@ export default function WorkingHourSettings() {
 
     const $renderSaveButtons = (
         <>
-            <Button title={'Cancel'} status={ButtonStatus.light} onClick={onCancel} />
-            <Button title={'Save'} status={ButtonStatus.primary} onClick={onSave} />
+            <Button type={ButtonType.outline} onClick={onCancel} >Cancel</Button>
+            <Button status={ButtonStatus.primary} onClick={onSave} >Save</Button>
         </>)
 
     const $renderEditButton = (
-        <Button title={'Edit'} status={ButtonStatus.primary} onClick={() => {
+        <Button status={ButtonStatus.primary} onClick={() => {
             setIsEdit(true)
-        }} />
+        }} >Edit</Button>
     )
 
     const $footer = (
