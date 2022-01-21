@@ -14,6 +14,7 @@ import FormInput from "../../../../components/form/formInput";
 import FormSwitch from "../../../../components/form/formSwitch";
 import Button from "../../../../components/buttons/button";
 import {ButtonStatus, ButtonType} from "../../../../components/buttons/enum";
+import DropDown from "../../../../components/form/dropDown";
 
 export default function WorkingHourSettings() {
     const InitialSettings = convertUTCSettingToLocalSetting(DefaultUTCSettings)
@@ -391,6 +392,9 @@ export default function WorkingHourSettings() {
     return (
         <div className={"px-4"}>
             {$timeSlots}
+            <DropDown onSelected={() => {
+                //
+            }} placeholder={'select item'} value={null} data={[{name: 'China', id: 0}, {name: 'China', id: 0}, {name: 'China', id: 0}]} />
             {$table}
         </div>
     )
