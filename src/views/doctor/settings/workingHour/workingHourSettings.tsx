@@ -8,7 +8,6 @@ import {
     getScheduleSettings,
     updateScheduleSettings,
 } from "./service";
-import DropdownListForm from "../../../../components/form/dropdownListItem";
 import {APM, AppointmentType, WeekDay} from "../../../../utils/enum/enum";
 import FormInput from "../../../../components/form/formInput";
 import FormSwitch from "../../../../components/form/formSwitch";
@@ -21,7 +20,7 @@ export default function WorkingHourSettings() {
     const [isEdit, setIsEdit] = useState(false)
     const [selectedUserSettings, setSelectedUserSettings] = useState(InitialSettings)
     const weekDayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    const dataForAptTypes = [{name: "IN-CLINIC", id: AppointmentType.InClinic}, {name: "VIRTUAL", id: AppointmentType.Virtual}]
+    const dataForAptTypes = [{name: "In-Clinic", id: AppointmentType.InClinic}, {name: "Virtual", id: AppointmentType.Virtual}]
     let npi = 1902809254
 
     useEffect(() => {
@@ -39,19 +38,23 @@ export default function WorkingHourSettings() {
         selectedStartTime: string, selectedEndTime: string, appointmentType: AppointmentType, onSwitchChange: () => void, onListBoxChange: (dateTimePoint: DateTimePoint, value: string) => void, onAppointmentTypeChange: (appointmentType: AppointmentType) => void) => {
         const dateTimeDataSource = calcDropdownListDataSource(startTime, endTime, duration)
         const endTimeDataSource = getNextEndTimeRange(selectedStartTime, dateTimeDataSource)
-        return <div className={"flex flex-row items-center w-full"}>
+        return <div className={"flex flex-row items-center w-full space-x-4"}>
             {isEdit ? <FormSwitch checked={isEnable} onChange={() => {
                 onSwitchChange && onSwitchChange()
             }} /> : null}
-            <DropdownListForm disabled={!isEdit} id={selectedStartTime} data={dateTimeDataSource.slice(0, dateTimeDataSource.length - 1)} onChange={(id) => {
-                onListBoxChange && onListBoxChange(DateTimePoint.StartTime, id)
-            }} />
-            <p className={"mx-2 text-sm text-base-black font-semibold"}>{" to "}</p>
-            <DropdownListForm disabled={!isEdit} id={selectedEndTime} data={endTimeDataSource} onChange={(id) => {
-                onListBoxChange && onListBoxChange(DateTimePoint.EndTime, id)
-            }} />
-            <div className={"h-full w-4"}/>
-            <DropdownListForm disabled={!isEdit} id={appointmentType} data={dataForAptTypes} onChange={onAppointmentTypeChange} />
+            <div className={"flex flex-row items-center space-x-8"}>
+                <div className={"flex flex-row items-center"}>
+                    <DropDown disabled={!isEdit} value={selectedStartTime} data={dateTimeDataSource.slice(0, dateTimeDataSource.length - 1)} onSelected={(id) => {
+                        onListBoxChange && onListBoxChange(DateTimePoint.StartTime, id)
+                    }} />
+                    <p className={"mx-2 text-sm text-base-black font-semibold"}>{" to "}</p>
+                    <DropDown disabled={!isEdit} value={selectedEndTime} data={endTimeDataSource} onSelected={(id) => {
+                        onListBoxChange && onListBoxChange(DateTimePoint.EndTime, id)
+                    }} />
+                </div>
+                <DropDown disabled={!isEdit} value={appointmentType} data={dataForAptTypes} onSelected={onAppointmentTypeChange} />
+            </div>
+
         </div>
     }
 
@@ -61,7 +64,7 @@ export default function WorkingHourSettings() {
         return (
             <tr>
                 <td>
-                    <p className={"text-base-content mt-2 mr-4"}>{weekDayNames[weekDay]}</p>
+                    <p className={"text-base-content mt-2 mr-4 font-medium"}>{weekDayNames[weekDay]}</p>
                 </td>
                 <td>
                     <div className={"mt-2"}>
@@ -311,7 +314,7 @@ export default function WorkingHourSettings() {
     }
 
     const $timeSlots = (
-        <div className={"grid grid-flow-col auto-cols-max gap-x-4 mt-4"}>
+        <div className={"flex flex-row items-center space-x-4 mt-4"}>
             <FormInput title={"Duration of Per Slot(minutes)"} value={selectedUserSettings.durationPerSlot.toString()} onChangeText={(text) => {
                 setSelectedUserSettings({...selectedUserSettings, durationPerSlot: parseInt(text)})
             }} />
@@ -392,9 +395,6 @@ export default function WorkingHourSettings() {
     return (
         <div className={"px-4"}>
             {$timeSlots}
-            <DropDown onSelected={() => {
-                //
-            }} placeholder={'select item'} value={null} data={[{name: 'China', id: 0}, {name: 'China', id: 0}, {name: 'China', id: 0}]} />
             {$table}
         </div>
     )

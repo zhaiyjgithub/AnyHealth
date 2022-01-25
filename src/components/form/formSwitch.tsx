@@ -15,8 +15,8 @@ export default function FormSwitch(props: IProps) {
                 onChange && onChange()
             }}
             className={`${
-                checked ? "bg-primary" : "bg-gray-200"
-            } relative inline-flex items-center h-6 rounded-full w-11 mr-4`}
+                checked ? "bg-blue-500" : "bg-gray-200"
+            } relative inline-flex items-center h-6 rounded-full w-11`}
         >
             <span
                 className={`${

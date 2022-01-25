@@ -3,7 +3,7 @@ import {TimeFormat} from "../../../../utils/enum/enum";
 import {ApiSchedule} from "../../../../utils/http/api";
 import {convertHHmmStringToHHmm} from "../../../../utils/util/dateTool";
 import {sendRequest} from "../../../../utils/http/http";
-import {DropdownListItem} from "../../../../components/form/dropdownListItem";
+import {DropDownItem} from "../../../../components/form/dropDown";
 
 export interface WorkDaySetting {
     npi: number
@@ -118,7 +118,7 @@ export const calcDropdownListDataSource = (startTime: string, endTime: string, d
     const list = []
     for (let i = startMinutes; i <= endMinutes; i += duration) {
         const dateTime = convertMinutesToDateTimeString(i)
-        list.push({name: dateTime, id: dateTime} as DropdownListItem)
+        list.push({name: dateTime, id: dateTime} as DropDownItem)
     }
     return list
 }
@@ -129,7 +129,7 @@ export const convertMinutesToDateTimeString = (minutes: number) => {
     return (hour < 10 ? "0" + hour : hour) + ":" + (min < 10 ? "0" + min : min)
 }
 
-export const getNextEndTimeRange = (startTime: string, dateTimeDataSource: Array<DropdownListItem>) => {
+export const getNextEndTimeRange = (startTime: string, dateTimeDataSource: Array<DropDownItem>) => {
     const prefix = "2000-01-01 "
     const startTimeMoment = moment(prefix + startTime, TimeFormat.YYYYMMDDHHmm)
     return dateTimeDataSource.filter(({name}) => {
