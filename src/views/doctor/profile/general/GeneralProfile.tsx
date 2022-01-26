@@ -4,6 +4,7 @@ import FormInput from "../../../../components/form/formInput";
 import FormRadio from "../../../../components/form/formRadio";
 import {DoctorInfoContext} from "../../doctorInfoContext";
 import {Gender} from "../../../../utils/enum/enum";
+import Button from "../../../../components/buttons/button";
 
 export default function GeneralProfile() {
     const doctorInfo = useContext(DoctorInfoContext)
@@ -52,28 +53,32 @@ export default function GeneralProfile() {
     </div>)
 
     const $gender = (
-        <div className={"grid grid-flow-col auto-cols-max gap-x-4"}>
-            <FormRadio title={"Female"} checked={doctorProfile.gender === Gender.Female} onChange={() => {
-                setDoctorProfile({
-                    ...doctorProfile,
-                    gender: Gender.Female,
-                })
-            }} />
+        <div>
+            <p className={"inline-block mb-1 text-sm text-base-content font-medium"}>Gender</p>
+            <div className={"flex flex-row items-center space-x-4"}>
+                <FormRadio title={"Female"} checked={doctorProfile.gender === Gender.Female} onChange={() => {
+                    setDoctorProfile({
+                        ...doctorProfile,
+                        gender: Gender.Female,
+                    })
+                }} />
 
-            <FormRadio title={"Male"} checked={doctorProfile.gender === Gender.Male} onChange={() => {
-                setDoctorProfile({
-                    ...doctorProfile,
-                    gender: Gender.Male,
-                })
-            }} />
+                <FormRadio title={"Male"} checked={doctorProfile.gender === Gender.Male} onChange={() => {
+                    setDoctorProfile({
+                        ...doctorProfile,
+                        gender: Gender.Male,
+                    })
+                }} />
 
-            <FormRadio title={"Trans"} checked={doctorProfile.gender === Gender.Trans} onChange={() => {
-                setDoctorProfile({
-                    ...doctorProfile,
-                    gender: Gender.Trans,
-                })
-            }} />
-        </div>)
+                <FormRadio title={"Trans"} checked={doctorProfile.gender === Gender.Trans} onChange={() => {
+                    setDoctorProfile({
+                        ...doctorProfile,
+                        gender: Gender.Trans,
+                    })
+                }} />
+            </div>
+        </div>
+    )
 
     const $specialty = (
         <div className={"w-full grid grid-cols-2 gap-x-4"}>
@@ -171,35 +176,34 @@ export default function GeneralProfile() {
     )
 
     const $profile = (
-        <div className="form-control">
-            <label className="label">
-                <span className="label-text">My Bio</span>
-            </label>
-            <textarea className="textarea h-24 textarea-bordered textarea-primary" placeholder="Bio" />
+        <div className="w-full">
+            <p className={"inline-block mb-1 text-sm text-base-content font-medium"}>My Bio</p>
+            <textarea className="h-24 w-full block px-3 py-1.5 text-sm font-medium text-base-content bg-white border border-slate-300 transition ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-focus active:ring-2 active:ring-focus" placeholder="Bio" />
         </div>
     )
 
-    const $footer = (
-        <div className={"py-4 bg-white fixed left-48 bottom-0 right-0 border-t flex flex-row items-center justify-end pr-16"}>
-            <button onClick={() => {
+    console.log(onSave)
+
+    const $saveButton = (
+        <div className={'w-full flex flex-row items-center justify-end'}>
+            <Button onClick={() => {
                 onSave(doctorProfile)
-            }} className="btn btn-primary">Save</button>
+            }} >
+                Save
+            </Button>
         </div>
     )
-
     return (
-        <div className={"w-full bg-white mx-4 my-4 relative"}>
-            <div className={"grid grid-flow-row auto-rows-max gap-y-2 w-max"}>
-                {$doctorName}
-                {$gender}
-                {$specialty}
-                {$jobDescription}
-                {$contact}
-                {$address}
-                {$locationInfo}
-                {$profile}
-            </div>
-            {$footer}
+        <div className={"m-4 w-max flex flex-col space-y-4"}>
+            {$doctorName}
+            {$gender}
+            {$specialty}
+            {$jobDescription}
+            {$contact}
+            {$address}
+            {$locationInfo}
+            {$profile}
+            {$saveButton}
         </div>
     )
 }

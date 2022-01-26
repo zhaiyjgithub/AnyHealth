@@ -1,25 +1,19 @@
 import React, {useState} from "react";
 import WorkingHourSettings from "./workingHour/workingHourSettings";
 import ClosedDateSettings from "./closedDate/closedDateSettings";
+import Tab from "../../../components/tab/tab";
+
+const dataForTab = ["Working Hour", "Closed Date", "Others"]
 
 export default function Settings() {
-    const [tab, setTab] = useState<number>(0)
+    const [tab, setTab] = useState<string>(dataForTab[0])
     
-    const onClickTab = (idx: number) => {
-        setTab(idx)
+    const onChangeTab = (tab: string) => {
+        setTab(tab)
     }
+
     const $tab = (
-        <div className="tabs">
-            <a onClick={() => {
-                onClickTab(0)
-            }} className={`tab tab-lg tab-lifted ${tab === 0 ? "tab-active" : ""}`}>Working Hour</a>
-            <a onClick={() => {
-                onClickTab(1)
-            }} className={`tab tab-lg tab-lifted ${tab === 1 ? "tab-active" : ""}`}>Closed Date</a>
-            <a onClick={() => {
-                onClickTab(2)
-            }} className={`tab tab-lg tab-lifted ${tab === 2 ? "tab-active" : ""}`}>Others</a>
-        </div>
+        <Tab data={dataForTab} selected={tab} onChange={onChangeTab}/>
     )
 
     const $workingHour = (
@@ -30,7 +24,7 @@ export default function Settings() {
         <ClosedDateSettings />
     )
 
-    const $content = tab === 0 ? $workingHour : $closedDate
+    const $content = tab === "Working Hour" ? $workingHour : $closedDate
 
     return (
         <div className={"w-full flex-1 bg-base-100 pt-2"}>

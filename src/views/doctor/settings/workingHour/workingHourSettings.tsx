@@ -7,7 +7,7 @@ import {
     getNextEndTimeRange,
     getScheduleSettings,
     updateScheduleSettings,
-} from "./service";
+} from "./workingHourService";
 import {APM, AppointmentType, WeekDay} from "../../../../utils/enum/enum";
 import FormInput from "../../../../components/form/formInput";
 import FormSwitch from "../../../../components/form/formSwitch";

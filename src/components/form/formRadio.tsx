@@ -9,13 +9,11 @@ interface IProps {
 export default function FormRadio(props:IProps) {
     const {title, checked, onChange} = props
     return (
-        <div className="form-control">
-            <label className="cursor-pointer label">
-                <input onChange={() => {
-                    onChange && onChange()
-                }} type="radio" name="opt" checked={checked} className="radio radio-primary" value="" />
-                <span className="label-text ml-2">{title}</span>
-            </label>
-        </div>
+        <label className="cursor-pointer space-x-2 flex flex-row items-center ">
+            <input onChange={() => {
+                onChange && onChange()
+            }} type="radio" name="opt" checked={checked} className="form-radio radio-primary w-5 h-5" value="" />
+            <span className="label-text">{title}</span>
+        </label>
     )
 }

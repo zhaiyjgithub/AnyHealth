@@ -23,7 +23,7 @@ export default function SideBar() {
         return (
             <li key={idx} className={"w-full flex flex-row items-center my-2 px-4 "}>
                 <Link
-                    className={`${isActive ? "text-primary-content bg-primary hover:bg-primary" : "text-base-content hover:bg-base-300"} rounded text-sm font-semibold uppercase py-2 block px-4 w-full`}
+                    className={`${isActive ? " bg-primary hover:bg-primary" : "hover:bg-gray-200"} text-primary-focus text-sm font-semibold uppercase py-2 block px-4 w-full`}
                     to={path}
                 >
                     <i className={`${icons[idx]} mr-2 text-md`}></i> {name}
@@ -50,7 +50,7 @@ export default function SideBar() {
             <p className={"py-4 border-b border-base-300 font-semibold text-base px-4 text-base-content"}>{doctorName}</p>
         </div>
     )
-    return <div className={"w-60 border-r border-base-300 fixed left-0 top-0 bottom-0 bg-base-200 flex-none"}>
+    return <div className={"w-60 border-r border-base-300 fixed left-0 top-0 bottom-0 bg-base-100 flex-none"}>
         {$doctorInfo}
         {$links}
     </div>

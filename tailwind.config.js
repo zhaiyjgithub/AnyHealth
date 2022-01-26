@@ -33,6 +33,9 @@ module.exports = {
                 "warning": "#FF9A01",
                 "error": "#FF5724",
                 "focus": "#ffffff",
+                "base-100": "#ffffff",
+                "base-200": "#F9FAFB",
+                "base-300": "#d1d5db",
                 "base-content": "#343D4E",
             }),
             borderColor: theme => ({

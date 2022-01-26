@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import ClosedDateEditModal from "./closedDateEditModal";
-import {ClosedDate, getClosedDateSettings, addClosedDateSettings, deleteClosedDateSettingsByID} from "./service"
+import {ClosedDate, getClosedDateSettings, addClosedDateSettings, deleteClosedDateSettingsByID} from "./closedDateService"
 import CustomModal from "../../../../components/modal/customModal";
 import {DoctorInfoContext} from "../../doctorInfoContext";
 

@@ -1,9 +1,9 @@
 import {Dialog, Transition} from "@headlessui/react"
 import React, {Fragment, useState} from "react"
-import {ClosedDate} from "./service";
+import {ClosedDate} from "./closedDateService";
 import DropdownListForm from "../../../../components/form/dropdownListItem";
 import {APM, TimeFormat} from "../../../../utils/enum/enum";
-import {calcDropdownListDataSource, getNextEndTimeRange, DateTimePoint} from "../workingHour/service";
+import {calcDropdownListDataSource, getNextEndTimeRange, DateTimePoint} from "../workingHour/workingHourService";
 import moment from "moment"
 
 interface IProps {

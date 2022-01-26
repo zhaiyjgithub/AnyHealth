@@ -1,22 +1,18 @@
 import React, {useState} from "react";
 import GeneralProfile from "./general/GeneralProfile";
 import CustomProfile from "./custom/customProfile";
+import Tab from "../../../components/tab/tab";
 
+const dataForTab = ["General Profile", "Others"]
 export default function Profile() {
-    const [tab, setTab] = useState<number>(0)
+    const [tab, setTab] = useState<string>(dataForTab[0])
 
-    const onClickTab = (idx: number) => {
-        setTab(idx)
+    const onChangeTab = (tab: string) => {
+        setTab(tab)
     }
+
     const $tab = (
-        <div className="tabs">
-            <a onClick={() => {
-                onClickTab(0)
-            }} className={`tab tab-lg tab-lifted ${tab === 0 ? "tab-active" : ""}`}>General Profile</a>
-            <a onClick={() => {
-                onClickTab(1)
-            }} className={`tab tab-lg tab-lifted ${tab === 1 ? "tab-active" : ""}`}>My Open Website Profile</a>
-        </div>
+        <Tab data={dataForTab} selected={tab} onChange={onChangeTab}/>
     )
 
     const $general = (
@@ -27,7 +23,7 @@ export default function Profile() {
         <CustomProfile />
     )
 
-    const $content = tab === 0 ? $general : $custom
+    const $content = tab === dataForTab[0] ? $general : $custom
 
     return (
         <div className={"w-full flex-1 bg-base-100 pt-2"}>
