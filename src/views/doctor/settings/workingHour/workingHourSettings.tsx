@@ -20,7 +20,7 @@ export default function WorkingHourSettings() {
     const [isEdit, setIsEdit] = useState(false)
     const [selectedUserSettings, setSelectedUserSettings] = useState(InitialSettings)
     const weekDayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    const dataForAptTypes = [{name: "In-Clinic", id: AppointmentType.InClinic}, {name: "Virtual", id: AppointmentType.Virtual}]
+    const dataForAptTypes = [{name: "In-Clinic", id: AppointmentType.inClinic}, {name: "Virtual", id: AppointmentType.virtual}]
     let npi = 1902809254
 
     useEffect(() => {

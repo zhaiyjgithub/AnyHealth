@@ -3,7 +3,7 @@ import GeneralProfile from "./general/GeneralProfile";
 import CustomProfile from "./custom/customProfile";
 import Tab from "../../../components/tab/tab";
 
-const dataForTab = ["General Profile", "Others"]
+const dataForTab = ["General Profile", "My Open Website"]
 export default function Profile() {
     const [tab, setTab] = useState<string>(dataForTab[0])
 

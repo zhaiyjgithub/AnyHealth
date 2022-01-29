@@ -12,9 +12,9 @@ export enum AvailableTimeRange {
 }
 
 export enum AppointmentType {
-    AnyType= 0,
-    InClinic= 1,
-    Virtual= 2
+    anyType= 0,
+    inClinic= 1,
+    virtual= 2
 }
 
 export enum SortBy {

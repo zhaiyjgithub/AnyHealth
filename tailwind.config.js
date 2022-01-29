@@ -18,6 +18,7 @@ module.exports = {
                 "error": "#FF5724",
                 "base-100": "#ffffff",
                 "base-200": "#F9FAFB",
+                "base-250": "#F3F3F4",
                 "base-300": "#d1d5db",
                 "base-content": "#343D4E",
                 "focus": "#343D4E",
@@ -36,6 +37,7 @@ module.exports = {
                 "base-100": "#ffffff",
                 "base-200": "#F9FAFB",
                 "base-300": "#d1d5db",
+                "base-600": "#00234B",
                 "base-content": "#343D4E",
             }),
             borderColor: theme => ({
@@ -71,10 +73,14 @@ module.exports = {
         },
     },
     variants: {
-        extend: {},
+        extend: {
+            borderStyle: ['hover'],
+            fontsize: ['hover'],
+        },
     },
     plugins: [
         require("@tailwindcss/line-clamp"),
+        require('@tailwindcss/forms'),
         require("daisyui"),
     ],
 }

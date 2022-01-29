@@ -5,7 +5,7 @@ interface IProps {
     type?: ButtonType,
     status?: ButtonStatus,
     onClick: () => void,
-    children: React.ReactChildren | string,
+    children: any,
 }
 
 export default function Button(props: IProps) {
@@ -33,13 +33,19 @@ export default function Button(props: IProps) {
     }
 
     const $basicButton = (
-        <button onClick={onClick} type={"button"} className={`inline-block px-6 py-2 text-primary-focus font-semibold text-sm leading-tight uppercase border hover:border-focus hover:text-focus hover:bg-primary-focus focus:outline-none focus:ring-0 transition duration-150 ease-in-out ${getBasicButtonClass()}`}>
+        <button onClick={onClick} type={"button"} className={`inline-block px-6 py-2 text-primary-focus font-semibold text-sm leading-tight border hover:border-focus hover:text-focus hover:bg-primary-focus focus:outline-none focus:ring-0 transition duration-150 ease-in-out ${getBasicButtonClass()}`}>
             {children}
         </button>
     )
     
     const $outlineButton = (
-        <button onClick={onClick} type={"button"} className={"inline-block px-6 py-2 text-primary-focus font-semibold text-sm leading-tight uppercase hover:text-focus bg-white border border-primary-focus hover:border-primary-focus hover:bg-focus focus:outline-none focus:ring-0 transition duration-150 ease-in-out}"} >
+        <button onClick={onClick} type={"button"} className={"inline-block px-6 py-2 text-primary-focus font-semibold text-sm leading-tight hover:text-focus bg-white border border-primary-focus hover:border-primary-focus hover:bg-focus focus:outline-none focus:ring-0 transition duration-150 ease-in-out}"} >
+            {children}
+        </button>
+    )
+
+    const $floatButton = (
+        <button onClick={onClick} type={"button"} className={"inline-block px-6 py-2 text-gray-400 font-semibold text-sm leading-tight hover:text-gray-600 focus:outline-none duration-150 ease-in-out "} >
             {children}
         </button>
     )
@@ -48,6 +54,9 @@ export default function Button(props: IProps) {
     switch (type) {
     case ButtonType.outline:
         $button = $outlineButton
+        break
+    case ButtonType.float:
+        $button = $floatButton
         break
     default:
         
