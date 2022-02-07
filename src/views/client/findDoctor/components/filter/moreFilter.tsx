@@ -46,11 +46,11 @@ export default function MoreFilter(props: IProps) {
         console.log(id)
     }
     const $genderList = (
-        <div className={'w-full'}>
-            <p className={'text-lg font-bold text-primary-focus leading-none'}>Gender</p>
-            <div className={'grid grid-cols-2 gap-y-2 mt-2'}>
+        <div className={"w-full"}>
+            <p className={"text-lg font-bold text-primary-focus leading-none"}>Gender</p>
+            <div className={"grid grid-cols-2 gap-y-2 mt-2"}>
                 {dataForGender.map(({name, id}, idx) => {
-                    return <div className={'w-full flex items-start'} key={idx}>
+                    return <div className={"w-full flex items-start"} key={idx}>
                         {$item(false, name, idx, () => {
                             onSelectGender(id)
                         })}
@@ -61,17 +61,17 @@ export default function MoreFilter(props: IProps) {
     )
 
     const $content = (
-        <div className={'w-full px-4 py-6'}>
+        <div className={"w-full px-4 py-6"}>
             {$genderList}
         </div>
     )
 
     const $close = (
-        <div className={'w-full flex flex-row justify-end'}>
+        <div className={"w-full flex flex-row justify-end"}>
             <Button onClick={() => {
                 onClose && onClose()
             }} type={ButtonType.float} >
-                <span className={'text-xl'}>
+                <span className={"text-xl"}>
                     <i className="fas fa-times" />
                 </span>
             </Button>

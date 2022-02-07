@@ -45,7 +45,7 @@ export default function Button(props: IProps) {
     )
 
     const $floatButton = (
-        <button onClick={onClick} type={"button"} className={"inline-block px-6 py-2 text-gray-400 font-semibold text-sm leading-tight hover:text-gray-600 focus:outline-none duration-150 ease-in-out "} >
+        <button onClick={onClick} type={"button"} className={"inline-block px-6 py-2 text-gray-400 font-semibold text-sm leading-tight hover:text-gray-600 duration-150 ease-in-out "} >
             {children}
         </button>
     )

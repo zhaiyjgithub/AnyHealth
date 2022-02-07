@@ -49,7 +49,6 @@ export default function DistanceFilter(props: IProps) {
                 onApply && onApply(distance)
                 setShow(false)
             }} >Apply</Button>
-
         </div>
     )
 

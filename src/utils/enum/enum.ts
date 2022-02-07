@@ -32,6 +32,9 @@ export enum WeekDay {
     Saturday= 6,
 }
 
+export const WeekDayShort: Array<string> = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+export const MonthShort: Array<string> = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
 export enum APM {
     AM= 0,
     PM= 1

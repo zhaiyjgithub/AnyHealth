@@ -1,5 +1,5 @@
 import moment from "moment";
-import {TimeFormat} from "../enum/enum";
+import {MonthShort, TimeFormat, WeekDayShort} from "../enum/enum";
 
 export const DisabledDate = "2000-01-01T00:00:00Z"
 
@@ -19,4 +19,12 @@ export const convertHHmmStringToHHmm = (HHmm: string) => {
 export const convertDateTimeToUTC = (date: string, dateTime: string): string => {
     const dateTimeString = `${date} ${dateTime}`
     return moment.utc(moment(dateTimeString, TimeFormat.YYYYMMDDHHmm)).format(TimeFormat.YYYYMMDDHHmm)
+}
+
+export const formatDateToWeekMonthDay = (date: Date) => {
+    const m = moment(date)
+    const weekday = m.weekday()
+    const month = m.month()
+    const day = m.date()
+    return `${WeekDayShort[weekday]}, ${MonthShort[month]} ${day}`
 }

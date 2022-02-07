@@ -10,33 +10,40 @@ export default function FindDoctor() {
         setApptType(type)
     }
     const $apptTab = (
-        <div className={'flex fle-row items-center space-x-6 mt-6 mx-6'}>
+        <div className={"flex fle-row items-center space-x-6 mt-6"}>
             <button onClick={() => {
                 onChangeApptType(AppointmentType.anyType)
-            }} type={'button'} className={`inline-block py-2 text-primary-focus hover:text-gray-400 text-base font-medium border-b-2 ${apptType === AppointmentType.anyType ? 'border-primary-focus' : 'border-transparent'}`}>
+            }} type={"button"} className={`inline-block py-2 text-primary-focus hover:text-gray-400 text-base font-medium border-b-2 ${apptType === AppointmentType.anyType ? "border-primary-focus" : "border-transparent"}`}>
                 All appointments
             </button>
             <button onClick={() => {
                 onChangeApptType(AppointmentType.inClinic)
-            }} type={'button'} className={`inline-block py-2 text-primary-focus hover:text-gray-400 text-base font-medium border-b-2 ${apptType === AppointmentType.inClinic ? 'border-primary-focus' : 'border-transparent'}`}>
+            }} type={"button"} className={`inline-block py-2 text-primary-focus hover:text-gray-400 text-base font-medium border-b-2 ${apptType === AppointmentType.inClinic ? "border-primary-focus" : "border-transparent"}`}>
                 In-person
             </button>
-            <button onClick={() => {
-                onChangeApptType(AppointmentType.virtual)
-            }} type={'button'} className={`inline-flex flex-row items-center space-x-2 py-2 text-primary-focus hover:text-gray-400 text-base font-medium border-b-2 ${apptType === AppointmentType.virtual ? 'border-primary-focus' : 'border-transparent'}`}>
-                <p>Video visit</p>
-                <p className={'text-sm text-white px-1 bg-pink-500 italic uppercase rounded'}>New</p>
-            </button>
+            <div className={'flex flex-row items-center space-x-2'}>
+                <button onClick={() => {
+                    onChangeApptType(AppointmentType.virtual)
+                }} type={"button"} className={`inline-flex flex-row items-center space-x-2 py-2 text-primary-focus hover:text-gray-400 text-base font-medium border-b-2 ${apptType === AppointmentType.virtual ? "border-primary-focus" : "border-transparent"}`}>
+                    <p>Video visit</p>
+                </button>
+                <p className={"text-sm text-white px-1 bg-pink-500 italic uppercase rounded"}>New</p>
+            </div>
         </div>
     )
 
     const $navBar = (<Navbar />)
-    const $filter = (<Filter />)
-    return (
-        <div className={'w-full min-h-full'}>
-            {$navBar}
+    const $filter = (<div className={"mt-4"}><Filter /></div>)
+    const $content = (
+        <div className={"px-6 w-full"}>
             {$apptTab}
             {$filter}
+        </div>
+    )
+    return (
+        <div className={"w-full min-h-full"}>
+            {$navBar}
+            {$content}
         </div>
     )
 }
