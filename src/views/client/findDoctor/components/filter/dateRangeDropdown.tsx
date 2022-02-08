@@ -8,8 +8,8 @@ export enum AvailableDateRange {
 
 const data: Array<{value: AvailableDateRange, name: string, icon: any}> = [
     {value: AvailableDateRange.nextAvailable, name: "Next available", icon: <i className="far fa-clock text-lg flex-none"></i>},
-    {value: AvailableDateRange.next5Days, name: "Next 5 days", icon: <i className="far fa-calendar-minus text-lg flex-none"></i>},
-    {value: AvailableDateRange.next2Weeks, name: "Next 2 weeks", icon: <i className="far fa-calendar-alt text-lg flex-none"></i>},
+    {value: AvailableDateRange.next5Days, name: "5 days", icon: <i className="far fa-calendar-minus text-lg flex-none"></i>},
+    {value: AvailableDateRange.next2Weeks, name: "2 weeks", icon: <i className="far fa-calendar-alt text-lg flex-none"></i>},
 ]
 
 interface IProps {
@@ -21,13 +21,14 @@ export default function DateRangeDropdown(props: IProps) {
     const {dateRange = AvailableDateRange.nextAvailable, onSelect} = props
     const [show, setShow] = useState<boolean>(false)
 
+    const rangeItem = data.find((_item) => _item.value === dateRange)
     const $toggleButton = (
         <button onClick={(e) => {
             e.stopPropagation()
             setShow(!show)
         }} type={"button"} className={"z-10 relative px-4 py-2 font-medium rounded-full flex flex-row items-center border text-primary-focus text-sm leading-snug hover:bg-base-250 hover:border-primary-focus border-base-300 bg-white space-x-2"}>
             <i className="flex-none far fa-calendar"></i>
-            <span>{"Login"}</span>
+            <span>{rangeItem?.name}</span>
         </button>
     )
 

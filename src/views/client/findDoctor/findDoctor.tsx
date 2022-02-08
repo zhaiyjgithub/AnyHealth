@@ -12,7 +12,7 @@ export default function FindDoctor() {
         setApptType(type)
     }
     const $apptTab = (
-        <div className={"flex fle-row items-center space-x-6 mt-6"}>
+        <div className={"flex fle-row items-center space-x-6 mt-6 px-6"}>
             <button onClick={() => {
                 onChangeApptType(AppointmentType.anyType)
             }} type={"button"} className={`inline-block py-2 text-primary-focus hover:text-gray-400 text-base font-medium border-b-2 ${apptType === AppointmentType.anyType ? "border-primary-focus" : "border-transparent"}`}>
@@ -35,7 +35,7 @@ export default function FindDoctor() {
     )
 
     const $navBar = (<Navbar />)
-    const $filter = (<div className={"mt-4"}><Filter /></div>)
+    const $filter = (<div className={"mt-4 px-6"}><Filter /></div>)
 
     const $stickHeader = (
         <Sticky className={'mt-4'}>
@@ -43,7 +43,7 @@ export default function FindDoctor() {
         </Sticky>
     )
     const $content = (
-        <div className={"px-6 w-full xl:w-3/4 border-r flex-1"}>
+        <div className={"w-full xl:w-3/4 border-r flex-1"}>
             {$apptTab}
             {$filter}
             {$stickHeader}

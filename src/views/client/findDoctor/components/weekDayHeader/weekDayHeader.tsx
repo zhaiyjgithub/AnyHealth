@@ -67,7 +67,7 @@ export default function WeekDayHeader() {
     )
 
     return (
-        <div className={"flex flex-row items-center justify-between bg-white"}>
+        <div className={"flex flex-row items-center justify-between bg-white border-b border-base-300 px-6"}>
             {$counterForInNextWork}
             {$weekDayList}
         </div>

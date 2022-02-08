@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import "react-calendar/dist/Calendar.css";
+import "../src/views/client/findDoctor/components/filter/calendarCustom.css";
 import "leaflet/dist/leaflet.css";
 import reportWebVitals from "./reportWebVitals";
 import {HashRouter, Route, Switch} from "react-router-dom";
