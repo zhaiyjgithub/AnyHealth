@@ -6,11 +6,12 @@ import Calendar from "react-calendar";
 
 interface IProps {
     date: Date,
-    onApply: (date: Date) => void
+    onApply: (date: Date) => void,
+    onCancel: () => void
 }
 
 export default function CalendarFilter(props: IProps) {
-    const {onApply} = props
+    const {onApply, onCancel} = props
     const [show, setShow] = useState<boolean>(false)
     const [date, setDate] = useState<Date>(props.date)
 
@@ -19,7 +20,7 @@ export default function CalendarFilter(props: IProps) {
         <button onClick={(e) => {
             e.stopPropagation()
             setShow(!show)
-        }} type={"button"} className={"z-10 relative px-4 py-2 font-medium rounded-full flex flex-row items-center border text-primary-focus text-base leading-tight hover:bg-base-250 hover:border-primary-focus border-base-300 bg-white space-x-2"}>
+        }} type={"button"} className={"z-10 relative px-4 py-2 font-medium rounded-full flex flex-row items-center border text-primary-focus text-sm leading-snug hover:bg-base-250 hover:border-primary-focus border-base-300 bg-white space-x-2"}>
             <i className="flex-none far fa-calendar"></i>
             <span>{formattedDate}</span>
         </button>
@@ -31,15 +32,9 @@ export default function CalendarFilter(props: IProps) {
         }} className={"fixed inset-0 h-full w-full z-20"} />
     ) : null
 
-    const onCancel = () => {
-        //
-    }
-
     const $footer = (
         <div className={"w-full flex flex-row items-center justify-end border-t px-4 py-2"}>
-            <Button type={ButtonType.float} onClick={() => {
-                onCancel()
-            }}>Cancel</Button>
+            <Button type={ButtonType.float} onClick={onCancel}>Cancel</Button>
             <Button status={ButtonStatus.primary} onClick={() => {
                 onApply && onApply(date)
                 setShow(false)

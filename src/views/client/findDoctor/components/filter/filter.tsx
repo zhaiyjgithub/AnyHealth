@@ -3,12 +3,13 @@ import SpecialtyFilter from "./specialtyFilter";
 import DistanceFilter from "./distanceFilter";
 import MoreFilter from "./moreFilter";
 import CalendarFilter from "./calendarFilter";
-import DateRangeDropdown from "./dateRangeDropdown";
+import DateRangeDropdown, {AvailableDateRange} from "./dateRangeDropdown";
 
 export default function Filter() {
     const [selectedSpecialty, setSelectedSpecialty] = useState<Array<string>>([])
     const [showMoreFilter, setShowMoreFilter] = useState<boolean>(false)
     const [languages] = useState<Array<string>>([])
+    const [dateRange, setDateRange] = useState<AvailableDateRange>(AvailableDateRange.nextAvailable)
 
     const $toggleButtonForMoreFilter = (
         <button onClick={(e) => {
@@ -46,15 +47,20 @@ export default function Filter() {
         </div>
     )
 
+    const onSelectDateRange = (range: AvailableDateRange) => {
+        setDateRange(range)
+    }
+
     const $dateFilter = (
-        <div className={'flex flex-row items-center space-x-2 divide-x'}>
+        <div className={'flex flex-row items-center space-x-4'}>
             <CalendarFilter date={new Date} onApply={() => {
                 //
             }} />
+            <div className={'h-5 w-px bg-gray-200'}/>
 
             <div className={'flex flex-row items-center space-x-2'}>
-                <span>View</span>
-                <DateRangeDropdown />
+                <span className={'text-sm leading-snug text-primary-focus font-medium'}>View</span>
+                <DateRangeDropdown dateRange={dateRange} onSelect={onSelectDateRange} />
             </div>
         </div>
     )
