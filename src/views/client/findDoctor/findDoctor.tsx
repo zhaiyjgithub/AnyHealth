@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import Navbar from "./components/navbar/navbar";
 import {AppointmentType} from "../../../utils/enum/enum";
 import Filter from "./components/filter/filter";
+import Sticky from "react-sticky-el";
+import WeekDayHeader from "./components/weekDayHeader/weekDayHeader";
 
 export default function FindDoctor() {
     const [apptType, setApptType] = useState<AppointmentType>(AppointmentType.anyType)
@@ -21,7 +23,7 @@ export default function FindDoctor() {
             }} type={"button"} className={`inline-block py-2 text-primary-focus hover:text-gray-400 text-base font-medium border-b-2 ${apptType === AppointmentType.inClinic ? "border-primary-focus" : "border-transparent"}`}>
                 In-person
             </button>
-            <div className={'flex flex-row items-center space-x-2'}>
+            <div className={"flex flex-row items-center space-x-2"}>
                 <button onClick={() => {
                     onChangeApptType(AppointmentType.virtual)
                 }} type={"button"} className={`inline-flex flex-row items-center space-x-2 py-2 text-primary-focus hover:text-gray-400 text-base font-medium border-b-2 ${apptType === AppointmentType.virtual ? "border-primary-focus" : "border-transparent"}`}>
@@ -34,14 +36,26 @@ export default function FindDoctor() {
 
     const $navBar = (<Navbar />)
     const $filter = (<div className={"mt-4"}><Filter /></div>)
+
+    const $stickHeader = (
+        <Sticky className={'mt-4'}>
+            <WeekDayHeader />
+        </Sticky>
+    )
     const $content = (
-        <div className={"px-6 w-full"}>
+        <div className={"px-6 w-full xl:w-3/4 border-r flex-1"}>
             {$apptTab}
             {$filter}
+            {$stickHeader}
+            <div className={"w-full h-96 bg-blue-300 mt-4"}></div>
+            <div className={"w-full h-96"}></div>
+            <div className={"w-full h-96"}></div>
+            <div className={"w-full h-96"}></div>
+            <div className={"w-full h-96"}></div>
         </div>
     )
     return (
-        <div className={"w-full min-h-full"}>
+        <div className={"flex flex-col w-full min-h-screen"}>
             {$navBar}
             {$content}
         </div>

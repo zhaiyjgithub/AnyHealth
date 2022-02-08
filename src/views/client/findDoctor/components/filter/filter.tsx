@@ -10,6 +10,7 @@ export default function Filter() {
     const [showMoreFilter, setShowMoreFilter] = useState<boolean>(false)
     const [languages] = useState<Array<string>>([])
     const [dateRange, setDateRange] = useState<AvailableDateRange>(AvailableDateRange.nextAvailable)
+    const [nextAvailableDate, setNextAvailableDate] = useState<Date>(new Date())
 
     const $toggleButtonForMoreFilter = (
         <button onClick={(e) => {
@@ -53,11 +54,10 @@ export default function Filter() {
 
     const $dateFilter = (
         <div className={'flex flex-row items-center space-x-4'}>
-            <CalendarFilter date={new Date} onApply={() => {
-                //
+            <CalendarFilter date={nextAvailableDate} onApply={(date) => {
+                setNextAvailableDate(date)
             }} />
             <div className={'h-5 w-px bg-gray-200'}/>
-
             <div className={'flex flex-row items-center space-x-2'}>
                 <span className={'text-sm leading-snug text-primary-focus font-medium'}>View</span>
                 <DateRangeDropdown dateRange={dateRange} onSelect={onSelectDateRange} />
