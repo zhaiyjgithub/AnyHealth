@@ -2,7 +2,7 @@ import React from "react";
 
 export default function WeekDayHeader() {
     const $counterForInNextWork = (
-        <div className={"text-3xl h-16 flex flex-1 flex-row items-center "}>
+        <div className={"text-3xl h-16 flex flex-1 flex-row items-center"}>
             <span>
                 <svg data-test="search-results-in-network-icon" xmlns="http://www.w3.org/2000/svg" color="#00E6AF" additional-margin="true" className="w-7 h-7"
                     viewBox="0 0 31 35"><path opacity=".12"
@@ -22,7 +22,7 @@ export default function WeekDayHeader() {
     const $day = (date: Date, idx: number) => {
         console.log(date)
         return (
-            <div key={idx} className={"flex flex-col items-center justify-center"}>
+            <div key={idx} className={"w-full flex flex-col items-center justify-center"}>
                 <p className={"text-sm text-primary-focus font-semibold text-center"}>{"Sat"}</p>
                 <p className={"text-sm text-primary-focus font-bold text-center"}>{"Feb 2"}</p>
             </div>
@@ -50,7 +50,7 @@ export default function WeekDayHeader() {
     const data = [0, 1, 2, 3, 4]
     const $weekDays = () => {
         return (
-            <div className={'flex flex-1 grid grid-cols-5'}>
+            <div className={"flex flex-1 grid grid-cols-5"}>
                 {data.map((idx) => {
                     return $day(new Date(), idx)
                 })}
@@ -59,7 +59,7 @@ export default function WeekDayHeader() {
     }
 
     const $weekDayList = (
-        <div className={"flex-1 flex flex-row items-center justify-"}>
+        <div className={"flex-1 flex flex-row items-center"}>
             {$previous}
             {$weekDays()}
             {$next}
@@ -67,7 +67,7 @@ export default function WeekDayHeader() {
     )
 
     return (
-        <div className={"flex flex-row items-center justify-between bg-white border-b border-base-300 px-6"}>
+        <div className={"flex flex-row items-center justify-between bg-white border-b border-base-300 px-4"}>
             {$counterForInNextWork}
             {$weekDayList}
         </div>

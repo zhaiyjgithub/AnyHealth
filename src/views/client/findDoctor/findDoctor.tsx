@@ -4,6 +4,7 @@ import {AppointmentType} from "../../../utils/enum/enum";
 import Filter from "./components/filter/filter";
 import Sticky from "react-sticky-el";
 import WeekDayHeader from "./components/weekDayHeader/weekDayHeader";
+import DoctorItem from "./components/doctor/doctorItem";
 
 export default function FindDoctor() {
     const [apptType, setApptType] = useState<AppointmentType>(AppointmentType.anyType)
@@ -42,16 +43,19 @@ export default function FindDoctor() {
             <WeekDayHeader />
         </Sticky>
     )
+
+    const $resultList = (
+        <div className={"w-full h-96 bg-white mt-4"}>
+            <DoctorItem />
+        </div>
+    )
+
     const $content = (
         <div className={"w-full xl:w-3/4 border-r flex-1"}>
             {$apptTab}
             {$filter}
             {$stickHeader}
-            <div className={"w-full h-96 bg-blue-300 mt-4"}></div>
-            <div className={"w-full h-96"}></div>
-            <div className={"w-full h-96"}></div>
-            <div className={"w-full h-96"}></div>
-            <div className={"w-full h-96"}></div>
+            {$resultList}
         </div>
     )
     return (
