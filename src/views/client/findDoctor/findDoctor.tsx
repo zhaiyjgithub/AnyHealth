@@ -44,14 +44,18 @@ export default function FindDoctor() {
         </Sticky>
     )
 
+    console.log(DoctorItem)
     const $resultList = (
-        <div className={"w-full h-96 bg-white mt-4"}>
+        <div className={"w-full flex flex-col flex-1 bg-red-300"}>
+            <DoctorItem />
+            <DoctorItem />
+            <DoctorItem />
             <DoctorItem />
         </div>
     )
 
     const $content = (
-        <div className={"w-full xl:w-3/4 border-r flex-1"}>
+        <div className={"w-full xl:w-3/4 border-r flex flex-col flex-1"}>
             {$apptTab}
             {$filter}
             {$stickHeader}

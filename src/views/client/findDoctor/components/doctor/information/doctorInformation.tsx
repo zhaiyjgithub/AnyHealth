@@ -98,20 +98,20 @@ export default function DoctorInformation() {
         </div>
     )
     const $info = (
-        <div>
+        <div className={'flex-1'}>
             <div className={"w-full flex flex-row justify-between"}>
                 <p className={"text-xl text-primary-focus font-bold leading-snug"}>{"Dr. JerryY Smith, MD"}</p>
                 <p className={"text-sm text-gray-400 font-medium text-right mr-2"}>{"12.7mi"}</p>
             </div>
-            <p className={"text-sm text-primary-focus font-semibold leading-snug text-left"}>Primary Care Doctor</p>
-            <p className={"text-sm text-primary-focus font-medium leading-snug text-left"}>1910 N Capitol Ave
+            <p className={"text-base text-primary-focus font-medium leading-snug text-left"}>Primary Care Doctor</p>
+            <p className={"text-base text-primary-focus leading-snug text-left"}>1910 N Capitol Ave
                 San Jose, CA 95132</p>
             {$review}
             <p className={"text-base text-gray-400 text-left mt-2"}>New patient appointments • Also offers video visits</p>
         </div>
     )
     return (
-        <div className={"flex-1 flex flex-row space-x-8"}>
+        <div className={"flex-1 flex flex-row space-x-8 pl-4"}>
             {$avatar}
             {$info}
         </div>

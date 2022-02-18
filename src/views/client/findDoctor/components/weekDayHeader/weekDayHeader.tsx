@@ -23,8 +23,8 @@ export default function WeekDayHeader() {
         console.log(date)
         return (
             <div key={idx} className={"w-full flex flex-col items-center justify-center"}>
-                <p className={"text-sm text-primary-focus font-semibold text-center"}>{"Sat"}</p>
-                <p className={"text-sm text-primary-focus font-bold text-center"}>{"Feb 2"}</p>
+                <p className={"text-sm text-primary-focus font-bold text-center"}>{"Sat"}</p>
+                <p className={"text-base text-primary-focus font-bold text-center"}>{"Feb 2"}</p>
             </div>
         )
     }
