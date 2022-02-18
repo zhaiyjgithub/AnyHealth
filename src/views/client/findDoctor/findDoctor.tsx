@@ -39,7 +39,7 @@ export default function FindDoctor() {
     const $filter = (<div className={"mt-4 px-6"}><Filter /></div>)
 
     const $stickHeader = (
-        <Sticky className={'mt-4'}>
+        <Sticky className={"mt-4"}>
             <WeekDayHeader />
         </Sticky>
     )

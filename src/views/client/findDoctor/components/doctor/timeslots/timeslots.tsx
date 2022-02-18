@@ -22,8 +22,9 @@ export default function Timeslots(props: IProps) {
     }
 
     const $timeSlotsPeerDay = (data: Array<TimeSlot>) => {
+        // grid-flow-row auto-rows-max
         return (
-            <div className={"grid grid-rows-4 gap-y-2"}>
+            <div className={"grid grid-cols-1 grid-rows-4 gap-y-2"}>
                 {
                     data.map((timeSlot, idx,) => {
                         return $timeSlot(timeSlot, idx)
@@ -33,7 +34,7 @@ export default function Timeslots(props: IProps) {
         )
     }
     return (
-        <div className={"flex-1 mx-8 pr-4 grid grid-cols-5 gap-x-3"}>
+        <div className={"flex-1 mx-8 pr-4 grid grid-cols-5 gap-x-3 overflow-hidden"}>
             {sections.map((data) => {
                 return $timeSlotsPeerDay(data)
             })}

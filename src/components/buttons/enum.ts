@@ -11,6 +11,7 @@ export enum ButtonStatus {
     link,
     disabled,
     float,
+    underline
 }
 
 export enum ButtonType {
