@@ -1,30 +1,34 @@
 import {Dialog, Transition} from "@headlessui/react"
-import React, {Fragment} from "react"
+import React, {Fragment, useState} from "react"
 import Button from "../../../../../components/buttons/button";
 import {ButtonStatus, ButtonType} from "../../../../../components/buttons/enum";
 import {Gender} from "../../../../../utils/enum/enum";
 
+export interface DataForMoreFilter {
+    gender: Gender,
+}
+
 interface IProps {
+    filter: DataForMoreFilter,
     open: boolean,
-    onClose: () => void,
-    onApply: () => void,
+    onApply: (data: DataForMoreFilter) => void,
 }
 
 const dataForGender: Array<{name: string, id: Gender}> = [{name: "Male", id: Gender.Male}, {name: "No-binary", id: Gender.Trans}, {name: "Female", id: Gender.Female}]
 
 export default function MoreFilter(props: IProps) {
-    const {open, onClose, onApply} = props
+    const {open, onApply} = props
+    const [filter, setFilter] = useState<DataForMoreFilter>({gender: props.filter.gender} )
 
     function closeModal() {
-        onClose && onClose()
+        onApply && onApply(filter)
     }
 
     const $footer = (
         <div className={"w-full flex flex-row items-center justify-end border-t px-4 py-2"}>
             <Button status={ButtonStatus.primary} onClick={() => {
-                onApply && onApply()
+                onApply && onApply(filter)
             }} >Apply</Button>
-
         </div>
     )
 
@@ -43,7 +47,10 @@ export default function MoreFilter(props: IProps) {
     }
 
     const onSelectGender = (id: Gender) => {
-        console.log(id)
+        setFilter({
+            ...filter,
+            gender: id,
+        })
     }
     const $genderList = (
         <div className={"w-full"}>
@@ -51,7 +58,7 @@ export default function MoreFilter(props: IProps) {
             <div className={"grid grid-cols-2 gap-y-2 mt-2"}>
                 {dataForGender.map(({name, id}, idx) => {
                     return <div className={"w-full flex items-start"} key={idx}>
-                        {$item(false, name, idx, () => {
+                        {$item(id === filter.gender, name, idx, () => {
                             onSelectGender(id)
                         })}
                     </div>
@@ -68,9 +75,7 @@ export default function MoreFilter(props: IProps) {
 
     const $close = (
         <div className={"w-full flex flex-row justify-end"}>
-            <Button onClick={() => {
-                onClose && onClose()
-            }} type={ButtonType.float} >
+            <Button onClick={closeModal} type={ButtonType.float} >
                 <span className={"text-xl"}>
                     <i className="fas fa-times" />
                 </span>

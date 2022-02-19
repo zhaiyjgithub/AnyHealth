@@ -1,22 +1,27 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Button from "../../../../../components/buttons/button";
 import {ButtonStatus, ButtonType} from "../../../../../components/buttons/enum";
 import {SpecialtyList} from "../../../../../utils/enum/specialtyList";
 
 interface IProps {
-    selectedSpecialty: Array<string>,
-    onApply: (list: Array<string>) => void
+    selectedSpecialty: string,
+    onApply: (specialty: string) => void
 }
 
 export default function SpecialtyFilter(props: IProps) {
     const {onApply} = props
     const [show, setShow] = useState<boolean>(false)
-    const [selectedSpecialty, setSelectedSpecialty] = useState<Array<string>>(props.selectedSpecialty)
-    const [selectedSet, setSelectedSet] = useState<Set<string>>(new Set())
+    const [selectedSpecialty, setSelectedSpecialty] = useState<string>(props.selectedSpecialty)
 
     const isSelected = (targetSpecialty: string) => {
-        return selectedSet.has(targetSpecialty)
+        return selectedSpecialty === targetSpecialty
     }
+
+    useEffect(() => {
+        if (!show) {
+            onApply && onApply(selectedSpecialty)
+        }
+    }, [show])
 
     const $toggleButton = (
         <button onClick={(e) => {
@@ -34,25 +39,11 @@ export default function SpecialtyFilter(props: IProps) {
     ) : null
 
     const onSelect = (specialty: string) => {
-        if (isSelected(specialty)) {
-            const data = selectedSpecialty.filter((_item) => {
-                return _item !== specialty
-            })
-            const newSet: Set<string> = new Set(selectedSet)
-            newSet.delete(specialty)
-            setSelectedSet(newSet)
-            setSelectedSpecialty(data)
-        } else {
-            const newSet: Set<string> = new Set(selectedSet)
-            newSet.add(specialty)
-            setSelectedSet(newSet)
-            setSelectedSpecialty(selectedSpecialty.concat([specialty]))
-        }
+        setSelectedSpecialty(specialty)
     }
 
     const onClear = () => {
-        setSelectedSpecialty([])
-        setSelectedSet(new Set())
+        setSelectedSpecialty("")
     }
 
     const $footer = (
@@ -61,7 +52,6 @@ export default function SpecialtyFilter(props: IProps) {
                 onClear()
             }} >Clear</Button>
             <Button status={ButtonStatus.primary} onClick={() => {
-                onApply && onApply(selectedSpecialty)
                 setShow(false)
             }} >Apply</Button>
 

@@ -1,16 +1,40 @@
-import React, {useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import SpecialtyFilter from "./specialtyFilter";
 import DistanceFilter from "./distanceFilter";
-import MoreFilter from "./moreFilter";
+import MoreFilter, {DataForMoreFilter} from "./moreFilter";
 import CalendarFilter from "./calendarFilter";
 import DateRangeDropdown, {AvailableDateRange} from "./dateRangeDropdown";
+import {ActionTypeForSearchFilter, SearchFilterContext} from "../../searchFilterProvider";
+import {Gender} from "../../../../../utils/enum/enum";
+import moment from "moment";
 
 export default function Filter() {
-    const [selectedSpecialty, setSelectedSpecialty] = useState<Array<string>>([])
     const [showMoreFilter, setShowMoreFilter] = useState<boolean>(false)
     const [languages] = useState<Array<string>>([])
     const [dateRange, setDateRange] = useState<AvailableDateRange>(AvailableDateRange.nextAvailable)
-    const [nextAvailableDate, setNextAvailableDate] = useState<Date>(new Date())
+    const [moreFilter, setMoreFilter] = useState<DataForMoreFilter>({gender: Gender.Trans})
+
+    const {state, dispatch} = useContext(SearchFilterContext)
+
+    const onDispatch = (type: ActionTypeForSearchFilter, value: any) => {
+        dispatch({type: type, value: value})
+    }
+
+    useEffect(() => {
+        onDispatch(ActionTypeForSearchFilter.moreFilter, moreFilter)
+    }, [moreFilter])
+    
+    useEffect(() => {
+        let endDate = null
+        if (dateRange === AvailableDateRange.next5Days) {
+            const m = moment(state.startDate).add(5, "days")
+            endDate = new Date(m.year(), m.month(), m.date(), 23, 59, 59, 0)
+        } else if (dateRange === AvailableDateRange.next2Weeks) {
+            const m = moment(state.startDate).add(14, "days")
+            endDate = new Date(m.year(), m.month(), m.date(), 23, 59, 59, 0)
+        }
+        onDispatch(ActionTypeForSearchFilter.endDate, endDate)
+    }, [dateRange])
 
     const $toggleButtonForMoreFilter = (
         <button onClick={(e) => {
@@ -22,25 +46,24 @@ export default function Filter() {
     )
 
     const $modalForMoreFilter = (
-        <MoreFilter open={showMoreFilter} onClose={() => {
-            setShowMoreFilter(false)
-        }} onApply={() => {
+        <MoreFilter filter={moreFilter} open={showMoreFilter} onApply={(filter) => {
+            setMoreFilter(filter)
             setShowMoreFilter(false)
         }} />
     )
 
     const $specialtyFilter = (
-        <SpecialtyFilter selectedSpecialty={selectedSpecialty} onApply={(list) => {
-            setSelectedSpecialty(list)
+        <SpecialtyFilter selectedSpecialty={state.specialty} onApply={(specialty) => {
+            onDispatch(ActionTypeForSearchFilter.specialty, specialty)
         }} />
     )
 
-    const $distanceFilter = ( <DistanceFilter distance={""} onApply={() => {
-        //
+    const $distanceFilter = (<DistanceFilter distance={state.distance} onApply={(distance) => {
+        onDispatch(ActionTypeForSearchFilter.distance, distance)
     }} />)
 
     const $fieldFilters = (
-        <div className={'flex flex-row items-center space-x-2'}>
+        <div className={"flex flex-row items-center space-x-2"}>
             {$specialtyFilter}
             {$distanceFilter}
             {$toggleButtonForMoreFilter}
@@ -53,20 +76,20 @@ export default function Filter() {
     }
 
     const $dateFilter = (
-        <div className={'flex flex-row items-center space-x-4'}>
-            <CalendarFilter date={nextAvailableDate} onApply={(date) => {
-                setNextAvailableDate(date)
+        <div className={"flex flex-row items-center space-x-4"}>
+            <CalendarFilter date={state.startDate} onApply={(date) => {
+                onDispatch(ActionTypeForSearchFilter.startDate, date)
             }} />
-            <div className={'h-5 w-px bg-gray-200'}/>
-            <div className={'flex flex-row items-center space-x-2'}>
-                <span className={'text-sm leading-snug text-primary-focus font-medium'}>View</span>
+            <div className={"h-5 w-px bg-gray-200"}/>
+            <div className={"flex flex-row items-center space-x-2"}>
+                <span className={"text-sm leading-snug text-primary-focus font-medium"}>View</span>
                 <DateRangeDropdown dateRange={dateRange} onSelect={onSelectDateRange} />
             </div>
         </div>
     )
 
     return (
-        <div className={'flex flex-row items-center justify-between'}>
+        <div className={"flex flex-row items-center justify-between"}>
             {$fieldFilters}
             {$dateFilter}
         </div>

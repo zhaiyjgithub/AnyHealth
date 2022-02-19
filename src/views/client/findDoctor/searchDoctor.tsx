@@ -1,32 +1,45 @@
-import React, {useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Navbar from "./components/navbar/navbar";
 import {AppointmentType} from "../../../utils/enum/enum";
 import Filter from "./components/filter/filter";
 import Sticky from "react-sticky-el";
 import WeekDayHeader from "./components/weekDayHeader/weekDayHeader";
 import DoctorItem from "./components/doctor/doctorItem";
+import {ActionTypeForSearchFilter, SearchFilterContext} from "./searchFilterProvider";
 
-export default function FindDoctor() {
+export default function SearchDoctor() {
     const [apptType, setApptType] = useState<AppointmentType>(AppointmentType.anyType)
+    const {state, dispatch} = useContext(SearchFilterContext)
+
+    useEffect(() => {
+        console.log('update state: ', state)
+    }, [state])
 
     const onChangeApptType = (type: AppointmentType) => {
         setApptType(type)
+    }
+
+    const onDispatchApptType = (apptType: AppointmentType) => {
+        dispatch({type: ActionTypeForSearchFilter.apptType, value: apptType})
     }
     const $apptTab = (
         <div className={"flex fle-row items-center space-x-6 mt-6 px-6"}>
             <button onClick={() => {
                 onChangeApptType(AppointmentType.anyType)
+                onDispatchApptType(AppointmentType.anyType)
             }} type={"button"} className={`inline-block py-2 text-primary-focus hover:text-gray-400 text-base font-medium border-b-2 ${apptType === AppointmentType.anyType ? "border-primary-focus" : "border-transparent"}`}>
                 All appointments
             </button>
             <button onClick={() => {
                 onChangeApptType(AppointmentType.inClinic)
+                onDispatchApptType(AppointmentType.inClinic)
             }} type={"button"} className={`inline-block py-2 text-primary-focus hover:text-gray-400 text-base font-medium border-b-2 ${apptType === AppointmentType.inClinic ? "border-primary-focus" : "border-transparent"}`}>
                 In-person
             </button>
             <div className={"flex flex-row items-center space-x-2"}>
                 <button onClick={() => {
                     onChangeApptType(AppointmentType.virtual)
+                    onDispatchApptType(AppointmentType.virtual)
                 }} type={"button"} className={`inline-flex flex-row items-center space-x-2 py-2 text-primary-focus hover:text-gray-400 text-base font-medium border-b-2 ${apptType === AppointmentType.virtual ? "border-primary-focus" : "border-transparent"}`}>
                     <p>Video visit</p>
                 </button>
@@ -44,9 +57,8 @@ export default function FindDoctor() {
         </Sticky>
     )
 
-    console.log(DoctorItem)
     const $resultList = (
-        <div className={"w-full flex flex-col flex-1 bg-red-300"}>
+        <div className={"w-full flex flex-col flex-1"}>
             <DoctorItem />
             <DoctorItem />
             <DoctorItem />

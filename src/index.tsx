@@ -8,7 +8,7 @@ import reportWebVitals from "./reportWebVitals";
 import {HashRouter, Route, Switch} from "react-router-dom";
 import L from "leaflet";
 // import DoctorAdmin from "./views/doctor/doctorAdmin";
-import FindDoctor from "./views/client/findDoctor/findDoctor";
+import HomePage from "./views/client/homePage";
 
 let DefaultIcon = L.icon({
     iconUrl: "",
@@ -21,7 +21,7 @@ L.Marker.prototype.options.icon = DefaultIcon;
 ReactDOM.render(
     <HashRouter>
         <Switch>
-            <Route path={"/"} component={FindDoctor} />
+            <Route path={"/"} component={HomePage} />
         </Switch>
     </HashRouter>,
     document.getElementById("root")

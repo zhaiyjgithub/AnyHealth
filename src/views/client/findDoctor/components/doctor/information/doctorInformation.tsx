@@ -98,7 +98,7 @@ export default function DoctorInformation() {
         </div>
     )
     const $info = (
-        <div className={'flex-1'}>
+        <div className={"flex-1"}>
             <div className={"w-full flex flex-row justify-between"}>
                 <p className={"text-xl text-primary-focus font-bold leading-snug"}>{"Dr. JerryY Smith, MD"}</p>
                 <p className={"text-sm text-gray-400 font-medium text-right mr-2"}>{"12.7mi"}</p>

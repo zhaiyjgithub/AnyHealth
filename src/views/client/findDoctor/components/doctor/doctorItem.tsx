@@ -24,7 +24,7 @@ export default function DoctorItem() {
     )
 
     return (
-        <div className={'w-full py-4 border-b'}>
+        <div className={"w-full py-4 border-b"}>
             <div className={"w-full grid grid-cols-2"}>
                 {$doctorInfoView}
                 {$timeslotsView}
