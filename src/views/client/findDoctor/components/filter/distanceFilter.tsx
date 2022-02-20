@@ -31,7 +31,7 @@ export default function DistanceFilter(props: IProps) {
         <button onClick={(e) => {
             e.stopPropagation()
             setShow(!show)
-        }} type={"button"} className={`z-10 relative px-4 py-2 font-medium rounded-full flex flex-row items-center border text-primary-focus text-sm leading-tight hover:bg-base-250 hover:border-primary-focus ${show || distance ? "border-primary-focus bg-base-250" : "border-base-300 bg-white"}`}>
+        }} type={"button"} className={`z-10 relative px-4 py-2 font-medium rounded-full flex flex-row items-center border text-primary-focus text-sm leading-tight hover:bg-base-250 hover:border-primary-focus ${show || distance !== 1000 ? "border-primary-focus bg-base-250" : "border-base-300 bg-white"}`}>
             Distance
         </button>
     )
@@ -69,7 +69,7 @@ export default function DistanceFilter(props: IProps) {
                         }} className={"px-4 w-full hover:bg-base-250 cursor-pointer"} key={idx}>
                             <div className={" flex flex-row space-x-2 py-2 items-center"}>
                                 <input type={"radio"} checked={isSelected} className={"form-radio rounded-full w-4 h-4 rounded-none flex-none transition duration-150"}/>
-                                <p className={"text-base text-primary-focus leading-tight"}>{_item.distance}</p>
+                                <p className={"text-base text-primary-focus leading-tight"}>{_item.title}</p>
                             </div>
                         </li>
                     })}

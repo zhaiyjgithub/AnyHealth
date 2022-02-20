@@ -1,6 +1,11 @@
 import React from "react";
 
-export default function WeekDayHeader() {
+interface IProps {
+    total: number
+}
+
+export default function WeekDayHeader(props: IProps) {
+    const { total } = props
     const $counterForInNextWork = (
         <div className={"text-3xl h-16 flex flex-1 flex-row items-center"}>
             <span>
@@ -15,7 +20,7 @@ export default function WeekDayHeader() {
                         fill="#fff"></path><path
                         d="M12.86 22.733l1.75-1.989-4.423-3.981-1.748 1.989 4.422 3.981z" fill="#fff"></path></svg>
             </span>
-            <span className={"ml-4 text-primary-focus font-bold"}>3 In-network provider</span>
+            <span className={"ml-4 text-primary-focus font-bold"}>{`${total > 1000 ? "1000+" : total} In-network provider`}</span>
         </div>
     )
 

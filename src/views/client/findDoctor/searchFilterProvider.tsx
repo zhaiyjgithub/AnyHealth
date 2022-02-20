@@ -12,6 +12,7 @@ export enum ActionTypeForSearchFilter {
     moreFilter,
     startDate,
     endDate,
+    page,
 }
 
 const initialState: SearchFilter = {
@@ -23,11 +24,12 @@ const initialState: SearchFilter = {
     gender: Gender.Trans,
     zip: "",
     city: "",
-    lat: null,
-    lon: null,
-    distance: null,
+    lat: 40.748159,
+    lon: -73.978423,
+    // default value = 1000km
+    distance: 1000,
     page: 1,
-    pageSize: 10,
+    pageSize: 50,
 }
 
 interface ActionForFilter {
@@ -41,17 +43,10 @@ function reducer(state : SearchFilter, actions: ActionForFilter) {
     case ActionTypeForSearchFilter.keyword:
         return {
             ...state,
-            keyword: value,
-        }
-    case ActionTypeForSearchFilter.zip:
-        return {
-            ...state,
-            zip: value,
-        }
-    case ActionTypeForSearchFilter.city:
-        return {
-            ...state,
-            city: value,
+            keyword: value.keyword,
+            zip: value.zip,
+            city: value.city,
+            page: 1,
         }
     case ActionTypeForSearchFilter.apptType:
         return {
@@ -82,6 +77,11 @@ function reducer(state : SearchFilter, actions: ActionForFilter) {
         return {
             ...state,
             endDate: value,
+        }
+    case ActionTypeForSearchFilter.page:
+        return {
+            ...state,
+            page: value,
         }
     default:
         return state

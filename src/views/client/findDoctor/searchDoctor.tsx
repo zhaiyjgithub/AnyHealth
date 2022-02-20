@@ -6,13 +6,28 @@ import Sticky from "react-sticky-el";
 import WeekDayHeader from "./components/weekDayHeader/weekDayHeader";
 import DoctorItem from "./components/doctor/doctorItem";
 import {ActionTypeForSearchFilter, SearchFilterContext} from "./searchFilterProvider";
+import {findDoctor} from "./service/searchDoctorService";
+import {Doctor} from "./model/doctor";
+import PageFooter from "./components/pageFooter/pageFooter";
 
 export default function SearchDoctor() {
     const [apptType, setApptType] = useState<AppointmentType>(AppointmentType.anyType)
     const {state, dispatch} = useContext(SearchFilterContext)
+    const [data, setData] = useState<Array<Doctor>>([])
+    const [total, setTotal] = useState<number>(0)
 
     useEffect(() => {
-        console.log('update state: ', state)
+        findDoctor(state, (total, data) => {
+            setTotal(total)
+            setData(data)
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: "smooth",
+            });
+        }, () => {
+            //
+        })
     }, [state])
 
     const onChangeApptType = (type: AppointmentType) => {
@@ -53,16 +68,22 @@ export default function SearchDoctor() {
 
     const $stickHeader = (
         <Sticky className={"mt-4"}>
-            <WeekDayHeader />
+            <WeekDayHeader total={total} />
         </Sticky>
+    )
+
+    const $pageFooter = (
+        <div className={"my-8 mx-8"}>
+            <PageFooter currentPage={state.page} total={total} pageSize={state.pageSize} />
+        </div>
     )
 
     const $resultList = (
         <div className={"w-full flex flex-col flex-1"}>
-            <DoctorItem />
-            <DoctorItem />
-            <DoctorItem />
-            <DoctorItem />
+            {data.map((doctor, idx) => {
+                return <DoctorItem doctor={doctor} key={idx}/>
+            })}
+            {$pageFooter}
         </div>
     )
 
@@ -74,6 +95,7 @@ export default function SearchDoctor() {
             {$resultList}
         </div>
     )
+
     return (
         <div className={"flex flex-col w-full min-h-screen"}>
             {$navBar}

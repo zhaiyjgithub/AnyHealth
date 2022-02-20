@@ -1,8 +1,14 @@
 import React from "react";
 import DoctorInformation from "./information/doctorInformation";
 import Timeslots, {TimeSlot} from "./timeslots/timeslots";
+import {Doctor} from "../../model/doctor";
 
-export default function DoctorItem() {
+interface IProps {
+    doctor: Doctor
+}
+
+export default function DoctorItem(props: IProps) {
+    const { doctor } = props
     const sections: Array<Array<TimeSlot>> = [
         [{dateTime: "08:00 am"}, {dateTime: "09:00 am"}, {dateTime: "10:00 am"}, {dateTime: "11:00 am"}],
         [{dateTime: "08:00 am"}, {dateTime: "09:00 am"}, {dateTime: "10:00 am"}, {dateTime: "11:00 am"}],
@@ -11,7 +17,7 @@ export default function DoctorItem() {
         [{dateTime: "08:00 am"}, {dateTime: "09:00 am"}, {dateTime: "10:00 am"}, {dateTime: "11:00 am"}],
     ]
 
-    const $doctorInfoView = (<DoctorInformation />)
+    const $doctorInfoView = (<DoctorInformation doctor={doctor} />)
     const $timeslotsView = (<Timeslots sections={sections}/>)
     const $viewAllAvailability = (
         <div className={"w-full flex flex-row items-center justify-end mt-4 px-12"}>
