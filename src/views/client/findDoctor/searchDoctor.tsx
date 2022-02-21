@@ -67,8 +67,8 @@ export default function SearchDoctor() {
     const $filter = (<div className={"mt-4 px-6"}><Filter /></div>)
 
     const $stickHeader = (
-        <Sticky className={"mt-4"}>
-            <WeekDayHeader total={total} />
+        <Sticky className={"mt-4 z-20"}>
+            <WeekDayHeader startDate={state.startDate} total={total} />
         </Sticky>
     )
 
@@ -79,7 +79,7 @@ export default function SearchDoctor() {
     )
 
     const $resultList = (
-        <div className={"w-full flex flex-col flex-1"}>
+        <div className={"w-full flex flex-col flex-1 z-10"}>
             {data.map((doctor, idx) => {
                 return <DoctorItem doctor={doctor} key={idx}/>
             })}

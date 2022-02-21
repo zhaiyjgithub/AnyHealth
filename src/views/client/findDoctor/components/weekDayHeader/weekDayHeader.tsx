@@ -1,11 +1,38 @@
-import React from "react";
+import React, {useMemo} from "react";
+import moment from "moment";
+import {formatDateToWeekMonthDayTuple} from "../../../../../utils/util/dateTool";
 
 interface IProps {
-    total: number
+    total: number,
+    startDate: Date
+}
+
+interface AvailableDate {
+    date: Date,
+    weekDay: string,
+    month: string,
+    day: number
 }
 
 export default function WeekDayHeader(props: IProps) {
-    const { total } = props
+    const { total, startDate } = props
+
+    const data: Array<AvailableDate> = useMemo(() => {
+        const list: Array<AvailableDate> = []
+        for (let i = 0; i < 5; i ++) {
+            const m = moment(startDate).add(i, 'days')
+            const targetDate: Date = new Date(m.year(), m.month(), m.date(), 0, 0, 0, 0)
+            const [weekDay, month, day] = formatDateToWeekMonthDayTuple(targetDate)
+            list.push({
+                date: targetDate,
+                weekDay: weekDay,
+                month: month,
+                day: day,
+            })
+        }
+        return list
+    }, [startDate])
+
     const $counterForInNextWork = (
         <div className={"text-3xl h-16 flex flex-1 flex-row items-center"}>
             <span>
@@ -24,12 +51,11 @@ export default function WeekDayHeader(props: IProps) {
         </div>
     )
 
-    const $day = (date: Date, idx: number) => {
-        console.log(date)
+    const $day = (date: AvailableDate, idx: number) => {
         return (
             <div key={idx} className={"w-full flex flex-col items-center justify-center"}>
-                <p className={"text-sm text-primary-focus font-bold text-center"}>{"Sat"}</p>
-                <p className={"text-base text-primary-focus font-bold text-center"}>{"Feb 2"}</p>
+                <p className={"text-sm text-primary-focus font-bold text-center"}>{date.weekDay}</p>
+                <p className={"text-base text-primary-focus font-bold text-center"}>{`${date.month} ${date.day}`}</p>
             </div>
         )
     }
@@ -51,13 +77,12 @@ export default function WeekDayHeader(props: IProps) {
             </svg>
         </button>
     )
-    
-    const data = [0, 1, 2, 3, 4]
+
     const $weekDays = () => {
         return (
             <div className={"flex flex-1 grid grid-cols-5"}>
-                {data.map((idx) => {
-                    return $day(new Date(), idx)
+                {data.map((availableDate, idx) => {
+                    return $day(availableDate, idx)
                 })}
             </div>
         )
@@ -72,7 +97,7 @@ export default function WeekDayHeader(props: IProps) {
     )
 
     return (
-        <div className={"flex flex-row items-center justify-between bg-white border-b border-base-300 px-4"}>
+        <div className={"flex flex-row items-center justify-between bg-white border-b border-base-300 px-4 z-20"}>
             {$counterForInNextWork}
             {$weekDayList}
         </div>

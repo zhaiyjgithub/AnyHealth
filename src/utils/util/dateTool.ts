@@ -28,3 +28,11 @@ export const formatDateToWeekMonthDay = (date: Date) => {
     const day = m.date()
     return `${WeekDayShort[weekday]}, ${MonthShort[month]} ${day}`
 }
+
+export const formatDateToWeekMonthDayTuple = (date: Date): [weekDate: string, month: string, day: number] => {
+    const m = moment(date)
+    const weekday = m.weekday()
+    const month = m.month()
+    const day = m.date()
+    return [WeekDayShort[weekday], MonthShort[month], day]
+}
