@@ -1,13 +1,13 @@
 import React from "react";
-import {Doctor} from "../../../model/doctor";
+import {DoctorInfo} from "../../../model/doctor";
 
 interface IProps {
-    doctor: Doctor
+    doctorInfo: DoctorInfo
 }
 
 export default function DoctorInformation(props: IProps) {
-    const { doctor } = props
-    const $virtualVisitIcon = doctor.nextAvailableDateVirtual.length ? (
+    const { doctorInfo } = props
+    const $virtualVisitIcon = doctorInfo.nextAvailableDateVirtual.length ? (
         <div className={"absolute right-2 bottom-2 h-9 w-9 p-1.5 rounded-full bg-pink-500 border-2 border-white flex flex items-center justify-center"}>
             <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" xmlnsXlink="http://www.w3.org/1999/xlink">
                 <defs>
@@ -115,16 +115,16 @@ export default function DoctorInformation(props: IProps) {
         </div>
     )
 
-    const doctorName = `${doctor.namePrefix} ${doctor.fullName} ${doctor.jobTitle}`
-    const distance = `${doctor.distance.toFixed(2)} km`
+    const doctorName = `${doctorInfo.namePrefix} ${doctorInfo.fullName} ${doctorInfo.jobTitle}`
+    const distance = `${doctorInfo.distance.toFixed(2)} km`
     const $info = (
         <div className={"flex-1"}>
             <div className={"w-full flex flex-row justify-between"}>
                 <p className={"text-xl text-primary-focus font-bold leading-snug"}>{doctorName}</p>
                 <p className={"text-sm text-gray-400 font-medium text-right mr-2"}>{distance}</p>
             </div>
-            <p className={"text-base text-primary-focus font-medium leading-snug text-left"}>{doctor.specialty}</p>
-            <p className={"text-base text-primary-focus leading-snug text-left"}>{doctor.address}</p>
+            <p className={"text-base text-primary-focus font-medium leading-snug text-left"}>{doctorInfo.specialty}</p>
+            <p className={"text-base text-primary-focus leading-snug text-left"}>{doctorInfo.address}</p>
             {$review}
             <p className={"text-base text-gray-400 text-left mt-2"}>New patient appointments • Also offers video visits</p>
         </div>

@@ -7,13 +7,13 @@ import WeekDayHeader from "./components/weekDayHeader/weekDayHeader";
 import DoctorItem from "./components/doctor/doctorItem";
 import {ActionTypeForSearchFilter, SearchFilterContext} from "./searchFilterProvider";
 import {findDoctor} from "./service/searchDoctorService";
-import {Doctor} from "./model/doctor";
+import {DoctorInfo} from "./model/doctor";
 import PageFooter from "./components/pageFooter/pageFooter";
 
 export default function SearchDoctor() {
     const [apptType, setApptType] = useState<AppointmentType>(AppointmentType.anyType)
     const {state, dispatch} = useContext(SearchFilterContext)
-    const [data, setData] = useState<Array<Doctor>>([])
+    const [data, setData] = useState<Array<DoctorInfo>>([])
     const [total, setTotal] = useState<number>(0)
 
     useEffect(() => {
@@ -64,7 +64,7 @@ export default function SearchDoctor() {
     )
 
     const $navBar = (<Navbar />)
-    const $filter = (<div className={"mt-4 px-6"}><Filter /></div>)
+    const $filter = (<div className={"mt-4 px-6 z-30"}><Filter /></div>)
 
     const $stickHeader = (
         <Sticky className={"mt-4 z-20"}>
@@ -81,7 +81,7 @@ export default function SearchDoctor() {
     const $resultList = (
         <div className={"w-full flex flex-col flex-1 z-10"}>
             {data.map((doctor, idx) => {
-                return <DoctorItem doctor={doctor} key={idx}/>
+                return <DoctorItem doctorInfo={doctor} key={idx}/>
             })}
             {$pageFooter}
         </div>

@@ -1,24 +1,16 @@
 import React from "react";
 import DoctorInformation from "./information/doctorInformation";
-import Timeslots, {TimeSlot} from "./timeslots/timeslots";
-import {Doctor} from "../../model/doctor";
+import Timeslots from "./timeslots/timeslots";
+import {DoctorInfo} from "../../model/doctor";
 
 interface IProps {
-    doctor: Doctor
+    doctorInfo: DoctorInfo
 }
 
 export default function DoctorItem(props: IProps) {
-    const { doctor } = props
-    const sections: Array<Array<TimeSlot>> = [
-        [{dateTime: "08:00 am"}, {dateTime: "09:00 am"}, {dateTime: "10:00 am"}, {dateTime: "11:00 am"}],
-        [{dateTime: "08:00 am"}, {dateTime: "09:00 am"}, {dateTime: "10:00 am"}, {dateTime: "11:00 am"}],
-        [{dateTime: "08:00 am"}, {dateTime: "09:00 am"}, {dateTime: "10:00 am"}, {dateTime: "11:00 am"}],
-        [{dateTime: "08:00 am"}, {dateTime: "09:00 am"}, {dateTime: "10:00 am"}, {dateTime: "11:00 am"}],
-        [{dateTime: "08:00 am"}, {dateTime: "09:00 am"}, {dateTime: "10:00 am"}, {dateTime: "11:00 am"}],
-    ]
-
-    const $doctorInfoView = (<DoctorInformation doctor={doctor} />)
-    const $timeslotsView = (<Timeslots sections={sections}/>)
+    const { doctorInfo } = props
+    const $doctorInfoView = (<DoctorInformation doctorInfo={doctorInfo} />)
+    const $timeslotsView = (<Timeslots timeSlotsPerDay={doctorInfo.timeSlotsPerDay}/>)
     const $viewAllAvailability = (
         <div className={"w-full flex flex-row items-center justify-end mt-4 px-12"}>
             <button type={"button"} className={"text-base text-blue-600 underline leading-snug"} onClick={() => {

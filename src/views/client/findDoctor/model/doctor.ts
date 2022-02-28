@@ -1,8 +1,14 @@
 import {Gender} from "../../../../utils/enum/enum";
+import {TimeSlot} from "../components/doctor/timeslots/timeslots";
 
 export interface Location {
     lat: number,
     lon: number
+}
+
+export interface TimeSlotPerDay {
+    date: string,
+    timeSlots: Array<TimeSlot>
 }
 
 export interface Doctor {
@@ -31,4 +37,8 @@ export interface Doctor {
     distance: number,
     nextAvailableDateInClinic: string,
     nextAvailableDateVirtual: string
+}
+
+export interface DoctorInfo extends Doctor {
+    timeSlotsPerDay: Array<TimeSlotPerDay>
 }
