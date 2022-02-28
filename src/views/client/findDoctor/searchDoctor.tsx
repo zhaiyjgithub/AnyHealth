@@ -88,7 +88,7 @@ export default function SearchDoctor() {
     )
 
     const $content = (
-        <div className={"w-full xl:w-3/4 border-r flex flex-col flex-1"}>
+        <div className={"w-full xl:w-2/3 border-r flex flex-col flex-1"}>
             {$apptTab}
             {$filter}
             {$stickHeader}

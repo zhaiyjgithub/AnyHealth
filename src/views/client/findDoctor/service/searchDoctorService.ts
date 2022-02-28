@@ -44,5 +44,5 @@ export function findDoctor(
 const parseTimeOffset = (offset: number) => {
     const hour = parseInt((offset / 60).toString(), 10)
     const min = offset % 60
-    return `${hour < 10 ? "0" + hour : hour}:${min < 10 ? "0" + min : min}`
+    return `${hour < 10 ? hour : (hour < 13 ? hour : (hour - 12))}:${min < 10 ? "0" + min : min} ${hour < 12 ? "am" : "pm"}`
 }

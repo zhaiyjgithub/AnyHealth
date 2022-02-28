@@ -20,7 +20,7 @@ export default function WeekDayHeader(props: IProps) {
     const data: Array<AvailableDate> = useMemo(() => {
         const list: Array<AvailableDate> = []
         for (let i = 0; i < 5; i ++) {
-            const m = moment(startDate).add(i, 'days')
+            const m = moment(startDate).add(i, "days")
             const targetDate: Date = new Date(m.year(), m.month(), m.date(), 0, 0, 0, 0)
             const [weekDay, month, day] = formatDateToWeekMonthDayTuple(targetDate)
             list.push({
@@ -89,7 +89,7 @@ export default function WeekDayHeader(props: IProps) {
     }
 
     const $weekDayList = (
-        <div className={"flex-1 flex flex-row items-center"}>
+        <div className={"w-5/12 flex flex-row items-center"}>
             {$previous}
             {$weekDays()}
             {$next}

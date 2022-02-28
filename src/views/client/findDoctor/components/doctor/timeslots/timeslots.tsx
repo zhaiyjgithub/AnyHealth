@@ -16,7 +16,7 @@ export default function Timeslots(props: IProps) {
     const {timeSlotsPerDay = []} = props
 
     const $moreItem = (
-        <button type={"button"} className={"w-full py-2 bg-primary hover:bg-primary-focus text-primary-focus hover:text-focus leading-snug text-sm font-semibold"} onClick={() => {
+        <button type={"button"} className={"w-full py-2 bg-primary hover:bg-primary-focus text-primary-focus hover:text-focus leading-snug text-sm font-meduim"} onClick={() => {
             setShowMore(!showMore)
         }} >
                 More
@@ -25,7 +25,7 @@ export default function Timeslots(props: IProps) {
 
     const $timeSlot = (timeSlot: TimeSlot, idx: number) => {
         return (
-            <button type={"button"} className={"w-full py-2 bg-primary hover:bg-primary-focus text-primary-focus hover:text-focus leading-snug text-sm font-semibold"} key={idx} onClick={() => {
+            <button type={"button"} className={"w-full py-2 bg-primary hover:bg-primary-focus text-primary-focus hover:text-focus leading-snug text-sm font-meduim"} key={idx} onClick={() => {
                 // 
             }} >
                 {timeSlot.dateTime}
@@ -45,7 +45,7 @@ export default function Timeslots(props: IProps) {
         )
     }
     return (
-        <div className={"flex-1 mx-8 pr-4 grid grid-cols-5 gap-x-3 overflow-hidden"}>
+        <div className={"w-5/12 pl-8 pr-12 grid grid-cols-5 gap-x-2 overflow-hidden"}>
             {timeSlotsPerDay.map(({timeSlots, date}, idx) => {
                 const maxlength = timeSlots.length >= 5 ? 5 : timeSlots.length
                 const dataSource = showMore ? timeSlots : timeSlots.slice(0, maxlength)
