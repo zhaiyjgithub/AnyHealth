@@ -1,5 +1,6 @@
 import React from "react";
 import {DoctorInfo} from "../../../model/doctor";
+import VideoVisitToolTips from "./videoVisitToolTips";
 
 interface IProps {
     doctorInfo: DoctorInfo
@@ -117,11 +118,28 @@ export default function DoctorInformation(props: IProps) {
 
     const doctorName = `${doctorInfo.namePrefix} ${doctorInfo.fullName} ${doctorInfo.jobTitle}`
     const distance = `${doctorInfo.distance.toFixed(2)} km`
+    const $distanceView = (<p className={"text-sm text-gray-400 font-medium text-right mr-2"}>{distance}</p>)
+    const $videoVisitTag = (
+        <div className={"flex flex-row items-center space-x-1"}>
+            <p className={"leading-snug text-sm px-4 border border-gray-400 text-gray-500"}>External video visit</p>
+            <div className={'w-5 h-5 flex items-center'}>
+                <VideoVisitToolTips />
+            </div>
+        </div>
+    )
+    
+    const $tagView = () => {
+        if (doctorInfo.nextAvailableDateVirtual && doctorInfo.nextAvailableDateVirtual.length) {
+            return $videoVisitTag
+        } 
+        return $distanceView
+        
+    }
     const $info = (
         <div className={"flex-1"}>
             <div className={"w-full flex flex-row justify-between"}>
                 <p className={"text-xl text-primary-focus font-bold leading-snug"}>{doctorName}</p>
-                <p className={"text-sm text-gray-400 font-medium text-right mr-2"}>{distance}</p>
+                {$tagView()}
             </div>
             <p className={"text-base text-primary-focus font-medium leading-snug text-left"}>{doctorInfo.specialty}</p>
             <p className={"text-base text-primary-focus leading-snug text-left"}>{doctorInfo.address}</p>
