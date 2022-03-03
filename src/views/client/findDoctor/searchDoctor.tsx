@@ -9,12 +9,15 @@ import {ActionTypeForSearchFilter, SearchFilterContext} from "./searchFilterProv
 import {findDoctor} from "./service/searchDoctorService";
 import {DoctorInfo} from "./model/doctor";
 import PageFooter from "./components/pageFooter/pageFooter";
+import AllAvailableTimeSlots from "./components/allAvailableTimeSlots";
+import {list} from "postcss";
 
 export default function SearchDoctor() {
     const [apptType, setApptType] = useState<AppointmentType>(AppointmentType.anyType)
     const {state, dispatch} = useContext(SearchFilterContext)
     const [data, setData] = useState<Array<DoctorInfo>>([])
     const [total, setTotal] = useState<number>(0)
+    const [viewAllIdx, setViewAllIdx] = useState<number>(-1)
 
     useEffect(() => {
         findDoctor(state, (total, data) => {
@@ -81,18 +84,27 @@ export default function SearchDoctor() {
     const $resultList = (
         <div className={"w-full flex flex-col flex-1 z-10"}>
             {data.map((doctor, idx) => {
-                return <DoctorItem doctorInfo={doctor} key={idx}/>
+                return <DoctorItem doctorInfo={doctor} key={idx} onViewAllAvailability={() => {
+                    setViewAllIdx(idx)
+                }}/>
             })}
             {$pageFooter}
         </div>
     )
 
+    const onCloseViewAllAvailableTimeSlotsModal = () => {
+        setViewAllIdx(-1)
+    }
+    const $allTimeSlotsModal = viewAllIdx !== -1 && data.length ? (
+        <AllAvailableTimeSlots show={viewAllIdx !== -1} doctorInfo={data[viewAllIdx]} onClose={onCloseViewAllAvailableTimeSlotsModal} />
+    ) : null
     const $content = (
         <div className={"w-full xl:w-2/3 border-r flex flex-col flex-1"}>
             {$apptTab}
             {$filter}
             {$stickHeader}
             {$resultList}
+            {$allTimeSlotsModal}
         </div>
     )
 
