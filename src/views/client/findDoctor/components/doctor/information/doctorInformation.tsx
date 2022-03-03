@@ -1,12 +1,15 @@
-import React from "react";
+import React, {useContext} from "react";
 import {DoctorInfo} from "../../../model/doctor";
 import VideoVisitToolTips from "./videoVisitToolTips";
+import {SearchFilterContext} from "../../../searchFilterProvider";
+import {AppointmentType} from "../../../../../../utils/enum/enum";
 
 interface IProps {
     doctorInfo: DoctorInfo
 }
 
 export default function DoctorInformation(props: IProps) {
+    const {state} = useContext(SearchFilterContext)
     const { doctorInfo } = props
     const $virtualVisitIcon = doctorInfo.nextAvailableDateVirtual.length ? (
         <div className={"absolute right-2 bottom-2 h-9 w-9 p-1.5 rounded-full bg-pink-500 border-2 border-white flex flex items-center justify-center"}>
@@ -121,19 +124,28 @@ export default function DoctorInformation(props: IProps) {
     const $distanceView = (<p className={"text-sm text-gray-400 font-medium text-right mr-2"}>{distance}</p>)
     const $videoVisitTag = (
         <div className={"flex flex-row items-center space-x-1"}>
-            <p className={"leading-snug text-sm px-4 border border-gray-400 text-gray-500"}>External video visit</p>
-            <div className={'w-5 h-5 flex items-center'}>
+            <p className={"leading-snug text-sm px-2 border border-gray-400 text-gray-500"}>External video visit</p>
+            <div className={"w-5 h-5 flex items-center"}>
                 <VideoVisitToolTips />
             </div>
         </div>
     )
-    
+
+    const isVideoVisitEnable = (doctorInfo.nextAvailableDateVirtual && doctorInfo.nextAvailableDateVirtual.length)
     const $tagView = () => {
-        if (doctorInfo.nextAvailableDateVirtual && doctorInfo.nextAvailableDateVirtual.length) {
+        if (isVideoVisitEnable) {
             return $videoVisitTag
         } 
         return $distanceView
-        
+    }
+
+    const description = () => {
+        if ((state.appointmentType === AppointmentType.anyType ||
+            state.appointmentType === AppointmentType.virtual
+        ) && isVideoVisitEnable) {
+            return "New patient appointments • Also offers video visits"
+        } 
+        return "New patient appointments • Also offers in-persion visits"
     }
     const $info = (
         <div className={"flex-1"}>
@@ -144,7 +156,7 @@ export default function DoctorInformation(props: IProps) {
             <p className={"text-base text-primary-focus font-medium leading-snug text-left"}>{doctorInfo.specialty}</p>
             <p className={"text-base text-primary-focus leading-snug text-left"}>{doctorInfo.address}</p>
             {$review}
-            <p className={"text-base text-gray-400 text-left mt-2"}>New patient appointments • Also offers video visits</p>
+            <p className={"text-base text-gray-400 text-left mt-2"}>{description()}</p>
         </div>
     )
     return (

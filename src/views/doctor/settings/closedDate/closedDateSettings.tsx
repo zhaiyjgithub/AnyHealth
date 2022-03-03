@@ -1,8 +1,9 @@
 import React, {useContext, useEffect, useState} from "react";
 import ClosedDateEditModal from "./closedDateEditModal";
 import {ClosedDate, getClosedDateSettings, addClosedDateSettings, deleteClosedDateSettingsByID} from "./closedDateService"
-import CustomModal from "../../../../components/modal/customModal";
+import Modal from "../../../../components/modal/modal";
 import {DoctorInfoContext} from "../../doctorInfoContext";
+import Button from "../../../../components/buttons/button";
 
 export default function ClosedDateSettings() {
     const [settingsList, setSettingsList] = useState<Array<ClosedDate>>([])
@@ -141,23 +142,30 @@ export default function ClosedDateSettings() {
 
     const deleteTitle = settingsList.length && selectedDeleteIndex !== -1 ? `${settingsList[selectedDeleteIndex].startDate} to ${settingsList[selectedDeleteIndex].endDate}` : ""
     const $deleteModal = (
-        <CustomModal title={`Are you confirm to delete this closed date [${deleteTitle}] ?`}
-            description={"The changes will update to your schedule instantly."}
+        <Modal
             isOpen={isShowDeleteModal} >
-            <button
-                className="btn btn-ghost mr-4 btn-sm"
-                onClick={onCloseDeleteModal}
+            <p
+                className="text-lg font-medium leading-6 text-gray-900"
             >
-                Cancel
-            </button>
-
-            <button
-                className="btn btn-primary btn-sm"
-                onClick={onDelete}
-            >
-                Confirm
-            </button>
-        </CustomModal>
+                {`Are you confirm to delete this closed date [${deleteTitle}] ?`}
+            </p>
+        
+            <p className="text-sm text-gray-500">
+                {"The changes will update to your schedule instantly."}
+            </p>
+            <div className={"mt-4 flex flex-row items-center justify-end space-x-4"}>
+                <Button
+                    onClick={onCloseDeleteModal}
+                >
+                    Cancel
+                </Button>
+                <Button
+                    onClick={onDelete}
+                >
+                    Confirm
+                </Button>
+            </div>
+        </Modal>
     )
 
     return (
