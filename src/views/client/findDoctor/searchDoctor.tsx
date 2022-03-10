@@ -6,8 +6,8 @@ import Sticky from "react-sticky-el";
 import WeekDayHeader from "./components/weekDayHeader/weekDayHeader";
 import DoctorItem from "./components/doctor/doctorItem";
 import {ActionTypeForSearchFilter, SearchFilterContext} from "./searchFilterProvider";
-import {findDoctor} from "./service/searchDoctorService";
-import {DoctorInfo} from "./model/doctor";
+import {findDoctor, getTimeSlots} from "./service/searchDoctorService";
+import {DoctorInfo, TimeSlotPerDay} from "./model/doctor";
 import PageFooter from "./components/pageFooter/pageFooter";
 import AllAvailableTimeSlots from "./components/allAvailableTimeSlots/allAvailableTimeSlots";
 
@@ -17,6 +17,7 @@ export default function SearchDoctor() {
     const [data, setData] = useState<Array<DoctorInfo>>([])
     const [total, setTotal] = useState<number>(0)
     const [viewAllIdx, setViewAllIdx] = useState<number>(-1)
+    const [dataForAllAvailable, setDataForAllAvailable] = useState<Array<TimeSlotPerDay>>([])
 
     useEffect(() => {
         findDoctor(state, (total, data) => {
@@ -31,6 +32,14 @@ export default function SearchDoctor() {
             //
         })
     }, [state])
+
+    const getAllTimeSlots = (npi: number, startDate: string) => {
+        getTimeSlots(npi, startDate, 5, (list) => {
+            setDataForAllAvailable(list)
+        }, () => {
+            //
+        })
+    }
 
     const onChangeApptType = (type: AppointmentType) => {
         setApptType(type)
@@ -84,6 +93,7 @@ export default function SearchDoctor() {
         <div className={"w-full flex flex-col flex-1 z-10"}>
             {data.map((doctor, idx) => {
                 return <DoctorItem doctorInfo={doctor} key={idx} onViewAllAvailability={() => {
+                    setDataForAllAvailable(data[idx].timeSlotsPerDay)
                     setViewAllIdx(idx)
                 }}/>
             })}
@@ -95,7 +105,10 @@ export default function SearchDoctor() {
         setViewAllIdx(-1)
     }
     const $allTimeSlotsModal = viewAllIdx !== -1 && data.length ? (
-        <AllAvailableTimeSlots show={viewAllIdx !== -1} doctorInfo={data[viewAllIdx]} onClose={onCloseViewAllAvailableTimeSlotsModal} />
+        <AllAvailableTimeSlots timeSlotsPerDay={dataForAllAvailable} show={viewAllIdx !== -1} doctorInfo={data[viewAllIdx]} onClose={onCloseViewAllAvailableTimeSlotsModal} onRequestTimeSlots={(date) => {
+            const doctorInfo = data[viewAllIdx]
+            getAllTimeSlots(doctorInfo.npi, date)
+        }} />
     ) : null
     const $content = (
         <div className={"w-full xl:w-2/3 border-r flex flex-col flex-1"}>

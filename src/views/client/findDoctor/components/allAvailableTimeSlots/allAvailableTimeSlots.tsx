@@ -1,19 +1,22 @@
 import React from "react";
 import Modal from "../../../../../components/modal/modal";
 import Button from "../../../../../components/buttons/button";
-import {DoctorInfo} from "../../model/doctor";
+import {DoctorInfo, TimeSlotPerDay} from "../../model/doctor";
 import {ButtonType} from "../../../../../components/buttons/enum";
 import TimeSlotsPerDay from "./timeSlotsPerDay";
 import {$iconDefaultDoctor} from "../../assets/assets";
+import moment from "moment";
 
 interface IProps {
     show: boolean,
     doctorInfo: DoctorInfo,
-    onClose: () => void
+    timeSlotsPerDay: Array<TimeSlotPerDay>,
+    onClose: () => void,
+    onRequestTimeSlots: (date: string) => void
 }
 
 export default function AllAvailableTimeSlots(props: IProps) {
-    const { show, doctorInfo, onClose } = props
+    const { show, doctorInfo, onClose, onRequestTimeSlots, timeSlotsPerDay } = props
     const $closeButton = (
         <div className={"w-full flex flex-row items-center justify-end"}>
             <Button type={ButtonType.floatIcon} onClick={() => {
@@ -55,8 +58,21 @@ export default function AllAvailableTimeSlots(props: IProps) {
         </div>
     )
 
+    const onPrevious = () => {
+        const dateUTC = new Date(timeSlotsPerDay[0].date)
+        const m = moment(dateUTC).subtract(5, "days")
+            .toISOString()
+        onRequestTimeSlots && onRequestTimeSlots(m)
+    }
+
+    const onNext = () => {
+        const dateUTC = new Date(timeSlotsPerDay[timeSlotsPerDay.length - 1].date)
+        const m = moment(dateUTC).add(1, "days")
+            .toISOString()
+        onRequestTimeSlots && onRequestTimeSlots(m)
+    }
     const $timeSlotsView = (
-        <TimeSlotsPerDay timeSlotsPerDay={doctorInfo.timeSlotsPerDay} doctorName={doctorName} />
+        <TimeSlotsPerDay timeSlotsPerDay={timeSlotsPerDay} doctorName={doctorName} onNext={onNext} onPrevious={onPrevious} />
     )
     return (
         <Modal isOpen={show} >

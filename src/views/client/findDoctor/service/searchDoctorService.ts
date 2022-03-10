@@ -2,7 +2,7 @@ import {SortBy} from "../../../../utils/enum/enum";
 import {sendRequest} from "../../../../utils/http/http";
 import {ApiDoctor} from "../../../../utils/http/api";
 import {SearchFilter} from "../model/searchFilter";
-import {DoctorInfo} from "../model/doctor";
+import {DoctorInfo, TimeSlotPerDay} from "../model/doctor";
 
 export function findDoctor(
     filter: SearchFilter,
@@ -36,6 +36,26 @@ export function findDoctor(
             })
         })
         success && success(data.total, data.data)
+    }, () => {
+        fail && fail()
+    })
+}
+
+export const getTimeSlots = (npi: number, startDate: string, range: number = 5, success: (list: Array<TimeSlotPerDay>) => void, fail: () => void) => {
+    const param = {
+        Npi: npi,
+        StartDate: startDate,
+        range: range,
+    }
+    sendRequest(ApiDoctor.GetTimeSlots, param, (data) => {
+        data.forEach(({date, timeSlots}: TimeSlotPerDay) => {
+            const targetDate = new Date(date)
+            const initialMinutes = targetDate.getHours() * 60
+            timeSlots.forEach((timeSlot) => {
+                timeSlot.dateTime = parseTimeOffset(initialMinutes + timeSlot.offset)
+            })
+        })
+        success && success(data)
     }, () => {
         fail && fail()
     })
