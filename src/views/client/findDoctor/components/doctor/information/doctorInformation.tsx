@@ -59,13 +59,16 @@ export default function DoctorInformation(props: IProps) {
         return $distanceView
     }
 
-    const description = () => {
-        if ((state.appointmentType === AppointmentType.anyType ||
-            state.appointmentType === AppointmentType.virtual
-        ) && isVideoVisitEnable) {
-            return "New patient appointments • Also offers video visits"
-        } 
-        return "New patient appointments • Also offers in-persion visits"
+    let subTitleForAddressOrVideoVisit = ''
+    let description = ''
+    if ((state.appointmentType === AppointmentType.anyType ||
+        state.appointmentType === AppointmentType.virtual
+    ) && isVideoVisitEnable) {
+        description = "New patient appointments • Also offers video visits"
+        subTitleForAddressOrVideoVisit = 'Video Visit'
+    } else {
+        description = "New patient appointments • Also offers in-person visits"
+        subTitleForAddressOrVideoVisit = doctorInfo.address
     }
     const $info = (
         <div className={"flex-1"}>
@@ -74,9 +77,9 @@ export default function DoctorInformation(props: IProps) {
                 {$tagView()}
             </div>
             <p className={"text-base text-primary-focus font-medium leading-snug text-left"}>{doctorInfo.specialty}</p>
-            <p className={"text-base text-primary-focus leading-snug text-left"}>{doctorInfo.address}</p>
+            <p className={"text-base text-primary-focus leading-snug text-left"}>{subTitleForAddressOrVideoVisit}</p>
             {$review}
-            <p className={"text-base text-gray-400 text-left mt-2"}>{description()}</p>
+            <p className={"text-base text-gray-400 text-left mt-2"}>{description}</p>
         </div>
     )
     return (
