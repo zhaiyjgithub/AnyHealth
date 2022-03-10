@@ -35,7 +35,7 @@ export default function Timeslots(props: IProps) {
 
     const $timeSlotsPeerDay = (data: Array<TimeSlot>, date: string, idx: number) => {
         return (
-            <div key={idx} className={"grid grid-cols-1 grid-rows-4 gap-y-2"}>
+            <div key={idx} className={"flex flex-col space-y-2"}>
                 {
                     data.map((timeSlot, idx,) => {
                         return !showMore && idx === data.length - 1 ? $moreItem : $timeSlot(timeSlot, idx)

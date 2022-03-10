@@ -20,6 +20,7 @@ export enum ButtonType {
     rounded,
     roundedOutline,
     float,
+    floatIcon
 }
 
 export enum ButtonSize {

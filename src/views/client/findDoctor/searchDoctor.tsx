@@ -9,8 +9,7 @@ import {ActionTypeForSearchFilter, SearchFilterContext} from "./searchFilterProv
 import {findDoctor} from "./service/searchDoctorService";
 import {DoctorInfo} from "./model/doctor";
 import PageFooter from "./components/pageFooter/pageFooter";
-import AllAvailableTimeSlots from "./components/allAvailableTimeSlots";
-import {list} from "postcss";
+import AllAvailableTimeSlots from "./components/allAvailableTimeSlots/allAvailableTimeSlots";
 
 export default function SearchDoctor() {
     const [apptType, setApptType] = useState<AppointmentType>(AppointmentType.anyType)
