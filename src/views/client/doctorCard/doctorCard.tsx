@@ -3,6 +3,7 @@ import NavBar from "./components/navBar/navBar";
 import {$iconDefaultDoctor} from "../findDoctor/assets/assets";
 import SectionHeader from "./components/sectionHeader/sectionHeader";
 import RecentRatting from "./components/ratting/recentRatting";
+import InsuranceList from "./components/insurance/insuranceList";
 
 export default function DoctorCard() {
     const $previewPhotosButton = (
@@ -67,16 +68,34 @@ export default function DoctorCard() {
         <RecentRatting />
     )
 
+    const $aboutView = (
+        <div className={'w-full'}>
+            <p className={"text-xl text-primary-focus font-bold"}>About Dr. Binh Dang</p>
+            <div className={"block mt-2"}>
+                <span className={"text-base text-primary-focus line-clamp-3"}>
+                Dr. Dang is board certified in Family Medicine, leads the primary care department of Action Health. Over his long professional history in the medical field, Dr. Dang has become specialized in Family Medicine, Pediatrics, Prenatal Care, and Emergency Medicine. Dr...
+                    <span><button type={"button"} className={"cursor-pointer ml-2 text-blue-500 border-b border-blue-500 border-dotted hover:border-solid"}>Show more</button></span>
+                </span>
+            </div>
+        </div>
+    )
+
+    const $insuranceList = (
+        <InsuranceList />
+    )
+
     return (
         <div className={"w-full"}>
             <NavBar />
             <div className={"flex flex-col items-center"}>
                 <div className={"container px-8 py-4 flex flex-row"}>
-                    <div className={"w-3/5 space-y-4"}>
+                    <div className={"w-3/5 space-y-8"}>
                         {$basicInfo}
                         {$sectionHeader}
                         {$newPatientAppointmentsTips}
                         {$recenterRattingView}
+                        {$aboutView}
+                        {$insuranceList}
                     </div>
                     <div className={"w-2/5 h-96 bg-blue-400"}>
 
