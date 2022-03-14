@@ -1,15 +1,15 @@
 import React from "react";
-import {ButtonStatus, ButtonType} from "./enum";
+import {ButtonStatus, Variant} from "./enum";
 
 interface IProps {
-    type?: ButtonType,
+    variant?: Variant,
     status?: ButtonStatus,
     onClick: () => void,
     children: any,
 }
 
 export default function Button(props: IProps) {
-    const {type = ButtonType.basic, status = ButtonStatus.primary, onClick, children} = props
+    const {variant = Variant.basic, status = ButtonStatus.primary, onClick, children} = props
 
     const getBasicButtonClass = (): string => {
         let classNameForBasic = ""
@@ -57,14 +57,14 @@ export default function Button(props: IProps) {
     )
     
     let $button = $basicButton
-    switch (type) {
-    case ButtonType.outline:
+    switch (variant) {
+    case Variant.outline:
         $button = $outlineButton
         break
-    case ButtonType.float:
+    case Variant.float:
         $button = $floatButton
         break
-    case ButtonType.floatIcon:
+    case Variant.floatIcon:
         $button = $floatIconButton
         break
     default:

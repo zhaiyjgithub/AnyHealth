@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Button from "../../../../../components/buttons/button";
-import {ButtonStatus, ButtonType} from "../../../../../components/buttons/enum";
+import {ButtonStatus, Variant} from "../../../../../components/buttons/enum";
 
 interface IProps {
     distance: number | null,
@@ -48,7 +48,7 @@ export default function DistanceFilter(props: IProps) {
 
     const $footer = (
         <div className={"w-full flex flex-row items-center justify-end border-t px-4 py-2"}>
-            <Button type={ButtonType.float} onClick={() => {
+            <Button variant={Variant.float} onClick={() => {
                 onClear()
             }} >Clear</Button>
             <Button status={ButtonStatus.primary} onClick={() => {

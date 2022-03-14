@@ -1,4 +1,6 @@
 import React from "react";
+import Button from "../../../../../components/buttons/button";
+import {Variant} from "../../../../../components/buttons/enum";
 
 export default function RecentRatting() {
     const $star = (
@@ -28,9 +30,34 @@ export default function RecentRatting() {
         </div>
     )
 
-    const $recentList = (
-        <div className={'border-l px-8 h-96 bg-red-400 flex-1'}>
+    const $recentDetailView = () => {
+        return (
+            <div className={'w-full space-y-2'}>
+                <div>
+                    <p className={'w-full text-base font-primary-focus line-clamp-3'}>{'Dr. Suri was very thorough and asked important questions regarding y background and medical history. He explained my afib with pictures and explanations which no other doctor did. I find fib with pictures and explanations which no other doctor did. I find'}</p>
+                    <button type={'button'} className={'cursor-pointer inline-block text-blue-500 border-b border-blue-300 hover:border-blue-500'}>Show more</button>
+                </div>
+                <p className={'text-base text-gray-400'}>Marie C.March 9, 2022</p>
+            </div>
+        )
+    }
 
+    const onClickReadMoreButton = () => {
+        //
+    }
+    const $readMoreReviewsButton = (
+        <Button onClick={onClickReadMoreButton} variant={Variant.outline} >
+            Read more reviews
+        </Button>
+    )
+    const $recentList = (
+        <div className={'border-l px-8 h-96 flex-1 space-y-4'}>
+            <p className={'text-base text-semibold text-primary-focus'}>Recent reviews</p>
+            <div className={'space-y-4'}>
+                {$recentDetailView()}
+                {$recentDetailView()}
+            </div>
+            {$readMoreReviewsButton}
         </div>
     )
     return (

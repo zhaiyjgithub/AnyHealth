@@ -1,7 +1,7 @@
 import {Dialog, Transition} from "@headlessui/react"
 import React, {Fragment, useState} from "react"
 import Button from "../../../../../components/buttons/button";
-import {ButtonStatus, ButtonType} from "../../../../../components/buttons/enum";
+import {ButtonStatus, Variant} from "../../../../../components/buttons/enum";
 import {Gender} from "../../../../../utils/enum/enum";
 
 export interface DataForMoreFilter {
@@ -75,7 +75,7 @@ export default function MoreFilter(props: IProps) {
 
     const $close = (
         <div className={"w-full flex flex-row justify-end"}>
-            <Button onClick={closeModal} type={ButtonType.float} >
+            <Button onClick={closeModal} variant={Variant.float} >
                 <span className={"text-xl"}>
                     <i className="fas fa-times" />
                 </span>

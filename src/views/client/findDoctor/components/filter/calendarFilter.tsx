@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Button from "../../../../../components/buttons/button";
-import {ButtonStatus, ButtonType} from "../../../../../components/buttons/enum";
+import {ButtonStatus, Variant} from "../../../../../components/buttons/enum";
 import {formatDateToWeekMonthDay} from "../../../../../utils/util/dateTool";
 import Calendar from "react-calendar";
 
@@ -39,7 +39,7 @@ export default function CalendarFilter(props: IProps) {
 
     const $footer = (
         <div className={"w-full flex flex-row items-center justify-end border-t px-4 py-2"}>
-            <Button type={ButtonType.float} onClick={() => {
+            <Button variant={Variant.float} onClick={() => {
                 setDate(props.date)
             }}>Cancel</Button>
             <Button status={ButtonStatus.primary} onClick={() => {

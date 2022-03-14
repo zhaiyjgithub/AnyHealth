@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "../../../../../components/modal/modal";
 import Button from "../../../../../components/buttons/button";
 import {DoctorInfo, TimeSlotPerDay} from "../../model/doctor";
-import {ButtonType} from "../../../../../components/buttons/enum";
+import {Variant} from "../../../../../components/buttons/enum";
 import TimeSlotsPerDay from "./timeSlotsPerDay";
 import {$iconDefaultDoctor} from "../../assets/assets";
 import moment from "moment";
@@ -19,7 +19,7 @@ export default function AllAvailableTimeSlots(props: IProps) {
     const { show, doctorInfo, onClose, onRequestTimeSlots, timeSlotsPerDay } = props
     const $closeButton = (
         <div className={"w-full flex flex-row items-center justify-end"}>
-            <Button type={ButtonType.floatIcon} onClick={() => {
+            <Button variant={Variant.floatIcon} onClick={() => {
                 onClose && onClose()
             }} >
                 <i className="text-primary-focus text-lg fas fa-times"></i>

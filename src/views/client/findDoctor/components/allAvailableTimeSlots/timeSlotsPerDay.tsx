@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "../../../../../components/buttons/button";
-import {ButtonType} from "../../../../../components/buttons/enum";
+import {Variant} from "../../../../../components/buttons/enum";
 import {TimeSlotPerDay} from "../../model/doctor";
 import {TimeSlot} from "../doctor/timeslots/timeslots";
 import {formatDateToWeekMonthDayTuple} from "../../../../../utils/util/dateTool";
@@ -18,12 +18,12 @@ export default function TimeSlotsPerDay(props: IProps) {
     const isCurrentDate = (new Date(timeSlotsPerDay[0].date)).getDate() === (new Date()).getDate()
     const $calendarNaviButton = (
         <div className={"flex flex-row items-center space-x-4"}>
-            <Button type={ButtonType.floatIcon} onClick={() => {
+            <Button variant={Variant.floatIcon} onClick={() => {
                 !isCurrentDate && onPrevious && onPrevious()
             }} >
                 <i className={`${isCurrentDate ? 'text-gray-300' : ''} text-xl fas fa-chevron-left `}></i>
             </Button>
-            <Button type={ButtonType.floatIcon} onClick={() => {
+            <Button variant={Variant.floatIcon} onClick={() => {
                 onNext && onNext()
             }} >
                 <i className="text-xl fas fa-chevron-right"></i>

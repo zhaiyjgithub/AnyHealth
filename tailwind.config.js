@@ -74,12 +74,12 @@ module.exports = {
     },
     variants: {
         extend: {
-            borderStyle: ['hover'],
-            fontsize: ['hover'],
+            borderStyle: ["hover"],
+            fontsize: ["hover"],
         },
     },
     plugins: [
         require("@tailwindcss/line-clamp"),
-        require('@tailwindcss/forms'),
+        require("@tailwindcss/forms"),
     ],
 }

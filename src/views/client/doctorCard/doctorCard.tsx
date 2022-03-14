@@ -54,11 +54,11 @@ export default function DoctorCard() {
     )
 
     const $newPatientAppointmentsTips = (
-        <div className={'flex flex-row space-x-2 py-4 border-b border-gray-100'}>
+        <div className={"flex flex-row space-x-2 py-4 border-b border-gray-100"}>
             <i className="fas fa-calendar-alt text-pink-500 mt-1"></i>
-            <div className={''}>
-                <p className={'text-sm text-primary-focus font-medium'}>New patient appointments</p>
-                <p className={'text-sm text-primary-focus'}>Appointments available for new patients on ZenDoc</p>
+            <div className={""}>
+                <p className={"text-sm text-primary-focus font-medium"}>New patient appointments</p>
+                <p className={"text-sm text-primary-focus"}>Appointments available for new patients on ZenDoc</p>
             </div>
         </div>
     )
@@ -71,14 +71,14 @@ export default function DoctorCard() {
         <div className={"w-full"}>
             <NavBar />
             <div className={"flex flex-col items-center"}>
-                <div className={'container px-8 py-4 flex flex-row'}>
-                    <div className={'w-3/5 space-y-4'}>
+                <div className={"container px-8 py-4 flex flex-row"}>
+                    <div className={"w-3/5 space-y-4"}>
                         {$basicInfo}
                         {$sectionHeader}
                         {$newPatientAppointmentsTips}
                         {$recenterRattingView}
                     </div>
-                    <div className={'w-2/5 h-96 bg-blue-400'}>
+                    <div className={"w-2/5 h-96 bg-blue-400"}>
 
                     </div>
                 </div>

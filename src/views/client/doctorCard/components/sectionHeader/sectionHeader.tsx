@@ -3,7 +3,7 @@ import React from "react";
 export default function SectionHeader() {
     const $button = (title: string, idx: number) => {
         return (
-            <button key={idx} type={"button"} className={"cursor-pointer text-xl py-4 font-medium text-primary-focus border-b-4 border-transparent hover:border-primary-focus "}>{title}</button>
+            <button key={idx} type={"button"} className={"cursor-pointer text-xl py-4 text-primary-focus border-b-4 border-transparent hover:border-primary-focus "}>{title}</button>
         )
     }
     const data = [

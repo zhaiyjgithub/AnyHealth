@@ -12,7 +12,7 @@ import {APM, AppointmentType, WeekDay} from "../../../../utils/enum/enum";
 import FormInput from "../../../../components/form/formInput";
 import FormSwitch from "../../../../components/form/formSwitch";
 import Button from "../../../../components/buttons/button";
-import {ButtonStatus, ButtonType} from "../../../../components/buttons/enum";
+import {ButtonStatus, Variant} from "../../../../components/buttons/enum";
 import DropDown from "../../../../components/form/dropDown";
 
 export default function WorkingHourSettings() {
@@ -327,7 +327,7 @@ export default function WorkingHourSettings() {
 
     const $renderSaveButtons = (
         <>
-            <Button type={ButtonType.outline} onClick={onCancel} >Cancel</Button>
+            <Button variant={Variant.outline} onClick={onCancel} >Cancel</Button>
             <Button status={ButtonStatus.primary} onClick={onSave} >Save</Button>
         </>)
 

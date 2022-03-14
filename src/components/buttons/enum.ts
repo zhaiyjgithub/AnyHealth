@@ -14,13 +14,13 @@ export enum ButtonStatus {
     underline
 }
 
-export enum ButtonType {
+export enum Variant {
     basic,
     outline,
     rounded,
     roundedOutline,
     float,
-    floatIcon
+    floatIcon,
 }
 
 export enum ButtonSize {
