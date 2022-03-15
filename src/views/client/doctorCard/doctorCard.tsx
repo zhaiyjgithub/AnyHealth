@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import NavBar from "./components/navBar/navBar";
 import {$iconDefaultDoctor} from "../findDoctor/assets/assets";
 import SectionHeader from "./components/sectionHeader/sectionHeader";
@@ -6,8 +6,10 @@ import RecentRatting from "./components/ratting/recentRatting";
 import InsuranceList from "./components/insurance/insuranceList";
 import LocationInfo from "./components/location/locationInfo";
 import EducationBackground from "./components/educationBackground/educationBackground";
+import Sticky from "react-sticky-el";
 
 export default function DoctorCard() {
+    const [isHeaderFixed, setIsHeaderFixed] = useState<boolean>(false)
     const $previewPhotosButton = (
         <button type={"button"} className={"text-lg max-w-max text-blue-600 font-medium border-blue-600 border-b border-dotted hover:border-solid"}>7 Photos</button>
     )
@@ -53,7 +55,18 @@ export default function DoctorCard() {
     )
 
     const $sectionHeader = (
-        <SectionHeader />
+        <Sticky stickyClassName={`${isHeaderFixed ? 'left-0 container' : ''}`} onFixedToggle={(fixed) => {
+            console.log('####', fixed)
+            setIsHeaderFixed(fixed)
+        }}>
+            <div className={`${isHeaderFixed ? 'w-screen flex flex-row justify-center bg-base-200 border-b' : ''}`}>
+                <div className={`${isHeaderFixed ? 'container px-6' : 'bg-white'}`}>
+                    <div className={`${isHeaderFixed ? '' : 'border-b border-t'}`}>
+                        <SectionHeader />
+                    </div>
+                </div>
+            </div>
+        </Sticky>
     )
 
     const $newPatientAppointmentsTips = (

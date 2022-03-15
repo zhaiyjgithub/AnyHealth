@@ -39,9 +39,9 @@ export default function LoginDropdown() {
             <div className={"w-max flex flex-row items-center justify-between space-x-4"}>
                 <p className={"text-sm font-bold text-base-content w-16"}>{"Patients"}</p>
                 <div className={"flex flex-row items-center justify-center py-1"}>
-                    <button type={"button"} className={"text-sm text-base-600 font-medium border-primary-focus border-b border-dotted hover:border-solid px-2"}>Login</button>
+                    <button type={"button"} className={"max-w-max text-sm text-base-600 font-medium border-primary-focus border-b border-dotted hover:border-solid px-2"}>Login</button>
                     <p className={"mx-1"}>/</p>
-                    <button type={"button"} className={"text-sm text-base-600 font-medium border-primary-focus border-b border-dotted hover:border-solid px-2"}>Sign Up</button>
+                    <button type={"button"} className={"max-w-max text-sm text-base-600 font-medium border-primary-focus border-b border-dotted hover:border-solid px-2"}>Sign Up</button>
                 </div>
             </div>
         
@@ -50,7 +50,7 @@ export default function LoginDropdown() {
             <div className={"w-max flex flex-row items-center justify-between space-x-4"}>
                 <p className={"text-sm font-bold text-base-content w-16"}>{"Doctor"}</p>
                 <div className={"flex flex-row items-end justify-between py-1"}>
-                    <button type={"button"} className={"text-sm text-base-600 font-medium border-primary-focus border-b border-dotted hover:border-solid px-2"}>Login</button>
+                    <button type={"button"} className={"max-w-max text-sm text-base-600 font-medium border-primary-focus border-b border-dotted hover:border-solid px-2"}>Login</button>
                 </div>
             </div>
          
