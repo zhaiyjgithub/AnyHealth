@@ -52,7 +52,7 @@ export default function RecentRatting() {
     )
     const $recentList = (
         <div className={'border-l px-8 h-96 flex-1 space-y-4'}>
-            <p className={'text-base text-semibold text-primary-focus'}>Recent reviews</p>
+            <p className={'text-lg font-semibold text-primary-focus'}>Recent reviews</p>
             <div className={'space-y-4'}>
                 {$recentDetailView()}
                 {$recentDetailView()}

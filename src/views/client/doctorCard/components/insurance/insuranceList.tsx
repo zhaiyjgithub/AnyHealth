@@ -7,7 +7,7 @@ export default function InsuranceList() {
         return (
             <div key={idx} className={'w-full flex flex-row items-center space-x-4'}>
                 <div className={'w-6 h-6 bg-red-300'}/>
-                <p className={'text-base font-semibold text-primary-focus'}>{name}</p>
+                <p className={'text-lg font-semibold text-primary-focus'}>{name}</p>
             </div>
         )
     }
@@ -22,8 +22,8 @@ export default function InsuranceList() {
     const $titleView = (
         <>
             <p className={"text-xl text-primary-focus font-bold"}>In-network insurances</p>
-            <p className={'mt-2 text-base inline-flex font-medium text-primary-focus w-2/3'}>
-                <p className={'block text-green-400 mr-1'}>98% of patients</p>
+            <p className={'mt-2 text-base font-medium text-primary-focus w-2/3 text-lg'}>
+                <span className={' text-green-400 mr-1 text-lg'}>98% of patients</span>
                 have successfully booked with these insurances
             </p>
         </>

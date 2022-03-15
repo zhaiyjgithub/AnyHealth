@@ -4,10 +4,12 @@ import {$iconDefaultDoctor} from "../findDoctor/assets/assets";
 import SectionHeader from "./components/sectionHeader/sectionHeader";
 import RecentRatting from "./components/ratting/recentRatting";
 import InsuranceList from "./components/insurance/insuranceList";
+import LocationInfo from "./components/location/locationInfo";
+import EducationBackground from "./components/educationBackground/educationBackground";
 
 export default function DoctorCard() {
     const $previewPhotosButton = (
-        <button type={"button"} className={"text-base max-w-max text-blue-600 font-medium border-blue-600 border-b border-dotted hover:border-solid"}>7 Photos</button>
+        <button type={"button"} className={"text-lg max-w-max text-blue-600 font-medium border-blue-600 border-b border-dotted hover:border-solid"}>7 Photos</button>
     )
     const $avatar = (
         <div className={"flex flex-col items-center justify-center space-y-2 flex-none"}>
@@ -69,10 +71,10 @@ export default function DoctorCard() {
     )
 
     const $aboutView = (
-        <div className={'w-full'}>
+        <div className={"w-full"}>
             <p className={"text-xl text-primary-focus font-bold"}>About Dr. Binh Dang</p>
             <div className={"block mt-2"}>
-                <span className={"text-base text-primary-focus line-clamp-3"}>
+                <span className={"text-lg text-primary-focus line-clamp-3"}>
                 Dr. Dang is board certified in Family Medicine, leads the primary care department of Action Health. Over his long professional history in the medical field, Dr. Dang has become specialized in Family Medicine, Pediatrics, Prenatal Care, and Emergency Medicine. Dr...
                     <span><button type={"button"} className={"cursor-pointer ml-2 text-blue-500 border-b border-blue-500 border-dotted hover:border-solid"}>Show more</button></span>
                 </span>
@@ -82,6 +84,14 @@ export default function DoctorCard() {
 
     const $insuranceList = (
         <InsuranceList />
+    )
+
+    const $locationInfoView = (
+        <LocationInfo />
+    )
+
+    const $educationView = (
+        <EducationBackground />
     )
 
     return (
@@ -96,6 +106,8 @@ export default function DoctorCard() {
                         {$recenterRattingView}
                         {$aboutView}
                         {$insuranceList}
+                        {$locationInfoView}
+                        {$educationView}
                     </div>
                     <div className={"w-2/5 h-96 bg-blue-400"}>
 

@@ -14,7 +14,7 @@ export default function SectionHeader() {
         "FAQs",
     ]
     return (
-        <div className={"w-full flex flex-row items-center space-x-4 border-t border-b"}>
+        <div className={"w-full flex flex-row items-center space-x-8 border-t border-b"}>
             {data.map((title, idx) => {
                 return $button(title, idx)
             })}
