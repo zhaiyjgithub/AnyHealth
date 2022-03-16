@@ -27,7 +27,7 @@ export default function LocationInfo() {
     )
     return (
         <div className={'w-full space-y-4'}>
-            <p className={"text-xl text-primary-focus font-bold"}>In-network insurances</p>
+            <p className={"text-xl text-primary-focus font-bold"}>Office Locations</p>
             {$videoVisitTipsView}
             {$mapInfoView}
         </div>

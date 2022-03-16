@@ -8,6 +8,8 @@ import LocationInfo from "./components/location/locationInfo";
 import EducationBackground from "./components/educationBackground/educationBackground";
 import Sticky from "react-sticky-el";
 import { Section, ScrollingProvider } from "react-scroll-section"
+import Faq from "./components/faq/faq";
+import Button from "../../../components/buttons/button";
 
 export default function DoctorCard() {
     const [isHeaderFixed, setIsHeaderFixed] = useState<boolean>(false)
@@ -46,42 +48,81 @@ export default function DoctorCard() {
         </div>
     )
     const $basicInfo = (
-        <div className={"flex flex-row space-x-8"}>
-            {$avatar}
-            <div className={"flex flex-row items-center flex-col"}>
-                {$nameAndSpecialtyAndAddress}
-                {$appointmentTypeList}
+        <Section id={ScrollSectionMenuId.basicInfo}>
+            <div className={"flex flex-row space-x-8"}>
+                {$avatar}
+                <div className={"flex flex-row items-center flex-col"}>
+                    {$nameAndSpecialtyAndAddress}
+                    {$appointmentTypeList}
+                </div>
             </div>
+        </Section>
+    )
+
+    const $star = (
+        <i className="fas fa-star text-red-400"></i>
+    )
+    const $doctorInfoForHeader = (
+        <div className={"flex flex-row items-center space-x-8"}>
+            <div className={"flex flex-row items-center space-x-4"}>
+                <div className={"w-12 h-12 rounded-full border"}>
+
+                </div>
+                <div>
+                    <p className={"text-lg text-primary-focus font-bold"}>Dr. Jerry Glebleg, MD</p>
+                    <div className={"flex flex-row items-center space-x-2"}>
+                        <div className={"flex flex-row"}>
+                            {$star}
+                            <p className={"text-sm text-red-400 font-medium"}>{"3.56"}</p>
+                        </div>
+                        <p className={"text-sm text-gray-400 font-medium"}>{"(121 patient ratings)"}</p>
+                    </div>
+                </div>
+            </div>
+            <Button onClick={() => {
+                //
+            }} >
+                View availability
+            </Button>
         </div>
     )
 
     const $sectionHeader = (
-        <Sticky stickyClassName={`${isHeaderFixed ? "left-0 container" : ""}`} onFixedToggle={(fixed) => {
-            console.log("####", fixed)
-            setIsHeaderFixed(fixed)
-        }}>
-            <div className={`${isHeaderFixed ? "w-screen flex flex-row justify-center bg-base-200 border-b" : ""}`}>
-                <div className={`${isHeaderFixed ? "container px-8" : "bg-white"}`}>
-                    <div className={`${isHeaderFixed ? "" : "border-b border-t"}`}>
-                        <SectionHeader />
+        <Section id={ScrollSectionMenuId.stickyHeader}>
+            <Sticky stickyClassName={`z-50 ${isHeaderFixed ? "left-0 container" : ""}`} onFixedToggle={(fixed) => {
+                console.log("####", fixed)
+                setIsHeaderFixed(fixed)
+            }}>
+                <div className={`relative ${isHeaderFixed ? "w-screen flex flex-row justify-center bg-base-200 border-b" : ""}`}>
+                    <div className={`${isHeaderFixed ? "container px-6" : "bg-white"}`}>
+                        <div className={`${isHeaderFixed ? "" : "border-b border-t"}`}>
+                            <SectionHeader />
+                        </div>
+                    </div>
+                    <div className={`absolute right-8 top-2 ${isHeaderFixed ? "" : "hidden"}`}>
+                        {$doctorInfoForHeader}
                     </div>
                 </div>
-            </div>
-        </Sticky>
+            </Sticky>
+        </Section>
     )
 
     const $newPatientAppointmentsTips = (
-        <div className={"flex flex-row space-x-2 py-4 border-b border-gray-100"}>
-            <i className="fas fa-calendar-alt text-pink-500 mt-1"></i>
-            <div className={""}>
-                <p className={"text-sm text-primary-focus font-medium"}>New patient appointments</p>
-                <p className={"text-sm text-primary-focus"}>Appointments available for new patients on ZenDoc</p>
+        <Section id={ScrollSectionMenuId.newPatient}>
+            <div className={"flex flex-row space-x-2 py-4 border-b border-gray-100"}>
+                <i className="fas fa-calendar-alt text-pink-500 mt-1"></i>
+                <div className={""}>
+                    <p className={"text-sm text-primary-focus font-medium"}>New patient appointments</p>
+                    <p className={"text-sm text-primary-focus"}>Appointments available for new patients on ZenDoc</p>
+                </div>
             </div>
-        </div>
+        </Section>
     )
 
     const $recenterRattingView = (
-        <RecentRatting />
+        <Section id={ScrollSectionMenuId.rating}>
+            <RecentRatting />
+        </Section>
     )
 
     const $aboutView = (
@@ -105,17 +146,25 @@ export default function DoctorCard() {
     )
 
     const $locationInfoView = (
-        <Section id={ScrollSectionMenuId.insurances}>
+        <Section id={ScrollSectionMenuId.locations}>
             <LocationInfo />
         </Section>
     )
 
     const $educationView = (
-        <EducationBackground />
+        <Section id={ScrollSectionMenuId.educations}>
+            <EducationBackground />
+        </Section>
+    )
+
+    const $faqView = (
+        <Section id={ScrollSectionMenuId.faq} >
+            <Faq />
+        </Section>
     )
 
     return (
-        <ScrollingProvider>
+        <ScrollingProvider offset={0}>
             <div className={"w-full"}>
                 <NavBar />
                 <div className={"flex flex-col items-center"}>
@@ -129,6 +178,7 @@ export default function DoctorCard() {
                             {$insuranceList}
                             {$locationInfoView}
                             {$educationView}
+                            {$faqView}
                         </div>
                         <div className={"w-2/5 h-96 bg-blue-400"}>
 
