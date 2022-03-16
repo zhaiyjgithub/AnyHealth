@@ -1,12 +1,13 @@
 import React, {useState} from "react";
 import NavBar from "./components/navBar/navBar";
 import {$iconDefaultDoctor} from "../findDoctor/assets/assets";
-import SectionHeader from "./components/sectionHeader/sectionHeader";
+import SectionHeader, {ScrollSectionMenuId} from "./components/sectionHeader/sectionHeader";
 import RecentRatting from "./components/ratting/recentRatting";
 import InsuranceList from "./components/insurance/insuranceList";
 import LocationInfo from "./components/location/locationInfo";
 import EducationBackground from "./components/educationBackground/educationBackground";
 import Sticky from "react-sticky-el";
+import { Section, ScrollingProvider } from "react-scroll-section"
 
 export default function DoctorCard() {
     const [isHeaderFixed, setIsHeaderFixed] = useState<boolean>(false)
@@ -55,13 +56,13 @@ export default function DoctorCard() {
     )
 
     const $sectionHeader = (
-        <Sticky stickyClassName={`${isHeaderFixed ? 'left-0 container' : ''}`} onFixedToggle={(fixed) => {
-            console.log('####', fixed)
+        <Sticky stickyClassName={`${isHeaderFixed ? "left-0 container" : ""}`} onFixedToggle={(fixed) => {
+            console.log("####", fixed)
             setIsHeaderFixed(fixed)
         }}>
-            <div className={`${isHeaderFixed ? 'w-screen flex flex-row justify-center bg-base-200 border-b' : ''}`}>
-                <div className={`${isHeaderFixed ? 'container px-8' : 'bg-white'}`}>
-                    <div className={`${isHeaderFixed ? '' : 'border-b border-t'}`}>
+            <div className={`${isHeaderFixed ? "w-screen flex flex-row justify-center bg-base-200 border-b" : ""}`}>
+                <div className={`${isHeaderFixed ? "container px-8" : "bg-white"}`}>
+                    <div className={`${isHeaderFixed ? "" : "border-b border-t"}`}>
                         <SectionHeader />
                     </div>
                 </div>
@@ -84,23 +85,29 @@ export default function DoctorCard() {
     )
 
     const $aboutView = (
-        <div className={"w-full"}>
-            <p className={"text-xl text-primary-focus font-bold"}>About Dr. Binh Dang</p>
-            <div className={"block mt-2"}>
-                <span className={"text-lg text-primary-focus line-clamp-3"}>
+        <Section id={ScrollSectionMenuId.about}>
+            <div className={"w-full"}>
+                <p className={"text-xl text-primary-focus font-bold"}>About Dr. Binh Dang</p>
+                <div className={"block mt-2"}>
+                    <span className={"text-lg text-primary-focus line-clamp-3"}>
                 Dr. Dang is board certified in Family Medicine, leads the primary care department of Action Health. Over his long professional history in the medical field, Dr. Dang has become specialized in Family Medicine, Pediatrics, Prenatal Care, and Emergency Medicine. Dr...
-                    <span><button type={"button"} className={"cursor-pointer ml-2 text-blue-500 border-b border-blue-500 border-dotted hover:border-solid"}>Show more</button></span>
-                </span>
+                        <span><button type={"button"} className={"cursor-pointer ml-2 text-blue-500 border-b border-blue-500 border-dotted hover:border-solid"}>Show more</button></span>
+                    </span>
+                </div>
             </div>
-        </div>
+        </Section>
     )
 
     const $insuranceList = (
-        <InsuranceList />
+        <Section id={ScrollSectionMenuId.insurances}>
+            <InsuranceList />
+        </Section>
     )
 
     const $locationInfoView = (
-        <LocationInfo />
+        <Section id={ScrollSectionMenuId.insurances}>
+            <LocationInfo />
+        </Section>
     )
 
     const $educationView = (
@@ -108,25 +115,27 @@ export default function DoctorCard() {
     )
 
     return (
-        <div className={"w-full"}>
-            <NavBar />
-            <div className={"flex flex-col items-center"}>
-                <div className={"container px-8 py-4 flex flex-row"}>
-                    <div className={"w-3/5 space-y-8"}>
-                        {$basicInfo}
-                        {$sectionHeader}
-                        {$newPatientAppointmentsTips}
-                        {$recenterRattingView}
-                        {$aboutView}
-                        {$insuranceList}
-                        {$locationInfoView}
-                        {$educationView}
-                    </div>
-                    <div className={"w-2/5 h-96 bg-blue-400"}>
+        <ScrollingProvider>
+            <div className={"w-full"}>
+                <NavBar />
+                <div className={"flex flex-col items-center"}>
+                    <div className={"container px-8 py-4 flex flex-row"}>
+                        <div className={"w-3/5 space-y-8"}>
+                            {$basicInfo}
+                            {$sectionHeader}
+                            {$newPatientAppointmentsTips}
+                            {$recenterRattingView}
+                            {$aboutView}
+                            {$insuranceList}
+                            {$locationInfoView}
+                            {$educationView}
+                        </div>
+                        <div className={"w-2/5 h-96 bg-blue-400"}>
 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </ScrollingProvider>
     )
 }
