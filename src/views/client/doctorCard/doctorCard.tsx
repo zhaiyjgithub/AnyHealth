@@ -60,7 +60,7 @@ export default function DoctorCard() {
             setIsHeaderFixed(fixed)
         }}>
             <div className={`${isHeaderFixed ? 'w-screen flex flex-row justify-center bg-base-200 border-b' : ''}`}>
-                <div className={`${isHeaderFixed ? 'container px-6' : 'bg-white'}`}>
+                <div className={`${isHeaderFixed ? 'container px-8' : 'bg-white'}`}>
                     <div className={`${isHeaderFixed ? '' : 'border-b border-t'}`}>
                         <SectionHeader />
                     </div>
