@@ -10,6 +10,7 @@ import Sticky from "react-sticky-el";
 import { Section, ScrollingProvider } from "react-scroll-section"
 import Faq from "./components/faq/faq";
 import Button from "../../../components/buttons/button";
+import BookingCard from "./components/bookingCard/bookingCard";
 
 export default function DoctorCard() {
     const [isHeaderFixed, setIsHeaderFixed] = useState<boolean>(false)
@@ -168,7 +169,7 @@ export default function DoctorCard() {
             <div className={"w-full"}>
                 <NavBar />
                 <div className={"flex flex-col items-center"}>
-                    <div className={"container px-8 py-4 flex flex-row"}>
+                    <div className={"container px-8 py-4 flex flex-row space-x-8"}>
                         <div className={"w-3/5 space-y-8"}>
                             {$basicInfo}
                             {$sectionHeader}
@@ -180,8 +181,8 @@ export default function DoctorCard() {
                             {$educationView}
                             {$faqView}
                         </div>
-                        <div className={"w-2/5 h-96 bg-blue-400"}>
-
+                        <div className={"w-2/5"}>
+                            <BookingCard />     
                         </div>
                     </div>
                 </div>

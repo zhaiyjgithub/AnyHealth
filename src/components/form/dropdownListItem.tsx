@@ -16,6 +16,7 @@ interface IProps {
     id: any,
     data: Array<DropdownListItem>,
     errMsg?: string,
+    classForOptionList?: string,
     onChange: (id: any) => void
 }
 
@@ -30,7 +31,7 @@ function DropdownListForm(props: IProps) {
     const selectedName:string = (item ? item.name : "").toString()
     const $chevronDown = (!disabled ? (<span><i className={"fas fa-chevron-down"}/></span>) : null)
     return (
-        <div className="min-w-fit">
+        <div className="w-full">
             <Listbox disabled={disabled} value={id} onChange={onChange} >
                 {({open}) => {
                     return (
