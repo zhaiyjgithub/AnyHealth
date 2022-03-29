@@ -43,8 +43,8 @@ export default function DoctorInformation(props: IProps) {
     const distance = `${doctorInfo.distance.toFixed(2)} km`
     const $distanceView = (<p className={"text-sm text-gray-400 font-medium text-right mr-2"}>{distance}</p>)
     const $videoVisitTag = (
-        <div className={"flex flex-row items-center space-x-1"}>
-            <p className={"leading-snug text-sm px-2 border border-gray-400 text-gray-500"}>External video visit</p>
+        <div className={"flex flex-row items-center space-x-1 flex-none"}>
+            <p className={"leading-snug text-sm px-2 border text-gray-500"}>External video visit</p>
             <div className={"w-5 h-5 flex items-center"}>
                 <VideoVisitToolTips />
             </div>

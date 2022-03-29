@@ -1,6 +1,7 @@
 import React, {useMemo} from "react";
 import moment from "moment";
 import {formatDateToWeekMonthDayTuple} from "../../../../../utils/util/dateTool";
+import {useViewPort} from "../../../../../utils/hooks/useViewPort";
 
 interface IProps {
     total: number,
@@ -16,10 +17,19 @@ interface AvailableDate {
 
 export default function WeekDayHeader(props: IProps) {
     const { total, startDate } = props
+    const { width } = useViewPort()
+    const dateLength = useMemo(() => {
+        if (width <= 1280) {
+            return 3
+        } else if (width <= 1536) {
+            return 4
+        }
+        return 5
+    }, [width])
 
     const data: Array<AvailableDate> = useMemo(() => {
         const list: Array<AvailableDate> = []
-        for (let i = 0; i < 5; i ++) {
+        for (let i = 0; i < dateLength; i ++) {
             const m = moment(startDate).add(i, "days")
             const targetDate: Date = new Date(m.year(), m.month(), m.date(), 0, 0, 0, 0)
             const [weekDay, month, day] = formatDateToWeekMonthDayTuple(targetDate)
@@ -31,7 +41,7 @@ export default function WeekDayHeader(props: IProps) {
             })
         }
         return list
-    }, [startDate])
+    }, [startDate, dateLength])
 
     const $counterForInNextWork = (
         <div className={"text-3xl h-16 flex flex-1 flex-row items-center"}>
@@ -80,7 +90,7 @@ export default function WeekDayHeader(props: IProps) {
 
     const $weekDays = () => {
         return (
-            <div className={"flex flex-1 grid grid-cols-5"}>
+            <div className={`flex flex-1 grid grid-cols-${dateLength}`}>
                 {data.map((availableDate, idx) => {
                     return $day(availableDate, idx)
                 })}
