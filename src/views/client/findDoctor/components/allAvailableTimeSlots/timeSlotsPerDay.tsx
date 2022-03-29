@@ -21,7 +21,7 @@ export default function TimeSlotsPerDay(props: IProps) {
             <Button variant={Variant.floatIcon} onClick={() => {
                 !isCurrentDate && onPrevious && onPrevious()
             }} >
-                <i className={`${isCurrentDate ? 'text-gray-300' : ''} text-xl fas fa-chevron-left `}></i>
+                <i className={`${isCurrentDate ? "text-gray-300" : ""} text-xl fas fa-chevron-left `}></i>
             </Button>
             <Button variant={Variant.floatIcon} onClick={() => {
                 onNext && onNext()
@@ -38,7 +38,7 @@ export default function TimeSlotsPerDay(props: IProps) {
 
     const getCalendarTitle = () => {
         if (!timeSlotsPerDay.length) {
-            return ''
+            return ""
         }
         const startDate = formatDateTitle(new Date(timeSlotsPerDay[0].date))
         const endDate = formatDateTitle(new Date(timeSlotsPerDay[timeSlotsPerDay.length - 1].date))

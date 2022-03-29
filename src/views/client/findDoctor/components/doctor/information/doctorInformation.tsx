@@ -59,20 +59,20 @@ export default function DoctorInformation(props: IProps) {
         return $distanceView
     }
 
-    let subTitleForAddressOrVideoVisit = ''
-    let description = ''
+    let subTitleForAddressOrVideoVisit = ""
+    let description = ""
     if ((state.appointmentType === AppointmentType.anyType ||
         state.appointmentType === AppointmentType.virtual
     ) && isVideoVisitEnable) {
         description = "New patient appointments • Also offers video visits"
-        subTitleForAddressOrVideoVisit = 'Video Visit'
+        subTitleForAddressOrVideoVisit = "Video Visit"
     } else {
         description = "New patient appointments • Also offers in-person visits"
         subTitleForAddressOrVideoVisit = doctorInfo.address
     }
     const $info = (
         <div className={"flex-1"}>
-            <div className={"w-full flex flex-row justify-between"}>
+            <div className={"w-full flex flex-row justify-between space-x-2"}>
                 <p className={"text-xl text-primary-focus font-bold leading-snug"}>{doctorName}</p>
                 {$tagView()}
             </div>

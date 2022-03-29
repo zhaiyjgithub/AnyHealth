@@ -79,7 +79,7 @@ export default function SearchDoctor() {
 
     const $stickHeader = (
         <Sticky className={"mt-4 z-20"} onFixedToggle={(fixed) => {
-            console.log('####', fixed)
+            console.log("####", fixed)
         }}>
             <WeekDayHeader startDate={state.startDate} total={total} />
         </Sticky>
