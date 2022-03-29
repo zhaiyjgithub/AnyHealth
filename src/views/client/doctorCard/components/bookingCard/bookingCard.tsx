@@ -1,8 +1,11 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {dataForInsurance} from "./dataForInsuarnce"
 import FormRadio from "../../../../../components/form/formRadio";
 import Dropdown from "./dropdown";
 import {AppointmentType} from "../../../../../utils/enum/enum";
+import AvailableDateView from "./availableDateView";
+import {getTimeSlots} from "../../../findDoctor/service/searchDoctorService";
+import {TimeSlotPerDay} from "../../../findDoctor/model/doctor";
 
 export interface Booking {
     insurance: string,
@@ -16,6 +19,19 @@ export interface Booking {
 }
 
 export default function BookingCard() {
+    const [dataForAllAvailable, setDataForAllAvailable] = useState<Array<TimeSlotPerDay>>([])
+    useEffect(() => {
+        getAllTimeSlots(1902809254, (new Date()).toISOString())
+    }, [])
+
+    const getAllTimeSlots = (npi: number, startDate: string) => {
+        getTimeSlots(npi, startDate, 5, (list) => {
+            setDataForAllAvailable(list)
+        }, () => {
+            //
+        })
+    }
+
     const $title = (
         <p className={"font-bold text-2xl text-primary-focus"}>Book an appointment for free</p>
     )
@@ -68,6 +84,10 @@ export default function BookingCard() {
         </div>
     )
 
+    const $availableTimeView = (
+        <AvailableDateView total={5} startDate={new Date()} timeSlotsPerDay={dataForAllAvailable} />
+    )
+
     return (
         <div className={"p-8 w-full flex flex-col space-y-4 border bg-base-200"}>
             {$title}
@@ -75,6 +95,7 @@ export default function BookingCard() {
             {$dropdownForIllness}
             {$newPatientOptionView}
             {$appointmentTypeOptionView}
+            {$availableTimeView}
         </div>
     )
 }
