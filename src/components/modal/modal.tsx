@@ -18,7 +18,7 @@ export default function Modal(props: IProps) {
                         //
                     }}
                 >
-                    <div className="min-h-screen px-4 text-center">
+                    <div className="min-h-screen md:px-4 text-center">
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"
@@ -47,7 +47,7 @@ export default function Modal(props: IProps) {
                             leaveFrom="opacity-100 scale-100"
                             leaveTo="opacity-0 scale-95"
                         >
-                            <div className="inline-block border border-base-300 w-full max-w-max p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-lg">
+                            <div className="inline-block border border-base-300 w-full md:max-w-max p-4 md:p-6 my-0 md:my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-lg">
                                 {children}
                             </div>
                         </Transition.Child>

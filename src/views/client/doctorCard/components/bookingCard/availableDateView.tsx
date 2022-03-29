@@ -21,8 +21,8 @@ interface AvailableDate {
 export default function AvailableDateView(props: IProps) {
     const [showMore, setShowMore] = useState<boolean>(false)
     const {timeSlotsPerDay = []} = props
-    const { width } = useViewPort()
     const { startDate } = props
+    const { width } = useViewPort()
 
     const dateLength = useMemo(() => {
         if (width <= 1280) {

@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useMemo} from "react";
 import Button from "../../../../../components/buttons/button";
 import {Variant} from "../../../../../components/buttons/enum";
 import {TimeSlotPerDay} from "../../model/doctor";
 import {TimeSlot} from "../doctor/timeslots/timeslots";
 import {formatDateToWeekMonthDayTuple} from "../../../../../utils/util/dateTool";
+import {useViewPort} from "../../../../../utils/hooks/useViewPort";
 
 interface IProps {
     doctorName: string,
@@ -14,6 +15,14 @@ interface IProps {
 
 export default function TimeSlotsPerDay(props: IProps) {
     const { doctorName, timeSlotsPerDay, onPrevious, onNext } = props
+    const { width } = useViewPort()
+
+    const dateLength = useMemo(() => {
+        if (width <= 1280) {
+            return 4
+        }
+        return 5
+    }, [width])
     
     const isCurrentDate = (new Date(timeSlotsPerDay[0].date)).getDate() === (new Date()).getDate()
     const $calendarNaviButton = (
@@ -70,7 +79,7 @@ export default function TimeSlotsPerDay(props: IProps) {
         return (
             <div key={idx} className={"w-full pr-4"}>
                 <p className={"text-base font-semibold"}>{title}</p>
-                <div className={"grid grid-cols-5 gap-2"}>
+                <div className={`grid grid-cols-${dateLength} gap-2`}>
                     {timeSlots.map((timeslot, idx) => {
                         return $timeSlot(timeslot, idx)
                     })}
