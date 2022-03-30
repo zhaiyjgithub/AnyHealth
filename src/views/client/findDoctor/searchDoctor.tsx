@@ -5,7 +5,7 @@ import Filter from "./components/filter/filter";
 import Sticky from "react-sticky-el";
 import WeekDayHeader from "./components/weekDayHeader/weekDayHeader";
 import DoctorItem from "./components/doctor/doctorItem";
-import {ActionTypeForSearchFilter, SearchFilterContext, SearchFilterProvider} from "./searchFilterProvider";
+import {ActionTypeForSearchFilter, SearchFilterContext} from "./searchFilterProvider";
 import {findDoctor, getTimeSlots} from "./service/searchDoctorService";
 import {DoctorInfo, TimeSlotPerDay} from "./model/doctor";
 import PageFooter from "./components/pageFooter/pageFooter";
@@ -123,12 +123,9 @@ export default function SearchDoctor() {
     )
 
     return (
-        <SearchFilterProvider value={{state, dispatch}}>
-            <div className={"flex flex-col w-full min-h-screen"}>
-                {$navBar}
-                {$content}
-            </div>
-        </SearchFilterProvider>
-
+        <div className={"flex flex-col w-full min-h-screen"}>
+            {$navBar}
+            {$content}
+        </div>
     )
 }

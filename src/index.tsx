@@ -8,8 +8,8 @@ import reportWebVitals from "./reportWebVitals";
 import {HashRouter, Route, Switch} from "react-router-dom";
 import L from "leaflet";
 // import DoctorAdmin from "./views/doctor/doctorAdmin";
-import SearchDoctor from "./views/client/findDoctor/searchDoctor";
 import DoctorCard from "./views/client/doctorCard/doctorCard";
+import DoctorListContainer from "./views/client/findDoctor/doctorListContainer";
 
 let DefaultIcon = L.icon({
     iconUrl: "",
@@ -23,7 +23,7 @@ ReactDOM.render(
     <HashRouter>
         <Switch>
             <Route exact path={"/doctor"} component={DoctorCard} />
-            <Route exact path={"/search"} component={SearchDoctor} />
+            <Route exact path={"/search"} component={DoctorListContainer} />
         </Switch>
     </HashRouter>,
     document.getElementById("root")

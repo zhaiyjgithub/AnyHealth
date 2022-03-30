@@ -10,7 +10,6 @@ export default function Filter() {
     const [showMoreFilter, setShowMoreFilter] = useState<boolean>(false)
     const [languages] = useState<Array<string>>([])
     const [moreFilter, setMoreFilter] = useState<DataForMoreFilter>({gender: Gender.Trans})
-
     const {state, dispatch} = useContext(SearchFilterContext)
 
     const onDispatch = (type: ActionTypeForSearchFilter, value: any) => {

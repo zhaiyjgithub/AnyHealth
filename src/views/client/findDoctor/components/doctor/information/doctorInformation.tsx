@@ -56,7 +56,7 @@ export default function DoctorInformation(props: IProps) {
     const $tagView = () => {
         if (isVideoVisitEnable) {
             return $videoVisitTag
-        } 
+        }
         return $distanceView
     }
 
@@ -85,6 +85,7 @@ export default function DoctorInformation(props: IProps) {
     )
     return (
         <div className={"flex-1 flex flex-row space-x-8 pl-4"}>
+
             {$avatar}
             {$info}
         </div>
