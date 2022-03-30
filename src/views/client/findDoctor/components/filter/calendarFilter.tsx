@@ -41,6 +41,7 @@ export default function CalendarFilter(props: IProps) {
         <div className={"w-full flex flex-row items-center justify-end border-t px-4 py-2"}>
             <Button variant={Variant.float} onClick={() => {
                 setDate(props.date)
+                setShow(false)
             }}>Cancel</Button>
             <Button status={ButtonStatus.primary} onClick={() => {
                 setShow(false)
@@ -58,7 +59,7 @@ export default function CalendarFilter(props: IProps) {
         <Calendar minDate={new Date()} onChange={onChange} value={date} />
     )
     const $list = show ? (
-        <div className="absolute border border-base-200 right-0 mt-1 bg-white shadow-2xl z-20 transition duration-150 ease-in-out">
+        <div className="absolute border border-base-300 left-0 mt-1 bg-white shadow-2xl z-20 transition duration-150 ease-in-out">
             {$calendar}
             {$footer}
         </div>

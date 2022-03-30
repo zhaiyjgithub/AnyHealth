@@ -98,12 +98,17 @@ export default function AvailableDateView(props: IProps) {
         </button>
     )
 
+    const $overOneDayTag = (
+        <p className={"bg-pink-500 p-px rounded-full text-white absolute text-xs -right-1.5 -bottom-1.5"}>+1</p>
+    )
+
     const $timeSlot = (timeSlot: TimeSlot, idx: number) => {
         return (
-            <button type={"button"} className={"w-full py-2 border bg-white hover:bg-primary-focus text-primary-focus hover:text-focus leading-snug text-sm font-meduim"} key={idx} onClick={() => {
+            <button type={"button"} className={"relative w-full py-2 border bg-white hover:bg-primary-focus text-primary-focus hover:text-focus leading-snug text-sm font-meduim"} key={idx} onClick={() => {
                 //
             }} >
                 {timeSlot.dateTime}
+                {timeSlot.isOverOneDay ? $overOneDayTag : null}
             </button>
         )
     }

@@ -64,7 +64,7 @@ export default function WeekDayHeader(props: IProps) {
     const $day = (date: AvailableDate, idx: number) => {
         return (
             <div key={idx} className={"w-full flex flex-col items-center justify-center"}>
-                <p className={"text-sm text-primary-focus font-bold text-center"}>{date.weekDay}</p>
+                <p className={"text-sm text-primary-focus font-medium text-center"}>{date.weekDay}</p>
                 <p className={"text-base text-primary-focus font-bold text-center"}>{`${date.month} ${date.day}`}</p>
             </div>
         )

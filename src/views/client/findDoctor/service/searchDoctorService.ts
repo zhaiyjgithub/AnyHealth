@@ -31,7 +31,9 @@ export function findDoctor(
                 const targetDate = new Date(date)
                 const initialMinutes = targetDate.getHours() * 60
                 timeSlots.forEach((timeSlot) => {
-                    timeSlot.dateTime = parseTimeOffset(initialMinutes + timeSlot.offset)
+                    const currentOffset = initialMinutes + timeSlot.offset
+                    timeSlot.isOverOneDay = currentOffset >= 1440
+                    timeSlot.dateTime = parseTimeOffset(currentOffset >= 1440 ? currentOffset - 1440 : currentOffset)
                 })
             })
         })
@@ -52,7 +54,9 @@ export const getTimeSlots = (npi: number, startDate: string, range: number = 5, 
             const targetDate = new Date(date)
             const initialMinutes = targetDate.getHours() * 60
             timeSlots.forEach((timeSlot) => {
-                timeSlot.dateTime = parseTimeOffset(initialMinutes + timeSlot.offset)
+                const currentOffset = initialMinutes + timeSlot.offset
+                timeSlot.isOverOneDay = currentOffset >= 1440
+                timeSlot.dateTime = parseTimeOffset(currentOffset >= 1440 ? currentOffset - 1440 : currentOffset)
             })
         })
         success && success(data)

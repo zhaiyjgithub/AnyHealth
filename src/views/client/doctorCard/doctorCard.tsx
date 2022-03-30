@@ -165,7 +165,7 @@ export default function DoctorCard() {
     )
 
     return (
-        <ScrollingProvider offset={0}>
+        <ScrollingProvider offset={-80}>
             <div className={"w-full"}>
                 <NavBar />
                 <div className={"flex flex-col items-center"}>

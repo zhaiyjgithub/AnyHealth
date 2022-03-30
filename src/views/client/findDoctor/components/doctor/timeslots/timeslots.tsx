@@ -6,6 +6,7 @@ export interface TimeSlot {
     dateTime: string,
     offset: number,
     availableSlotsNumber: number,
+    isOverOneDay: boolean,
 }
 
 interface IProps {
@@ -33,19 +34,24 @@ export default function Timeslots(props: IProps) {
         </button>
     )
 
+    const $overOneDayTag = (
+        <p className={"bg-pink-500 p-px rounded-full text-white absolute text-xs -right-1.5 -bottom-1.5"}>+1</p>
+    )
+
     const $timeSlot = (timeSlot: TimeSlot, idx: number) => {
         return (
-            <button type={"button"} className={"w-full py-2 bg-primary hover:bg-primary-focus text-primary-focus hover:text-focus leading-snug text-sm font-meduim"} key={idx} onClick={() => {
+            <button type={"button"} className={"w-full relative py-2 bg-primary hover:bg-primary-focus text-primary-focus hover:text-focus leading-snug text-sm font-meduim"} key={idx} onClick={() => {
                 // 
             }} >
                 {timeSlot.dateTime}
+                {timeSlot.isOverOneDay ? $overOneDayTag : null}
             </button>
         )
     }
 
     const $timeSlotsPeerDay = (data: Array<TimeSlot>, date: string, idx: number) => {
         return (
-            <div key={idx} className={"flex flex-col space-y-2"}>
+            <div key={idx} className={"flex flex-col space-y-2 pb-4"}>
                 {
                     data.map((timeSlot, idx,) => {
                         return !showMore && idx === data.length - 1 ? $moreItem : $timeSlot(timeSlot, idx)
