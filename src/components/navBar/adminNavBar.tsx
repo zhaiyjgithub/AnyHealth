@@ -5,7 +5,7 @@ export default function AdminNavBar() {
         <div className="navbar w-full flex flex-row items-center justify-between bg-base-100 text-base-content border-b border-base-300">
             <div className="px-2 py-2 mx-2 bg-primary w-max">
                 <span className="text-lg font-bold italic text-primary-focus">
-                        anyHealth
+                        ZenDoc
                 </span>
             </div>
             <div className="text-right flex-none hidden px-2 mx-2 lg:flex">

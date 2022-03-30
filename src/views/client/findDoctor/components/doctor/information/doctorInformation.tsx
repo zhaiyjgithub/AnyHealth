@@ -6,12 +6,13 @@ import {AppointmentType} from "../../../../../../utils/enum/enum";
 import {$iconDefaultDoctor} from "../../../assets/assets";
 
 interface IProps {
+    active: boolean
     doctorInfo: DoctorInfo
 }
 
 export default function DoctorInformation(props: IProps) {
     const {state} = useContext(SearchFilterContext)
-    const { doctorInfo } = props
+    const { doctorInfo, active } = props
     const $virtualVisitIcon = doctorInfo.nextAvailableDateVirtual.length ? (
         <div className={"absolute right-2 bottom-2 h-9 w-9 p-1.5 rounded-full bg-pink-500 border-2 border-white flex flex items-center justify-center"}>
             <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" xmlnsXlink="http://www.w3.org/1999/xlink">
@@ -34,17 +35,17 @@ export default function DoctorInformation(props: IProps) {
     const $review = (
         <div className={"flex flex-row items-center space-x-1 mt-1"}>
             <i className="fas fa-star text-pink-400 w-4 h-4"/>
-            <p className={"text-pink-400 text-sm font-medium leading-snug"}>4.69</p>
-            <p className={"text-gray-400 text-sm font-medium leading-snug"}>(273)</p>
+            <p className={"text-pink-400 text-sm font-medium "}>4.69</p>
+            <p className={"text-gray-400 text-sm font-medium "}>(273)</p>
         </div>
     )
 
-    const doctorName = `${doctorInfo.namePrefix} ${doctorInfo.fullName} ${doctorInfo.jobTitle}`
+    const doctorName = `${doctorInfo.namePrefix} ${doctorInfo.fullName}, ${doctorInfo.jobTitle}`
     const distance = `${doctorInfo.distance.toFixed(2)} km`
     const $distanceView = (<p className={"text-sm text-gray-400 font-medium text-right mr-2"}>{distance}</p>)
     const $videoVisitTag = (
         <div className={"flex flex-row items-center space-x-1 flex-none"}>
-            <p className={"leading-snug text-sm px-2 border text-gray-500"}>External video visit</p>
+            <p className={" text-sm px-2 border text-gray-500"}>External video visit</p>
             <div className={"w-5 h-5 flex items-center"}>
                 <VideoVisitToolTips />
             </div>
@@ -73,11 +74,11 @@ export default function DoctorInformation(props: IProps) {
     const $info = (
         <div className={"flex-1"}>
             <div className={"w-full flex flex-row justify-between space-x-2"}>
-                <p className={"text-xl text-primary-focus font-bold leading-snug"}>{doctorName}</p>
+                <p className={`text-xl text-primary-focus font-bold leading-none border-b-2 ${active ? "border-primary-focus" : "border-transparent"}`}>{doctorName}</p>
                 {$tagView()}
             </div>
-            <p className={"text-base text-primary-focus font-medium leading-snug text-left"}>{doctorInfo.specialty}</p>
-            <p className={"text-base text-primary-focus leading-snug text-left"}>{subTitleForAddressOrVideoVisit}</p>
+            <p className={"text-base text-primary-focus font-medium  text-left"}>{doctorInfo.specialty}</p>
+            <p className={"text-base text-primary-focus  text-left"}>{subTitleForAddressOrVideoVisit}</p>
             {$review}
             <p className={"text-base text-gray-400 text-left mt-2"}>{description}</p>
         </div>

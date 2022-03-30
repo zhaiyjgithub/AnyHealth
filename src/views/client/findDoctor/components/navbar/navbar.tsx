@@ -5,7 +5,7 @@ import LoginDropdown from "../login/loginDropdown";
 export default function Navbar() {
     const $brand = (
         <p className={"font-bold text-3xl text-base-content"}>
-            AnyHealth
+            ZenDoc
         </p>
     )
 

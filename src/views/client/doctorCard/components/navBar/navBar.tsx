@@ -4,7 +4,7 @@ import LoginDropdown from "../../../findDoctor/components/login/loginDropdown";
 export default function NavBar() {
     const $brand = (
         <p className={"font-bold text-3xl text-base-content"}>
-            AnyHealth
+            ZenDoc
         </p>
     )
 
