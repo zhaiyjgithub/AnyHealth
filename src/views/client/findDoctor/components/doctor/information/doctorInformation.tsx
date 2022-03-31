@@ -4,6 +4,7 @@ import VideoVisitToolTips from "./videoVisitToolTips";
 import {SearchFilterContext} from "../../../searchFilterProvider";
 import {AppointmentType} from "../../../../../../utils/enum/enum";
 import {$iconDefaultDoctor} from "../../../assets/assets";
+import {Link} from "react-router-dom"
 
 interface IProps {
     active: boolean
@@ -83,11 +84,15 @@ export default function DoctorInformation(props: IProps) {
             <p className={"text-base text-gray-400 text-left mt-2"}>{description}</p>
         </div>
     )
-    return (
-        <div className={"flex-1 flex flex-row space-x-8 pl-4"}>
 
-            {$avatar}
-            {$info}
-        </div>
+    const path = `doctor/${doctorInfo.firstName}-${doctorInfo.lastName}?npi=${doctorInfo.npi}`
+    return (
+        <Link to={path} className={"flex flex-1"}>
+            <div className={"flex-1 flex flex-row space-x-8 pl-4"}>
+                {$avatar}
+                {$info}
+            </div>
+        </Link>
+        
     )
 }

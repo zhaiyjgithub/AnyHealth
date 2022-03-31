@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import DoctorInformation from "./information/doctorInformation";
 import Timeslots from "./timeslots/timeslots";
 import {DoctorInfo} from "../../model/doctor";
-import {Link} from 'react-router-dom'
 
 interface IProps {
     doctorInfo: DoctorInfo,
@@ -12,9 +11,7 @@ interface IProps {
 export default function DoctorItem(props: IProps) {
     const [active, setActive] = useState<boolean>(false)
     const { doctorInfo, onViewAllAvailability } = props
-    const $doctorInfoView = (<Link to={'/doctor?name=test'} className={'flex flex-1'}>
-        <DoctorInformation active={active} doctorInfo={doctorInfo} />
-    </Link>)
+    const $doctorInfoView = (<DoctorInformation active={active} doctorInfo={doctorInfo} />)
     const $timeslotsView = (<Timeslots timeSlotsPerDay={doctorInfo.timeSlotsPerDay}/>)
     const $viewAllAvailability = (
         <div className={"w-full flex flex-row items-center justify-end mt-4 px-12"}>

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import NavBar from "./components/navBar/navBar";
 import {$iconDefaultDoctor} from "../findDoctor/assets/assets";
 import SectionHeader, {ScrollSectionMenuId} from "./components/sectionHeader/sectionHeader";
@@ -7,13 +7,34 @@ import InsuranceList from "./components/insurance/insuranceList";
 import LocationInfo from "./components/location/locationInfo";
 import EducationBackground from "./components/educationBackground/educationBackground";
 import Sticky from "react-sticky-el";
-import { Section, ScrollingProvider } from "react-scroll-section"
+import {ScrollingProvider, Section} from "react-scroll-section"
 import Faq from "./components/faq/faq";
 import Button from "../../../components/buttons/button";
 import BookingCard from "./components/bookingCard/bookingCard";
+import {useLocation} from "react-router-dom";
+import qs from "qs";
+import {DoctorDetailInfo, getDoctorDetailInfoByNpi} from "./service/doctorCardService";
+
+interface IRouterLocation {
+    npi: string
+}
 
 export default function DoctorCard() {
+    const {search} = useLocation<IRouterLocation>()
+    const { npi } = qs.parse(search.replace('?', ''))
+    const [doctorInfo, setDoctorInfo] = useState<DoctorDetailInfo | null>(null)
     const [isHeaderFixed, setIsHeaderFixed] = useState<boolean>(false)
+
+    useEffect(() => {
+        if (typeof npi === "string") {
+            npi && getDoctorDetailInfoByNpi(parseInt(npi), (doctorInfo) => {
+                setDoctorInfo(doctorInfo)
+            }, () => {
+                //
+            })
+        }
+    }, [])
+
     const $previewPhotosButton = (
         <button type={"button"} className={"text-lg max-w-max text-blue-600 font-medium border-blue-600 border-b border-dotted hover:border-solid"}>7 Photos</button>
     )
@@ -41,11 +62,15 @@ export default function DoctorCard() {
             </div>
         </div>
     )
+
+    const name = `${doctorInfo?.namePrefix} ${doctorInfo?.firstName} ${doctorInfo?.lastName}, ${doctorInfo?.credential}`
+    const specialty = `${doctorInfo?.specialty}`
+    const addressForState = `${doctorInfo?.city}, ${doctorInfo?.state}`
     const $nameAndSpecialtyAndAddress = (
         <div className={"w-full space-y-1"}>
-            <p className={"font-bold text-5xl text-primary-focus"}>{"Dr. R. Sam Suri, MD"}</p>
-            <p className={"text-xl text-primary-focus"}>{"Cardiologist, Internist, Primary Care Doctor"}</p>
-            <p className={"text-xl text-gray-400"}>{"Fremont, CA"}</p>
+            <p className={"font-bold text-5xl text-primary-focus"}>{name}</p>
+            <p className={"text-lg font-semibold text-primary-focus"}>{specialty}</p>
+            <p className={"text-lg font-semibold text-gray-400"}>{addressForState}</p>
         </div>
     )
     const $basicInfo = (
@@ -70,7 +95,7 @@ export default function DoctorCard() {
 
                 </div>
                 <div>
-                    <p className={"text-lg text-primary-focus font-bold"}>Dr. Jerry Glebleg, MD</p>
+                    <p className={"text-lg text-primary-focus font-bold"}>{name}</p>
                     <div className={"flex flex-row items-center space-x-2"}>
                         <div className={"flex flex-row"}>
                             {$star}
@@ -129,11 +154,11 @@ export default function DoctorCard() {
     const $aboutView = (
         <Section id={ScrollSectionMenuId.about}>
             <div className={"w-full"}>
-                <p className={"text-xl text-primary-focus font-bold"}>About Dr. Binh Dang</p>
+                <p className={"text-xl text-primary-focus font-bold"}>{`About ${name}`}</p>
                 <div className={"block mt-2"}>
                     <span className={"text-lg text-primary-focus line-clamp-3"}>
-                Dr. Dang is board certified in Family Medicine, leads the primary care department of Action Health. Over his long professional history in the medical field, Dr. Dang has become specialized in Family Medicine, Pediatrics, Prenatal Care, and Emergency Medicine. Dr...
-                        <span><button type={"button"} className={"cursor-pointer ml-2 text-blue-500 border-b border-blue-500 border-dotted hover:border-solid"}>Show more</button></span>
+                        {doctorInfo?.summary}
+                        <span><button type={"button"} className={"cursor-pointer leading-none ml-2 text-blue-500 border-b border-blue-500 border-dotted hover:border-solid"}>Show more</button></span>
                     </span>
                 </div>
             </div>
@@ -148,19 +173,19 @@ export default function DoctorCard() {
 
     const $locationInfoView = (
         <Section id={ScrollSectionMenuId.locations}>
-            <LocationInfo />
+            <LocationInfo doctorName={name} lat={doctorInfo?.lat} lng={doctorInfo?.lng} address={doctorInfo?.address} isVirtualVisitEnable={true} />
         </Section>
     )
 
-    const $educationView = (
+    const $educationView = doctorInfo ? (
         <Section id={ScrollSectionMenuId.educations}>
-            <EducationBackground />
+            <EducationBackground doctorInfo={doctorInfo} />
         </Section>
-    )
+    ) : null
 
     const $faqView = (
         <Section id={ScrollSectionMenuId.faq} >
-            <Faq />
+            <Faq doctorName={name} />
         </Section>
     )
 

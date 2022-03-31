@@ -22,7 +22,7 @@ L.Marker.prototype.options.icon = DefaultIcon;
 ReactDOM.render(
     <HashRouter>
         <Switch>
-            <Route exact path={"/doctor"} component={DoctorCard} />
+            <Route exact path={"/doctor/:name"} component={DoctorCard} />
             <Route exact path={"/search"} component={DoctorListContainer} />
         </Switch>
     </HashRouter>,

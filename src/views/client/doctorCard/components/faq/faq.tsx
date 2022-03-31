@@ -1,14 +1,20 @@
 import React from "react";
 
-export default function Faq() {
+interface IProps {
+    doctorName: string
+}
+
+export default function Faq(props: IProps) {
+    const { doctorName } = props
+    console.log(doctorName)
     return (
         <div>
             <p className={"text-xl text-primary-focus font-bold"}>Frequently questions</p>
-            <div className={'space-y-8 mt-4'}>
-                <div className={'space-y-2'}>
-                    <p className={"text-base text-primary-focus font-semibold"}>How soon can I make an appointment with Dr. Binh Dang?</p>
+            <div className={"space-y-8 mt-4"}>
+                <div className={"space-y-2"}>
+                    <p className={"text-base text-primary-focus font-semibold"}>{"How soon can I make an appointment with Dr. Binh Dang?"}</p>
                     <p className={"text-base text-primary-focus "}>
-                        Generally, Dr. Binh Dang has appointments available on Zocdoc within 1 week. You can see Dr. Dangs earliest availability on Zocdoc and
+                        {"Generally, Dr. Binh Dang has appointments available on Zocdoc within 1 week. You can see Dr. Dangs earliest availability on Zocdoc and"}
                         <span className={"text-blue-500 ml-1"}>
                         make an appointment online
                         </span>.
@@ -16,16 +22,16 @@ export default function Faq() {
                 </div>
 
                 <div>
-                    <p className={"text-base text-primary-focus font-semibold"}>Is Dr. Binh Dang accepting new patients?</p>
+                    <p className={"text-base text-primary-focus font-semibold"}>{"Is Dr. Binh Dang accepting new patients?"}</p>
                     <p className={"text-base text-primary-focus "}>
-                        Dr. Binh Dang generally accepts new patients on Zocdoc.
-                        <span className={"text-blue-500 mx-1"}>{`You can see Dr. Dang's earliest availability`}
+                        {"Dr. Binh Dang generally accepts new patients on Zocdoc."}
+                        <span className={"text-blue-500 mx-1"}>{"You can see Dr. Dang's earliest availability"}
                         </span>on Zocdoc and schedule an appointment online.
                     </p>
                 </div>
 
                 <div>
-                    <p className={"text-base text-primary-focus font-semibold"}>Does Dr. Binh Dang accept my insurance?</p>
+                    <p className={"text-base text-primary-focus font-semibold"}>{"Does Dr. Binh Dang accept my insurance?"}</p>
                     <p className={"text-base text-primary-focus "}>
                         <span className={"text-blue-500 mr-1"}>
                             Choose your insurance plan
@@ -35,7 +41,7 @@ export default function Faq() {
                 </div>
 
                 <div>
-                    <p className={"text-base text-primary-focus font-semibold"}>Can I make an appointment with Dr. Binh Dang online?</p>
+                    <p className={"text-base text-primary-focus font-semibold"}>{"Can I make an appointment with Dr. Binh Dang online?"}</p>
                     <p className={"text-base text-primary-focus "}>
                         Yes, you can
                         <span className={"text-blue-500 mx-1"}>
@@ -46,10 +52,10 @@ export default function Faq() {
                 </div>
 
                 <div>
-                    <p className={"text-base text-primary-focus font-semibold"}>What practice does Dr. Binh Dang work with?</p>
+                    <p className={"text-base text-primary-focus font-semibold"}>{"What practice does Dr. Binh Dang work with?"}</p>
                     <p className={"text-base text-primary-focus"}>
                         <span className={"text-blue-500 mr-1"}>
-                        Dr. Binh Dang
+                            {"Dr. Binh Dang"}
                         </span>
                         work with
                         <span className={"text-blue-500 ml-1"}>
@@ -59,13 +65,13 @@ export default function Faq() {
                 </div>
 
                 <div>
-                    <p className={"text-base text-primary-focus font-semibold"}>{`Where is Dr. Binh Dang's office located?`}</p>
+                    <p className={"text-base text-primary-focus font-semibold"}>{"Where is Dr. Binh Dang's office located?"}</p>
                     <p className={"text-base text-primary-focus "}>
-                        Dr. Binh Dang has 6 office locations in San Jose,
+                        {"Dr. Binh Dang has 6 office locations in San Jose,sdsd"}
                         <span className={"text-blue-500 mx-1"}>
                          view full addresses
                         </span>
-                        {`on Dr. Dang's profile.`}
+                        {"on Dr. Dang's profile."}
                     </p>
                 </div>
 
