@@ -1,4 +1,5 @@
 import React from "react";
+import LeafletMap from "../../../../../components/map/leafletMap";
 
 interface IProps {
     isVirtualVisitEnable: boolean,
@@ -21,7 +22,9 @@ export default function LocationInfo(props: IProps) {
     )
     const $mapInfoView = (
         <div className={"flex flex-row space-x-4"}>
-            <div className={"flex flex-1 h-80 bg-red-200"}/>
+            <div className={"flex flex-1 h-80 bg-red-200"}>
+                <LeafletMap address={'adress'} zoom={13} center={[40.759449, -73.689227]} />
+            </div>
             {$addressView}
         </div>
     )
