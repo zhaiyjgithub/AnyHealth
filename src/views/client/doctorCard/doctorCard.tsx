@@ -21,7 +21,7 @@ interface IRouterLocation {
 
 export default function DoctorCard() {
     const {search} = useLocation<IRouterLocation>()
-    const { npi } = qs.parse(search.replace('?', ''))
+    const { npi } = qs.parse(search.replace("?", ""))
     const [doctorInfo, setDoctorInfo] = useState<DoctorDetailInfo | null>(null)
     const [isHeaderFixed, setIsHeaderFixed] = useState<boolean>(false)
 
@@ -116,7 +116,6 @@ export default function DoctorCard() {
     const $sectionHeader = (
         <Section id={ScrollSectionMenuId.stickyHeader}>
             <Sticky stickyClassName={`z-50 ${isHeaderFixed ? "left-0 container" : ""}`} onFixedToggle={(fixed) => {
-                console.log("####", fixed)
                 setIsHeaderFixed(fixed)
             }}>
                 <div className={`relative ${isHeaderFixed ? "w-screen flex flex-row justify-center bg-base-200 border-b" : ""}`}>
@@ -165,15 +164,17 @@ export default function DoctorCard() {
         </Section>
     )
 
-    const $insuranceList = (
+    const $insuranceList = doctorInfo?.insurances ? (
         <Section id={ScrollSectionMenuId.insurances}>
-            <InsuranceList />
+            <InsuranceList data={doctorInfo?.insurances.split(", ")} />
         </Section>
-    )
+    ) : null
 
     const $locationInfoView = doctorInfo ? (
         <Section id={ScrollSectionMenuId.locations}>
-            <LocationInfo specialty={specialty} doctorName={name} center={[doctorInfo.lat, doctorInfo.lng]} address={doctorInfo?.address} isVirtualVisitEnable={true} />
+            <div className={"z-10"}>
+                <LocationInfo specialty={specialty} doctorName={name} center={[doctorInfo.lat, doctorInfo.lng]} address={doctorInfo?.address} isVirtualVisitEnable={true} />
+            </div>
         </Section>
     ) : null
 

@@ -43,7 +43,9 @@ export default function LeafletMap({center, zoom, pins}: IProps) {
             center={center}
             className={"w-full h-full"}
             zoom={zoom}
-            scrollWheelZoom={false}>
+            markerZoomAnimation={true}
+            zoomControl={true}
+            scrollWheelZoom={true}>
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />

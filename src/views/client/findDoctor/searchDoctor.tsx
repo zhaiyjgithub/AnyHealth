@@ -2,7 +2,6 @@ import React, {useContext, useEffect, useMemo, useState} from "react";
 import Navbar from "./components/navbar/navbar";
 import {AppointmentType} from "../../../utils/enum/enum";
 import Filter from "./components/filter/filter";
-import Sticky from "react-sticky-el";
 import WeekDayHeader from "./components/weekDayHeader/weekDayHeader";
 import DoctorItem from "./components/doctor/doctorItem";
 import {ActionTypeForSearchFilter, SearchFilterContext} from "./searchFilterProvider";
@@ -20,6 +19,7 @@ export default function SearchDoctor() {
     const [viewAllIdx, setViewAllIdx] = useState<number>(-1)
     const [dataForAllAvailable, setDataForAllAvailable] = useState<Array<TimeSlotPerDay>>([])
     const [offsetY, setOffsetY] = useState<number>(0)
+    console.log(offsetY)
     
     const getScrollTop = () => {
         let scrollTop = 0;
@@ -100,12 +100,10 @@ export default function SearchDoctor() {
     const $navBar = (<Navbar />)
     const $filter = (<div className={"mt-4 px-6 z-30"}><Filter /></div>)
 
-    const $stickHeader = (
-        <Sticky className={"mt-4 z-20"} onFixedToggle={(fixed) => {
-            console.log("####", fixed)
-        }}>
+    const $weekDayStickyHeader = (
+        <div className={"mt-4 sticky top-0 bg-white z-20"}>
             <WeekDayHeader startDate={state.startDate} total={total} />
-        </Sticky>
+        </div>
     )
 
     const $pageFooter = (
@@ -145,33 +143,35 @@ export default function SearchDoctor() {
         })
     }, [data])
 
-    // todo: fixed right-0 top-0 pt-20 h-screen w-0 xl:w-1/3
-    // todo: h-screen pb-20 w-full
-    const $mapView = (
-        <div className={`${offsetY > 80 ? "fixed right-0 top-0 h-screen w-0 xl:w-1/3" : "h-screen w-full"}`}>
+    const $mapViewStickyHeader = (
+        <div className={"h-screen w-full sticky top-0"}>
             <LeafletMap pins={pins} zoom={15} center={[40.748159, -73.978423]} />
         </div>
     )
 
     const $content = (
-        <div className={"w-full flex flex-row relative"}>
+        <div className={"w-full flex flex-row"}>
             <div className={"w-full xl:w-2/3 md:border-l md:border-r flex flex-col flex-1"}>
                 {$apptTab}
                 {$filter}
-                {$stickHeader}
+                {$weekDayStickyHeader}
                 {$resultList}
                 {$allTimeSlotsModal}
             </div>
-            <div className={"flex w-0 xl:w-1/3 relative"}>
-                {$mapView}
+            <div className={"flex w-0 xl:w-1/3"}>
+                {$mapViewStickyHeader}
             </div>
         </div>
     )
 
+    const $footer = (
+        <div className={"w-full h-48 bg-red-300"}/>
+    )
     return (
         <div className={"flex flex-col w-full min-h-screen"}>
             {$navBar}
             {$content}
+            {$footer}
         </div>
     )
 }

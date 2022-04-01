@@ -66,10 +66,10 @@ export default function DoctorInformation(props: IProps) {
     if ((state.appointmentType === AppointmentType.anyType ||
         state.appointmentType === AppointmentType.virtual
     ) && isVideoVisitEnable) {
-        description = "New patient appointments • Also offers video visits"
+        description = "New patient appointments • Also offers in-person visits"
         subTitleForAddressOrVideoVisit = "Video Visit"
     } else {
-        description = "New patient appointments • Also offers in-person visits"
+        description = "New patient appointments • Also offers video visits"
         subTitleForAddressOrVideoVisit = doctorInfo.address
     }
     const $info = (

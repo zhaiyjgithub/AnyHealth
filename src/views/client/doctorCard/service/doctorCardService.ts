@@ -13,7 +13,8 @@ export interface DoctorDetailInfo extends Doctor {
     lng: number,
     awards: Array<DoctorBackgroundInfo>,
     certifications: Array<DoctorBackgroundInfo>,
-    educations: Array<DoctorBackgroundInfo>
+    educations: Array<DoctorBackgroundInfo>,
+    insurances: string
 }
 
 export const getDoctorDetailInfoByNpi = (npi: number | string, success: (doctorInfo: DoctorDetailInfo) => void, fail: () => void) => {

@@ -10,10 +10,10 @@ export default function FormRadio(props:IProps) {
     const {title, checked, onChange} = props
     return (
         <label className="cursor-pointer space-x-2 flex flex-row items-center w-full ">
-            <input onChange={() => {
+            <input onClick={() => {
                 onChange && onChange()
-            }} type="radio" name="opt" checked={checked} className="form-radio w-5 h-5 active:border" value="" />
-            <span className="label-text">{title}</span>
+            }} type="radio" checked={checked} className="form-radio w-4 h-4 active:border" />
+            <p className="text-sm">{title}</p>
         </label>
     )
 }

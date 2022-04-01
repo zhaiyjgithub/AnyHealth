@@ -1,15 +1,16 @@
-import React, {useEffect, useState} from "react";
-import {dataForInsurance} from "./dataForInsuarnce"
+import React, {useEffect, useMemo, useState} from "react";
 import FormRadio from "../../../../../components/form/formRadio";
-import Dropdown from "./dropdown";
+import Dropdown, {DropDownItem} from "./dropdown";
 import {AppointmentType} from "../../../../../utils/enum/enum";
 import AvailableDateView from "./availableDateView";
 import {getTimeSlots} from "../../../findDoctor/service/searchDoctorService";
 import {TimeSlotPerDay} from "../../../findDoctor/model/doctor";
+import {dataForIllness} from "./dataForInsuarnce";
 
 export interface Booking {
     insurance: string,
     insuranceId: null,
+    illness: string,
     appointmentType: AppointmentType,
     reasonForAppt: string,
     isNewPatient: boolean,
@@ -20,6 +21,17 @@ export interface Booking {
 
 export default function BookingCard() {
     const [dataForAllAvailable, setDataForAllAvailable] = useState<Array<TimeSlotPerDay>>([])
+    const [booking, setBooking] = useState<Booking>({
+        insurance: "",
+        appointmentType: AppointmentType.inClinic,
+        dateTime: "",
+        illness: "",
+        insuranceId: null,
+        isNewPatient: false,
+        npi: 0,
+        officeLocationId: 0,
+        reasonForAppt: "",
+    })
     useEffect(() => {
         getAllTimeSlots(1902809254, (new Date()).toISOString())
     }, [])
@@ -36,15 +48,46 @@ export default function BookingCard() {
         <p className={"font-bold text-2xl text-primary-focus"}>Book an appointment for free</p>
     )
 
+    const dataForInsurance = useMemo(() => {
+        const list = [
+            "Aetna Choice POS II",
+            "Aetna HMO",
+            "BCBS Blue Card PPO",
+            "CIGNA HMO",
+            "CIGNA Open Access",
+            "CIGNA PPO",
+            "Empire BCBS HMO",
+            "Empire BCBS PPO",
+            "GHI PPO",
+            "HIP of New York - Select PPO",
+            "Humana ChoiceCare Network PPO",
+            "MagnaCare PPO",
+            "MVP Healthcare PPO",
+            "Oxford Health Freedom",
+            "Oxford Health Liberty",
+            "United Healthcare - Direct Choice Plus POS",
+            "United Healthcare - Direct Options PPO",
+        ]
+        return list.map((item) => {
+            return {name: item, id: item} as DropDownItem
+        })
+    }, [])
+
     const $dropdownForInsurance = (
-        <Dropdown title={"What's your insurance plan?"} selected={dataForInsurance[0]} data={dataForInsurance} onChange={() => {
-            //
+        <Dropdown title={"What's your insurance plan?"} placeholder={'Choose an insurance'} selected={booking?.insurance} data={dataForInsurance} onChange={(value) => {
+            setBooking({
+                ...booking,
+                insurance: value,
+            })
         }} />
     )
 
     const $dropdownForIllness = (
-        <Dropdown title={"What's the reason of your visit?"} selected={dataForInsurance[0]} data={dataForInsurance} onChange={() => {
-            //
+        <Dropdown title={"What's the reason of your visit?"} placeholder={'Illness'} selected={booking?.illness} data={dataForIllness} onChange={(value) => {
+            setBooking({
+                ...booking,
+                illness: value,
+            })
         }} />
     )
 
@@ -53,13 +96,19 @@ export default function BookingCard() {
             <p className={"text-base text-primary-focus font-semibold"}>Has the patient seen this doctor before?</p>
             <div className={"flex flex-row items-center justify-between border border-base-300 mt-1 bg-white"}>
                 <div className={"px-3 py-2.5 flex flex-1 flex-row"}>
-                    <FormRadio title={"No"} checked onChange={() => {
-                        //
+                    <FormRadio key={3} title={"No"} checked={!booking.isNewPatient} onChange={() => {
+                        setBooking({
+                            ...booking,
+                            isNewPatient: false,
+                        })
                     }}/>
                 </div>
                 <div className={"px-3 py-2.5 flex flex-1 flex-row border-l"}>
-                    <FormRadio title={"Yes"} checked onChange={() => {
-                        //
+                    <FormRadio key={4} title={"Yes"} checked={booking.isNewPatient} onChange={() => {
+                        setBooking({
+                            ...booking,
+                            isNewPatient: true,
+                        })
                     }}/>
                 </div>
             </div>
@@ -71,13 +120,19 @@ export default function BookingCard() {
             <p className={"text-base text-primary-focus font-semibold"}>Choose the type of appointment</p>
             <div className={"flex flex-row items-center justify-between border mt-1 bg-white"}>
                 <div className={"px-3 py-2.5 flex flex-1 flex-row"}>
-                    <FormRadio title={"In-person"} checked onChange={() => {
-                        //
+                    <FormRadio key={1} title={"In-person"} checked={booking.appointmentType === AppointmentType.inClinic} onChange={() => {
+                        setBooking({
+                            ...booking,
+                            appointmentType: AppointmentType.inClinic,
+                        })
                     }}/>
                 </div>
                 <div className={"px-3 py-2.5 flex flex-1 flex-row border-l"}>
-                    <FormRadio title={"In-person"} checked onChange={() => {
-                        //
+                    <FormRadio key={2} title={"Video visit"} checked={booking.appointmentType === AppointmentType.virtual} onChange={() => {
+                        setBooking({
+                            ...booking,
+                            appointmentType: AppointmentType.virtual,
+                        })
                     }}/>
                 </div>
             </div>

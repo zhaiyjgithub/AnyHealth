@@ -12,21 +12,26 @@ export interface DropDownItem {
 
 interface IProps {
     title: string,
+    placeholder: string,
     data: Array<DropDownItem>,
-    selected: DropDownItem | null,
-    onChange: (item: DropDownItem) => void,
+    selected: any,
+    onChange: (id: any) => void,
 }
 
 export default function Dropdown(props: IProps) {
-    const { title, data} = props
+    const { title, data, selected, onChange, placeholder} = props
     const [show, setShow] = useState<boolean>(false)
 
+    const value = data.find((_item) => {
+        return _item.id === selected
+    })
+    const valueName = value ? value.name : placeholder
     const $toggleButton = (
         <button onClick={(e) => {
             e.stopPropagation()
             setShow(!show)
         }} type={"button"} className={"w-full z-10 mt-1 relative px-2 py-2.5 bg-white flex flex-row items-center justify-between border text-primary-focus font-semibold text-sm leading-tight"}>
-            <p className={'font-medium text-base font-primary-focus'}>Choose an insurance</p>
+            <p className={"font-medium text-sm font-primary-focus"}>{valueName}</p>
             <svg className={"h-5 w-5 text-primary-focus hover:text-focus"} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                 fill="currentColor">
                 <path fillRule="evenodd"
@@ -42,11 +47,14 @@ export default function Dropdown(props: IProps) {
         }} className={"fixed inset-0 h-full w-full z-20"} />
     ) : null
 
-    const $item = ({name}: DropDownItem, idx: number) => {
+    const $item = ({name, id}: DropDownItem, idx: number) => {
         return (
-            <div key={idx} className={"w-full py-2 hover:bg-pink-100 flex flex-row items-center"}>
+            <button type={'button'} onClick={() => {
+                setShow(false)
+                onChange && onChange(id)
+            }} key={idx} className={"w-full py-2 hover:bg-pink-100 flex flex-row items-center"}>
                 <p className={"text-sm px-2 font-medium text-primary-focus text-left"}>{name}</p>
-            </div>
+            </button>
         )
     }
 

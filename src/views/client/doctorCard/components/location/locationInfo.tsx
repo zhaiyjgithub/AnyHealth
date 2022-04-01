@@ -21,7 +21,7 @@ export default function LocationInfo(props: IProps) {
     )
     const $mapInfoView = (
         <div className={"flex flex-row space-x-4"}>
-            <div className={"flex flex-1 h-80 bg-red-200"}>
+            <div className={"flex flex-1 h-80 z-10"}>
                 <LeafletMap pins={[{name: doctorName, specialty: specialty, address: address, pos: center}]} zoom={20} center={center} />
             </div>
             {$addressView}
