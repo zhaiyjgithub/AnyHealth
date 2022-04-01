@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useMemo, useState} from "react";
 import Navbar from "./components/navbar/navbar";
 import {AppointmentType} from "../../../utils/enum/enum";
 import Filter from "./components/filter/filter";
@@ -10,6 +10,7 @@ import {findDoctor, getTimeSlots} from "./service/searchDoctorService";
 import {DoctorInfo, TimeSlotPerDay} from "./model/doctor";
 import PageFooter from "./components/pageFooter/pageFooter";
 import AllAvailableTimeSlots from "./components/allAvailableTimeSlots/allAvailableTimeSlots";
+import LeafletMap, {Pin} from "../../../components/map/leafletMap";
 
 export default function SearchDoctor() {
     const [apptType, setApptType] = useState<AppointmentType>(AppointmentType.anyType)
@@ -18,7 +19,29 @@ export default function SearchDoctor() {
     const [total, setTotal] = useState<number>(0)
     const [viewAllIdx, setViewAllIdx] = useState<number>(-1)
     const [dataForAllAvailable, setDataForAllAvailable] = useState<Array<TimeSlotPerDay>>([])
+    const [offsetY, setOffsetY] = useState<number>(0)
+    
+    const getScrollTop = () => {
+        let scrollTop = 0;
+        if ( document?.documentElement && document?.documentElement?.scrollTop) {
+            scrollTop = document?.documentElement.scrollTop;
+        } else if (document?.body) {
+            scrollTop = document?.body.scrollTop;
+        }
+        return scrollTop;
+    }
 
+    const handleScroll = () => {
+        setOffsetY(getScrollTop)
+    }
+
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll)
+        return () => {
+            window.removeEventListener("scroll", handleScroll)
+        }
+    }, [])
+    
     useEffect(() => {
         findDoctor(state, (total, data) => {
             setTotal(total)
@@ -112,13 +135,36 @@ export default function SearchDoctor() {
             getAllTimeSlots(doctorInfo.npi, date)
         }} />
     ) : null
+
+    const pins = useMemo(() => {
+        return data.map((doctorInfo) => {
+            const name = `${doctorInfo.namePrefix} ${doctorInfo.firstName} ${doctorInfo.lastName}, ${doctorInfo.jobTitle}`
+            const specialty = doctorInfo.specialty
+            const address = doctorInfo.address
+            return {name: name, specialty: specialty, address: address, pos: [doctorInfo.location.lat, doctorInfo.location.lon]} as Pin
+        })
+    }, [data])
+
+    // todo: fixed right-0 top-0 pt-20 h-screen w-0 xl:w-1/3
+    // todo: h-screen pb-20 w-full
+    const $mapView = (
+        <div className={`${offsetY > 80 ? "fixed right-0 top-0 h-screen w-0 xl:w-1/3" : "h-screen w-full"}`}>
+            <LeafletMap pins={pins} zoom={15} center={[40.748159, -73.978423]} />
+        </div>
+    )
+
     const $content = (
-        <div className={"w-full xl:w-2/3 border-r flex flex-col flex-1"}>
-            {$apptTab}
-            {$filter}
-            {$stickHeader}
-            {$resultList}
-            {$allTimeSlotsModal}
+        <div className={"w-full flex flex-row relative"}>
+            <div className={"w-full xl:w-2/3 md:border-l md:border-r flex flex-col flex-1"}>
+                {$apptTab}
+                {$filter}
+                {$stickHeader}
+                {$resultList}
+                {$allTimeSlotsModal}
+            </div>
+            <div className={"flex w-0 xl:w-1/3 relative"}>
+                {$mapView}
+            </div>
         </div>
     )
 

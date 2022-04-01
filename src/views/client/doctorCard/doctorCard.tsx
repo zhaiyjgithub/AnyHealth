@@ -171,11 +171,11 @@ export default function DoctorCard() {
         </Section>
     )
 
-    const $locationInfoView = (
+    const $locationInfoView = doctorInfo ? (
         <Section id={ScrollSectionMenuId.locations}>
-            <LocationInfo doctorName={name} lat={doctorInfo?.lat} lng={doctorInfo?.lng} address={doctorInfo?.address} isVirtualVisitEnable={true} />
+            <LocationInfo specialty={specialty} doctorName={name} center={[doctorInfo.lat, doctorInfo.lng]} address={doctorInfo?.address} isVirtualVisitEnable={true} />
         </Section>
-    )
+    ) : null
 
     const $educationView = doctorInfo ? (
         <Section id={ScrollSectionMenuId.educations}>

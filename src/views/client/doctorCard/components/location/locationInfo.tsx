@@ -4,14 +4,13 @@ import LeafletMap from "../../../../../components/map/leafletMap";
 interface IProps {
     isVirtualVisitEnable: boolean,
     doctorName: string,
-    lat: number | undefined,
-    lng: number | undefined,
-    address: string | undefined,
+    specialty: string,
+    center: [number, number],
+    address: string,
 }
 
 export default function LocationInfo(props: IProps) {
-    const { doctorName, lat, lng, address, isVirtualVisitEnable} = props
-    console.log(lat, lng)
+    const { doctorName, center, address, specialty, isVirtualVisitEnable} = props
     const $addressView = (
         <div className={"w-1/5 flex flex-col flex-none space-y-4 mt-4"}>
             <p className={"text-lg"}>{address}</p>
@@ -23,7 +22,7 @@ export default function LocationInfo(props: IProps) {
     const $mapInfoView = (
         <div className={"flex flex-row space-x-4"}>
             <div className={"flex flex-1 h-80 bg-red-200"}>
-                <LeafletMap address={'adress'} zoom={13} center={[40.759449, -73.689227]} />
+                <LeafletMap pins={[{name: doctorName, specialty: specialty, address: address, pos: center}]} zoom={20} center={center} />
             </div>
             {$addressView}
         </div>

@@ -6,19 +6,21 @@ import "../src/views/client/findDoctor/components/filter/calendarCustom.css";
 import "leaflet/dist/leaflet.css";
 import reportWebVitals from "./reportWebVitals";
 import {HashRouter, Route, Switch} from "react-router-dom";
-// import L from "leaflet";
+import L from "leaflet";
+import icon from "./assets/map/marker-icon.png";
+// import iconRetina from "./assets/images/map/marker-icon-2x.png";
+import iconShadow from "./assets/map/marker-shadow.png";
 // import DoctorAdmin from "./views/doctor/doctorAdmin";
 import DoctorCard from "./views/client/doctorCard/doctorCard";
 import DoctorListContainer from "./views/client/findDoctor/doctorListContainer";
-// import icon from './logo.svg'
 
-// let DefaultIcon = L.icon({
-//     iconUrl: "",
-//     iconRetinaUrl: icon,
-//     shadowUrl: "",
-// });
-//
-// L.Marker.prototype.options.icon = DefaultIcon;
+let DefaultIcon = L.icon({
+    iconUrl: icon,
+    // iconRetinaUrl: iconRetina,
+    shadowUrl: iconShadow,
+});
+
+L.Marker.prototype.options.icon = DefaultIcon;
 
 ReactDOM.render(
     <HashRouter>
