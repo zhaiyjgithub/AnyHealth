@@ -106,7 +106,11 @@ export default function DoctorCard() {
                 </div>
             </div>
             <Button onClick={() => {
-                //
+                window.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: "smooth",
+                });
             }} >
                 View availability
             </Button>
@@ -208,7 +212,7 @@ export default function DoctorCard() {
                             {$faqView}
                         </div>
                         <div className={"w-2/5"}>
-                            <BookingCard />     
+                            <BookingCard />
                         </div>
                     </div>
                 </div>

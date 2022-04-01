@@ -56,6 +56,7 @@ export const getTimeSlots = (npi: number, startDate: string, range: number = 5, 
             timeSlots.forEach((timeSlot) => {
                 const currentOffset = initialMinutes + timeSlot.offset
                 timeSlot.isOverOneDay = currentOffset >= 1440
+                timeSlot.date = date
                 timeSlot.dateTime = parseTimeOffset(currentOffset >= 1440 ? currentOffset - 1440 : currentOffset)
             })
         })

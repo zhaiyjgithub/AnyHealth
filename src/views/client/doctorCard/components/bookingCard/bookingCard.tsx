@@ -6,6 +6,8 @@ import AvailableDateView from "./availableDateView";
 import {getTimeSlots} from "../../../findDoctor/service/searchDoctorService";
 import {TimeSlotPerDay} from "../../../findDoctor/model/doctor";
 import {dataForIllness} from "./dataForInsuarnce";
+import Button from "../../../../../components/buttons/button";
+import {TimeSlot} from "../../../findDoctor/components/doctor/timeslots/timeslots";
 
 export interface Booking {
     insurance: string,
@@ -32,6 +34,7 @@ export default function BookingCard() {
         officeLocationId: 0,
         reasonForAppt: "",
     })
+    const [selectedTimeSlot, setSelectedTimeSlot] = useState<TimeSlot | null>(null)
     useEffect(() => {
         getAllTimeSlots(1902809254, (new Date()).toISOString())
     }, [])
@@ -140,9 +143,16 @@ export default function BookingCard() {
     )
 
     const $availableTimeView = (
-        <AvailableDateView total={5} startDate={new Date()} timeSlotsPerDay={dataForAllAvailable} />
+        <AvailableDateView selectedTimeSlot={selectedTimeSlot} onSelect={(timeSlot) => {
+            setSelectedTimeSlot(timeSlot)
+        }} total={5} startDate={new Date()} timeSlotsPerDay={dataForAllAvailable} />
     )
 
+    const $bookButton = (
+        <Button onClick={() => {
+            //
+        }} >Continue booking</Button>
+    )
     return (
         <div className={"p-8 w-full flex flex-col space-y-4 border bg-base-200"}>
             {$title}
@@ -151,6 +161,7 @@ export default function BookingCard() {
             {$newPatientOptionView}
             {$appointmentTypeOptionView}
             {$availableTimeView}
+            {$bookButton}
         </div>
     )
 }

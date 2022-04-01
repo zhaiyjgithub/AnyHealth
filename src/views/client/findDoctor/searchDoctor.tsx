@@ -18,30 +18,7 @@ export default function SearchDoctor() {
     const [total, setTotal] = useState<number>(0)
     const [viewAllIdx, setViewAllIdx] = useState<number>(-1)
     const [dataForAllAvailable, setDataForAllAvailable] = useState<Array<TimeSlotPerDay>>([])
-    const [offsetY, setOffsetY] = useState<number>(0)
-    console.log(offsetY)
-    
-    const getScrollTop = () => {
-        let scrollTop = 0;
-        if ( document?.documentElement && document?.documentElement?.scrollTop) {
-            scrollTop = document?.documentElement.scrollTop;
-        } else if (document?.body) {
-            scrollTop = document?.body.scrollTop;
-        }
-        return scrollTop;
-    }
 
-    const handleScroll = () => {
-        setOffsetY(getScrollTop)
-    }
-
-    useEffect(() => {
-        window.addEventListener("scroll", handleScroll)
-        return () => {
-            window.removeEventListener("scroll", handleScroll)
-        }
-    }, [])
-    
     useEffect(() => {
         findDoctor(state, (total, data) => {
             setTotal(total)

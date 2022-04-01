@@ -3,6 +3,7 @@ import {TimeSlotPerDay} from "../../../model/doctor";
 import {useViewPort} from "../../../../../../utils/hooks/useViewPort";
 
 export interface TimeSlot {
+    date: string,
     dateTime: string,
     offset: number,
     availableSlotsNumber: number,

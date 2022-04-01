@@ -8,7 +8,9 @@ import {TimeSlotPerDay} from "../../../findDoctor/model/doctor";
 interface IProps {
     total: number,
     startDate: Date,
-    timeSlotsPerDay: Array<TimeSlotPerDay>
+    timeSlotsPerDay: Array<TimeSlotPerDay>,
+    selectedTimeSlot: TimeSlot | null,
+    onSelect: (timeSlot: TimeSlot) => void
 }
 
 interface AvailableDate {
@@ -21,7 +23,7 @@ interface AvailableDate {
 export default function AvailableDateView(props: IProps) {
     const [showMore, setShowMore] = useState<boolean>(false)
     const {timeSlotsPerDay = []} = props
-    const { startDate } = props
+    const { startDate, selectedTimeSlot, onSelect } = props
     const { width } = useViewPort()
 
     const dateLength = useMemo(() => {
@@ -91,7 +93,7 @@ export default function AvailableDateView(props: IProps) {
     }
 
     const $moreItem = (
-        <button type={"button"} className={"w-full py-2 border bg-white hover:bg-primary-focus text-primary-focus hover:text-focus leading-snug text-sm font-meduim"} onClick={() => {
+        <button type={"button"} className={"w-full py-2 border bg-white hover:bg-primary-focus text-primary-focus hover:text-focus leading-snug text-sm font-medium"} onClick={() => {
             setShowMore(!showMore)
         }} >
             More
@@ -101,11 +103,12 @@ export default function AvailableDateView(props: IProps) {
     const $overOneDayTag = (
         <p className={"bg-pink-500 p-px rounded-full text-white absolute text-xs -right-1.5 -bottom-1.5"}>+1</p>
     )
-
+    
     const $timeSlot = (timeSlot: TimeSlot, idx: number) => {
+        const isSelected = timeSlot.dateTime === selectedTimeSlot?.dateTime && timeSlot.date === selectedTimeSlot?.date
         return (
-            <button type={"button"} className={"relative w-full py-2 border bg-white hover:bg-primary-focus text-primary-focus hover:text-focus leading-snug text-sm font-meduim"} key={idx} onClick={() => {
-                //
+            <button type={"button"} className={`relative w-full py-2 border ${isSelected ? "bg-primary-focus text-focus" : "bg-white hover:bg-primary-focus text-primary-focus hover:text-focus"} font-medium leading-snug text-sm`} key={idx} onClick={() => {
+                onSelect && onSelect(timeSlot)
             }} >
                 {timeSlot.dateTime}
                 {timeSlot.isOverOneDay ? $overOneDayTag : null}
@@ -113,7 +116,7 @@ export default function AvailableDateView(props: IProps) {
         )
     }
 
-    const $timeSlotsPeerDay = (data: Array<TimeSlot>, date: string, idx: number) => {
+    const $timeSlotsPeerDay = (data: Array<TimeSlot>, idx: number) => {
         return (
             <div key={idx} className={"flex flex-col space-y-2"}>
                 {
@@ -127,10 +130,10 @@ export default function AvailableDateView(props: IProps) {
 
     const $timeSlotsInCalendar = (
         <div className={`w-full grid grid-cols-${dateLength} gap-x-2 px-8`}>
-            {timeSlotsPerDay.slice(0, dateLength).map(({timeSlots, date}, idx) => {
+            {timeSlotsPerDay.slice(0, dateLength).map(({timeSlots}, idx) => {
                 const maxlength = timeSlots.length >= 5 ? 5 : timeSlots.length
                 const dataSource = showMore ? timeSlots : timeSlots.slice(0, maxlength)
-                return $timeSlotsPeerDay(dataSource, date, idx)
+                return $timeSlotsPeerDay(dataSource, idx)
             })}
         </div>
     )
