@@ -15,16 +15,16 @@ export default function Button(props: IProps) {
         let classNameForBasic = ""
         switch (status) {
         case ButtonStatus.primary:
-            classNameForBasic = "bg-primary border-primary"
+            classNameForBasic = "cursor-pointer inline-block px-6 py-2 text-primary-focus font-mediumtext-lg leading-tight border hover:border-focus hover:text-focus hover:bg-primary-focus focus:outline-none focus:ring-0 transition duration-150 ease-in-out bg-primary border-primary"
             break
         case ButtonStatus.secondary:
-            classNameForBasic = "bg-secondary border-secondary";
+            classNameForBasic = "cursor-pointer inline-block px-6 py-2 text-primary-focus font-mediumtext-lg leading-tight border hover:border-focus hover:text-focus hover:bg-primary-focus focus:outline-none focus:ring-0 transition duration-150 ease-in-out bg-secondary border-secondary";
             break
         case ButtonStatus.light:
-            classNameForBasic = "bg-gray-300 border-gray-300"
+            classNameForBasic = "cursor-pointer inline-block px-6 py-2 text-primary-focus font-mediumtext-lg leading-tight border hover:border-focus hover:text-focus hover:bg-primary-focus focus:outline-none focus:ring-0 transition duration-150 ease-in-out bg-gray-300 border-gray-300"
             break
         case ButtonStatus.link:
-            classNameForBasic = "bg-transparent border-transparent"
+            classNameForBasic = "cursor-pointer leading-none text-blue-500 border-b border-blue-500 border-dotted hover:border-solid"
             break
         default:
 
@@ -33,7 +33,7 @@ export default function Button(props: IProps) {
     }
 
     const $basicButton = (
-        <button onClick={onClick} type={"button"} className={`cursor-pointer inline-block px-6 py-2 text-primary-focus font-mediumtext-lg leading-tight border hover:border-focus hover:text-focus hover:bg-primary-focus focus:outline-none focus:ring-0 transition duration-150 ease-in-out ${getBasicButtonClass()}`}>
+        <button onClick={onClick} type={"button"} className={`${getBasicButtonClass()}`}>
             {children}
         </button>
     )
