@@ -4,6 +4,7 @@ import FormRadio from "../../../../components/form/formRadio";
 import Button from "../../../../components/buttons/button";
 import {ButtonSize, ButtonStatus} from "../../../../components/buttons/enum";
 import moment from "moment";
+import useUserAuth from "../hooks/useUserAuth";
 
 interface Profile {
     firstName: string,
@@ -19,6 +20,7 @@ interface Profile {
 }
 
 export default function CreateAccountPage() {
+    const {createUser} = useUserAuth()
     const [profile, setProfile] = useState<Profile>({
         firstName: "",
         lastName: "",
@@ -217,7 +219,7 @@ export default function CreateAccountPage() {
     )
 
     const checkPasswordLength = profile.password.length >= 8
-    const checkPasswordLetters = profile.password.match(/\w/)
+    const checkPasswordLetters = /[a-zA-Z]/.test(profile.password)
     const checkPasswordNumbers = /\d/.test(profile.password)
 
     const specialChars = "/[!@#$%^&*()_+-=[]{};':\"\\|,.<>/?]+/;"
@@ -281,10 +283,22 @@ export default function CreateAccountPage() {
         </div>
     )
 
-    const $saveButton = (
-        <Button onClick={() => {
-            //
-        }} size={ButtonSize.block}>Save and continue</Button>
+    const onCreateUser = () => {
+        const date = `${profile.birthdayYear}/${profile.birthdayMonth}/${profile.birthdayDay}`
+        createUser(profile.firstName,
+            profile.lastName,
+            date,
+            profile.gender,
+            profile.email,
+            profile.password,
+            (isSuccess) => {
+                alert(isSuccess)
+            }
+        )
+    }
+
+    const $createUserButton = (
+        <Button onClick={onCreateUser} size={ButtonSize.block}>Save and continue</Button>
     )
     
     const $contentView = (
@@ -298,7 +312,7 @@ export default function CreateAccountPage() {
                 {$confirmedEmailForm}
                 {$passwordForm}
                 {$agreementView}
-                {$saveButton}
+                {$createUserButton}
             </div>
         </div>
     )

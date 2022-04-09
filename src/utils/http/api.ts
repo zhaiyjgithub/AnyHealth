@@ -13,3 +13,7 @@ export enum ApiSchedule {
     DeleteClosedDateSettings= "Schedule/DeleteClosedDateSettings",
     GetClosedDateSettings= "Schedule/GetClosedDateSettings",
 }
+
+export enum ApiUser {
+    CreateUser= "User/CreateUser"
+}

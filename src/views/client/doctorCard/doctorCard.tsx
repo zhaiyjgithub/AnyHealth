@@ -14,6 +14,7 @@ import BookingCard from "./components/bookingCard/bookingCard";
 import {useLocation} from "react-router-dom";
 import qs from "qs";
 import {DoctorDetailInfo, getDoctorDetailInfoByNpi} from "./service/doctorCardService";
+import useUserAuth from "../user/hooks/useUserAuth";
 
 interface IRouterLocation {
     npi: string
@@ -24,6 +25,8 @@ export default function DoctorCard() {
     const { npi } = qs.parse(search.replace("?", ""))
     const [doctorInfo, setDoctorInfo] = useState<DoctorDetailInfo | null>(null)
     const [isHeaderFixed, setIsHeaderFixed] = useState<boolean>(false)
+    const userAuth = useUserAuth()
+    console.log('##### doctor card', userAuth.user)
 
     useEffect(() => {
         if (typeof npi === "string") {
