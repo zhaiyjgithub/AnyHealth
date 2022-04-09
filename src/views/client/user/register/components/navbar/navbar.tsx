@@ -7,8 +7,8 @@ export default function NavBar() {
         </p>
     )
 
-    const $browseButton = (
-        <button type={"button"} className={"text-sm text-base-600 font-medium border-primary-focus border-b border-dotted hover:border-solid"}>Browse</button>
+    const $signInOrRegisterButton = (
+        <button type={"button"} className={"text-sm text-base-600 font-medium border-primary-focus border-b border-dotted hover:border-solid"}>Sign in / Register</button>
     )
 
     const $listPracticeButton = (
@@ -20,10 +20,9 @@ export default function NavBar() {
     )
     const $navButtons = (
         <div className={"flex flex-row items-center space-x-4"}>
-            {$browseButton}
-            {$divider}
             {$listPracticeButton}
             {$divider}
+            {$signInOrRegisterButton}
         </div>
     )
 

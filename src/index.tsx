@@ -13,7 +13,7 @@ import iconShadow from "./assets/map/marker-shadow.png";
 // import DoctorAdmin from "./views/doctor/doctorAdmin";
 import DoctorCard from "./views/client/doctorCard/doctorCard";
 import DoctorListContainer from "./views/client/findDoctor/doctorListContainer";
-import CreateAccount from "./views/client/user/register/createAccount";
+import CreateAccountPage from "./views/client/user/register/createAccountPage";
 
 let DefaultIcon = L.icon({
     iconUrl: icon,
@@ -28,7 +28,7 @@ ReactDOM.render(
         <Switch>
             <Route exact path={"/doctor/:name"} component={DoctorCard} />
             <Route exact path={"/search"} component={DoctorListContainer} />
-            <Route exact path={"/createuser"} component={CreateAccount} />
+            <Route exact path={"/createuser"} component={CreateAccountPage} />
         </Switch>
     </HashRouter>,
     document.getElementById("root")

@@ -1,15 +1,16 @@
 import React from "react";
-import {ButtonStatus, Variant} from "./enum";
+import {ButtonSize, ButtonStatus, Variant} from "./enum";
 
 interface IProps {
     variant?: Variant,
     status?: ButtonStatus,
+    size?: ButtonSize,
     onClick: () => void,
     children: any,
 }
 
 export default function Button(props: IProps) {
-    const {variant = Variant.basic, status = ButtonStatus.primary, onClick, children} = props
+    const {variant = Variant.basic, status = ButtonStatus.primary, size, onClick, children} = props
 
     const getBasicButtonClass = (): string => {
         let classNameForBasic = ""
@@ -32,8 +33,14 @@ export default function Button(props: IProps) {
         return classNameForBasic
     }
 
+    const getSize = () => {
+        if (size === ButtonSize.block) {
+            return 'w-full'
+        }
+    }
+
     const $basicButton = (
-        <button onClick={onClick} type={"button"} className={`${getBasicButtonClass()}`}>
+        <button onClick={onClick} type={"button"} className={`${getBasicButtonClass()}  ${getSize()}`}>
             {children}
         </button>
     )
