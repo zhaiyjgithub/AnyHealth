@@ -9,7 +9,9 @@ export default function NavBar() {
     )
 
     const $loginDropdown = (
-        <LoginDropdown />
+        <LoginDropdown onLogin={() => {
+            //
+        }}/>
     )
 
     const $browseButton = (

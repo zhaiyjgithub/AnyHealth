@@ -10,7 +10,16 @@ export interface DropDownItem {
     id: any
 }
 
-export default function LoginDropdown() {
+interface IProps {
+    onLogin: () => void,
+}
+
+enum ActionType {
+    login,
+
+}
+
+export default function LoginDropdown({ onLogin}: IProps) {
     const [show, setShow] = useState<boolean>(false)
 
     const $toggleButton = (
@@ -34,12 +43,25 @@ export default function LoginDropdown() {
         }} className={"fixed inset-0 h-full w-full z-20"} />
     ) : null
 
+    const onAction = (type: ActionType) => {
+        setShow(false)
+        switch (type){
+        case ActionType.login:
+            onLogin && onLogin()
+            break
+        default:
+
+        }
+    }
+
     const $list = show ? (
         <div className="absolute right-0 overflow-y-auto border border-base-300 mt-1 min-w-full py-2 px-4 bg-white rounded-md shadow-2xl z-20 transition duration-150 ease-in-out">
             <div className={"w-max flex flex-row items-center justify-between space-x-4"}>
                 <p className={"text-sm font-bold text-base-content w-16"}>{"Patients"}</p>
                 <div className={"flex flex-row items-center justify-center py-1"}>
-                    <button type={"button"} className={"max-w-max text-sm text-base-600 font-medium border-primary-focus border-b border-dotted hover:border-solid px-2"}>Login</button>
+                    <button onClick={() => {
+                        onAction && onAction(ActionType.login)
+                    }} type={"button"} className={"max-w-max text-sm text-base-600 font-medium border-primary-focus border-b border-dotted hover:border-solid px-2"}>Login</button>
                     <p className={"mx-1"}>/</p>
                     <button type={"button"} className={"max-w-max text-sm text-base-600 font-medium border-primary-focus border-b border-dotted hover:border-solid px-2"}>Sign Up</button>
                 </div>
