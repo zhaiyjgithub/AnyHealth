@@ -1,5 +1,5 @@
 import React, {createContext, useState} from "react"
-import {createNewUser} from "../service/userService";
+import {createNewUser, loginWithEmail} from "../service/userService";
 
 export interface User {
     "firstName": string,
@@ -25,7 +25,7 @@ const defaultUser: User = {
 
 export interface UserContextType {
     user: User,
-    login: () => void,
+    login: (email:string, password: string, completeHandler: (isSuccess: boolean, msg: string) => void) => void,
     createUser: (firstName: string,
         lastName: string,
         birthday: string,
@@ -43,8 +43,13 @@ export const UserContext = createContext<UserContextType>({
 
 export default function UserProvider({children}: any) {
     const [user, setUser] = useState<User>(defaultUser)
-    const login = () => {
-        // 
+    const login = (email: string, password: string, completeHandler: (isSuccess: boolean, msg: string) => void) => {
+        loginWithEmail(email, password, (user) => {
+            setUser(user)
+            completeHandler(true, '')
+        }, () => {
+            completeHandler(false, '')
+        })
     }
     const createUser = (
         firstName: string,

@@ -26,3 +26,16 @@ export const createNewUser = (
         fail && fail()
     })
 }
+
+export const loginWithEmail = (email: string, password: string, success: (user: User) => void,
+    fail: () => void,) => {
+    const param = {
+        email: email,
+        password: password,
+    }
+    sendRequest(ApiUser.Login, param, (data) => {
+        success && success(data)
+    }, () => {
+        fail && fail()
+    })
+}

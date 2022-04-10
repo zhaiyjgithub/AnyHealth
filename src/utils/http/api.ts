@@ -15,5 +15,6 @@ export enum ApiSchedule {
 }
 
 export enum ApiUser {
-    CreateUser= "User/CreateUser"
+    CreateUser= "User/CreateUser",
+    Login= "/User/Login"
 }

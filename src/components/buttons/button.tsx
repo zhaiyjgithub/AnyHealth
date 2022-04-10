@@ -27,6 +27,9 @@ export default function Button(props: IProps) {
         case ButtonStatus.link:
             classNameForBasic = "cursor-pointer leading-none text-blue-500 border-b border-blue-500 border-dotted hover:border-solid"
             break
+        case ButtonStatus.disabled:
+            classNameForBasic = "cursor-pointer inline-block px-6 py-2 text-gray-400 font-mediumtext-lg leading-tight focus:outline-none focus:ring-0 transition duration-150 ease-in-out bg-gray-300 border-gray-300"
+            break
         default:
 
         }

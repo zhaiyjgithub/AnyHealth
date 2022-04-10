@@ -2,6 +2,9 @@ import {Dialog, Transition} from "@headlessui/react"
 import React, {Fragment, useState} from "react"
 import Button from "../../../../../components/buttons/button";
 import {ButtonSize, ButtonStatus, Variant} from "../../../../../components/buttons/enum";
+import {validateEmail} from "../../../../../utils/util/commonTool";
+import useUserAuth from "../../../user/hooks/useUserAuth";
+import {useHistory} from "react-router-dom";
 
 interface IProps {
     open: boolean,
@@ -12,6 +15,30 @@ export default function LoginModal(props: IProps) {
     const {open, onApply} = props
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
+    const [loginFailed, setLoginFailed] = useState<boolean>(false)
+    const [validation, setValidation] = useState<{email: boolean, password: boolean}>({
+        email: false,
+        password: false,
+    })
+    const [loading, setLoading] = useState<boolean>(false)
+    const { login } = useUserAuth()
+    const history = useHistory()
+
+    const onLogin = () => {
+        setLoading(true)
+        login(email, password, (isSuccess) => {
+            setLoading(false)
+            setLoginFailed(false)
+            onApply && onApply()
+            if (isSuccess) {
+                history.push({
+                    pathname: "/search",
+                })
+            } else {
+                setLoginFailed(true)
+            }
+        })
+    }
 
     function closeModal() {
         onApply && onApply()
@@ -21,34 +48,70 @@ export default function LoginModal(props: IProps) {
         <p className={"text-primary-focus font-bold text-2xl leading-none"}>To log in, enter your email address</p>
     )
 
+    const $errMsgForEmail = () => {
+        if (!validation.email) {
+            return null
+        }
+        let desc = ""
+        if (!email.length) {
+            desc = "Please type your email."
+        } else if (!validateEmail(email)) {
+            desc = "Incorrect email format."
+        }
+        return desc.length ? <p className={"text-sm text-red-500 font-medium"}>{desc}</p> : null
+    }
     const $emailForm = (
         <div>
             <p className={"mb-1 text-sm text-base-content font-medium"}>Email address</p>
-            <input value={email} placeholder={"Email"} onChange={(e) => {
+            <input onBlur={() => {
+                setValidation({
+                    ...validation,
+                    email: true,
+                })
+            }} value={email} placeholder={"Email"} type={"email"} onChange={(e) => {
                 setEmail(e.target.value)
             }} className={"w-full px-2 py-3 text-sm font-medium text-primary-focus border border-gray-300 bg-blue-100 transition ease-in-out "}/>
+            {$errMsgForEmail()}
         </div>
     )
 
+    const $errMsgForPassword = () => {
+        if (!validation.password) {
+            return null
+        }
+        let desc = ""
+        if (!email.length) {
+            desc = "Please type your password."
+        } else if (loginFailed) {
+            desc = "Incorrect email or password."
+        }
+        return desc.length ? <p className={"text-sm text-red-500 font-medium"}>{desc}</p> : null
+    }
     const $passwordForm = (
         <div>
             <p className={"inline-block mb-1 text-sm text-base-content font-medium"}>Your password</p>
-            <input value={password} placeholder={"Password"} type={"text"} onChange={(e) => {
+            <input onBlur={() => {
+                setValidation({
+                    ...validation,
+                    password: true,
+                })
+            }} value={password} placeholder={"Password"} type={"text"} onChange={(e) => {
                 setPassword(e.target.value)
             }} className={"w-full px-2 py-3 text-sm font-medium text-primary-focus border border-gray-300 bg-blue-100 transition ease-in-out "}/>
+            {$errMsgForPassword()}
         </div>
     )
 
     const $loginButton = (
-        <Button status={ButtonStatus.primary} size={ButtonSize.block} onClick={() => {
-            onApply && onApply()
+        <Button status={loading ? ButtonStatus.disabled : ButtonStatus.primary} size={ButtonSize.block} onClick={() => {
+            onLogin()
         }} >Login</Button>
     )
 
     const $createUserView = (
-        <div className={'flex flex-row items-center justify-center w-full space-x-1'}>
-            <p className={'text-sm text-primary-focus'}>New to Zendoc?</p>
-            <button type={'button'} className={'text-sm text-primary-focus border-b border-primary-focus leading-none font-semibold'} onClick={() => {
+        <div className={"flex flex-row items-center justify-center w-full space-x-1"}>
+            <p className={"text-sm text-primary-focus"}>New to Zendoc?</p>
+            <button type={"button"} className={"text-sm text-primary-focus border-b border-primary-focus leading-none font-semibold"} onClick={() => {
                 //
             }} >Create an account</button>
         </div>
