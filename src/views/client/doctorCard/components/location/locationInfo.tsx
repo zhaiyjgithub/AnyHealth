@@ -14,7 +14,7 @@ export default function LocationInfo(props: IProps) {
     const $addressView = (
         <div className={"w-1/5 flex flex-col flex-none space-y-4 mt-4"}>
             <p className={"text-lg"}>{address}</p>
-            <button type={"button"} className={"max-w-max border-b leading-none border-blue-500 text-lg text-blue-500 p-0"}>
+            <button type={"button"} className={"max-w-max border-b leading-none border-blue-500 border-dotted hover:border-solid text-lg text-blue-500 p-0"}>
                 Get Directions
             </button>
         </div>

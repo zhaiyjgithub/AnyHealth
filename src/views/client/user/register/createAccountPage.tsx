@@ -5,6 +5,7 @@ import Button from "../../../../components/buttons/button";
 import {ButtonSize, ButtonStatus} from "../../../../components/buttons/enum";
 import moment from "moment";
 import useUserAuth from "../hooks/useUserAuth";
+import {useHistory} from "react-router-dom";
 
 interface Profile {
     firstName: string,
@@ -21,6 +22,7 @@ interface Profile {
 
 export default function CreateAccountPage() {
     const {createUser} = useUserAuth()
+    const history = useHistory()
     const [profile, setProfile] = useState<Profile>({
         firstName: "",
         lastName: "",
@@ -292,7 +294,11 @@ export default function CreateAccountPage() {
             profile.email,
             profile.password,
             (isSuccess) => {
-                alert(isSuccess)
+                if (isSuccess) {
+                    history.push({
+                        pathname: '/search',
+                    })
+                }
             }
         )
     }

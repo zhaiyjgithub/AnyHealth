@@ -1,6 +1,7 @@
 import React from "react";
 import SearchBar from "./searchBar";
 import LoginDropdown from "../login/loginDropdown";
+import UserDropdown from "../login/userDropdown";
 
 export default function Navbar() {
     const $brand = (
@@ -18,6 +19,11 @@ export default function Navbar() {
     const $login = (
         <LoginDropdown />
     )
+    console.log($login)
+
+    const $user = (
+        <UserDropdown />
+    )
 
     return (
         <div className={"w-full flex flex-row items-center justify-between px-8 py-4 bg-base-200 border"}>
@@ -25,7 +31,7 @@ export default function Navbar() {
                 {$brand}
                 {$searchBar}
             </div>
-            {$login}
+            {$user}
         </div>
     )
 }
