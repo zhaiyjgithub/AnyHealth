@@ -21,8 +21,16 @@ export default function Navbar() {
     )
     console.log($login)
 
+    const $inboxButton = (
+        <button type={"button"} className={"px-4 py-2 text-base text-primary-focus hover:text-white bg-base-200 hover:bg-primary-focus"}>
+            0
+        </button>
+    )
     const $user = (
-        <UserDropdown />
+        <div className={"flex flex-row items-center space-x-4"}>
+            {$inboxButton}
+            <UserDropdown />
+        </div>
     )
 
     return (
