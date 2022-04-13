@@ -25,12 +25,14 @@ export interface DoctorProfile {
     yearOfExperience: string
 }
 
-export const getDoctorProfile = (npi: number, success: (doctorProfile: DoctorProfile) => void) => {
+export const getDoctorProfile = (npi: number, success: (doctorProfile: DoctorProfile) => void, fail?: () => void) => {
     const param = {
         Npi: npi,
     }
     sendRequest(ApiDoctor.GetDoctor, param, (data) => {
         success(data)
+    }, () => {
+        fail && fail()
     })
 }
 

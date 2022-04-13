@@ -6,6 +6,7 @@ import {ButtonSize, ButtonStatus} from "../../../../components/buttons/enum";
 import moment from "moment";
 import useUserAuth from "../hooks/useUserAuth";
 import {useHistory} from "react-router-dom";
+import {MD5} from "crypto-js"
 
 interface Profile {
     firstName: string,
@@ -286,17 +287,19 @@ export default function CreateAccountPage() {
     )
 
     const onCreateUser = () => {
-        const date = `${profile.birthdayYear}/${profile.birthdayMonth}/${profile.birthdayDay}`
+        const date = `${profile.birthdayYear}-${profile.birthdayMonth}-${profile.birthdayDay}`
+        const hash = MD5(profile.password).toString()
+            .toUpperCase()
         createUser(profile.firstName,
             profile.lastName,
             date,
             profile.gender,
             profile.email,
-            profile.password,
+            hash,
             (isSuccess) => {
                 if (isSuccess) {
                     history.push({
-                        pathname: '/search',
+                        pathname: "/search",
                     })
                 }
             }

@@ -5,6 +5,7 @@ import {ButtonSize, ButtonStatus, Variant} from "../../../../../components/butto
 import {validateEmail} from "../../../../../utils/util/commonTool";
 import useUserAuth from "../../../user/hooks/useUserAuth";
 import {useHistory} from "react-router-dom";
+import {MD5} from "crypto-js"
 
 interface IProps {
     open: boolean,
@@ -26,7 +27,9 @@ export default function LoginModal(props: IProps) {
 
     const onLogin = () => {
         setLoading(true)
-        login(email, password, (isSuccess) => {
+        const hash = MD5(password).toString()
+            .toUpperCase()
+        login(email, hash, (isSuccess) => {
             setLoading(false)
             setLoginFailed(false)
             onApply && onApply()

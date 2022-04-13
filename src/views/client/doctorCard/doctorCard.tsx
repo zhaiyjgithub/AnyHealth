@@ -23,15 +23,15 @@ interface IRouterLocation {
 export default function DoctorCard() {
     const {search} = useLocation<IRouterLocation>()
     const { npi } = qs.parse(search.replace("?", ""))
-    const [doctorInfo, setDoctorInfo] = useState<DoctorDetailInfo | null>(null)
+    const [doctorDetailInfo, setDoctorDetailInfo] = useState<DoctorDetailInfo | null>(null)
     const [isHeaderFixed, setIsHeaderFixed] = useState<boolean>(false)
     const userAuth = useUserAuth()
     console.log('##### doctor card', userAuth.user)
 
     useEffect(() => {
         if (typeof npi === "string") {
-            npi && getDoctorDetailInfoByNpi(parseInt(npi), (doctorInfo) => {
-                setDoctorInfo(doctorInfo)
+            npi && getDoctorDetailInfoByNpi(parseInt(npi), (doctorDetailInfo) => {
+                setDoctorDetailInfo(doctorDetailInfo)
             }, () => {
                 //
             })
@@ -66,9 +66,9 @@ export default function DoctorCard() {
         </div>
     )
 
-    const name = `${doctorInfo?.namePrefix} ${doctorInfo?.firstName} ${doctorInfo?.lastName}, ${doctorInfo?.credential}`
-    const specialty = `${doctorInfo?.specialty}`
-    const addressForState = `${doctorInfo?.city}, ${doctorInfo?.state}`
+    const name = `${doctorDetailInfo?.namePrefix} ${doctorDetailInfo?.firstName} ${doctorDetailInfo?.lastName}, ${doctorDetailInfo?.credential}`
+    const specialty = `${doctorDetailInfo?.specialty}`
+    const addressForState = `${doctorDetailInfo?.city}, ${doctorDetailInfo?.state}`
     const $nameAndSpecialtyAndAddress = (
         <div className={"w-full space-y-1"}>
             <p className={"font-bold text-5xl text-primary-focus"}>{name}</p>
@@ -163,7 +163,7 @@ export default function DoctorCard() {
                 <p className={"text-xl text-primary-focus font-bold"}>{`About ${name}`}</p>
                 <div className={"block mt-2"}>
                     <span className={"text-lg text-primary-focus line-clamp-3"}>
-                        {doctorInfo?.summary}
+                        {doctorDetailInfo?.summary}
                         <span><button type={"button"} className={"cursor-pointer leading-none ml-2 text-blue-500 border-b border-blue-500 border-dotted hover:border-solid"}>Show more</button></span>
                     </span>
                 </div>
@@ -171,23 +171,23 @@ export default function DoctorCard() {
         </Section>
     )
 
-    const $insuranceList = doctorInfo?.insurances ? (
+    const $insuranceList = doctorDetailInfo?.insurances ? (
         <Section id={ScrollSectionMenuId.insurances}>
-            <InsuranceList data={doctorInfo?.insurances.split(", ")} />
+            <InsuranceList data={doctorDetailInfo?.insurances.split(", ")} />
         </Section>
     ) : null
 
-    const $locationInfoView = doctorInfo ? (
+    const $locationInfoView = doctorDetailInfo ? (
         <Section id={ScrollSectionMenuId.locations}>
             <div className={"z-10"}>
-                <LocationInfo specialty={specialty} doctorName={name} center={[doctorInfo.lat, doctorInfo.lng]} address={doctorInfo?.address} isVirtualVisitEnable={true} />
+                <LocationInfo specialty={specialty} doctorName={name} center={[doctorDetailInfo.lat, doctorDetailInfo.lng]} address={doctorDetailInfo?.address} isVirtualVisitEnable={true} />
             </div>
         </Section>
     ) : null
 
-    const $educationView = doctorInfo ? (
+    const $educationView = doctorDetailInfo ? (
         <Section id={ScrollSectionMenuId.educations}>
-            <EducationBackground doctorInfo={doctorInfo} />
+            <EducationBackground doctorInfo={doctorDetailInfo} />
         </Section>
     ) : null
 

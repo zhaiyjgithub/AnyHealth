@@ -11,12 +11,13 @@ export interface TimeSlot {
 }
 
 interface IProps {
-    timeSlotsPerDay: Array<TimeSlotPerDay>
+    timeSlotsPerDay: Array<TimeSlotPerDay>,
+    onClick: (timeSlot: TimeSlot) => void
 }
 
 export default function Timeslots(props: IProps) {
     const [showMore, setShowMore] = useState<boolean>(false)
-    const {timeSlotsPerDay = []} = props
+    const {timeSlotsPerDay = [], onClick} = props
     const { width } = useViewPort()
     const dateLength = useMemo(() => {
         if (width <= 1280) {
@@ -42,7 +43,7 @@ export default function Timeslots(props: IProps) {
     const $timeSlot = (timeSlot: TimeSlot, idx: number) => {
         return (
             <button type={"button"} className={"w-full relative py-2 bg-primary hover:bg-primary-focus text-primary-focus hover:text-focus leading-snug text-sm font-meduim"} key={idx} onClick={() => {
-                // 
+                onClick && onClick(timeSlot)
             }} >
                 {timeSlot.dateTime}
                 {timeSlot.isOverOneDay ? $overOneDayTag : null}

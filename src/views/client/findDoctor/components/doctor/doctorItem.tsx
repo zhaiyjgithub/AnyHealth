@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import DoctorInformation from "./information/doctorInformation";
-import Timeslots from "./timeslots/timeslots";
+import Timeslots, {TimeSlot} from "./timeslots/timeslots";
 import {DoctorInfo} from "../../model/doctor";
+import {useHistory} from "react-router-dom";
 
 interface IProps {
     doctorInfo: DoctorInfo,
@@ -9,10 +10,19 @@ interface IProps {
 }
 
 export default function DoctorItem(props: IProps) {
+    const history = useHistory()
     const [active, setActive] = useState<boolean>(false)
     const { doctorInfo, onViewAllAvailability } = props
+    
+    const onClickTimeSlot = (timeSlot: TimeSlot) => {
+        history.push({
+            pathname: "/booking",
+            search: `?npi=${doctorInfo.npi}&date=${timeSlot.date}&offset=${timeSlot.offset}&type=0`,
+        })
+    }
+    
     const $doctorInfoView = (<DoctorInformation active={active} doctorInfo={doctorInfo} />)
-    const $timeslotsView = (<Timeslots timeSlotsPerDay={doctorInfo.timeSlotsPerDay}/>)
+    const $timeslotsView = (<Timeslots timeSlotsPerDay={doctorInfo.timeSlotsPerDay} onClick={onClickTimeSlot}/>)
     const $viewAllAvailability = (
         <div className={"w-full flex flex-row items-center justify-end mt-4 px-12"}>
             <button type={"button"} className={"text-base text-blue-600 underline leading-snug"} onClick={() => {
