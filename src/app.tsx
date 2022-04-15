@@ -11,7 +11,7 @@ export default function App() {
         <HashRouter>
             <UserProvider>
                 <Switch>
-                    <Route exact path={"/doctor/:name"} component={DoctorCard} />
+                    <Route exact path={"/doctorinfo/:name"} component={DoctorCard} />
                     <Route exact path={"/search"} component={DoctorListContainer} />
                     <Route exact path={"/createuser"} component={CreateAccountPage} />
                     <Route exact path={"/booking"} component={BookingPage} />

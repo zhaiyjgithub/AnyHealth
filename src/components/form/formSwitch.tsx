@@ -21,8 +21,7 @@ export default function FormSwitch(props: IProps) {
             <span
                 className={`${
                     checked ? "translate-x-6" : "translate-x-1"
-                } inline-block w-4 h-4 transform bg-white rounded-full`}
-            />
+                } inline-block w-4 h-4 transform bg-white rounded-full`}/>
         </Switch>
     )
 }
