@@ -30,7 +30,7 @@ export default function Dropdown(props: IProps) {
         <button onClick={(e) => {
             e.stopPropagation()
             setShow(!show)
-        }} type={"button"} className={"w-full z-10 mt-1 relative px-2 py-2.5 bg-white flex flex-row items-center justify-between border text-primary-focus font-semibold text-sm leading-tight"}>
+        }} type={"button"} className={`w-full z-10 mt-1 relative p-4 bg-white flex flex-row items-center justify-between border text-primary-focus font-semibold text-sm leading-tight`}>
             <p className={"font-medium text-sm font-primary-focus"}>{valueName}</p>
             <svg className={"h-5 w-5 text-primary-focus hover:text-focus"} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                 fill="currentColor">

@@ -145,7 +145,7 @@ export default function DoctorCard() {
                 <i className="fas fa-calendar-alt text-pink-500 mt-1"></i>
                 <div className={""}>
                     <p className={"text-sm text-primary-focus font-medium"}>New patient appointments</p>
-                    <p className={"text-sm text-primary-focus"}>Appointments available for new patients on ZenDoc</p>
+                    <p className={"text-sm text-primary-focus"}>Appointments available for new patients on Zendoc</p>
                 </div>
             </div>
         </Section>

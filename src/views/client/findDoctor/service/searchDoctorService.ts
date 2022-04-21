@@ -14,6 +14,7 @@ export function findDoctor(
         AppointmentType: filter.appointmentType,
         StartDate: filter.startDate.toISOString(),
         EndDate: filter.endDate ? filter.endDate.toISOString() : null,
+        DateRange: 5,
         Gender: filter.gender,
         Specialty: filter.specialty,
         City: filter.city,

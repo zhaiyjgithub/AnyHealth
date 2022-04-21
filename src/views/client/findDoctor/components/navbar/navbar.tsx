@@ -11,7 +11,7 @@ export default function Navbar() {
     const { user } = useAuth
     const $brand = (
         <p className={"font-bold text-3xl text-base-content"}>
-            ZenDoc
+            Zendoc
         </p>
     )
 

@@ -3,7 +3,7 @@ import React from "react";
 export default function NavBar() {
     const $brand = (
         <p className={"font-bold text-3xl text-base-content"}>
-            ZenDoc
+            Zendoc
         </p>
     )
 

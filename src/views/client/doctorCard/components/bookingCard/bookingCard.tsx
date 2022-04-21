@@ -77,7 +77,7 @@ export default function BookingCard() {
     }, [])
 
     const $dropdownForInsurance = (
-        <Dropdown title={"What's your insurance plan?"} placeholder={'Choose an insurance'} selected={booking?.insurance} data={dataForInsurance} onChange={(value) => {
+        <Dropdown title={"What's your insurance plan?"} placeholder={"Choose an insurance"} selected={booking?.insurance} data={dataForInsurance} onChange={(value) => {
             setBooking({
                 ...booking,
                 insurance: value,
@@ -86,7 +86,7 @@ export default function BookingCard() {
     )
 
     const $dropdownForIllness = (
-        <Dropdown title={"What's the reason of your visit?"} placeholder={'Illness'} selected={booking?.illness} data={dataForIllness} onChange={(value) => {
+        <Dropdown title={"What's the reason of your visit?"} placeholder={"Illness"} selected={booking?.illness} data={dataForIllness} onChange={(value) => {
             setBooking({
                 ...booking,
                 illness: value,

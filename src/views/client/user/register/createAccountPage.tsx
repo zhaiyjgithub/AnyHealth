@@ -153,7 +153,7 @@ export default function CreateAccountPage() {
             {$errMsgForBirthday}
         </div>
     )
-    
+
     const $genderForms = (
         <div className={"w-full"}>
             <p className={"font-semibold text-primary-focus text-base"}>Enter your gender</p>
@@ -278,7 +278,7 @@ export default function CreateAccountPage() {
                 })
             }} checked={profile.checkedAgreement} className={"form-checkbox w-4 h-4 mr-1"} type={"checkbox"}/>
             <p className={"text-sm font-medium text-primary-focus"}>
-                {"I have read and accept ZenDoc's"}
+                {"I have read and accept Zendoc's"}
                 <span className={"mx-1 leading-none border-b border-primary-focus hover:border-blue-600 hover:text-blue-600"}>Terms of Use</span>
                 {"and"}
                 <span className={"mx-1 leading-none border-b border-primary-focus hover:border-blue-600 hover:text-blue-600"}>Privacy Policy</span>
@@ -309,7 +309,7 @@ export default function CreateAccountPage() {
     const $createUserButton = (
         <Button onClick={onCreateUser} size={ButtonSize.block}>Save and continue</Button>
     )
-    
+
     const $contentView = (
         <div className={"w-full max-w-screen-sm mt-10 md:my-28 px-8 md:px-0"}>
             <div className={"w-full space-y-8"}>

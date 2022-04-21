@@ -7,11 +7,8 @@ import "leaflet/dist/leaflet.css";
 import reportWebVitals from "./reportWebVitals";
 import L from "leaflet";
 import icon from "./assets/map/marker-icon.png";
-// import iconRetina from "./assets/images/map/marker-icon-2x.png";
 import iconShadow from "./assets/map/marker-shadow.png";
-// import DoctorAdmin from "./views/doctor/doctorAdmin";
-// import App from "./app";
-import DoctorAdmin from "./views/doctor/doctorAdmin";
+import App from "./app";
 
 let DefaultIcon = L.icon({
     iconUrl: icon,
@@ -22,7 +19,7 @@ let DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 ReactDOM.render(
-    <DoctorAdmin />,
+    <App />,
     document.getElementById("root")
 );
 
