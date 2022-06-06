@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import NavBar from "./components/navBar/navBar";
 import {$iconDefaultDoctor} from "../findDoctor/assets/assets";
 import {useLocation} from "react-router-dom";
@@ -13,6 +13,8 @@ import Button from "../../../components/buttons/button";
 import {ButtonSize, ButtonStatus} from "../../../components/buttons/enum";
 import Dropdown from "../doctorCard/components/bookingCard/dropdown";
 import {dataForInsurance} from "../doctorCard/components/bookingCard/dataForInsuarnce";
+import NewPatientModal from "./components/newPatient/newPatientModal";
+import NewPhoneNumberModal from "./components/addPhoneNumber/NewPhoneNumberModal";
 
 interface IRouterLocation {
     npi: string,
@@ -21,10 +23,29 @@ interface IRouterLocation {
     type: AppointmentType,
 }
 
+export interface BookingProfile {
+    firstName: string,
+    lastName: string,
+    birthdayMonth: string,
+    birthdayDay: string,
+    birthdayYear: string,
+    gender: string,
+    email: string,
+    isLegal: boolean | undefined
+}
+
+interface PatientList {
+    name: string,
+    id: number,
+}
+
 export default function BookingPage() {
     const [doctorInfo, setDoctorInfo] = useState<DoctorProfile | null>(null)
     const {search} = useLocation<IRouterLocation>()
     const { npi, date, offset, type } = qs.parse(search.replace("?", ""))
+    const [showNewPatientModal, setShowNewPatientModal] = useState<boolean>(false)
+    const [showPhoneNumberModal, setShowPhoneNumberModal] = useState<boolean>(false)
+    const [subPatientList, setSubPatientList] = useState<BookingProfile[]>([])
     const {user} = useUserAuth()
     console.log(user)
 
@@ -80,10 +101,12 @@ export default function BookingPage() {
     )
 
     const userName = `${user.firstName} ${user.lastName}(Me)`
-    const dataForPatientList: Array<{name: string, id: number}> = [
-        {name: userName, id: 0},
-        {name: "Test user", id: 0},
-    ]
+    const dataForPatientList: Array<PatientList> = useMemo(() => {
+        const subList: Array<PatientList> = subPatientList.map(({firstName, lastName}, idx) => {
+            return {name: `${firstName} ${lastName}`, id: idx + 1}
+        })
+        return [{name: userName, id: 0 }].concat(subList)
+    }, [subPatientList])
     const onSelectPatient = (id: number) => {
         console.log(id)
     }
@@ -96,11 +119,30 @@ export default function BookingPage() {
     }
 
     const onAddPatient = () => {
-        //
+        setShowNewPatientModal(true)
     }
+
+    const onAddPhoneNumber = () => {
+        setShowPhoneNumberModal(true)
+    }
+
     const $addOtherPatientButton = (
         <Button onClick={onAddPatient} status={ButtonStatus.link} >Someone else</Button>
     )
+    const $newPatientInfoModal = (
+        <NewPatientModal open={showNewPatientModal} onApply={(profile) => {
+            profile && setSubPatientList([...subPatientList, profile])
+            setShowNewPatientModal(false)
+        }} />
+    )
+
+    const $addPhoneNumberModal = (
+        <NewPhoneNumberModal open={showPhoneNumberModal} onApply={(phoneNumber) => {
+            console.log(phoneNumber)
+            setShowPhoneNumberModal(false)
+        }} />
+    )
+
     const $patientInfo = (
         <div className={"w-full space-y-1"}>
             <p className={"text-sm text-primary-focus"}>Who will be seeing the doctor?</p>
@@ -110,12 +152,11 @@ export default function BookingPage() {
                     {$addOtherPatientButton}
                 </div>
             </div>
-
         </div>
     )
 
     const $addPhoneNumberButton = (
-        <Button onClick={onAddPatient} status={ButtonStatus.link} >Add phone number</Button>
+        <Button onClick={onAddPhoneNumber} status={ButtonStatus.link} >Add phone number</Button>
     )
     const $phoneNumberInfo = (
         <div className={"w-full space-y-1"}>
@@ -246,6 +287,8 @@ export default function BookingPage() {
             {$doctorBasicInfo}
             {$contentView}
             {$secureButton}
+            {$newPatientInfoModal}
+            {$addPhoneNumberModal}
         </div>
     )
 }

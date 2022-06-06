@@ -81,7 +81,7 @@ export default function CreateAccountPage() {
                             ...profile,
                             firstName: e.target.value,
                         })
-                    }} placeholder={"First"} className={"w-full px-2 py-3 text-base font-primary-focus "}/>
+                    }} placeholder={"First"} className={"w-full px-2 h-12 text-base font-primary-focus "}/>
                 </div>
                 <div className={"flex flex-1 border-l"}>
                     <input onBlur={() => {
@@ -94,7 +94,7 @@ export default function CreateAccountPage() {
                             ...profile,
                             lastName: e.target.value,
                         })
-                    }} placeholder={"Last"} className={"w-full px-2 py-3 text-base font-primary-focus "}/>
+                    }} placeholder={"Last"} className={"w-full px-2 h-12 text-base font-primary-focus "}/>
                 </div>
             </div>
             {$errMsgForName}
@@ -121,7 +121,7 @@ export default function CreateAccountPage() {
                             ...profile,
                             birthdayMonth: e.target.value,
                         })
-                    }} placeholder={"MM"} className={"w-full px-2 py-3 text-base font-primary-focus "}/>
+                    }} placeholder={"MM"} className={"w-full px-2 h-12 text-base font-primary-focus "}/>
                 </div>
                 <div className={"flex flex-1"}>
                     <input onBlur={() => {
@@ -134,7 +134,7 @@ export default function CreateAccountPage() {
                             ...profile,
                             birthdayDay: e.target.value,
                         })
-                    }} placeholder={"DD"} className={"w-full px-2 py-3 text-base font-primary-focus border-l"}/>
+                    }} placeholder={"DD"} className={"w-full px-2 h-12 text-base font-primary-focus border-l"}/>
                 </div>
                 <div className={"flex flex-1 border-l"}>
                     <input onBlur={() => {
@@ -147,7 +147,7 @@ export default function CreateAccountPage() {
                             ...profile,
                             birthdayYear: e.target.value,
                         })
-                    }} placeholder={"YYYY"} className={"w-full px-2 py-3 text-base font-primary-focus "}/>
+                    }} placeholder={"YYYY"} className={"w-full px-2 h-12 text-base font-primary-focus "}/>
                 </div>
             </div>
             {$errMsgForBirthday}
@@ -158,7 +158,7 @@ export default function CreateAccountPage() {
         <div className={"w-full"}>
             <p className={"font-semibold text-primary-focus text-base"}>Enter your gender</p>
             <div className={"w-full flex flex-row items-center bg-white border"}>
-                <div className={"px-3 py-3 flex flex-1 flex-row"}>
+                <div className={"px-3 h-12 flex flex-1 flex-row"}>
                     <FormRadio titleClassName={"text-base"} key={3} title={"Male"} checked={profile.gender === "F"} onChange={() => {
                         setProfile({
                             ...profile,
@@ -166,7 +166,7 @@ export default function CreateAccountPage() {
                         })
                     }}/>
                 </div>
-                <div className={"px-3 py-3 flex flex-1 flex-row border-l"}>
+                <div className={"px-3 h-12 flex flex-1 flex-row border-l"}>
                     <FormRadio titleClassName={"text-base"} key={4} title={"Female"} checked={profile.gender === "M"} onChange={() => {
                         setProfile({
                             ...profile,
@@ -194,7 +194,7 @@ export default function CreateAccountPage() {
                         ...profile,
                         email: e.target.value,
                     })
-                }} className={"w-full px-2 py-3 text-base font-primary-focus "}/>
+                }} className={"w-full px-2 h-12 text-base font-primary-focus "}/>
             </div>
             {$errMsgForEmail}
         </div>
@@ -215,7 +215,7 @@ export default function CreateAccountPage() {
                         ...profile,
                         confirmEmail: e.target.value,
                     })
-                }} className={"w-full px-2 py-3 text-base font-primary-focus "}/>
+                }} className={"w-full px-2 h-12 text-base font-primary-focus "}/>
             </div>
             {$errMsgForConfirmEmail}
         </div>
@@ -263,7 +263,7 @@ export default function CreateAccountPage() {
                     })
                 }} onChange={(e) => {
                     setProfile({...profile, password: e.target.value})
-                }} className={"w-full px-2 py-3 text-base font-primary-focus "}/>
+                }} className={"w-full px-2 h-12 text-base font-primary-focus "}/>
             </div>
             {$validatorView}
         </div>
