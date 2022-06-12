@@ -44,18 +44,25 @@ export default function BookingPage() {
     }
 
     useEffect(() => {
+        getDoctorProfileInfo()
+        getSubPatientList()
+    }, [])
+
+    const getDoctorProfileInfo = () => {
         npi && getDoctorProfile(parseInt(npi.toString(), 10), (doctorProfile) => {
             setDoctorInfo(doctorProfile)
         }, () => {
             //
         })
+    }
 
+    const getSubPatientList = () => {
         const {id} = user
         getSubUsers(id, (list) => {
             console.log("sub user list: ", list)
             setSubPatientList(list)
         })
-    }, [])
+    }
 
     const $avatar = (
         <div className={"h-16 w-16 rounded-full bg-red-300 flex-none"} >
@@ -127,9 +134,10 @@ export default function BookingPage() {
     )
 
     const onAddSubUser = (subUser: SubUser) => {
+        subUser.userID = user.id
         createSubUser(subUser, (isSuccess) => {
             if (isSuccess) {
-                //
+                getSubPatientList()
             }
         })
     }

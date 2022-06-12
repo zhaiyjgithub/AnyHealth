@@ -1,5 +1,5 @@
 import {SubUser} from "./components/types";
-import {ResponseCode, sendRequest} from "../../../utils/http/http";
+import {sendRequest} from "../../../utils/http/http";
 import {ApiUser} from "../../../utils/http/api";
 
 export function createSubUser(subUser:SubUser, completeHandler: (isSuccess: boolean) => void) {
@@ -11,13 +11,10 @@ export function createSubUser(subUser:SubUser, completeHandler: (isSuccess: bool
         Birthday: `${subUser.birthdayYear}-${subUser.birthdayMonth}-${subUser.birthdayDay}`,
         IsLegal: subUser.isLegal,
         Gender: subUser.gender,
+        UserID: subUser.userID,
     }
-    sendRequest(ApiUser.CreateSubUser, param, (response) => {
-        if (response.code === ResponseCode.OK) {
-            completeHandler(true)
-        } else {
-            completeHandler(false)
-        }
+    sendRequest(ApiUser.CreateSubUser, param, () => {
+        completeHandler(true)
     }, () => {
         completeHandler(false)
     })
@@ -27,12 +24,8 @@ export function getSubUsers(userID: number, completeHandler: (list: Array<SubUse
     const param = {
         UserID: userID,
     }
-    sendRequest(ApiUser.GetSubUsers, param, (response) => {
-        if (response.code === ResponseCode.OK) {
-            completeHandler(response.data)
-        } else {
-            completeHandler([])
-        }
+    sendRequest(ApiUser.GetSubUsers, param, (data) => {
+        completeHandler(data)
     }, () => {
         completeHandler([])
     })
@@ -43,8 +36,8 @@ export function updateSubUserPhone(subUserID: number, phone: string, completeHan
         UserID: subUserID,
         Phone: phone,
     }
-    sendRequest(ApiUser.UpdateSubUserPhone, param, (response) => {
-        completeHandler(response && response.code === ResponseCode.OK)
+    sendRequest(ApiUser.UpdateSubUserPhone, param, () => {
+        completeHandler(true)
     }, () => {
         completeHandler(false)
     })

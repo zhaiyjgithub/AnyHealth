@@ -24,6 +24,7 @@ export default function NewSubPatientModal(props: IProps) {
         email: "",
         phone: "",
         isLegal: undefined,
+        userID: 0,
     })
     const [check, setCheck] = useState<{
         name: boolean,
@@ -178,7 +179,7 @@ export default function NewSubPatientModal(props: IProps) {
                     <FormRadio titleClassName={"text-sm"} key={3} title={"Male"} checked={profile.gender === "F"} onChange={() => {
                         setProfile({
                             ...profile,
-                            gender: "F",
+                            gender: "M",
                         })
                         setCheck({
                             ...check,
@@ -190,7 +191,7 @@ export default function NewSubPatientModal(props: IProps) {
                     <FormRadio titleClassName={"text-sm"} key={4} title={"Female"} checked={profile.gender === "M"} onChange={() => {
                         setProfile({
                             ...profile,
-                            gender: "M",
+                            gender: "F",
                         })
                         setCheck({
                             ...check,
@@ -264,6 +265,7 @@ export default function NewSubPatientModal(props: IProps) {
                 email: "",
                 phone: "",
                 isLegal: undefined,
+                userID: 0,
             })
             setCheck({
                 name: false,

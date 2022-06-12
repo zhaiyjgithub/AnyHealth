@@ -7,5 +7,6 @@ export interface SubUser {
     gender: string,
     email: string,
     phone: string,
-    isLegal: boolean | undefined
+    isLegal: boolean | undefined,
+    userID: number
 }
