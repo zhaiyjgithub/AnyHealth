@@ -12,26 +12,17 @@ import useUserAuth from "../user/hooks/useUserAuth";
 import Button from "../../../components/buttons/button";
 import {ButtonSize, ButtonStatus} from "../../../components/buttons/enum";
 import Dropdown from "../doctorCard/components/bookingCard/dropdown";
-import {dataForInsurance} from "../doctorCard/components/bookingCard/dataForInsuarnce";
-import NewPatientModal from "./components/newPatient/newPatientModal";
-import NewPhoneNumberModal from "./components/addPhoneNumber/NewPhoneNumberModal";
+import {dataForIllness, dataForInsurance} from "../doctorCard/components/bookingCard/dataForInsuarnce";
+import NewSubPatientModal from "./components/newPatient/newSubPatientModal";
+import PhoneNumberModal from "./components/addPhoneNumber/phoneNumberModal";
+import {SubUser} from "./components/types";
+import {createSubUser, getSubUsers} from "./bookingService";
 
 interface IRouterLocation {
     npi: string,
     date: string,
     offset: string,
     type: AppointmentType,
-}
-
-export interface BookingProfile {
-    firstName: string,
-    lastName: string,
-    birthdayMonth: string,
-    birthdayDay: string,
-    birthdayYear: string,
-    gender: string,
-    email: string,
-    isLegal: boolean | undefined
 }
 
 interface PatientList {
@@ -45,9 +36,8 @@ export default function BookingPage() {
     const { npi, date, offset, type } = qs.parse(search.replace("?", ""))
     const [showNewPatientModal, setShowNewPatientModal] = useState<boolean>(false)
     const [showPhoneNumberModal, setShowPhoneNumberModal] = useState<boolean>(false)
-    const [subPatientList, setSubPatientList] = useState<BookingProfile[]>([])
+    const [subPatientList, setSubPatientList] = useState<SubUser[]>([])
     const {user} = useUserAuth()
-    console.log(user)
 
     if (!npi || !date || !offset || !type) {
         return null
@@ -58,6 +48,12 @@ export default function BookingPage() {
             setDoctorInfo(doctorProfile)
         }, () => {
             //
+        })
+
+        const {id} = user
+        getSubUsers(id, (list) => {
+            console.log("sub user list: ", list)
+            setSubPatientList(list)
         })
     }, [])
 
@@ -129,18 +125,31 @@ export default function BookingPage() {
     const $addOtherPatientButton = (
         <Button onClick={onAddPatient} status={ButtonStatus.link} >Someone else</Button>
     )
+
+    const onAddSubUser = (subUser: SubUser) => {
+        createSubUser(subUser, (isSuccess) => {
+            if (isSuccess) {
+                //
+            }
+        })
+    }
+
     const $newPatientInfoModal = (
-        <NewPatientModal open={showNewPatientModal} onApply={(profile) => {
-            profile && setSubPatientList([...subPatientList, profile])
+        <NewSubPatientModal open={showNewPatientModal} onApply={(profile) => {
+            profile && onAddSubUser(profile)
             setShowNewPatientModal(false)
-        }} />
+        }} onClose={() => {
+            setShowNewPatientModal(false)
+        }}/>
     )
 
     const $addPhoneNumberModal = (
-        <NewPhoneNumberModal open={showPhoneNumberModal} onApply={(phoneNumber) => {
+        <PhoneNumberModal open={showPhoneNumberModal} onApply={(phoneNumber) => {
             console.log(phoneNumber)
             setShowPhoneNumberModal(false)
-        }} />
+        }} onClose={() => {
+            setShowPhoneNumberModal(false)
+        }}/>
     )
 
     const $patientInfo = (
@@ -179,7 +188,7 @@ export default function BookingPage() {
     )
 
     const $dropdownForIllness = (
-        <Dropdown title={"What's the reason for your visit?"} placeholder={"Illness"} selected={""} data={dataForInsurance} onChange={() => {
+        <Dropdown title={"What's the reason for your visit?"} placeholder={"Illness"} selected={""} data={dataForIllness} onChange={() => {
             // setBooking({
             //     ...booking,
             //     insurance: value,

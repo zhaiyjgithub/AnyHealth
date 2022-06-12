@@ -2,25 +2,27 @@ import React, {createContext, useState} from "react"
 import {createNewUser, loginWithEmail} from "../service/userService";
 
 export interface User {
-    "firstName": string,
-    "lastName": string,
-    "gender": string,
-    "email": string,
-    "birthday": string,
-    "phone": string,
-    "address": string,
-    "password": string
+    id: number,
+    firstName: string,
+    lastName: string,
+    gender: string,
+    email: string,
+    birthday: string,
+    phone: string,
+    address: string,
+    password: string
 }
 
 const defaultUser: User = {
-    "firstName": "",
-    "lastName": "",
-    "gender": "F",
-    "email": "",
-    "birthday": "",
-    "phone": "",
-    "address": "",
-    "password": "",
+    id: 0,
+    firstName: "",
+    lastName: "",
+    gender: "F",
+    email: "",
+    birthday: "",
+    phone: "",
+    address: "",
+    password: "",
 }
 
 export interface UserContextType {
@@ -75,7 +77,7 @@ export default function UserProvider({children}: any) {
                 completeHandler(false, "")
             })
     }
-    
+
     const value: UserContextType = {user, login, createUser}
     return (
         <UserContext.Provider value={value}>

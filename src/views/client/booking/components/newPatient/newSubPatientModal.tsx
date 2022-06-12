@@ -1,19 +1,20 @@
-import {Dialog, Transition} from "@headlessui/react"
-import React, {Fragment, useState} from "react"
+import React, {useState} from "react"
 import Button from "../../../../../components/buttons/button";
 import {ButtonSize, Variant} from "../../../../../components/buttons/enum";
 import moment from "moment";
 import FormRadio from "../../../../../components/form/formRadio";
-import {BookingProfile} from "../../bookingPage";
+import {SubUser} from "../types";
+import FormModal from "../../../../../components/modal/formModal";
 
 interface IProps {
     open: boolean,
-    onApply: (profile?: BookingProfile) => void,
+    onApply: (profile?: SubUser) => void,
+    onClose: () => void
 }
 
-export default function NewPatientModal(props: IProps) {
-    const {open, onApply} = props
-    const [profile, setProfile] = useState<BookingProfile>({
+export default function NewSubPatientModal(props: IProps) {
+    const {open, onApply, onClose} = props
+    const [profile, setProfile] = useState<SubUser>({
         firstName: "",
         lastName: "",
         birthdayMonth: "",
@@ -21,6 +22,7 @@ export default function NewPatientModal(props: IProps) {
         birthdayYear: "",
         gender: "",
         email: "",
+        phone: "",
         isLegal: undefined,
     })
     const [check, setCheck] = useState<{
@@ -242,7 +244,7 @@ export default function NewPatientModal(props: IProps) {
     const $close = (
         <div className={"w-full flex flex-row justify-end mt-4"}>
             <Button onClick={() => {
-                onApply && onApply()
+                onClose && onClose()
                 resetState()
             }} variant={Variant.float} >
                 <i className="fas fa-times text-xl" />
@@ -260,6 +262,7 @@ export default function NewPatientModal(props: IProps) {
                 birthdayYear: "",
                 gender: "",
                 email: "",
+                phone: "",
                 isLegal: undefined,
             })
             setCheck({
@@ -272,52 +275,9 @@ export default function NewPatientModal(props: IProps) {
     }
 
     return (
-        <>
-            <Transition appear show={open} as={Fragment}>
-                <Dialog
-                    as="div"
-                    className="fixed inset-0 z-50 overflow-y-auto"
-                    onClose={() => {
-                        //
-                    }}
-                >
-                    <div className="min-h-screen px-4 text-center">
-                        <Transition.Child
-                            as={Fragment}
-                            // enter="ease-out duration-300"
-                            // enterFrom="opacity-0"
-                            // enterTo="opacity-60"
-                            leave="ease-in duration-200"
-                            leaveFrom="opacity-60"
-                            leaveTo="opacity-0"
-                        >
-                            <Dialog.Overlay className="fixed inset-0 bg-black transition ease-in-out opacity-60" />
-                        </Transition.Child>
-
-                        {/* This element is to trick the browser into centering the modal contents. */}
-                        <span
-                            className="inline-block h-screen align-middle"
-                            aria-hidden="true"
-                        >
-              &#8203;
-                        </span>
-                        <Transition.Child
-                            as={Fragment}
-                            enter="ease-out duration-300"
-                            enterFrom="opacity-0 scale-95"
-                            enterTo="opacity-100 scale-100"
-                            leave="ease-in duration-200"
-                            leaveFrom="opacity-100 scale-100"
-                            leaveTo="opacity-0 scale-95"
-                        >
-                            <div className="inline-block border my-8 w-3/5 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl">
-                                {$close}
-                                {$content}
-                            </div>
-                        </Transition.Child>
-                    </div>
-                </Dialog>
-            </Transition>
-        </>
+        <FormModal show={open} >
+            {$close}
+            {$content}
+        </FormModal>
     )
 }
