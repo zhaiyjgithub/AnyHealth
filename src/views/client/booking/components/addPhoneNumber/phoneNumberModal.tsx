@@ -20,7 +20,7 @@ export default function PhoneNumberModal(props: IProps) {
         </div>
     )
     const isPhoneNumberInvalid = isValid && !phoneNumber.length
-    const $errMsgForPhoneNumber = isPhoneNumberInvalid ? <p className={"text-xs text-red-500 font-medium"}>Oops! Try a valid PhoneNumber.</p> : null
+    const $errMsgForPhoneNumber = isPhoneNumberInvalid ? <p className={"text-xs text-red-500 font-medium mt-1"}>Oops! Try a valid PhoneNumber.</p> : null
     const $phoneNumberForm = (
         <div className={"w-full"}>
             {$title}
@@ -70,7 +70,7 @@ export default function PhoneNumberModal(props: IProps) {
         setTimeout(() => {
             setIsValid(false)
             setPhoneNumber("")
-        }, 500)
+        }, 1000)
     }
 
     return (

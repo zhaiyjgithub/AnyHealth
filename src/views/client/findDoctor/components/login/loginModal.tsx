@@ -14,8 +14,8 @@ interface IProps {
 
 export default function LoginModal(props: IProps) {
     const {open, onApply} = props
-    const [email, setEmail] = useState<string>("")
-    const [password, setPassword] = useState<string>("")
+    const [email, setEmail] = useState<string>("yuanji.zhai@outlook.com")
+    const [password, setPassword] = useState<string>("12345678")
     const [loginFailed, setLoginFailed] = useState<boolean>(false)
     const [validation, setValidation] = useState<{email: boolean, password: boolean}>({
         email: false,

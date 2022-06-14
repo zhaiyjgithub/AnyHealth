@@ -16,7 +16,11 @@ import {dataForIllness, dataForInsurance} from "../doctorCard/components/booking
 import NewSubPatientModal from "./components/newPatient/newSubPatientModal";
 import PhoneNumberModal from "./components/addPhoneNumber/phoneNumberModal";
 import {SubUser} from "./components/types";
-import {createSubUser, getSubUsers} from "./bookingService";
+import {createSubUser, getDoctorTimeSlots, getSubUsers} from "./bookingService";
+import {TimeSlotPerDay} from "../findDoctor/model/doctor";
+import WeekDayHeader from "./components/weekDayHeader";
+import Timeslots from "./components/timeSlots/timeSlots";
+import {TimeSlot} from "../findDoctor/components/doctor/timeslots/timeslots";
 
 interface IRouterLocation {
     npi: string,
@@ -37,6 +41,11 @@ export default function BookingPage() {
     const [showNewPatientModal, setShowNewPatientModal] = useState<boolean>(false)
     const [showPhoneNumberModal, setShowPhoneNumberModal] = useState<boolean>(false)
     const [subPatientList, setSubPatientList] = useState<SubUser[]>([])
+    const [timeSlots, setTimeSlots] = useState<Array<TimeSlotPerDay>>([])
+    const [showTimeSlotsView, setShowTimeSlotsView] = useState<boolean>(false)
+    const [appointmentDateTime, setAppointmentDateTime] = useState<string>("")
+    const [insurance, setInsurance] = useState<string>(dataForInsurance[0].id)
+    const [illness, setIllness] = useState<string>(dataForIllness[0].id)
     const {user} = useUserAuth()
 
     if (!npi || !date || !offset || !type) {
@@ -46,11 +55,40 @@ export default function BookingPage() {
     useEffect(() => {
         getDoctorProfileInfo()
         getSubPatientList()
+        getTimeSlotsByNpi()
     }, [])
+
+    useEffect(() => {
+        if (!date) {
+            return
+        }
+        updateAppointmentDateTime(date.toString())
+    }, [])
+
+    const updateAppointmentDateTime = (dateStringUTC: string) => {
+        const [week, month, day] = formatDateToWeekMonthDayTuple(new Date(dateStringUTC))
+
+        const targetDate = new Date(date.toString())
+        const initialMinutes = targetDate.getHours() * 60
+        const currentOffset = initialMinutes + parseInt(offset.toString(), 10)
+
+        const dateTime = parseTimeOffset(currentOffset >= 1440 ? currentOffset - 1440 : currentOffset)
+        setAppointmentDateTime(`${week}, ${month} ${day} - ${dateTime}`)
+    }
 
     const getDoctorProfileInfo = () => {
         npi && getDoctorProfile(parseInt(npi.toString(), 10), (doctorProfile) => {
             setDoctorInfo(doctorProfile)
+            console.log(doctorProfile)
+        }, () => {
+            //
+        })
+    }
+
+    const getTimeSlotsByNpi = () => {
+        getDoctorTimeSlots(parseInt(npi.toString(), 10), (new Date()).toISOString(), 4, (list) => {
+            setTimeSlots(list)
+            console.log(list)
         }, () => {
             //
         })
@@ -71,14 +109,6 @@ export default function BookingPage() {
     )
 
     const doctorName = `${doctorInfo?.credential} ${doctorInfo?.fullName} ${doctorInfo?.jobTitle}`
-    const [week, month, day] = formatDateToWeekMonthDayTuple(new Date(date.toString()))
-
-    const targetDate = new Date(date.toString())
-    const initialMinutes = targetDate.getHours() * 60
-    const currentOffset = initialMinutes + parseInt(offset.toString(), 10)
-
-    const dateTime = parseTimeOffset(currentOffset >= 1440 ? currentOffset - 1440 : currentOffset)
-    const appointmentDateTime = `${week}, ${month} ${day} - ${dateTime}`
     const appointmentTypeDesc = parseInt(type.toString(), 10) === AppointmentType.virtual ? "Video visit" : doctorInfo?.address
     const $info = (
         <div className={"flex-1"}>
@@ -187,20 +217,14 @@ export default function BookingPage() {
     )
 
     const $dropdownForInsurance = (
-        <Dropdown title={"Insurance"} placeholder={"Choose an insurance"} selected={""} data={dataForInsurance} onChange={() => {
-            // setBooking({
-            //     ...booking,
-            //     insurance: value,
-            // })
+        <Dropdown title={"Insurance"} placeholder={"Choose an insurance"} selected={insurance} data={dataForInsurance} onChange={(_id) => {
+            setInsurance(_id)
         }}/>
     )
 
     const $dropdownForIllness = (
-        <Dropdown title={"What's the reason for your visit?"} placeholder={"Illness"} selected={""} data={dataForIllness} onChange={() => {
-            // setBooking({
-            //     ...booking,
-            //     insurance: value,
-            // })
+        <Dropdown title={"What's the reason for your visit?"} placeholder={"Illness"} selected={illness} data={dataForIllness} onChange={(_id) => {
+            setIllness(_id)
         }}/>
     )
 
@@ -223,20 +247,41 @@ export default function BookingPage() {
     )
 
     const onEditAppointmentTime = () => {
-        //
+        setShowTimeSlotsView(true)
     }
     const $editAppointmentTimeButton = (
         <Button onClick={onEditAppointmentTime} status={ButtonStatus.link} >Edit</Button>
     )
+
+    const onClickTimeSlot = (timeSlot: TimeSlot) => {
+        console.log(timeSlot)
+        setShowTimeSlotsView(false)
+        const [week, month, day] = formatDateToWeekMonthDayTuple(new Date(timeSlot.date))
+        const dateTime = timeSlot.dateTime
+        setAppointmentDateTime(`${week}, ${month} ${day} - ${dateTime}`)
+    }
+
+    const $weekDayHeader = <WeekDayHeader startDate={new Date()} />
+    const $timeslotsListView = (<Timeslots timeSlotsPerDay={timeSlots} onClick={onClickTimeSlot}/>)
+    const $timeSlotsView = (
+        <div className={"w-full flex flex-col p-4 gap-y-4 bg-white border"}>
+            {$weekDayHeader}
+            {$timeslotsListView}
+        </div>
+    )
+
+    const $selectedTimeSlot = (
+        <div className={"w-full flex flex-row items-center justify-between p-4 bg-white border"}>
+            <p className={"text-sm text-primary-focus"}>{appointmentDateTime}</p>
+            <div className={"w-max"}>
+                {$editAppointmentTimeButton}
+            </div>
+        </div>
+    )
     const $appointmentTimeInfo = (
         <div className={"w-full space-y-1"}>
             <p className={"text-sm text-primary-focus"}>Phone number where the doctor can reach you</p>
-            <div className={"w-full flex flex-row items-center justify-between p-4 bg-white border"}>
-                <p className={"text-sm text-primary-focus"}>{appointmentDateTime}</p>
-                <div className={"w-max"}>
-                    {$editAppointmentTimeButton}
-                </div>
-            </div>
+            {showTimeSlotsView ? $timeSlotsView : $selectedTimeSlot}
         </div>
     )
 

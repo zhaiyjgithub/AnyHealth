@@ -1,14 +1,6 @@
-import React, {useMemo, useState} from "react";
-import {TimeSlotPerDay} from "../../../model/doctor";
-import {useViewPort} from "../../../../../../utils/hooks/useViewPort";
-
-export interface TimeSlot {
-    date: string,
-    dateTime: string,
-    offset: number,
-    availableSlotsNumber: number,
-    isOverOneDay: boolean,
-}
+import React, {useState} from "react";
+import {TimeSlotPerDay} from "../../../findDoctor/model/doctor";
+import {TimeSlot} from "../../../findDoctor/components/doctor/timeslots/timeslots";
 
 interface IProps {
     timeSlotsPerDay: Array<TimeSlotPerDay>,
@@ -18,21 +10,12 @@ interface IProps {
 export default function Timeslots(props: IProps) {
     const [showMore, setShowMore] = useState<boolean>(false)
     const {timeSlotsPerDay = [], onClick} = props
-    const { width } = useViewPort()
-    const dateLength = useMemo(() => {
-        if (width <= 1280) {
-            return 3
-        } else if (width <= 1536) {
-            return 4
-        }
-        return 5
-    }, [width])
 
     const $moreItem = (
         <button type={"button"} className={"w-full py-2 bg-primary hover:bg-primary-focus text-primary-focus hover:text-focus leading-snug text-sm font-meduim"} onClick={() => {
             setShowMore(!showMore)
         }} >
-                More
+            More
         </button>
     )
 
@@ -53,7 +36,7 @@ export default function Timeslots(props: IProps) {
 
     const $timeSlotsPeerDay = (data: Array<TimeSlot>, date: string, idx: number) => {
         return (
-            <div key={idx} className={"flex flex-col space-y-2 pb-4"}>
+            <div key={idx} className={"flex flex-col space-y-2"}>
                 {
                     data.map((timeSlot, idx,) => {
                         return !showMore && idx === data.length - 1 ? $moreItem : $timeSlot(timeSlot, idx)
@@ -63,9 +46,9 @@ export default function Timeslots(props: IProps) {
         )
     }
     return (
-        <div className={`w-5/12 pl-8 pr-12 grid grid-cols-${dateLength} gap-x-2 overflow-hidden`}>
-            {timeSlotsPerDay.slice(0, dateLength).map(({timeSlots, date}, idx) => {
-                const maxlength = timeSlots.length >= 5 ? 5 : timeSlots.length
+        <div className={"w-full grid grid-cols-4 gap-x-2"}>
+            {timeSlotsPerDay.slice(0, 4).map(({timeSlots, date}, idx) => {
+                const maxlength = timeSlots.length >= 4 ? 4 : timeSlots.length
                 const dataSource = showMore ? timeSlots : timeSlots.slice(0, maxlength)
                 return $timeSlotsPeerDay(dataSource, date, idx)
             })}

@@ -8,7 +8,7 @@ interface IProps {
     startDate: Date
 }
 
-interface AvailableDate {
+export interface AvailableDate {
     date: Date,
     weekDay: string,
     month: string,
@@ -69,7 +69,7 @@ export default function WeekDayHeader(props: IProps) {
             </div>
         )
     }
-    
+
     const $previous = (
         <button type={"button"} className={"h-8 w-8 flex items-center justify-center rounded-full hover:bg-base-300"}>
             <svg data-test="icon-arrow-left" className="w-4 h-4"
