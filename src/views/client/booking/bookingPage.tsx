@@ -21,6 +21,7 @@ import {TimeSlotPerDay} from "../findDoctor/model/doctor";
 import WeekDayHeader from "./components/weekDayHeader";
 import Timeslots from "./components/timeSlots/timeSlots";
 import {TimeSlot} from "../findDoctor/components/doctor/timeslots/timeslots";
+import moment from "moment";
 
 interface IRouterLocation {
     npi: string,
@@ -46,6 +47,9 @@ export default function BookingPage() {
     const [appointmentDateTime, setAppointmentDateTime] = useState<string>("")
     const [insurance, setInsurance] = useState<string>(dataForInsurance[0].id)
     const [illness, setIllness] = useState<string>(dataForIllness[0].id)
+    const [isNewPatient, setIsNewPatient] = useState<boolean>(false)
+    const [memo, setMemo] = useState<string>("")
+    const [startDate, setStartDate] = useState<Date>(new Date())
     const {user} = useUserAuth()
 
     if (!npi || !date || !offset || !type) {
@@ -55,8 +59,11 @@ export default function BookingPage() {
     useEffect(() => {
         getDoctorProfileInfo()
         getSubPatientList()
-        getTimeSlotsByNpi()
     }, [])
+
+    useEffect(() => {
+        getTimeSlotsByNpi()
+    }, [startDate])
 
     useEffect(() => {
         if (!date) {
@@ -86,7 +93,7 @@ export default function BookingPage() {
     }
 
     const getTimeSlotsByNpi = () => {
-        getDoctorTimeSlots(parseInt(npi.toString(), 10), (new Date()).toISOString(), 4, (list) => {
+        getDoctorTimeSlots(parseInt(npi.toString(), 10), startDate.toISOString(), 4, (list) => {
             setTimeSlots(list)
             console.log(list)
         }, () => {
@@ -192,7 +199,7 @@ export default function BookingPage() {
 
     const $patientInfo = (
         <div className={"w-full space-y-1"}>
-            <p className={"text-sm text-primary-focus"}>Who will be seeing the doctor?</p>
+            <p className={"text-base font-semibold text-primary-focus"}>Who will be seeing the doctor?</p>
             <div className={"w-full flex flex-col space-y-4 p-4 bg-white border"}>
                 {$patientList()}
                 <div className={"w-max"}>
@@ -207,7 +214,7 @@ export default function BookingPage() {
     )
     const $phoneNumberInfo = (
         <div className={"w-full space-y-1"}>
-            <p className={"text-sm text-primary-focus"}>Phone number where the doctor can reach you</p>
+            <p className={"text-base font-semibold text-primary-focus"}>Phone number where the doctor can reach you</p>
             <div className={"w-full flex flex-col space-y-4 p-4 bg-white border"}>
                 <div className={"w-max"}>
                     {$addPhoneNumberButton}
@@ -233,13 +240,13 @@ export default function BookingPage() {
             <p className={"text-base text-primary-focus font-semibold"}>Has the patient seen this doctor before?</p>
             <div className={"flex flex-row items-center justify-between border border-base-300 mt-1 bg-white"}>
                 <div className={"px-3 py-2.5 flex flex-1 flex-row"}>
-                    <FormRadio key={3} title={"No"} checked={true} onChange={() => {
-                        //
+                    <FormRadio key={3} title={"I'm a new patient"} checked={isNewPatient} onChange={() => {
+                        setIsNewPatient(true)
                     }}/>
                 </div>
                 <div className={"px-3 py-2.5 flex flex-1 flex-row border-l"}>
-                    <FormRadio key={4} title={"Yes"} checked={false} onChange={() => {
-                        //
+                    <FormRadio key={4} title={"I have seen this doctor"} checked={!isNewPatient} onChange={() => {
+                        setIsNewPatient(false)
                     }}/>
                 </div>
             </div>
@@ -261,7 +268,17 @@ export default function BookingPage() {
         setAppointmentDateTime(`${week}, ${month} ${day} - ${dateTime}`)
     }
 
-    const $weekDayHeader = <WeekDayHeader startDate={new Date()} />
+    const $weekDayHeader = <WeekDayHeader startDate={startDate} onPrevious={() => {
+        const previewStartDate = moment(startDate).subtract(4, "days")
+            .toDate()
+        console.log(previewStartDate)
+        setStartDate(previewStartDate)
+    }} onNext={() => {
+        const nextStartDate = moment(startDate).add(4, "days")
+            .toDate()
+        console.log(nextStartDate)
+        setStartDate(nextStartDate)
+    }}/>
     const $timeslotsListView = (<Timeslots timeSlotsPerDay={timeSlots} onClick={onClickTimeSlot}/>)
     const $timeSlotsView = (
         <div className={"w-full flex flex-col p-4 gap-y-4 bg-white border"}>
@@ -280,7 +297,7 @@ export default function BookingPage() {
     )
     const $appointmentTimeInfo = (
         <div className={"w-full space-y-1"}>
-            <p className={"text-sm text-primary-focus"}>Phone number where the doctor can reach you</p>
+            <p className={"text-base font-semibold text-primary-focus"}>Phone number where the doctor can reach you</p>
             {showTimeSlotsView ? $timeSlotsView : $selectedTimeSlot}
         </div>
     )
@@ -288,10 +305,12 @@ export default function BookingPage() {
     const $memoForAppointment = (
         <div className={"w-full space-y-1"}>
             <div>
-                <p className={"text-sm text-primary-focus"}>{"Notes for the doctor's office (optional)"}</p>
+                <p className={"text-base font-semibold text-primary-focus"}>{"Notes for the doctor's office (optional)"}</p>
             </div>
             <div className={"w-full flex flex-row items-center justify-between bg-white border"}>
-                <textarea className={"w-full resize-none h-24 border border-transparent"}/>
+                <textarea value={memo} onChange={(e) => {
+                    setMemo(e.target.value)
+                }} className={"w-full resize-none h-24 border border-transparent"}/>
             </div>
         </div>
     )

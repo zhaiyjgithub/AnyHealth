@@ -3,7 +3,7 @@ module.exports = {
     darkMode: false,
     theme: {
         fontFamily: {
-
+            'mulish': ['Mulish', "sans-serif"],
         },
         extend: {
             backgroundColor: theme => ({
