@@ -1,10 +1,10 @@
 import React, {useContext} from "react";
 import {DoctorInfo} from "../../../model/doctor";
-import VideoVisitToolTips from "./videoVisitToolTips";
 import {SearchFilterContext} from "../../../searchFilterProvider";
 import {AppointmentType} from "../../../../../../utils/enum/enum";
 import {$iconDefaultDoctor} from "../../../assets/assets";
 import {Link} from "react-router-dom"
+import ToolTips from "./toolTips";
 
 interface IProps {
     active: boolean
@@ -48,7 +48,7 @@ export default function DoctorInformation(props: IProps) {
         <div className={"flex flex-row items-center space-x-1 flex-none"}>
             <p className={" text-sm px-2 border text-gray-500"}>External video visit</p>
             <div className={"w-5 h-5 flex items-center"}>
-                <VideoVisitToolTips />
+                <ToolTips />
             </div>
         </div>
     )
@@ -93,6 +93,6 @@ export default function DoctorInformation(props: IProps) {
                 {$info}
             </div>
         </Link>
-        
+
     )
 }

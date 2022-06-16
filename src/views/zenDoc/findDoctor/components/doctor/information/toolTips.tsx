@@ -1,7 +1,7 @@
 import React from "react";
 import "./toolTips.css"
 
-export default function VideoVisitToolTips() {
+export default function ToolTips() {
     return (
         <div className={"tooltip relative"}>
             <a><i className="far fa-question-circle text-gray-400" /></a>

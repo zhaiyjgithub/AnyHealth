@@ -1,43 +1,42 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useState} from "react";
 import FormRadio from "../../../../../components/form/formRadio";
-import Dropdown, {DropDownItem} from "./dropdown";
+import Dropdown from "./dropdown";
 import {AppointmentType} from "../../../../../utils/enum/enum";
-import AvailableDateView from "./availableDateView";
+import TimeSlotsView from "./timeSlotsView";
 import {getTimeSlots} from "../../../findDoctor/service/searchDoctorService";
 import {TimeSlotPerDay} from "../../../findDoctor/model/doctor";
-import {dataForIllness} from "./dataForInsuarnce";
+import {dataForIllness, dataForInsurance} from "./dataForInsuarnce";
 import Button from "../../../../../components/buttons/button";
 import {TimeSlot} from "../../../findDoctor/components/doctor/timeslots/timeslots";
+import {useHistory} from "react-router-dom";
+import moment from "moment";
 
 export interface Booking {
-    insurance: string,
-    insuranceId: null,
-    illness: string,
+    insuranceId: string,
+    illnessId: 0,
     appointmentType: AppointmentType,
-    reasonForAppt: string,
-    isNewPatient: boolean,
-    officeLocationId: number,
-    dateTime: string,
+    isNewPatient: boolean | undefined,
+}
+
+interface IProps {
     npi: number
 }
 
-export default function BookingCard() {
+export default function BookingCard(props: IProps) {
+    const {npi} = props
     const [dataForAllAvailable, setDataForAllAvailable] = useState<Array<TimeSlotPerDay>>([])
     const [booking, setBooking] = useState<Booking>({
-        insurance: "",
+        insuranceId: "",
+        illnessId: 0,
         appointmentType: AppointmentType.inClinic,
-        dateTime: "",
-        illness: "",
-        insuranceId: null,
-        isNewPatient: false,
-        npi: 0,
-        officeLocationId: 0,
-        reasonForAppt: "",
+        isNewPatient: undefined,
     })
     const [selectedTimeSlot, setSelectedTimeSlot] = useState<TimeSlot | null>(null)
+    const [startDate, setStartDate] = useState<Date>(new Date())
+    const history = useHistory()
     useEffect(() => {
-        getAllTimeSlots(1902809254, (new Date()).toISOString())
-    }, [])
+        getAllTimeSlots(npi, (new Date()).toISOString())
+    }, [props.npi])
 
     const getAllTimeSlots = (npi: number, startDate: string) => {
         getTimeSlots(npi, startDate, 5, (list) => {
@@ -51,45 +50,20 @@ export default function BookingCard() {
         <p className={"font-bold text-2xl text-primary-focus"}>Book an appointment for free</p>
     )
 
-    const dataForInsurance = useMemo(() => {
-        const list = [
-            "Aetna Choice POS II",
-            "Aetna HMO",
-            "BCBS Blue Card PPO",
-            "CIGNA HMO",
-            "CIGNA Open Access",
-            "CIGNA PPO",
-            "Empire BCBS HMO",
-            "Empire BCBS PPO",
-            "GHI PPO",
-            "HIP of New York - Select PPO",
-            "Humana ChoiceCare Network PPO",
-            "MagnaCare PPO",
-            "MVP Healthcare PPO",
-            "Oxford Health Freedom",
-            "Oxford Health Liberty",
-            "United Healthcare - Direct Choice Plus POS",
-            "United Healthcare - Direct Options PPO",
-        ]
-        return list.map((item) => {
-            return {name: item, id: item} as DropDownItem
-        })
-    }, [])
-
     const $dropdownForInsurance = (
-        <Dropdown title={"What's your insurance plan?"} placeholder={"Choose an insurance"} selected={booking?.insurance} data={dataForInsurance} onChange={(value) => {
+        <Dropdown title={"What's your insurance plan?"} placeholder={"Choose an insurance"} selected={booking.insuranceId} data={dataForInsurance} onChange={(id) => {
             setBooking({
                 ...booking,
-                insurance: value,
+                insuranceId: id,
             })
         }} />
     )
 
     const $dropdownForIllness = (
-        <Dropdown title={"What's the reason of your visit?"} placeholder={"Illness"} selected={booking?.illness} data={dataForIllness} onChange={(value) => {
+        <Dropdown title={"What's the reason of your visit?"} placeholder={"Illness"} selected={booking.illnessId} data={dataForIllness} onChange={(id) => {
             setBooking({
                 ...booking,
-                illness: value,
+                illnessId: id,
             })
         }} />
     )
@@ -99,18 +73,18 @@ export default function BookingCard() {
             <p className={"text-base text-primary-focus font-semibold"}>Has the patient seen this doctor before?</p>
             <div className={"flex flex-row items-center justify-between border border-base-300 mt-1 bg-white"}>
                 <div className={"px-3 py-2.5 flex flex-1 flex-row"}>
-                    <FormRadio key={3} title={"No"} checked={!booking.isNewPatient} onChange={() => {
+                    <FormRadio key={3} title={"No"} checked={booking.isNewPatient === true} onChange={() => {
                         setBooking({
                             ...booking,
-                            isNewPatient: false,
+                            isNewPatient: true,
                         })
                     }}/>
                 </div>
                 <div className={"px-3 py-2.5 flex flex-1 flex-row border-l"}>
-                    <FormRadio key={4} title={"Yes"} checked={booking.isNewPatient} onChange={() => {
+                    <FormRadio key={4} title={"Yes"} checked={booking.isNewPatient === false} onChange={() => {
                         setBooking({
                             ...booking,
-                            isNewPatient: true,
+                            isNewPatient: false,
                         })
                     }}/>
                 </div>
@@ -142,16 +116,40 @@ export default function BookingCard() {
         </div>
     )
 
-    const $availableTimeView = (
-        <AvailableDateView selectedTimeSlot={selectedTimeSlot} onSelect={(timeSlot) => {
+    const $timeSlotsView = (
+        <TimeSlotsView selectedTimeSlot={selectedTimeSlot} onSelect={(timeSlot) => {
             setSelectedTimeSlot(timeSlot)
-        }} total={5} startDate={new Date()} timeSlotsPerDay={dataForAllAvailable} />
+        }} total={5} startDate={startDate} timeSlotsPerDay={dataForAllAvailable} onPrevious={() => {
+            const previewStartDate = moment(startDate).subtract(4, "days")
+                .toDate()
+            setStartDate(previewStartDate)
+        }} onNext={() => {
+            const nextStartDate = moment(startDate).add(4, "days")
+                .toDate()
+            setStartDate(nextStartDate)
+        }}/>
     )
 
+    const onClickContinueBook = () => {
+        if (!booking.insuranceId.length) {
+            return;
+        }
+        if (!booking.illnessId) {
+            return;
+        }
+        if (booking.isNewPatient === undefined) {
+            return;
+        }
+        if (!selectedTimeSlot) {
+            return
+        }
+        history.push({
+            pathname: "/booking",
+            search: `?npi=${npi}&date=${selectedTimeSlot.date}&offset=${selectedTimeSlot.offset}&isNewPatient=${booking.isNewPatient}&insuranceID=${booking.insuranceId}&illnessID=${booking.illnessId}&appointmentType=${booking.appointmentType}`,
+        })
+    }
     const $bookButton = (
-        <Button onClick={() => {
-            //
-        }} >Continue booking</Button>
+        <Button onClick={onClickContinueBook} >Continue booking</Button>
     )
     return (
         <div className={"p-8 w-full flex flex-col space-y-4 border bg-base-200"}>
@@ -160,7 +158,7 @@ export default function BookingCard() {
             {$dropdownForIllness}
             {$newPatientOptionView}
             {$appointmentTypeOptionView}
-            {$availableTimeView}
+            {$timeSlotsView}
             {$bookButton}
         </div>
     )

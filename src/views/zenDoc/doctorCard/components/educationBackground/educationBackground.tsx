@@ -12,7 +12,7 @@ export default function EducationBackground(props: IProps) {
         <div className={"space-y-2"}>
             <p className={"text-xl text-primary-focus font-bold"}>Specialty</p>
             <p className={"text-lg text-primary-focus"}>{doctorInfo.specialty}</p>
-            <p className={"text-lg text-gray-400"}>{doctorInfo.subSpecialty}</p>
+            <p className={"text-lg text-gray-500"}>{doctorInfo.subSpecialty}</p>
         </div>
     )
 
@@ -38,7 +38,7 @@ export default function EducationBackground(props: IProps) {
         </div>
     ) : null
 
-    const languages = doctorInfo.language.replace('English', '').split(',')
+    const languages = doctorInfo.language.replace("English", "").split(",")
     const $languageListView = (
         <div className={"space-y-4"}>
             <div className={"flex flex-row space-x-2"}>
@@ -56,7 +56,7 @@ export default function EducationBackground(props: IProps) {
         </div>
     )
 
-    const gender = doctorInfo.gender === 'F' ? 'Female' : 'Male'
+    const gender = doctorInfo.gender === "F" ? "Female" : "Male"
     const $providerGenderView = (
         <div className={"space-y-4"}>
             <p className={"text-xl text-primary-focus font-bold"}>Provider gender</p>

@@ -14,7 +14,6 @@ import BookingCard from "./components/bookingCard/bookingCard";
 import {useLocation} from "react-router-dom";
 import qs from "qs";
 import {DoctorDetailInfo, getDoctorDetailInfoByNpi} from "./service/doctorCardService";
-import useUserAuth from "../user/hooks/useUserAuth";
 
 interface IRouterLocation {
     npi: string
@@ -25,12 +24,10 @@ export default function DoctorCard() {
     const { npi } = qs.parse(search.replace("?", ""))
     const [doctorDetailInfo, setDoctorDetailInfo] = useState<DoctorDetailInfo | null>(null)
     const [isHeaderFixed, setIsHeaderFixed] = useState<boolean>(false)
-    const userAuth = useUserAuth()
-    console.log('##### doctor card', userAuth.user)
 
     useEffect(() => {
         if (typeof npi === "string") {
-            npi && getDoctorDetailInfoByNpi(parseInt(npi), (doctorDetailInfo) => {
+            getDoctorDetailInfoByNpi(parseInt(npi), (doctorDetailInfo) => {
                 setDoctorDetailInfo(doctorDetailInfo)
             }, () => {
                 //
@@ -52,13 +49,15 @@ export default function DoctorCard() {
 
     const $appointmentTypeList = (
         <div className={"w-full flex flex-row items-center space-x-4 mt-4"}>
-            <div className={"flex flex-row items-center px-2 py-1 rounded-full bg-gray-200 space-x-2"}>
-                <i className="fas text-blue-500 text-xl fa-user-circle"></i>
+            <div className={"flex flex-row items-center px-4 py-2 rounded-full bg-gray-200 space-x-2"}>
+                <div className={"w-5 h-5 rounded bg-blue-500 flex flex-row items-center justify-center"}>
+                    <i className="fas fa-user text-white text-xs"></i>
+                </div>
                 <span className={"text-sm text-primary-focus font-medium"}>In-person visits</span>
             </div>
 
-            <div className={"flex flex-row items-center px-2 py-1 rounded-full bg-gray-200 space-x-2"}>
-                <div className={"w-5 h-5 rounded-full bg-pink-500 flex flex-row items-center justify-center"}>
+            <div className={"flex flex-row items-center px-4 py-2 rounded-full bg-gray-200 space-x-2"}>
+                <div className={"w-5 h-5 rounded bg-pink-500 flex flex-row items-center justify-center"}>
                     <i className="fas fa-video text-white text-xs"></i>
                 </div>
                 <span className={"text-sm text-primary-focus font-medium"}>Video visits</span>
@@ -73,7 +72,7 @@ export default function DoctorCard() {
         <div className={"w-full space-y-1"}>
             <p className={"font-bold text-5xl text-primary-focus"}>{name}</p>
             <p className={"text-lg font-semibold text-primary-focus"}>{specialty}</p>
-            <p className={"text-lg font-semibold text-gray-400"}>{addressForState}</p>
+            <p className={"text-base font-semibold text-gray-400"}>{addressForState}</p>
         </div>
     )
     const $basicInfo = (
@@ -197,6 +196,12 @@ export default function DoctorCard() {
         </Section>
     )
 
+    const npiForBookingCard = (typeof npi === "string") && parseInt(npi) ? parseInt(npi) : 0
+    const $bookCard = (
+        <div className={"w-2/5"}>
+            <BookingCard npi={npiForBookingCard}/>
+        </div>
+    )
     return (
         <ScrollingProvider offset={-80}>
             <div className={"w-full"}>
@@ -214,9 +219,7 @@ export default function DoctorCard() {
                             {$educationView}
                             {$faqView}
                         </div>
-                        <div className={"w-2/5"}>
-                            <BookingCard />
-                        </div>
+                        {$bookCard}
                     </div>
                 </div>
             </div>

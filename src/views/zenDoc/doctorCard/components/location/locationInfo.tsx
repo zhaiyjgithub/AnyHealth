@@ -30,7 +30,7 @@ export default function LocationInfo(props: IProps) {
 
     const $videoVisitTipsView = isVirtualVisitEnable ? (
         <div className={"px-4 flex flex-row items-center space-x-4 py-2 bg-purple-200"}>
-            <div className={"w-8 h-8 rounded-full bg-purple-500 flex flex-row items-center justify-center"}>
+            <div className={"w-8 h-8 rounded bg-purple-500 flex flex-row items-center justify-center"}>
                 <i className="fas fa-video text-white text-sm"></i>
             </div>
             <p className={"text-lg text-primary-focus"}>{`${doctorName} also offers online video visits for patients`}</p>

@@ -4,14 +4,15 @@ import {ButtonSize, Variant} from "../../../../../components/buttons/enum";
 import FormModal from "../../../../../components/modal/formModal";
 
 interface IProps {
+    phoneNumber: string,
     open: boolean,
-    onApply: (phoneNumber?: string) => void,
+    onApply: (phoneNumber: string) => void,
     onClose: () => void
 }
 
 export default function PhoneNumberModal(props: IProps) {
     const {open, onApply, onClose} = props
-    const [phoneNumber, setPhoneNumber] = useState<string>("")
+    const [phoneNumber, setPhoneNumber] = useState<string>(props.phoneNumber)
     const [isValid, setIsValid] = useState<boolean>(false)
 
     const $title = (
@@ -44,9 +45,7 @@ export default function PhoneNumberModal(props: IProps) {
         onApply && onApply(phoneNumber)
     }
     const $bookButton = (
-        <Button size={ButtonSize.block} onClick={() => {
-            onApplyPhoneNumber && onApplyPhoneNumber()
-        }} >Continue</Button>
+        <Button size={ButtonSize.block} onClick={onApplyPhoneNumber} >Continue</Button>
     )
     const $content = (
         <div className={"px-8 pb-8 w-full flex flex-col space-y-8"}>

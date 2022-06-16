@@ -11,6 +11,8 @@ interface IProps {
     timeSlotsPerDay: Array<TimeSlotPerDay>,
     selectedTimeSlot: TimeSlot | null,
     onSelect: (timeSlot: TimeSlot) => void
+    onPrevious: () => void
+    onNext: () => void
 }
 
 interface AvailableDate {
@@ -20,10 +22,10 @@ interface AvailableDate {
     day: number
 }
 
-export default function AvailableDateView(props: IProps) {
+export default function TimeSlotsView(props: IProps) {
     const [showMore, setShowMore] = useState<boolean>(false)
     const {timeSlotsPerDay = []} = props
-    const { startDate, selectedTimeSlot, onSelect } = props
+    const { startDate, selectedTimeSlot, onSelect, onNext, onPrevious } = props
     const { width } = useViewPort()
 
     const dateLength = useMemo(() => {
@@ -64,21 +66,20 @@ export default function AvailableDateView(props: IProps) {
         )
     }
 
+    const isToday = moment().isSame(moment(startDate), "day")
     const $previous = (
-        <button type={"button"} className={"h-8 w-8 flex items-center justify-center rounded-full hover:bg-base-300"}>
-            <svg data-test="icon-arrow-left" className="w-4 h-4"
-                viewBox="0 0 26 40">
-                <polygon fill="#00234B" points="20.3,40 25.7,34.5 11.2,20 25.7,5.5 20.3,0 0.3,20"></polygon>
-            </svg>
+        <button onClick={() => {
+            !isToday && onPrevious && onPrevious()
+        }} type={"button"} className={`${isToday ? "disabled" : "hover:bg-base-300"} h-8 w-8 flex items-center justify-center rounded-full`}>
+            <i className={`fas fa-chevron-left ${isToday ? "text-gray-400" : ""}`}></i>
         </button>
     )
 
     const $next = (
-        <button type={"button"} className={"h-8 w-8 flex items-center justify-center rounded-full hover:bg-base-300 transform rotate-180"}>
-            <svg data-test="icon-arrow-left" className="w-4 h-4"
-                viewBox="0 0 26 40">
-                <polygon fill="#00234B" points="20.3,40 25.7,34.5 11.2,20 25.7,5.5 20.3,0 0.3,20"></polygon>
-            </svg>
+        <button onClick={() => {
+            onNext && onNext()
+        }} type={"button"} className={"h-8 w-8 flex items-center justify-center rounded-full hover:bg-base-300"}>
+            <i className="fas fa-chevron-right"></i>
         </button>
     )
 
@@ -103,7 +104,7 @@ export default function AvailableDateView(props: IProps) {
     const $overOneDayTag = (
         <p className={"bg-pink-500 p-px rounded-full text-white absolute text-xs -right-1.5 -bottom-1.5"}>+1</p>
     )
-    
+
     const $timeSlot = (timeSlot: TimeSlot, idx: number) => {
         const isSelected = timeSlot.dateTime === selectedTimeSlot?.dateTime && timeSlot.date === selectedTimeSlot?.date
         return (
@@ -152,7 +153,7 @@ export default function AvailableDateView(props: IProps) {
             {$timeSlotsInCalendar}
         </div>
     )
-    
+
     return (
         <div className={"w-full flex flex-col justify-center"}>
             {$title}

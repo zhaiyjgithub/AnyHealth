@@ -3,7 +3,7 @@ import NavBar from "./components/navBar/navBar";
 import {$iconDefaultDoctor} from "../findDoctor/assets/assets";
 import {useLocation} from "react-router-dom";
 import qs from "qs";
-import {DoctorProfile, getDoctorProfile} from "../../doctor/profile/general/GeneralProfileService";
+import {DoctorProfile, getDoctorProfile} from "../../zenClinic/profile/general/GeneralProfileService";
 import {AppointmentType} from "../../../utils/enum/enum";
 import {formatDateToWeekMonthDayTuple} from "../../../utils/util/dateTool";
 import {parseTimeOffset} from "../findDoctor/service/searchDoctorService";
@@ -27,7 +27,10 @@ interface IRouterLocation {
     npi: string,
     date: string,
     offset: string,
-    type: AppointmentType,
+    appointmentType: AppointmentType,
+    insuranceID: string,
+    illnessID: string,
+    isNewPatient: string
 }
 
 interface PatientList {
@@ -38,27 +41,37 @@ interface PatientList {
 export default function BookingPage() {
     const [doctorInfo, setDoctorInfo] = useState<DoctorProfile | null>(null)
     const {search} = useLocation<IRouterLocation>()
-    const { npi, date, offset, type } = qs.parse(search.replace("?", ""))
+    const urlParams = qs.parse(search.replace("?", ""))
+    const { npi, date, offset, appointmentType,
+        illnessID, insuranceID,
+    } = urlParams
+
+    const defaultInsuranceID = insuranceID ? insuranceID : dataForInsurance[0].id
+    const defaultIllnessID = illnessID ? parseInt(illnessID.toString(), 10) : dataForIllness[0].id
+
     const [showNewPatientModal, setShowNewPatientModal] = useState<boolean>(false)
     const [showPhoneNumberModal, setShowPhoneNumberModal] = useState<boolean>(false)
     const [subPatientList, setSubPatientList] = useState<SubUser[]>([])
     const [timeSlots, setTimeSlots] = useState<Array<TimeSlotPerDay>>([])
     const [showTimeSlotsView, setShowTimeSlotsView] = useState<boolean>(false)
     const [appointmentDateTime, setAppointmentDateTime] = useState<string>("")
-    const [insurance, setInsurance] = useState<string>(dataForInsurance[0].id)
-    const [illness, setIllness] = useState<string>(dataForIllness[0].id)
-    const [isNewPatient, setIsNewPatient] = useState<boolean>(false)
+
+    const [insurance, setInsurance] = useState<string>(defaultInsuranceID)
+    const [illness, setIllness] = useState<number>(defaultIllnessID)
+    const [isNewPatient, setIsNewPatient] = useState<boolean>(urlParams.isNewPatient === "true")
     const [memo, setMemo] = useState<string>("")
     const [startDate, setStartDate] = useState<Date>(new Date())
+    const [phoneNumber, setPhoneNumber] = useState<string>("")
+    const [selectedPatientID, setSelectedPatientID] = useState<number>(0)
     const {user} = useUserAuth()
 
-    if (!npi || !date || !offset || !type) {
+    if (!npi || !date || !offset || !appointmentType) {
         return null
     }
 
     useEffect(() => {
         getDoctorProfileInfo()
-        getSubPatientList()
+        getSubPatientList(false)
     }, [])
 
     useEffect(() => {
@@ -101,10 +114,12 @@ export default function BookingPage() {
         })
     }
 
-    const getSubPatientList = () => {
+    const getSubPatientList = (isAddNewSubUser: boolean = false) => {
         const {id} = user
         getSubUsers(id, (list) => {
-            console.log("sub user list: ", list)
+            if (isAddNewSubUser) {
+                setSelectedPatientID(list.length)
+            }
             setSubPatientList(list)
         })
     }
@@ -116,7 +131,7 @@ export default function BookingPage() {
     )
 
     const doctorName = `${doctorInfo?.credential} ${doctorInfo?.fullName} ${doctorInfo?.jobTitle}`
-    const appointmentTypeDesc = parseInt(type.toString(), 10) === AppointmentType.virtual ? "Video visit" : doctorInfo?.address
+    const appointmentTypeDesc = parseInt(appointmentType.toString(), 10) === AppointmentType.virtual ? "Video visit" : doctorInfo?.address
     const $info = (
         <div className={"flex-1"}>
             <p className={"text-base text-primary-focus font-bold leading-snug"}>{doctorName}</p>
@@ -147,12 +162,13 @@ export default function BookingPage() {
         })
         return [{name: userName, id: 0 }].concat(subList)
     }, [subPatientList])
-    const onSelectPatient = (id: number) => {
-        console.log(id)
+    const onSelectPatient = (ID: number) => {
+        setSelectedPatientID(ID)
     }
     const $patientList = () => {
         return dataForPatientList.map(({name, id}, idx) => {
-            return <FormRadio key={idx} title={name} checked={true} onChange={() => {
+            const isChecked = selectedPatientID === id
+            return <FormRadio key={idx} title={name} checked={isChecked} onChange={() => {
                 onSelectPatient(id)
             }} />
         })
@@ -174,7 +190,7 @@ export default function BookingPage() {
         subUser.userID = user.id
         createSubUser(subUser, (isSuccess) => {
             if (isSuccess) {
-                getSubPatientList()
+                getSubPatientList(true)
             }
         })
     }
@@ -189,8 +205,8 @@ export default function BookingPage() {
     )
 
     const $addPhoneNumberModal = (
-        <PhoneNumberModal open={showPhoneNumberModal} onApply={(phoneNumber) => {
-            console.log(phoneNumber)
+        <PhoneNumberModal phoneNumber={phoneNumber} open={showPhoneNumberModal} onApply={(phoneNumber) => {
+            setPhoneNumber(phoneNumber)
             setShowPhoneNumberModal(false)
         }} onClose={() => {
             setShowPhoneNumberModal(false)
@@ -271,12 +287,10 @@ export default function BookingPage() {
     const $weekDayHeader = <WeekDayHeader startDate={startDate} onPrevious={() => {
         const previewStartDate = moment(startDate).subtract(4, "days")
             .toDate()
-        console.log(previewStartDate)
         setStartDate(previewStartDate)
     }} onNext={() => {
         const nextStartDate = moment(startDate).add(4, "days")
             .toDate()
-        console.log(nextStartDate)
         setStartDate(nextStartDate)
     }}/>
     const $timeslotsListView = (<Timeslots timeSlotsPerDay={timeSlots} onClick={onClickTimeSlot}/>)
@@ -297,7 +311,7 @@ export default function BookingPage() {
     )
     const $appointmentTimeInfo = (
         <div className={"w-full space-y-1"}>
-            <p className={"text-base font-semibold text-primary-focus"}>Phone number where the doctor can reach you</p>
+            <p className={"text-base font-semibold text-primary-focus"}>Appointment Time</p>
             {showTimeSlotsView ? $timeSlotsView : $selectedTimeSlot}
         </div>
     )

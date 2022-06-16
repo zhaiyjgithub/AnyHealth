@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import {Link, useLocation} from "react-router-dom";
-import {DoctorInfoContext} from "../../views/doctor/doctorInfoContext";
+import {DoctorInfoContext} from "../../views/zenClinic/doctorInfoContext";
 import {dataForSideBarRouter, RouterTable} from "../../router/routerTable"
 
 export default function SideBar() {

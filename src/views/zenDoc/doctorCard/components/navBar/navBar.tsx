@@ -15,11 +15,11 @@ export default function NavBar() {
     )
 
     const $browseButton = (
-        <button type={"button"} className={"text-sm text-base-600 font-medium border-primary-focus border-b border-dotted hover:border-solid"}>Browse</button>
+        <button type={"button"} className={"text-sm text-base-600 font-semibold border-primary-focus border-b border-dotted hover:border-solid"}>Browse</button>
     )
 
     const $listPracticeButton = (
-        <button type={"button"} className={"text-sm text-base-600 font-medium border-primary-focus border-b border-dotted hover:border-solid"}>List your practice on Zocdoc</button>
+        <button type={"button"} className={"text-sm text-base-600 font-semibold border-primary-focus border-b border-dotted hover:border-solid"}>List your practice on Zocdoc</button>
     )
 
     const $divider = (
