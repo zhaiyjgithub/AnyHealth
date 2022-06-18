@@ -10,6 +10,7 @@ import {DoctorInfo, TimeSlotPerDay} from "./model/doctor";
 import PageFooter from "./components/pageFooter/pageFooter";
 import AllAvailableTimeSlots from "./components/allAvailableTimeSlots/allAvailableTimeSlots";
 import LeafletMap, {Pin} from "../../../components/map/leafletMap";
+import moment from "moment";
 
 export default function SearchDoctor() {
     const [apptType, setApptType] = useState<AppointmentType>(AppointmentType.anyType)
@@ -77,9 +78,20 @@ export default function SearchDoctor() {
     const $navBar = (<Navbar />)
     const $filter = (<div className={"mt-4 px-6 z-30"}><Filter /></div>)
 
+    const onDispatchNextStartDate = (nextDate: Date) => {
+        dispatch({type: ActionTypeForSearchFilter.startDate, value: nextDate})
+    }
     const $weekDayStickyHeader = (
         <div className={"mt-4 sticky top-0 bg-white z-20"}>
-            <WeekDayHeader startDate={state.startDate} total={total} />
+            <WeekDayHeader startDate={state.startDate} total={total} onPrevious={() => {
+                const previewStartDate = moment(state.startDate).subtract(4, "days")
+                    .toDate()
+                onDispatchNextStartDate(previewStartDate)
+            }} onNext={() => {
+                const nextStartDate = moment(state.startDate).add(4, "days")
+                    .toDate()
+                onDispatchNextStartDate(nextStartDate)
+            }} />
         </div>
     )
 

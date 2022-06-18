@@ -23,7 +23,7 @@ export default function TimeSlotsPerDay(props: IProps) {
         }
         return 5
     }, [width])
-    
+
     const isCurrentDate = (new Date(timeSlotsPerDay[0].date)).getDate() === (new Date()).getDate()
     const $calendarNaviButton = (
         <div className={"flex flex-row items-center space-x-4"}>
@@ -54,12 +54,12 @@ export default function TimeSlotsPerDay(props: IProps) {
         return `${startDate} - ${endDate}`
     }
     const $calendarTitle = (
-        <div className={"w-full"}>
+        <div className={"w-full space-y-2"}>
             <div className={"flex flex-row items-center space-x-4"}>
                 <p className={"text-2xl font-bold text-primary-focus"}>{getCalendarTitle()}</p>
                 {$calendarNaviButton}
             </div>
-            <p className={"text-gray-400 text-sm"}>{`Choose a time with ${doctorName} that works for you`}</p>
+            <p className={"text-primary-focus  text-sm"}>{`Choose a time with ${doctorName} that works for you`}</p>
         </div>
     )
 
@@ -92,7 +92,7 @@ export default function TimeSlotsPerDay(props: IProps) {
             </div>
         )
     }
-    
+
     const $timeSlotsList = (
         <div className={"w-full h-96 bg-red overflow-y-auto mt-2 flex flex-col space-y-4"}>
             {timeSlotsPerDay.map((_item, idx) => {

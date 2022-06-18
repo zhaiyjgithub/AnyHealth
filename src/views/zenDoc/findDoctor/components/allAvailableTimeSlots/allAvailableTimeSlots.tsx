@@ -1,11 +1,11 @@
 import React from "react";
-import Modal from "../../../../../components/modal/modal";
 import Button from "../../../../../components/buttons/button";
 import {DoctorInfo, TimeSlotPerDay} from "../../model/doctor";
 import {Variant} from "../../../../../components/buttons/enum";
 import TimeSlotsPerDay from "./timeSlotsPerDay";
 import {$iconDefaultDoctor} from "../../assets/assets";
 import moment from "moment";
+import FormModal from "../../../../../components/modal/formModal";
 
 interface IProps {
     show: boolean,
@@ -17,12 +17,13 @@ interface IProps {
 
 export default function AllAvailableTimeSlots(props: IProps) {
     const { show, doctorInfo, onClose, onRequestTimeSlots, timeSlotsPerDay } = props
+
     const $closeButton = (
-        <div className={"w-full flex flex-row items-center justify-end"}>
-            <Button variant={Variant.floatIcon} onClick={() => {
+        <div className={"w-full flex flex-row justify-end mt-2"}>
+            <Button onClick={() => {
                 onClose && onClose()
-            }} >
-                <i className="text-primary-focus text-lg fas fa-times"></i>
+            }} variant={Variant.float} >
+                <i className="fas fa-times text-xl" />
             </Button>
         </div>
     )
@@ -50,7 +51,7 @@ export default function AllAvailableTimeSlots(props: IProps) {
             {$review}
         </div>
     )
-    
+
     const $basicInfo = (
         <div className={"w-full px-8 flex flex-row items-center space-x-6"}>
             {$avatar}
@@ -75,10 +76,10 @@ export default function AllAvailableTimeSlots(props: IProps) {
         <TimeSlotsPerDay timeSlotsPerDay={timeSlotsPerDay} doctorName={doctorName} onNext={onNext} onPrevious={onPrevious} />
     )
     return (
-        <Modal isOpen={show} >
+        <FormModal show={show} >
             {$closeButton}
             {$basicInfo}
             {$timeSlotsView}
-        </Modal>
+        </FormModal>
     )
 }

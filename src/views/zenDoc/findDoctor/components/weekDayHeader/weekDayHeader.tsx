@@ -5,7 +5,9 @@ import {useViewPort} from "../../../../../utils/hooks/useViewPort";
 
 interface IProps {
     total: number,
-    startDate: Date
+    startDate: Date,
+    onPrevious: () => void,
+    onNext: () => void,
 }
 
 export interface AvailableDate {
@@ -16,7 +18,7 @@ export interface AvailableDate {
 }
 
 export default function WeekDayHeader(props: IProps) {
-    const { total, startDate } = props
+    const { total, startDate, onNext, onPrevious } = props
     const { width } = useViewPort()
     const dateLength = useMemo(() => {
         if (width <= 1280) {
@@ -70,21 +72,20 @@ export default function WeekDayHeader(props: IProps) {
         )
     }
 
+    const isToday = moment().isSame(moment(startDate), "day")
     const $previous = (
-        <button type={"button"} className={"h-8 w-8 flex items-center justify-center rounded-full hover:bg-base-300"}>
-            <svg data-test="icon-arrow-left" className="w-4 h-4"
-                viewBox="0 0 26 40">
-                <polygon fill="#00234B" points="20.3,40 25.7,34.5 11.2,20 25.7,5.5 20.3,0 0.3,20"></polygon>
-            </svg>
+        <button onClick={() => {
+            !isToday && onPrevious && onPrevious()
+        }} type={"button"} className={`${isToday ? "disabled" : ""} h-8 w-8 flex items-center justify-center rounded-full`}>
+            <i className={`fas fa-chevron-left ${isToday ? "text-gray-400" : ""}`}></i>
         </button>
     )
 
     const $next = (
-        <button type={"button"} className={"h-8 w-8 flex items-center justify-center rounded-full hover:bg-base-300 transform rotate-180"}>
-            <svg data-test="icon-arrow-left" className="w-4 h-4"
-                viewBox="0 0 26 40">
-                <polygon fill="#00234B" points="20.3,40 25.7,34.5 11.2,20 25.7,5.5 20.3,0 0.3,20"></polygon>
-            </svg>
+        <button onClick={() => {
+            onNext && onNext()
+        }} type={"button"} className={"h-8 w-8 flex items-center justify-center rounded-full"}>
+            <i className="fas fa-chevron-right"></i>
         </button>
     )
 

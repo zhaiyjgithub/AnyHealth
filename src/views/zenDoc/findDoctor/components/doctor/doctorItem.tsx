@@ -26,10 +26,10 @@ export default function DoctorItem(props: IProps) {
     const $timeslotsView = (<Timeslots timeSlotsPerDay={doctorInfo.timeSlotsPerDay} onClick={onClickTimeSlot}/>)
     const $viewAllAvailability = (
         <div className={"w-full flex flex-row items-center justify-end mt-4 px-12"}>
-            <button type={"button"} className={"text-base text-blue-600 underline leading-snug"} onClick={() => {
+            <button type={"button"} className={"text-base text-blue-600 underline"} onClick={() => {
                 onViewAllAvailability && onViewAllAvailability()
             }} >
-                View all availability.
+                View all availability
             </button>
         </div>
     )
