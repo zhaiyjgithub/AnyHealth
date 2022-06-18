@@ -70,6 +70,13 @@ export default function BookingPage() {
     }
 
     useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            left: 0,
+        });
+    }, [])
+
+    useEffect(() => {
         getDoctorProfileInfo()
         getSubPatientList(false)
     }, [])
