@@ -41,7 +41,7 @@ export default function WeekDayHeader(props: IProps) {
     const $previous = (
         <button onClick={() => {
             !isToday && onPrevious && onPrevious()
-        }} type={"button"} className={`${isToday ? "disabled" : "hover:bg-base-300"} h-8 w-8 flex items-center justify-center rounded-full`}>
+        }} type={"button"} className={`${isToday ? "disabled" : ""} h-8 w-8 flex items-center justify-center rounded-full`}>
             <i className={`fas fa-chevron-left ${isToday ? "text-gray-400" : ""}`}></i>
         </button>
     )
@@ -49,7 +49,7 @@ export default function WeekDayHeader(props: IProps) {
     const $next = (
         <button onClick={() => {
             onNext && onNext()
-        }} type={"button"} className={"h-8 w-8 flex items-center justify-center rounded-full hover:bg-base-300"}>
+        }} type={"button"} className={"h-8 w-8 flex items-center justify-center rounded-full"}>
             <i className="fas fa-chevron-right"></i>
         </button>
     )

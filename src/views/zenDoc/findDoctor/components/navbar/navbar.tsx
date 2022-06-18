@@ -6,12 +6,12 @@ import useUserAuth from "../../../user/hooks/useUserAuth";
 import LoginModal from "../login/loginModal";
 
 export default function Navbar() {
-    const [showLogin, setShowLogin] = useState<boolean>(false)
+    const [show, setShow] = useState<boolean>(false)
     const useAuth = useUserAuth()
     const { user } = useAuth
     const $brand = (
-        <p className={"font-bold text-3xl text-base-content"}>
-            Zendoc
+        <p className={"font-bold text-4xl text-base-content font-playball"}>
+            ZenDoc
         </p>
     )
 
@@ -23,7 +23,7 @@ export default function Navbar() {
 
     const $login = (
         <LoginDropdown onLogin={() => {
-            setShowLogin(true)
+            setShow(true)
         }} />
     )
 
@@ -41,13 +41,13 @@ export default function Navbar() {
 
     const $info = user.firstName.length ? $userInfo : $login
     const $loginModal = (
-        <LoginModal open={showLogin} onApply={() => {
-            setShowLogin(false)
+        <LoginModal show={show} onApply={() => {
+            setShow(false)
         }} />
     )
     return (
         <div className={"w-full flex flex-row items-center justify-between px-8 py-4 bg-base-200 border"}>
-            <div className={"flex-1 flex flex-row items-center h-12 space-x-4"}>
+            <div className={"flex-1 flex flex-row items-center h-12 space-x-8"}>
                 {$brand}
                 {$searchBar}
             </div>

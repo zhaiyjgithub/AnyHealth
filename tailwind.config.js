@@ -4,6 +4,7 @@ module.exports = {
     theme: {
         fontFamily: {
             'mulish': ['Mulish', "sans-serif"],
+            'playball': ['Playball', "cursive"],
         },
         extend: {
             backgroundColor: theme => ({

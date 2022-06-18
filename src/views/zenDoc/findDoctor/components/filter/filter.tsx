@@ -24,20 +24,22 @@ export default function Filter() {
         <button onClick={(e) => {
             e.stopPropagation()
             setShowMoreFilter(true)
-        }} type={"button"} className={`z-10 relative px-4 py-2 font-medium rounded-full flex flex-row items-center border text-primary-focus text-sm leading-tight hover:bg-base-250 hover:border-primary-focus ${showMoreFilter || languages.length ? "border-primary-focus bg-base-250" : "border-base-300 bg-white"}`}>
+        }} type={"button"} className={`z-10 relative px-4 py-2 font-semibold rounded-full flex flex-row items-center border text-primary-focus text-sm leading-tight hover:bg-base-250 hover:border-primary-focus ${showMoreFilter || languages.length ? "border-primary-focus bg-base-250" : "border-base-300 bg-white"}`}>
             More filters
         </button>
     )
 
     const $modalForMoreFilter = (
-        <MoreFilter filter={moreFilter} open={showMoreFilter} onApply={(filter) => {
+        <MoreFilter filter={moreFilter} show={showMoreFilter} onApply={(filter) => {
             setMoreFilter(filter)
             setShowMoreFilter(false)
-        }} />
+        }} onClose={() => {
+            setShowMoreFilter(false)
+        }}/>
     )
 
     const $specialtyFilter = (
-        <SpecialtyFilter selectedSpecialty={state.specialty} onApply={(specialty) => {
+        <SpecialtyFilter selectedSpecialty={state.specialty} onSave={(specialty) => {
             onDispatch(ActionTypeForSearchFilter.specialty, specialty)
         }} />
     )

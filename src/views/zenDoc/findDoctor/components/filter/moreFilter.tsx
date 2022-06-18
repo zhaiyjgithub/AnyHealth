@@ -1,8 +1,8 @@
-import {Dialog, Transition} from "@headlessui/react"
-import React, {Fragment, useState} from "react"
+import React, {useState} from "react"
 import Button from "../../../../../components/buttons/button";
 import {ButtonStatus, Variant} from "../../../../../components/buttons/enum";
 import {Gender} from "../../../../../utils/enum/enum";
+import FormModal from "../../../../../components/modal/formModal";
 
 export interface DataForMoreFilter {
     gender: Gender,
@@ -10,18 +10,20 @@ export interface DataForMoreFilter {
 
 interface IProps {
     filter: DataForMoreFilter,
-    open: boolean,
+    show: boolean,
     onApply: (data: DataForMoreFilter) => void,
+    onClose: () => void
 }
 
 const dataForGender: Array<{name: string, id: Gender}> = [{name: "Male", id: Gender.Male}, {name: "No-binary", id: Gender.Trans}, {name: "Female", id: Gender.Female}]
 
 export default function MoreFilter(props: IProps) {
-    const {open, onApply} = props
+    const {show, onApply, onClose} = props
     const [filter, setFilter] = useState<DataForMoreFilter>({gender: props.filter.gender} )
 
     function closeModal() {
-        onApply && onApply(filter)
+        setFilter(props.filter)
+        onClose && onClose()
     }
 
     const $footer = (
@@ -84,51 +86,10 @@ export default function MoreFilter(props: IProps) {
     )
 
     return (
-        <>
-            <Transition appear show={open} as={Fragment}>
-                <Dialog
-                    as="div"
-                    className="fixed inset-0 z-50 overflow-y-auto"
-                    onClose={closeModal}
-                >
-                    <div className="min-h-screen px-4 text-center">
-                        <Transition.Child
-                            as={Fragment}
-                            enter="ease-out duration-300"
-                            enterFrom="opacity-0"
-                            enterTo="opacity-100"
-                            leave="ease-in duration-200"
-                            leaveFrom="opacity-100"
-                            leaveTo="opacity-0"
-                        >
-                            <Dialog.Overlay className="fixed inset-0" />
-                        </Transition.Child>
-
-                        {/* This element is to trick the browser into centering the modal contents. */}
-                        <span
-                            className="inline-block h-screen align-middle"
-                            aria-hidden="true"
-                        >
-              &#8203;
-                        </span>
-                        <Transition.Child
-                            as={Fragment}
-                            enter="ease-out duration-300"
-                            enterFrom="opacity-0 scale-95"
-                            enterTo="opacity-100 scale-100"
-                            leave="ease-in duration-200"
-                            leaveFrom="opacity-100 scale-100"
-                            leaveTo="opacity-0 scale-95"
-                        >
-                            <div className="inline-block border w-full max-w-xl my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl">
-                                {$close}
-                                {$content}
-                                {$footer}
-                            </div>
-                        </Transition.Child>
-                    </div>
-                </Dialog>
-            </Transition>
-        </>
+        <FormModal show={show} >
+            {$close}
+            {$content}
+            {$footer}
+        </FormModal>
     )
 }

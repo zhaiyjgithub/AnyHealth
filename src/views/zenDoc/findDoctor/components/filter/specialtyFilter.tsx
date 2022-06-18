@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Button from "../../../../../components/buttons/button";
 import {ButtonStatus, Variant} from "../../../../../components/buttons/enum";
 import {SpecialtyList} from "../../../../../utils/enum/specialtyList";
 
 interface IProps {
     selectedSpecialty: string,
-    onApply: (specialty: string) => void
+    onSave: (specialty: string) => void,
 }
 
 export default function SpecialtyFilter(props: IProps) {
-    const {onApply} = props
+    const {onSave} = props
     const [show, setShow] = useState<boolean>(false)
     const [selectedSpecialty, setSelectedSpecialty] = useState<string>(props.selectedSpecialty)
 
@@ -17,17 +17,11 @@ export default function SpecialtyFilter(props: IProps) {
         return selectedSpecialty === targetSpecialty
     }
 
-    useEffect(() => {
-        if (!show) {
-            onApply && onApply(selectedSpecialty)
-        }
-    }, [show])
-
     const $toggleButton = (
         <button onClick={(e) => {
             e.stopPropagation()
             setShow(!show)
-        }} type={"button"} className={`z-10 relative px-4 py-2 font-medium rounded-full flex flex-row items-center border text-primary-focus text-sm leading-tight hover:bg-base-250 hover:border-primary-focus ${show || selectedSpecialty.length ? "border-primary-focus bg-base-250" : "border-base-300 bg-white"}`}>
+        }} type={"button"} className={`z-10 relative px-4 py-2 font-semibold rounded-full flex flex-row items-center border text-sm leading-tight hover:bg-base-250 hover:border-primary-focus ${show || selectedSpecialty.length ? "border-primary-focus bg-base-250 base-content text-primary-focus" : "text-gray-400 border-base-300 bg-white"}`}>
             Specialty
         </button>
     )
@@ -35,6 +29,8 @@ export default function SpecialtyFilter(props: IProps) {
     const $bg = show ? (
         <div onClick={() => {
             setShow(false)
+            // Cancel to apply
+            setSelectedSpecialty(props.selectedSpecialty)
         }} className={"fixed inset-0 h-full w-full z-20"} />
     ) : null
 
@@ -50,11 +46,12 @@ export default function SpecialtyFilter(props: IProps) {
         <div className={"w-full flex flex-row items-center justify-end border-t px-4 py-2"}>
             <Button variant={Variant.float} onClick={() => {
                 onClear()
+                setSelectedSpecialty('')
             }} >Clear</Button>
             <Button status={ButtonStatus.primary} onClick={() => {
                 setShow(false)
+                onSave && onSave(selectedSpecialty)
             }} >Apply</Button>
-
         </div>
     )
 

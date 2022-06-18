@@ -1,19 +1,19 @@
-import {Dialog, Transition} from "@headlessui/react"
-import React, {Fragment, useState} from "react"
+import React, {useState} from "react"
 import Button from "../../../../../components/buttons/button";
 import {ButtonSize, ButtonStatus, Variant} from "../../../../../components/buttons/enum";
 import {validateEmail} from "../../../../../utils/util/commonTool";
 import useUserAuth from "../../../user/hooks/useUserAuth";
 import {useHistory} from "react-router-dom";
 import {MD5} from "crypto-js"
+import FormModal from "../../../../../components/modal/formModal";
 
 interface IProps {
-    open: boolean,
+    show: boolean,
     onApply: () => void,
 }
 
 export default function LoginModal(props: IProps) {
-    const {open, onApply} = props
+    const {show, onApply} = props
     const [email, setEmail] = useState<string>("yuanji.zhai@outlook.com")
     const [password, setPassword] = useState<string>("12345678")
     const [loginFailed, setLoginFailed] = useState<boolean>(false)
@@ -139,50 +139,9 @@ export default function LoginModal(props: IProps) {
     )
 
     return (
-        <>
-            <Transition appear show={open} as={Fragment}>
-                <Dialog
-                    as="div"
-                    className="fixed inset-0 z-50 overflow-y-auto"
-                    onClose={closeModal}
-                >
-                    <div className="min-h-screen px-4 text-center">
-                        <Transition.Child
-                            as={Fragment}
-                            // enter="ease-out duration-300"
-                            // enterFrom="opacity-0"
-                            // enterTo="opacity-60"
-                            leave="ease-in duration-200"
-                            leaveFrom="opacity-60"
-                            leaveTo="opacity-0"
-                        >
-                            <Dialog.Overlay className="fixed inset-0 bg-black transition ease-in-out opacity-60" />
-                        </Transition.Child>
-
-                        {/* This element is to trick the browser into centering the modal contents. */}
-                        <span
-                            className="inline-block h-screen align-middle"
-                            aria-hidden="true"
-                        >
-              &#8203;
-                        </span>
-                        <Transition.Child
-                            as={Fragment}
-                            enter="ease-out duration-300"
-                            enterFrom="opacity-0 scale-95"
-                            enterTo="opacity-100 scale-100"
-                            leave="ease-in duration-200"
-                            leaveFrom="opacity-100 scale-100"
-                            leaveTo="opacity-0 scale-95"
-                        >
-                            <div className="inline-block border my-8 w-max overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl">
-                                {$close}
-                                {$content}
-                            </div>
-                        </Transition.Child>
-                    </div>
-                </Dialog>
-            </Transition>
-        </>
+        <FormModal show={show} >
+            {$close}
+            {$content}
+        </FormModal>
     )
 }

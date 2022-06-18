@@ -19,7 +19,7 @@ const initialState: SearchFilter = {
     keyword: "",
     appointmentType: AppointmentType.anyType,
     startDate: new Date(),
-    endDate: null,
+    endDate: undefined,
     specialty: "",
     gender: Gender.Trans,
     zip: "",
@@ -63,7 +63,7 @@ function reducer(state : SearchFilter, actions: ActionForFilter) {
             ...state,
             distance: value,
         }
-    case ActionTypeForSearchFilter.moreFilter: 
+    case ActionTypeForSearchFilter.moreFilter:
         return {
             ...state,
             gender: value?.gender,
@@ -86,14 +86,14 @@ function reducer(state : SearchFilter, actions: ActionForFilter) {
     default:
         return state
     }
-        
+
 }
 
 export const SearchFilterContext = createContext<{
     state: SearchFilter,
     dispatch: Dispatch<ActionForFilter>
 }>({
-    state: initialState, 
+    state: initialState,
     dispatch: () => null,
 })
 

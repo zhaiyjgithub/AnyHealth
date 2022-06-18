@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Button from "../../../../../components/buttons/button";
 import {ButtonStatus, Variant} from "../../../../../components/buttons/enum";
 
 interface IProps {
-    distance: number | null,
-    onApply: (distance: number | null) => void
+    distance: number,
+    onApply: (distance: number) => void
 }
 
 const dataSource: Array<{title: string, distance: number}> = [
@@ -19,19 +19,13 @@ const dataSource: Array<{title: string, distance: number}> = [
 export default function DistanceFilter(props: IProps) {
     const {onApply} = props
     const [show, setShow] = useState<boolean>(false)
-    const [distance, setDistance] = useState<number | null>(props.distance)
+    const [distance, setDistance] = useState<number>(props.distance)
 
-    useEffect(() => {
-        if (!show) {
-            onApply && onApply(distance)
-        }
-    }, [show])
-    
     const $toggleButton = (
         <button onClick={(e) => {
             e.stopPropagation()
             setShow(!show)
-        }} type={"button"} className={`z-10 relative px-4 py-2 font-medium rounded-full flex flex-row items-center border text-primary-focus text-sm leading-tight hover:bg-base-250 hover:border-primary-focus ${show || distance !== 1000 ? "border-primary-focus bg-base-250" : "border-base-300 bg-white"}`}>
+        }} type={"button"} className={`z-10 relative px-4 py-2 font-semibold rounded-full flex flex-row items-center border text-sm leading-tight hover:bg-base-250 hover:border-primary-focus ${show || distance !== 1000 ? "border-primary-focus bg-base-250 text-primary-focus" : "text-gray-400 border-base-300 bg-white"}`}>
             Distance
         </button>
     )
@@ -39,20 +33,23 @@ export default function DistanceFilter(props: IProps) {
     const $bg = show ? (
         <div onClick={() => {
             setShow(false)
+            setDistance(props.distance)
         }} className={"fixed inset-0 h-full w-full z-20"} />
     ) : null
 
     const onClear = () => {
-        setDistance(null)
+        setDistance(1000)
     }
 
     const $footer = (
         <div className={"w-full flex flex-row items-center justify-end border-t px-4 py-2"}>
             <Button variant={Variant.float} onClick={() => {
                 onClear()
+                setDistance(1000)
             }} >Clear</Button>
             <Button status={ButtonStatus.primary} onClick={() => {
                 setShow(false)
+                onApply && onApply(distance)
             }}>Apply</Button>
         </div>
     )

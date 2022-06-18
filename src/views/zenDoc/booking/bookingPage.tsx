@@ -143,7 +143,7 @@ export default function BookingPage() {
     const $doctorBasicInfo = (
         <div className={"w-full bg-white flex flex-row justify-center border-b"}>
             <div className={"w-full max-w-md flex flex-row items-center text-left py-6 "}>
-                <div className={"w-full flex flex-row items-center space-x-2"}>
+                <div className={"w-full flex flex-row items-center space-x-4"}>
                     {$avatar}
                     {$info}
                 </div>
@@ -277,7 +277,6 @@ export default function BookingPage() {
     )
 
     const onClickTimeSlot = (timeSlot: TimeSlot) => {
-        console.log(timeSlot)
         setShowTimeSlotsView(false)
         const [week, month, day] = formatDateToWeekMonthDayTuple(new Date(timeSlot.date))
         const dateTime = timeSlot.dateTime

@@ -69,7 +69,7 @@ export default function PhoneNumberModal(props: IProps) {
         setTimeout(() => {
             setIsValid(false)
             setPhoneNumber("")
-        }, 1000)
+        }, 400)
     }
 
     return (

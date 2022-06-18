@@ -35,6 +35,14 @@ export default function DoctorCard() {
         }
     }, [])
 
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth",
+        });
+    }, [])
+
     const $previewPhotosButton = (
         <button type={"button"} className={"text-lg max-w-max text-blue-600 font-medium border-blue-600 border-b border-dotted hover:border-solid"}>7 Photos</button>
     )

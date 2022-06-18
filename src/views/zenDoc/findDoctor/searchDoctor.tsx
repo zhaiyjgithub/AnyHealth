@@ -48,28 +48,28 @@ export default function SearchDoctor() {
     const onDispatchApptType = (apptType: AppointmentType) => {
         dispatch({type: ActionTypeForSearchFilter.apptType, value: apptType})
     }
-    const $apptTab = (
+    const $appointmentTypeTabList = (
         <div className={"flex fle-row items-center space-x-6 mt-6 px-6"}>
             <button onClick={() => {
                 onChangeApptType(AppointmentType.anyType)
                 onDispatchApptType(AppointmentType.anyType)
-            }} type={"button"} className={`inline-block py-2 text-primary-focus hover:text-gray-400 text-base font-medium border-b-2 ${apptType === AppointmentType.anyType ? "border-primary-focus" : "border-transparent"}`}>
+            }} type={"button"} className={`inline-block font-semibold py-1 text-primary-focus hover:text-gray-400 text-base font-medium border-b-2 ${apptType === AppointmentType.anyType ? "border-primary-focus" : "border-transparent"}`}>
                 All appointments
             </button>
             <button onClick={() => {
                 onChangeApptType(AppointmentType.inClinic)
                 onDispatchApptType(AppointmentType.inClinic)
-            }} type={"button"} className={`inline-block py-2 text-primary-focus hover:text-gray-400 text-base font-medium border-b-2 ${apptType === AppointmentType.inClinic ? "border-primary-focus" : "border-transparent"}`}>
+            }} type={"button"} className={`inline-block font-semibold py-2 text-primary-focus hover:text-gray-400 text-base font-medium border-b-2 ${apptType === AppointmentType.inClinic ? "border-primary-focus" : "border-transparent"}`}>
                 In-person
             </button>
             <div className={"flex flex-row items-center space-x-2"}>
                 <button onClick={() => {
                     onChangeApptType(AppointmentType.virtual)
                     onDispatchApptType(AppointmentType.virtual)
-                }} type={"button"} className={`inline-flex flex-row items-center space-x-2 py-2 text-primary-focus hover:text-gray-400 text-base font-medium border-b-2 ${apptType === AppointmentType.virtual ? "border-primary-focus" : "border-transparent"}`}>
+                }} type={"button"} className={`inline-flex font-semibold flex-row items-center space-x-2 py-2 text-primary-focus hover:text-gray-400 text-base font-medium border-b-2 ${apptType === AppointmentType.virtual ? "border-primary-focus" : "border-transparent"}`}>
                     <p>Video visit</p>
                 </button>
-                <p className={"text-sm text-white px-1 bg-pink-500 italic uppercase rounded"}>New</p>
+                <p className={"text-xs text-white px-2 py-1 bg-pink-500 italic uppercase rounded"}>New</p>
             </div>
         </div>
     )
@@ -129,7 +129,7 @@ export default function SearchDoctor() {
     const $content = (
         <div className={"w-full flex flex-row"}>
             <div className={"w-full xl:w-2/3 md:border-l md:border-r flex flex-col flex-1"}>
-                {$apptTab}
+                {$appointmentTypeTabList}
                 {$filter}
                 {$weekDayStickyHeader}
                 {$resultList}
