@@ -1,10 +1,10 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-    purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
-    darkMode: false,
+    content: ["./src/**/*.{html,js,ts,tsx}"],
     theme: {
         fontFamily: {
-            'mulish': ['Mulish', "sans-serif"],
-            'playball': ['Playball', "cursive"],
+            "mulish": ["Mulish", "sans-serif"],
+            "playball": ["Playball", "cursive"],
         },
         extend: {
             backgroundColor: theme => ({
@@ -71,12 +71,6 @@ module.exports = {
                 "base-300": "#d1d5db",
                 "focus": "#343D4E",
             }),
-        },
-    },
-    variants: {
-        extend: {
-            borderStyle: ["hover"],
-            fontsize: ["hover"],
         },
     },
     plugins: [
