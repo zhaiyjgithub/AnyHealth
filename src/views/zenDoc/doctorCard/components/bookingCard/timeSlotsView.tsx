@@ -30,7 +30,7 @@ export default function TimeSlotsView(props: IProps) {
 
     const dateLength = useMemo(() => {
         if (width <= 1280) {
-            return 3
+            return 2
         } else if (width <= 1536) {
             return 4
         }

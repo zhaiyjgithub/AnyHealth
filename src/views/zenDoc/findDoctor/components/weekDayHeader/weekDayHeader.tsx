@@ -22,7 +22,7 @@ export default function WeekDayHeader(props: IProps) {
     const { width } = useViewPort()
     const dateLength = useMemo(() => {
         if (width <= 1280) {
-            return 3
+            return 2
         } else if (width <= 1536) {
             return 4
         }
@@ -65,7 +65,7 @@ export default function WeekDayHeader(props: IProps) {
 
     const $day = (date: AvailableDate, idx: number) => {
         return (
-            <div key={idx} className={"w-full flex flex-col items-center justify-center"}>
+            <div key={idx} className={"flex flex-col items-center justify-center"}>
                 <p className={"text-sm text-primary-focus font-medium text-center"}>{date.weekDay}</p>
                 <p className={"text-base text-primary-focus font-bold text-center"}>{`${date.month} ${date.day}`}</p>
             </div>
@@ -89,9 +89,10 @@ export default function WeekDayHeader(props: IProps) {
         </button>
     )
 
+    console.log("data length", data.length, dateLength)
     const $weekDays = () => {
         return (
-            <div className={`flex flex-1 grid grid-cols-${dateLength}`}>
+            <div className={`flex-1 grid grid-cols-${dateLength}`}>
                 {data.map((availableDate, idx) => {
                     return $day(availableDate, idx)
                 })}
