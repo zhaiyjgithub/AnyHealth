@@ -14,7 +14,7 @@ export default function FormRadio(props:IProps) {
             <input onClick={() => {
                 onChange && onChange()
             }} type="radio" checked={checked} className="form-radio w-4 h-4 active:border" />
-            <p className={`text-sm ${titleClassName}`}>{title}</p>
+            <p className={`text-base font-medium ${titleClassName}`}>{title}</p>
         </label>
     )
 }

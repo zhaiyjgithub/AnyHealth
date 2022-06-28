@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import GeneralProfile from "./general/GeneralProfile";
+import GeneralProfile from "./general/generalProfile";
 import CustomProfile from "./custom/customProfile";
 import Tab from "../../../components/tab/tab";
 

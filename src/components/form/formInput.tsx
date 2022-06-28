@@ -24,9 +24,10 @@ export default function FormInput (props: IProps) {
 
     return (
         <div>
-            <p className={"inline-block mb-1 text-sm text-base-content font-medium"}>{title}</p>
+            <label className={'block text-base font-medium text-base-content'}>{title}</label>
             <input value={value} placeholder={placeholder} disabled={disabled} type={type} onChange={(e) => {
                 onChangeText && onChangeText(e.target.value)
-            }} className={"w-full block px-3 py-1.5 text-sm font-medium text-base-content bg-white border border-slate-300 transition ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-focus active:ring-2 active:ring-focus"}/>
+            }} className={"mt-1 w-full px-2 py-3 text-sm font-medium text-primary-focus border border-gray-300 transition ease-in-out "}
+            />
         </div>)
 }

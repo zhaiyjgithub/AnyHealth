@@ -3,7 +3,7 @@ import NavBar from "./components/navBar/navBar";
 import {$iconDefaultDoctor} from "../findDoctor/assets/assets";
 import {useLocation} from "react-router-dom";
 import qs from "qs";
-import {DoctorProfile, getDoctorProfile} from "../../zenClinic/profile/general/GeneralProfileService";
+import {DoctorProfile, getDoctorProfile} from "../../zenClinic/profile/general/generalProfileService";
 import {AppointmentType} from "../../../utils/enum/enum";
 import {formatDateToWeekMonthDayTuple} from "../../../utils/util/dateTool";
 import {parseTimeOffset} from "../findDoctor/service/searchDoctorService";

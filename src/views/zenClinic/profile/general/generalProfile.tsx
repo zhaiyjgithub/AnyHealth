@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react"
-import {DoctorProfile, getDoctorProfile, saveDoctorProfile} from "./GeneralProfileService";
+import {DoctorProfile, getDoctorProfile, saveDoctorProfile} from "./generalProfileService";
 import FormInput from "../../../../components/form/formInput";
 import FormRadio from "../../../../components/form/formRadio";
 import {DoctorInfoContext} from "../../doctorInfoContext";
@@ -26,10 +26,10 @@ export default function GeneralProfile() {
         saveDoctorProfile(profile, () => {
             alert("save success")
         })
-       
+
     }
 
-    const $doctorName = (<div className={"grid grid-flow-col auto-cols-max gap-x-4"}>
+    const $doctorName = (<div className={"grid grid-flow-col auto-cols-max gap-x-8"}>
         <FormInput title={"First Name"} placeholder={"First Name"} value={doctorProfile.firstName} onChangeText={(text) => {
             setDoctorProfile({
                 ...doctorProfile,
@@ -54,8 +54,8 @@ export default function GeneralProfile() {
 
     const $gender = (
         <div>
-            <p className={"inline-block mb-1 text-sm text-base-content font-medium"}>Gender</p>
-            <div className={"flex flex-row items-center space-x-4"}>
+            <label className={"inline-block text-base text-base-content font-medium"}>Gender</label>
+            <div className={"mt-1 flex flex-row items-center space-x-4"}>
                 <FormRadio title={"Female"} checked={doctorProfile.gender === Gender.Female} onChange={() => {
                     setDoctorProfile({
                         ...doctorProfile,
@@ -81,7 +81,7 @@ export default function GeneralProfile() {
     )
 
     const $specialty = (
-        <div className={"w-full grid grid-cols-2 gap-x-4"}>
+        <div className={"w-full grid grid-cols-2 gap-x-8"}>
             <FormInput title={"Specialty"} value={doctorProfile.specialty} placeholder={"Specialty"} onChangeText={(text) => {
                 setDoctorProfile({
                     ...doctorProfile,
@@ -108,7 +108,7 @@ export default function GeneralProfile() {
     // )
 
     const $contact = (
-        <div className={"w-full grid grid-cols-2 gap-x-4"}>
+        <div className={"w-full grid grid-cols-2 gap-x-8"}>
             <FormInput title={"Phone Number"} value={doctorProfile.phone} placeholder={"Phone Number"} onChangeText={(text) => {
                 setDoctorProfile({
                     ...doctorProfile,
@@ -126,7 +126,7 @@ export default function GeneralProfile() {
     )
 
     const $jobDescription = (
-        <div className={"w-full grid grid-cols-2 gap-x-4"}>
+        <div className={"w-full grid grid-cols-2 gap-x-8"}>
             <FormInput title={"Job Title"} value={doctorProfile.credential} placeholder={"Job Title"} onChangeText={(text) => {
                 setDoctorProfile({
                     ...doctorProfile,
@@ -143,7 +143,7 @@ export default function GeneralProfile() {
         </div>
     )
 
-    const $locationInfo = (<div className={"grid grid-flow-col auto-cols-max gap-x-4"}>
+    const $locationInfo = (<div className={"grid grid-flow-col auto-cols-max gap-x-8"}>
         <FormInput title={"City"} placeholder={"City"} value={doctorProfile.city} onChangeText={(text) => {
             setDoctorProfile({
                 ...doctorProfile,
@@ -177,8 +177,8 @@ export default function GeneralProfile() {
 
     const $profile = (
         <div className="w-full">
-            <p className={"inline-block mb-1 text-sm text-base-content font-medium"}>My Bio</p>
-            <textarea className="h-24 w-full block px-3 py-1.5 text-sm font-medium text-base-content bg-white border border-slate-300 transition ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-focus active:ring-2 active:ring-focus" placeholder="Bio" />
+            <label className={"block text-base text-base-content font-semibold"}>My Bio</label>
+            <textarea className="h-48 mt-1 w-full px-2 py-3 text-base font-medium text-base-content bg-white border border-slate-300 transition ease-in-out focus:border-transparent focus:outline-none focus:ring-2 focus:ring-focus active:ring-2 active:ring-focus" placeholder="Bio" />
         </div>
     )
 
