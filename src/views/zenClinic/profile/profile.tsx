@@ -26,7 +26,7 @@ export default function Profile() {
     const $content = tab === dataForTab[0] ? $general : $custom
 
     return (
-        <div className={"w-full flex-1 bg-base-100 pt-2"}>
+        <div className={"w-full flex-1 bg-base-100"}>
             {$tab}
             {$content}
         </div>

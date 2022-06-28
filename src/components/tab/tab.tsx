@@ -9,19 +9,19 @@ interface IProps {
 export default function Tab(props: IProps) {
     const {data, selected, onChange} = props
     return (
-        <ul className={"flex flex-row items-center"}>
-            {data.map((title, idx) => {
-                const isSelected = selected === title 
-                return (
-                    <li key={idx}>
-                        <button type={"button"} onClick={() => {
+        <div className={"w-full border-b"}>
+            <div className={`max-w-max grid grid-cols-${data.length}`}>
+                {data.map((title, idx) => {
+                    const isSelected = selected === title
+                    return (
+                        <button key={idx} type={"button"} onClick={() => {
                             onChange && onChange(title)
-                        }} className={`inline-block font-semibold text-sm py-4 px-8 border-b-4 border-transparent hover:bg-gray-200 ${isSelected ? "text-primary-focus border-primary-focus" : "text-gray-400"}`}>
+                        }} className={`border-b-2 inline-block font-semibold text-sm py-4 px-8 hover:text-primary-focus ${isSelected ? "text-primary-focus border-primary-focus" : "text-gray-400 border-transparent"}`}>
                             {title}
                         </button>
-                    </li>
-                )
-            })}
-        </ul>
+                    )
+                })}
+            </div>
+        </div>
     )
 }

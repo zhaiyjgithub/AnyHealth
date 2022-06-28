@@ -21,9 +21,9 @@ export default function SideBar() {
     const $link = ({name, path}: RouterTable, idx: number) => {
         const isActive = isActiveRoute(path)
         return (
-            <li key={idx} className={"w-full flex flex-row items-center my-2 px-4 "}>
+            <li key={idx} className={"w-full flex flex-row items-center px-4 "}>
                 <Link
-                    className={`${isActive ? " bg-primary hover:bg-primary" : "hover:bg-gray-200"} text-primary-focus text-sm font-semibold uppercase py-2 block px-4 w-full`}
+                    className={`${isActive ? " bg-primary hover:bg-primary" : "hover:bg-gray-200"} text-primary-focus text-sm font-semibold py-4 block px-4 w-full`}
                     to={path}
                 >
                     <i className={`${icons[idx]} mr-2 text-md`}></i> {name}
@@ -33,7 +33,7 @@ export default function SideBar() {
     }
 
     const $links = (
-        <ul className={"w-full"}>
+        <ul className={"w-full mt-2"}>
             {dataForSideBarRouter.map((route, idx) => {
                 return $link(route, idx)
             })}
@@ -41,16 +41,14 @@ export default function SideBar() {
     )
 
     const $doctorInfo = (
-        <div className={"mt-4 flex flex-col justify-center items-center"}>
-            <div className="avatar">
-                <div className="rounded-full w-24 h-24 ring ring-primary ring-offset-base-100 ring-offset-2">
-                    <img src="http://daisyui.com/tailwind-css-component-profile-1@94w.png" alt={""} />
-                </div>
+        <div className={"mt-4 w-full flex flex-col justify-center items-center"}>
+            <div className="rounded-full overflow-hidden w-16 h-16 ring ring-primary ring-offset-base-100 ring-offset-2">
+                <img src="http://daisyui.com/tailwind-css-component-profile-1@94w.png" alt={""} />
             </div>
-            <p className={"py-4 border-b border-base-300 font-semibold text-base px-4 text-base-content"}>{doctorName}</p>
+            <p className={"py-4 border-b border-base-300 font-semibold text-base px-4 text-base-content font-playball"}>{doctorName}</p>
         </div>
     )
-    return <div className={"w-60 border-r border-base-300 bg-base-100 flex-none"}>
+    return <div className={"w-full flex-none"}>
         {$doctorInfo}
         {$links}
     </div>

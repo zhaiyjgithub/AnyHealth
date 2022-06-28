@@ -7,7 +7,7 @@ const dataForTab = ["Working Hour", "Closed Date", "Others"]
 
 export default function Settings() {
     const [tab, setTab] = useState<string>(dataForTab[0])
-    
+
     const onChangeTab = (tab: string) => {
         setTab(tab)
     }
@@ -27,7 +27,7 @@ export default function Settings() {
     const $content = tab === "Working Hour" ? $workingHour : $closedDate
 
     return (
-        <div className={"w-full flex-1 bg-base-100 pt-2"}>
+        <div className={"w-full flex-1 bg-base-100"}>
             {$tab}
             {$content}
         </div>
