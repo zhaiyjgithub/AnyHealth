@@ -50,7 +50,7 @@ export default function SideBar() {
             <p className={"py-4 border-b border-base-300 font-semibold text-base px-4 text-base-content"}>{doctorName}</p>
         </div>
     )
-    return <div className={"w-60 border-r border-base-300 fixed left-0 top-0 bottom-0 bg-base-100 flex-none"}>
+    return <div className={"w-60 border-r border-base-300 bg-base-100 flex-none"}>
         {$doctorInfo}
         {$links}
     </div>

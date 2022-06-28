@@ -15,8 +15,10 @@ export default function DoctorAdmin() {
         <HashRouter>
             <DoctorInfoContext.Provider value={doctorInfo}>
                 <div className={"w-full min-h-screen bg-base-100 flex flex-row"}>
-                    <SideBar />
-                    <div className={"ml-60 flex-1"}>
+                    <div className={"h-screen border-r w-60 sticky top-0"}>
+                        <SideBar />
+                    </div>
+                    <div className={"flex-1"}>
                         <AdminNavBar />
                         <Switch>
                             <Route path={dataForSideBarRouter[0].path} component={Dashboard}/>
