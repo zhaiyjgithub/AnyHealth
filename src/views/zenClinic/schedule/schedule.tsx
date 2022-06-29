@@ -1,16 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
+import Calendar from "../../../components/calendar/calendar";
+import moment from "moment";
+import {TimeFormat} from "../../../utils/enum/enum";
 
 export default function Schedule() {
-    const $tab = (
-        <div className="tabs">
-            <a className="tab tab-lg tab-lifted">Large</a>
-            <a className="tab tab-lg tab-lifted tab-active">Large</a>
-            <a className="tab tab-lg tab-lifted">Large</a>
-        </div>
-    )
+    const [selectedDate, setSelectedDate] = useState<string>(moment().format(TimeFormat.YYYYMMDD))
+    const onChangeDate = (date: string) => {
+        setSelectedDate(date)
+    }
     return (
-        <div className={'w-full flex-1 '}>
-            {$tab}
+        <div className={"w-full flex-1"}>
+            <Calendar selectedDate={selectedDate} onChangeDate={onChangeDate}/>
         </div>
     )
 }
