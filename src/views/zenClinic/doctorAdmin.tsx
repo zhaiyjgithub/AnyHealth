@@ -7,7 +7,6 @@ import Dashboard from "./dashboard/dashboard";
 import Schedule from "./schedule/schedule";
 import Profile from "./profile/profile";
 import Settings from "./settings/settings"
-import AdminNavBar from "../../components/navBar/adminNavBar";
 
 export default function DoctorAdmin() {
     const [doctorInfo] = useState<IDoctorInfoContext>(defaultDoctorInfo)
@@ -19,7 +18,6 @@ export default function DoctorAdmin() {
                         <SideBar />
                     </div>
                     <div className={"flex-1"}>
-                        <AdminNavBar />
                         <Switch>
                             <Route path={dataForSideBarRouter[0].path} component={Dashboard}/>
                             <Route path={dataForSideBarRouter[1].path} component={Schedule}/>

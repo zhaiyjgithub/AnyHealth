@@ -68,9 +68,9 @@ export default function Dropdown(props: IProps) {
         </div>
     ) : null
 
-    const $title = (
+    const $title = title.length ? (
         <p className={"text-base font-semibold text-primary-focus"}>{title}</p>
-    )
+    ) : null
     return (
         <div className={"relative w-full"}>
             {$title}
