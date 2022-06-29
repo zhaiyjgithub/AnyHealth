@@ -1,7 +1,7 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import WeekRow from "./weekRow";
 import moment from "moment";
-import {MonthShort} from "../../utils/enum/enum";
+import {MonthShort, TimeFormat} from "../../utils/enum/enum";
 
 interface IProps {
     selectedDate: string,
@@ -10,7 +10,7 @@ interface IProps {
 }
 
 export default function Calendar(props: IProps) {
-    const {selectedDate, onChangeDate, pointOutDate = new Set()} = props
+    const {selectedDate, onChangeDate, pointOutDate} = props
     const [activeYear, setActiveYear] = useState<number>(moment().year())
     const [activeMonth, setActiveMonth] = useState<number>(moment().month())
     const weekDays = ["S", "M", "T", "W", "T", "F", "S"]
@@ -25,6 +25,14 @@ export default function Calendar(props: IProps) {
             })}
         </div>
     )
+
+    useEffect(() => {
+        const m = moment(selectedDate, TimeFormat.YYYYMMDD)
+        if (m.year() !== activeYear || m.month() !== activeMonth) {
+            setActiveYear(m.year())
+            setActiveMonth(m.month())
+        }
+    }, [selectedDate])
 
     const m = moment([activeYear, activeMonth, 1])
     const firstDayInWeekDay = m.day()
@@ -79,7 +87,7 @@ export default function Calendar(props: IProps) {
     return (
         <div className={"shadow shadow-lg max-w-max p-4 space-y-8"}>
             {$titleView}
-            <div className={"space-y-4 max-w-max"}>
+            <div className={"space-y-2 max-w-max"}>
                 {$weekDayView}
                 {$daysView()}
             </div>

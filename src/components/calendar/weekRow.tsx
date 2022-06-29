@@ -10,11 +10,11 @@ interface IProps {
     activeYear: number,
     selectedDate: string,
     onChangeDate: (date: string) => void,
-    pointOutDate: Set<string>
+    pointOutDate?: Set<string>
 }
 
 export default function WeekRow(props: IProps) {
-    const {row, firstDayInWeekDay, activeMonth, activeYear, selectedDate, onChangeDate, pointOutDate = new Set()} = props
+    const {row, firstDayInWeekDay, activeMonth, activeYear, selectedDate, onChangeDate, pointOutDate} = props
     // row = 0
     let list: Array<{
         date: string,
@@ -31,7 +31,7 @@ export default function WeekRow(props: IProps) {
                     isOutOfMonth: true,
                     date: date,
                     isSelected: date === selectedDate,
-                    showPoint: pointOutDate.has(date),
+                    showPoint: pointOutDate !== undefined && pointOutDate.has(date),
                 })
             } else {
                 const date = moment([activeYear, activeMonth, 1]).add(i - firstDayInWeekDay, "days")
@@ -40,7 +40,7 @@ export default function WeekRow(props: IProps) {
                     isOutOfMonth: false,
                     date: date,
                     isSelected: date === selectedDate,
-                    showPoint: pointOutDate.has(date),
+                    showPoint: pointOutDate !== undefined && pointOutDate.has(date),
                 })
             }
         }
@@ -55,14 +55,14 @@ export default function WeekRow(props: IProps) {
                     isOutOfMonth: false,
                     date: date,
                     isSelected: date === selectedDate,
-                    showPoint: pointOutDate.has(date),
+                    showPoint: pointOutDate !== undefined && pointOutDate.has(date),
                 })
             } else {
                 list.push({
                     isOutOfMonth: true,
                     date: date,
                     isSelected: date === selectedDate,
-                    showPoint: pointOutDate.has(date),
+                    showPoint: pointOutDate !== undefined && pointOutDate.has(date),
                 })
             }
         }
