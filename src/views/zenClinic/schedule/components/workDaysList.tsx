@@ -49,7 +49,7 @@ export default function WorkDaysList(props: IProps) {
             })
         }
         return list
-    }, [activeDate])
+    }, [activeDate, selectedDate])
     const $list = (
         <div className={'flex-1 flex flex-row items-center justify-between'}>
             {

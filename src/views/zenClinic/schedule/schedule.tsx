@@ -1,8 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import MonthDropdown from "./components/monthDropdown";
 import WorkDaysList from "./components/workDaysList";
+import moment from "moment";
+import {TimeFormat} from "../../../utils/enum/enum";
+import DailyAppointmentList from "./components/dailyAppointment/dailyAppointmentList";
+import {Appointment} from "./components/types";
 
 export default function Schedule() {
+    const [selectedDate, setSelectedDate] = useState<string>(moment().format(TimeFormat.YYYYMMDD))
     const $monthDropdown = (
         <MonthDropdown onChange={(idx) => {
             console.log(idx)
@@ -15,8 +20,8 @@ export default function Schedule() {
         </p>
     )
     const $workdayList = (
-        <WorkDaysList selectedDate={"2022-06-29"} onChangeDate={(date) => {
-            console.log(date)
+        <WorkDaysList selectedDate={selectedDate} onChangeDate={(date) => {
+            setSelectedDate(date)
         }} />
     )
 
@@ -34,9 +39,50 @@ export default function Schedule() {
         </div>
     )
 
+    const data: Array<Appointment> = [
+        {
+            firstName: "Hello",
+            appointmentDateTime: "2022-07-03T09:15:00.00Z",
+        },
+        {
+            firstName: "Hello",
+            appointmentDateTime: "2022-07-03T09:15:00.00Z",
+        },
+        {
+            firstName: "Hello",
+            appointmentDateTime: "2022-07-03T09:15:00.00Z",
+        },
+        {
+            firstName: "Hello",
+            appointmentDateTime: "2022-07-03T10:00:00.00Z",
+        },
+        {
+            firstName: "Hello",
+            appointmentDateTime: "2022-07-03T10:15:00.00Z",
+        },
+        {
+            firstName: "Hello",
+            appointmentDateTime: "2022-07-03T10:15:00.00Z",
+        },
+        {
+            firstName: "Hello",
+            appointmentDateTime: "2022-07-03T14:15:00.00Z",
+        },
+        {
+            firstName: "Hello",
+            appointmentDateTime: "2022-07-03T16:15:00.00Z",
+        },
+    ]
     return (
         <div className={"w-full flex-1"}>
             {$navBar}
+            <DailyAppointmentList
+                selectedDate={"2022-07-03"}
+                workStartDateTime={"09:00"}
+                workEndDateTime={"17:00"}
+                interval={15}
+                numberPerSlot={3}
+                dataForAppointments={data} />
         </div>
     )
 }
