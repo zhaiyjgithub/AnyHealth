@@ -22,7 +22,7 @@ export default function WeekDayHeader(props: IProps) {
     const { width } = useViewPort()
     const dateLength = useMemo(() => {
         if (width <= 1280) {
-            return 2
+            return 3
         } else if (width <= 1536) {
             return 4
         }
