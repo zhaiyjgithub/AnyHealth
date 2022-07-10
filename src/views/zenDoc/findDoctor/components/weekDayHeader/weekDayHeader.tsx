@@ -89,10 +89,9 @@ export default function WeekDayHeader(props: IProps) {
         </button>
     )
 
-    console.log("data length", data.length, dateLength)
     const $weekDays = () => {
         return (
-            <div className={`flex-1 grid grid-cols-${dateLength}`}>
+            <div className={`flex-1 grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5`}>
                 {data.map((availableDate, idx) => {
                     return $day(availableDate, idx)
                 })}

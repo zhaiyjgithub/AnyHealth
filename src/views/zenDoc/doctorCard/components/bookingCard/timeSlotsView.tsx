@@ -85,7 +85,7 @@ export default function TimeSlotsView(props: IProps) {
 
     const $weekDays = () => {
         return (
-            <div className={`flex flex-1 grid grid-cols-${dateLength}`}>
+            <div className={`flex-1 grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5`}>
                 {data.map((availableDate, idx) => {
                     return $day(availableDate, idx)
                 })}
