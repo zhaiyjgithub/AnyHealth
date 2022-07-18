@@ -42,34 +42,42 @@ export default function Schedule() {
     const data: Array<Appointment> = [
         {
             firstName: "Hello",
+            lastName: "Hello",
             appointmentDateTime: "2022-07-03T09:15:00.00Z",
         },
         {
             firstName: "Hello",
+            lastName: "Hello",
             appointmentDateTime: "2022-07-03T09:15:00.00Z",
         },
         {
             firstName: "Hello",
+            lastName: "Hello",
             appointmentDateTime: "2022-07-03T09:15:00.00Z",
         },
         {
             firstName: "Hello",
+            lastName: "Hello",
             appointmentDateTime: "2022-07-03T10:00:00.00Z",
         },
         {
             firstName: "Hello",
+            lastName: "Hello",
             appointmentDateTime: "2022-07-03T10:15:00.00Z",
         },
         {
             firstName: "Hello",
+            lastName: "Hello",
             appointmentDateTime: "2022-07-03T10:15:00.00Z",
         },
         {
             firstName: "Hello",
+            lastName: "Hello",
             appointmentDateTime: "2022-07-03T14:15:00.00Z",
         },
         {
             firstName: "Hello",
+            lastName: "Hello",
             appointmentDateTime: "2022-07-03T16:15:00.00Z",
         },
     ]

@@ -2,6 +2,7 @@ import React, {useMemo} from "react";
 import {Appointment} from "../types";
 import moment from "moment";
 import {TimeFormat} from "../../../../../utils/enum/enum";
+import AppointmentRow from "./appointmentRow";
 
 interface IProps {
     selectedDate: string
@@ -19,7 +20,6 @@ export default function DailyAppointmentList(props: IProps) {
     const mWorkStartDateOffset = mWorkStartDateTime.hours() * 60 + mWorkStartDateTime.minutes()
     const rows = mWorkEndDateTime.diff(mWorkStartDateTime, 'minutes') / interval
     const minNumberOfPerSlot = numberPerSlot >= 3 ? numberPerSlot : 3
-    console.log(minNumberOfPerSlot)
     const section = useMemo(() => {
         let data: Appointment[][] = []
         for (let row = 0; row < rows; row ++) {
@@ -29,18 +29,22 @@ export default function DailyAppointmentList(props: IProps) {
         dataForAppointments.forEach((appointment) => {
             const mAppointmentDate = moment.utc(appointment.appointmentDateTime)
             console.log(mAppointmentDate.hours(), mAppointmentDate.minutes())
-            let offset = mAppointmentDate.hours() * 60 + mAppointmentDate.minutes()
-            let targetIndex = parseInt(((offset - mWorkStartDateOffset) / interval).toString(), 10)
+            const offset = mAppointmentDate.hours() * 60 + mAppointmentDate.minutes()
+            const targetIndex = parseInt(((offset - mWorkStartDateOffset) / interval).toString(), 10)
             console.log(targetIndex)
             data[targetIndex].push(appointment)
         })
         return data
     }, [selectedDate])
-    console.log(section)
 
+    const $sectionList = (section.map((rows:Appointment[], idx) => {
+        return (
+            <AppointmentRow key={idx} numberPerSlots={minNumberOfPerSlot} data={rows} />
+        )
+    }))
     return (
-        <div className={"w-full grid grid-rows-10"}>
-
+        <div className={"w-full grid gap-y-2 grid-rows-10"}>
+            {$sectionList}
         </div>
     )
 }
