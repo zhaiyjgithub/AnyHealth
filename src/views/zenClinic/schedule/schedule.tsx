@@ -26,7 +26,7 @@ export default function Schedule() {
     )
 
     const $navBar = (
-        <div className={"bg-base-200 border-b sticky top-0 w-full py-4 px-8 space-y-2"}>
+        <div className={"z-50 bg-base-200 border-b sticky top-0 w-full py-4 px-8 space-y-2"}>
             <div className={"grid grid-cols-2 content-center"}>
                 <div>
                     {$brand}
@@ -84,13 +84,16 @@ export default function Schedule() {
     return (
         <div className={"w-full flex-1"}>
             {$navBar}
-            <DailyAppointmentList
-                selectedDate={"2022-07-03"}
-                workStartDateTime={"09:00"}
-                workEndDateTime={"17:00"}
-                interval={15}
-                numberPerSlot={3}
-                dataForAppointments={data} />
+            <div className={'pl-10'}>
+                <DailyAppointmentList
+                    selectedDate={"2022-07-03"}
+                    workStartDateTime={"09:00"}
+                    workEndDateTime={"17:00"}
+                    interval={15}
+                    numberPerSlot={3}
+                    dataForAppointments={data} />
+            </div>
+
         </div>
     )
 }

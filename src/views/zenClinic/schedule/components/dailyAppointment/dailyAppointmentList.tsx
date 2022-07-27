@@ -18,7 +18,7 @@ export default function DailyAppointmentList(props: IProps) {
     const mWorkStartDateTime = moment(`${selectedDate} ${workStartDateTime}`, TimeFormat.YYYYMMDDHHmm)
     const mWorkEndDateTime = moment(`${selectedDate} ${workEndDateTime}`, TimeFormat.YYYYMMDDHHmm)
     const mWorkStartDateOffset = mWorkStartDateTime.hours() * 60 + mWorkStartDateTime.minutes()
-    const rows = mWorkEndDateTime.diff(mWorkStartDateTime, 'minutes') / interval
+    const rows = mWorkEndDateTime.diff(mWorkStartDateTime, "minutes") / interval
     const minNumberOfPerSlot = numberPerSlot >= 3 ? numberPerSlot : 3
     const section = useMemo(() => {
         let data: Appointment[][] = []
@@ -38,12 +38,15 @@ export default function DailyAppointmentList(props: IProps) {
     }, [selectedDate])
 
     const $sectionList = (section.map((rows:Appointment[], idx) => {
+        const offset = mWorkStartDateOffset + idx * interval
+        const dateTime = moment([2000, 1, 1, 0, 0, 0]).add(offset, "minutes")
+            .format(TimeFormat.HHmm)
         return (
-            <AppointmentRow key={idx} numberPerSlots={minNumberOfPerSlot} data={rows} />
+            <AppointmentRow key={idx} timeLine={dateTime} numberPerSlots={minNumberOfPerSlot} data={rows} />
         )
     }))
     return (
-        <div className={"w-full grid gap-y-2 grid-rows-10"}>
+        <div className={`w-full grid grid-rows-${rows} border-l border-t my-10`}>
             {$sectionList}
         </div>
     )
