@@ -115,7 +115,6 @@ export default function BookingPage() {
     const getTimeSlotsByNpi = () => {
         getDoctorTimeSlots(parseInt(npi.toString(), 10), startDate.toISOString(), 4, (list) => {
             setTimeSlots(list)
-            console.log(list)
         }, () => {
             //
         })
