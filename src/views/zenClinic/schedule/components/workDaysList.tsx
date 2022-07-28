@@ -2,6 +2,7 @@ import React, {useMemo, useState} from "react";
 import moment from "moment";
 import {TimeFormat} from "../../../../utils/enum/enum";
 import WorkDayItem from "./workDayItem";
+import Button from "../../../../components/buttons/button";
 
 interface IProps {
     selectedDate: string,
@@ -25,15 +26,15 @@ export default function WorkDaysList(props: IProps) {
     }
 
     const $navLeft = (
-        <button onClick={onClickPreviousMonth} className={"bg-emerald-500 rounded h-6 w-6 flex items-center justify-center"}>
-            <i className="text-white fas fa-angle-left"/>
-        </button>
+        <Button onClick={onClickPreviousMonth}>
+            <i className="fas fa-angle-left"/>
+        </Button>
     )
 
     const $navRight = (
-        <button onClick={onClickNextMonth} className={"bg-emerald-500 rounded h-6 w-6 flex items-center justify-center"}>
-            <i className="text-white fas fa-angle-right"/>
-        </button>
+        <Button onClick={onClickNextMonth}>
+            <i className="fas fa-angle-right"/>
+        </Button>
     )
 
     const workDays = useMemo(() => {
@@ -61,7 +62,7 @@ export default function WorkDaysList(props: IProps) {
     )
 
     return (
-        <div className={"w-full flex flex-row items-center justify-between"}>
+        <div className={"w-full flex flex-row items-center justify-between space-x-4"}>
             {$navLeft}
             {$list}
             {$navRight}

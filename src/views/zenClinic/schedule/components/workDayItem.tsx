@@ -20,7 +20,7 @@ export default function WorkDayItem(props: IProps) {
     return (
         <button type={"button"} onClick={() => {
             onChangeDate && onChangeDate(date)
-        }} className={"w-full flex flex-col items-center justify-center"}>
+        }} className={"flex flex-col items-center justify-center"}>
             <p className={`${isOutOfMonth ? "text-gray-400" : (isSelected ? "text-primary-focus font-bold" : (isToday ? "text-blue-500 font-bold" : weekDay === 0 ? "text-red-500 font-bold" : "text-primary-focus"))} text-sm leading-none`}>{weekDayShortName}</p>
             <div className={`${!isOutOfMonth && isSelected ? "bg-blue-500" : ""} h-8 w-8 rounded-full flex flex-col items-center justify-center mt-1`}>
                 <p className={`${isOutOfMonth ? "text-gray-400" : (isSelected ? "bg-blue-500 text-white font-bold" : (isToday ? "text-blue-500 font-bold" : ""))} text-sm leading-none`}>{day}</p>

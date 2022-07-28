@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {MonthLong} from "../../../../utils/enum/enum";
 import moment from "moment";
+import Button from "../../../../components/buttons/button";
 
 interface DropDownItem {
     name: string,
@@ -31,13 +32,15 @@ export default function MonthDropdown(props: IProps) {
     })
     const valueName = item ? item.name : ""
     const $toggleButton = (
-        <button onClick={(e) => {
+        <Button onClick={(e) => {
             e.stopPropagation()
             setShow(!show)
-        }} type={"button"} className={"max-w-max space-x-2 relative py-2 flex flex-row items-center"}>
-            <p className={"font-semibold text-base font-primary-focus"}>{valueName}</p>
-            <i className="fas fa-angle-down"/>
-        </button>
+        }}>
+            <div className={"flex flex-row items-center space-x-2"}>
+                <p>{valueName}</p>
+                <i className="fas fa-angle-down"/>
+            </div>
+        </Button>
     )
 
     const $bg = show ? (
