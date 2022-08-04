@@ -12,7 +12,7 @@ interface IProps {
     npi: number,
     show: boolean
     onClose: () => void
-    onSave: (timeSlot: TimeSlot) => void
+    onSave: (timeSlot: TimeSlot, memo: string) => void
 }
 
 export default function NewAppointmentModal(props: IProps) {
@@ -102,7 +102,7 @@ export default function NewAppointmentModal(props: IProps) {
 
     const $saveButton = (
         <Button onClick={() => {
-            selectedTimeSlot && onSave(selectedTimeSlot)
+            selectedTimeSlot && onSave(selectedTimeSlot, memo)
         }}>
             Save
         </Button>

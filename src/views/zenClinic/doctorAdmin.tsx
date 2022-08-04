@@ -10,21 +10,27 @@ import Settings from "./settings/settings"
 
 export default function DoctorAdmin() {
     const [doctorInfo] = useState<IDoctorInfoContext>(defaultDoctorInfo)
+    const $sideBar = (
+        <div className={"h-screen border-r w-60 sticky top-0"}>
+            <SideBar />
+        </div>
+    )
+    const $contentView = (
+        <div className={"flex-1"}>
+            <Switch>
+                <Route path={dataForSideBarRouter[0].path} component={Dashboard}/>
+                <Route path={dataForSideBarRouter[1].path} component={Schedule}/>
+                <Route path={dataForSideBarRouter[2].path} component={Profile}/>
+                <Route path={dataForSideBarRouter[3].path} component={Settings}/>
+            </Switch>
+        </div>
+    )
     return (
         <HashRouter>
             <DoctorInfoContext.Provider value={doctorInfo}>
                 <div className={"w-full min-h-screen bg-base-100 flex flex-row"}>
-                    <div className={"h-screen border-r w-60 sticky top-0"}>
-                        <SideBar />
-                    </div>
-                    <div className={"flex-1"}>
-                        <Switch>
-                            <Route path={dataForSideBarRouter[0].path} component={Dashboard}/>
-                            <Route path={dataForSideBarRouter[1].path} component={Schedule}/>
-                            <Route path={dataForSideBarRouter[2].path} component={Profile}/>
-                            <Route path={dataForSideBarRouter[3].path} component={Settings}/>
-                        </Switch>
-                    </div>
+                    {$sideBar}
+                    {$contentView}
                 </div>
             </DoctorInfoContext.Provider>
         </HashRouter>
