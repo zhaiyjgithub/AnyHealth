@@ -6,9 +6,13 @@ import {TimeFormat} from "../../../utils/enum/enum";
 import DailyAppointmentList from "./components/dailyAppointment/dailyAppointmentList";
 import {Appointment} from "./components/types";
 import Button from "../../../components/buttons/button";
+import NewAppointmentModal from "./components/newAppointmentModal";
+
+const testNpi = 1588665012
 
 export default function Schedule() {
     const [selectedDate, setSelectedDate] = useState<string>(moment().format(TimeFormat.YYYYMMDD))
+    const [show, setShow] = useState<boolean>(false)
     const $monthDropdown = (
         <MonthDropdown onChange={(idx) => {
             console.log(idx)
@@ -27,7 +31,7 @@ export default function Schedule() {
 
     const $newAppointmentButton = (
         <Button onClick={() => {
-            //
+            setShow(true)
         }} >
             <div className={'flex space-x-2 items-center'}>
                 <i className="fas fa-plus"></i>
@@ -120,10 +124,22 @@ export default function Schedule() {
                 dataForAppointments={data} />
         </div>
     )
+
+    const onCloseModal = () => {
+        setShow(false)
+    }
+
+    const onSaveModal = () => {
+        setShow(false)
+    }
+    const $newAppointmentModal = (
+        <NewAppointmentModal npi={testNpi} show={show} onClose={onCloseModal} onSave={onSaveModal} />
+    )
     return (
         <div className={"w-full flex-col flex-1"}>
             {$navBar}
             {$appointmentList}
+            {$newAppointmentModal}
         </div>
     )
 }

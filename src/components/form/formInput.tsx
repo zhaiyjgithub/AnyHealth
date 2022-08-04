@@ -16,18 +16,20 @@ interface IProps {
     type?: string,
     addedStyle?: string,
     disabled?: boolean,
+    max?: string,
+    min?: string
 }
 
 export default function FormInput (props: IProps) {
-    const {title, placeholder,
-        onChangeText, type = "text", disabled = false, value} = props
+    const {title, onChangeText, errMsg} = props
 
     return (
         <div>
-            <label className={'block text-base font-medium text-base-content'}>{title}</label>
-            <input value={value} placeholder={placeholder} disabled={disabled} type={type} onChange={(e) => {
+            <p className={'block text-base font-medium text-base-content'}>{title}</p>
+            <input {...props} onChange={(e) => {
                 onChangeText && onChangeText(e.target.value)
             }} className={"mt-1 w-full px-2 py-3 text-sm font-medium text-primary-focus border border-gray-300 transition ease-in-out "}
             />
+            {errMsg && errMsg.length ? <p className={"text-sm italic text-red-500 font-bold mt-1"}>{errMsg}</p> : null}
         </div>)
 }
