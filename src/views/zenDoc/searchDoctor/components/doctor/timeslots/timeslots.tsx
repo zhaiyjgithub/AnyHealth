@@ -63,7 +63,7 @@ export default function Timeslots(props: IProps) {
         )
     }
     return (
-        <div className={`w-5/12 pl-8 pr-12 grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-2 overflow-hidden`}>
+        <div className={"w-5/12 pl-8 pr-12 grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-2 overflow-hidden"}>
             {timeSlotsPerDay.slice(0, dateLength).map(({timeSlots, date}, idx) => {
                 const maxlength = timeSlots.length >= 5 ? 5 : timeSlots.length
                 const dataSource = showMore ? timeSlots : timeSlots.slice(0, maxlength)

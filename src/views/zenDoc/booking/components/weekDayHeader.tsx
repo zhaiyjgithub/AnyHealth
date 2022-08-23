@@ -1,7 +1,7 @@
 import React, {useMemo} from "react";
 import moment from "moment";
 import {formatDateToWeekMonthDayTuple} from "../../../../utils/util/dateTool";
-import {AvailableDate} from "../../findDoctor/components/weekDayHeader/weekDayHeader";
+import {AvailableDate} from "../../searchDoctor/components/weekDayHeader/weekDayHeader";
 
 interface IProps {
     startDate: Date

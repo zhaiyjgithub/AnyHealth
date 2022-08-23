@@ -1,8 +1,8 @@
 import {SubUser} from "./components/types";
 import {sendRequest} from "../../../utils/http/http";
 import {ApiDoctor, ApiUser} from "../../../utils/http/api";
-import {TimeSlotPerDay} from "../findDoctor/model/doctor";
-import {parseTimeOffset} from "../findDoctor/service/searchDoctorService";
+import {TimeSlotPerDay} from "../searchDoctor/model/doctor";
+import {parseTimeOffset} from "../searchDoctor/service/searchDoctorService";
 
 export function createSubUser(subUser:SubUser, completeHandler: (isSuccess: boolean) => void) {
     const param = {

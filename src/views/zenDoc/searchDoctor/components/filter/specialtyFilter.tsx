@@ -46,7 +46,7 @@ export default function SpecialtyFilter(props: IProps) {
         <div className={"w-full flex flex-row items-center justify-end border-t px-4 py-2"}>
             <Button variant={Variant.float} onClick={() => {
                 onClear()
-                setSelectedSpecialty('')
+                setSelectedSpecialty("")
             }} >Clear</Button>
             <Button status={ButtonStatus.primary} onClick={() => {
                 setShow(false)

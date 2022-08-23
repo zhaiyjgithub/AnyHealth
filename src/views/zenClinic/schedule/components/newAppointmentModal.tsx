@@ -3,9 +3,9 @@ import FormModal from "../../../../components/modal/formModal";
 import Button from "../../../../components/buttons/button";
 import {Variant} from "../../../../components/buttons/enum";
 import FormInput from "../../../../components/form/formInput";
-import {getTimeSlots, parseTimeOffset} from "../../../zenDoc/findDoctor/service/searchDoctorService";
-import {TimeSlot} from "../../../zenDoc/findDoctor/components/doctor/timeslots/timeslots";
-import {TimeSlotPerDay} from "../../../zenDoc/findDoctor/model/doctor";
+import {getTimeSlots, parseTimeOffset} from "../../../zenDoc/searchDoctor/service/searchDoctorService";
+import {TimeSlot} from "../../../zenDoc/searchDoctor/components/doctor/timeslots/timeslots";
+import {TimeSlotPerDay} from "../../../zenDoc/searchDoctor/model/doctor";
 import moment from "moment";
 import {DoctorInfoContext} from "../../doctorInfoContext";
 
@@ -40,7 +40,8 @@ export default function NewAppointmentModal(props: IProps) {
     }, [show])
 
     const getTimeSlotsByNpi = (npi: number, startDate: string) => {
-        getTimeSlots(npi, startDate, 0, (list) => {
+        const endDate = startDate
+        getTimeSlots(npi, startDate, endDate, (list) => {
             if (!list.length) {
                 console.log("No more record")
                 return

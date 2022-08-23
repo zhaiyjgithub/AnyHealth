@@ -108,7 +108,7 @@ export default function LoginModal(props: IProps) {
     const $loginButton = (
         <Button status={loading ? ButtonStatus.disabled : ButtonStatus.primary} size={ButtonSize.block} onClick={() => {
             onLogin()
-        }} >Login</Button>
+        }} >Log in</Button>
     )
 
     const $createUserView = (

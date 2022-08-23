@@ -2,8 +2,8 @@ import React, {useMemo, useState} from "react";
 import {useViewPort} from "../../../../../utils/hooks/useViewPort";
 import moment from "moment";
 import {formatDateToWeekMonthDayTuple} from "../../../../../utils/util/dateTool";
-import {TimeSlot} from "../../../findDoctor/components/doctor/timeslots/timeslots";
-import {TimeSlotPerDay} from "../../../findDoctor/model/doctor";
+import {TimeSlot} from "../../../searchDoctor/components/doctor/timeslots/timeslots";
+import {TimeSlotPerDay} from "../../../searchDoctor/model/doctor";
 
 interface IProps {
     total: number,
@@ -85,7 +85,7 @@ export default function TimeSlotsView(props: IProps) {
 
     const $weekDays = () => {
         return (
-            <div className={`flex-1 grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5`}>
+            <div className={"flex-1 grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"}>
                 {data.map((availableDate, idx) => {
                     return $day(availableDate, idx)
                 })}
@@ -130,7 +130,7 @@ export default function TimeSlotsView(props: IProps) {
     }
 
     const $timeSlotsInCalendar = (
-        <div className={`w-full grid grid-cols-${dateLength} gap-x-2 px-8`}>
+        <div className={"w-full grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-2 overflow-hidden px-8"}>
             {timeSlotsPerDay.slice(0, dateLength).map(({timeSlots}, idx) => {
                 const maxlength = timeSlots.length >= 5 ? 5 : timeSlots.length
                 const dataSource = showMore ? timeSlots : timeSlots.slice(0, maxlength)
