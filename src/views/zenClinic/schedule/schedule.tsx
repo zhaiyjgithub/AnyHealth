@@ -8,6 +8,8 @@ import {Appointment} from "./components/types";
 import Button from "../../../components/buttons/button";
 import NewAppointmentModal from "./components/newAppointmentModal";
 
+const testNpi = 1588665012
+
 export default function Schedule() {
     const [selectedDate, setSelectedDate] = useState<string>(moment().format(TimeFormat.YYYYMMDD))
     const [show, setShow] = useState<boolean>(false)
@@ -123,14 +125,16 @@ export default function Schedule() {
         </div>
     )
 
-    const $newAppointmentModal = (
-        <NewAppointmentModal show={show} onClose={() => {
-            setShow(false)
-        }} onSave={() => {
-            setShow(false)
-        }} />
-    )
+    const onCloseModal = () => {
+        setShow(false)
+    }
 
+    const onSaveModal = () => {
+        setShow(false)
+    }
+    const $newAppointmentModal = (
+        <NewAppointmentModal npi={testNpi} show={show} onClose={onCloseModal} onSave={onSaveModal} />
+    )
     return (
         <div className={"w-full flex-col flex-1"}>
             {$navBar}
