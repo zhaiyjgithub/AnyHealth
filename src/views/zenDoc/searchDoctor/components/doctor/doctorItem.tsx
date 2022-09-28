@@ -18,7 +18,7 @@ export default function DoctorItem(props: IProps) {
     const onClickTimeSlot = (timeSlot: TimeSlot) => {
         history.push({
             pathname: "/booking",
-            search: `?npi=${doctorInfo.npi}&date=${timeSlot.date}&offset=${timeSlot.offset}&isNewPatient=${false}&insuranceID=${''}&illnessID=${''}&appointmentType=${AppointmentType.inClinic}`,
+            search: `?npi=${doctorInfo.npi}&date=${timeSlot.date}&offset=${timeSlot.offset}&isNewPatient=${false}&insuranceID=${""}&illnessID=${""}&appointmentType=${AppointmentType.inClinic}`,
         })
     }
 

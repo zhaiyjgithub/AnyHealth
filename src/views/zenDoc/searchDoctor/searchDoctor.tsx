@@ -34,8 +34,8 @@ export default function SearchDoctor() {
         })
     }, [state])
 
-    const getAllTimeSlots = (npi: number, startDate: string) => {
-        getTimeSlots(npi, startDate, 5, (list) => {
+    const getAllTimeSlots = (npi: number, startDate: string, endDate: string) => {
+        getTimeSlots(npi, startDate, endDate, (list) => {
             setDataForAllAvailable(list)
         }, () => {
             //
@@ -119,7 +119,11 @@ export default function SearchDoctor() {
     const $allTimeSlotsModal = viewAllIdx !== -1 && data.length ? (
         <AllAvailableTimeSlots timeSlotsPerDay={dataForAllAvailable} show={viewAllIdx !== -1} doctorInfo={data[viewAllIdx]} onClose={onCloseViewAllAvailableTimeSlotsModal} onRequestTimeSlots={(date) => {
             const doctorInfo = data[viewAllIdx]
-            getAllTimeSlots(doctorInfo.npi, date)
+            const startDate = date.toISOString()
+            const endDate = moment(date).add(5, "days")
+                .toDate()
+                .toISOString()
+            getAllTimeSlots(doctorInfo.npi, startDate, endDate)
         }} />
     ) : null
 

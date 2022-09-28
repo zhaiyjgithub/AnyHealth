@@ -1,7 +1,7 @@
 import React from "react";
 import {HashRouter, Route, Switch} from "react-router-dom";
 import DoctorCard from "./views/zenDoc/doctorCard/doctorCard";
-import DoctorListContainer from "./views/zenDoc/findDoctor/doctorListContainer";
+import DoctorListContainer from "./views/zenDoc/searchDoctor/doctorListContainer";
 import CreateAccountPage from "./views/zenDoc/user/register/createAccountPage";
 import UserProvider from "./views/zenDoc/user/hooks/userProvider";
 import BookingPage from "./views/zenDoc/booking/bookingPage";

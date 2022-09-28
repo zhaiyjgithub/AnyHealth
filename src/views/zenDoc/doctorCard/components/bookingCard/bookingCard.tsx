@@ -3,11 +3,11 @@ import FormRadio from "../../../../../components/form/formRadio";
 import Dropdown from "./dropdown";
 import {AppointmentType} from "../../../../../utils/enum/enum";
 import TimeSlotsView from "./timeSlotsView";
-import {getTimeSlots} from "../../../findDoctor/service/searchDoctorService";
-import {TimeSlotPerDay} from "../../../findDoctor/model/doctor";
+import {getTimeSlots} from "../../../searchDoctor/service/searchDoctorService";
+import {TimeSlotPerDay} from "../../../searchDoctor/model/doctor";
 import {dataForIllness, dataForInsurance} from "./dataForInsuarnce";
 import Button from "../../../../../components/buttons/button";
-import {TimeSlot} from "../../../findDoctor/components/doctor/timeslots/timeslots";
+import {TimeSlot} from "../../../searchDoctor/components/doctor/timeslots/timeslots";
 import {useHistory} from "react-router-dom";
 import moment from "moment";
 
@@ -35,11 +35,15 @@ export default function BookingCard(props: IProps) {
     const [startDate, setStartDate] = useState<Date>(new Date())
     const history = useHistory()
     useEffect(() => {
-        getAllTimeSlots(npi, (new Date()).toISOString())
+        const startDate = (new Date()).toISOString()
+        const endDate = moment(new Date()).add(5, "days")
+            .toDate()
+            .toISOString()
+        getAllTimeSlots(npi, startDate, endDate)
     }, [props.npi])
 
-    const getAllTimeSlots = (npi: number, startDate: string) => {
-        getTimeSlots(npi, startDate, 5, (list) => {
+    const getAllTimeSlots = (npi: number, startDate: string, endDate: string) => {
+        getTimeSlots(npi, startDate, endDate, (list) => {
             setDataForAllAvailable(list)
         }, () => {
             //

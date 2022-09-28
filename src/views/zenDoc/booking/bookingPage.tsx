@@ -1,12 +1,12 @@
 import React, {useEffect, useMemo, useState} from "react";
 import NavBar from "./components/navBar/navBar";
-import {$iconDefaultDoctor} from "../findDoctor/assets/assets";
+import {$iconDefaultDoctor} from "../searchDoctor/assets/assets";
 import {useLocation} from "react-router-dom";
 import qs from "qs";
 import {DoctorProfile, getDoctorProfile} from "../../zenClinic/profile/general/generalProfileService";
 import {AppointmentType} from "../../../utils/enum/enum";
 import {formatDateToWeekMonthDayTuple} from "../../../utils/util/dateTool";
-import {parseTimeOffset} from "../findDoctor/service/searchDoctorService";
+import {parseTimeOffset} from "../searchDoctor/service/searchDoctorService";
 import FormRadio from "../../../components/form/formRadio";
 import useUserAuth from "../user/hooks/useUserAuth";
 import Button from "../../../components/buttons/button";
@@ -17,10 +17,10 @@ import NewSubPatientModal from "./components/newPatient/newSubPatientModal";
 import PhoneNumberModal from "./components/addPhoneNumber/phoneNumberModal";
 import {SubUser} from "./components/types";
 import {createSubUser, getDoctorTimeSlots, getSubUsers} from "./bookingService";
-import {TimeSlotPerDay} from "../findDoctor/model/doctor";
+import {TimeSlotPerDay} from "../searchDoctor/model/doctor";
 import WeekDayHeader from "./components/weekDayHeader";
 import Timeslots from "./components/timeSlots/timeSlots";
-import {TimeSlot} from "../findDoctor/components/doctor/timeslots/timeslots";
+import {TimeSlot} from "../searchDoctor/components/doctor/timeslots/timeslots";
 import moment from "moment";
 
 interface IRouterLocation {

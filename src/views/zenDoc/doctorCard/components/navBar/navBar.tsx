@@ -1,5 +1,5 @@
 import React from "react";
-import LoginDropdown from "../../../findDoctor/components/login/loginDropdown";
+import LoginDropdown from "../../../searchDoctor/components/login/loginDropdown";
 
 export default function NavBar() {
     const $brand = (
@@ -23,10 +23,10 @@ export default function NavBar() {
     )
 
     const $divider = (
-        <div className={'h-5 w-px bg-primary-focus'}/>
+        <div className={"h-5 w-px bg-primary-focus"}/>
     )
     const $navButtons = (
-        <div className={'flex flex-row items-center space-x-4'}>
+        <div className={"flex flex-row items-center space-x-4"}>
             {$browseButton}
             {$divider}
             {$listPracticeButton}

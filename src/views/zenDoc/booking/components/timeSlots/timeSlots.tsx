@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import {TimeSlotPerDay} from "../../../findDoctor/model/doctor";
-import {TimeSlot} from "../../../findDoctor/components/doctor/timeslots/timeslots";
+import {TimeSlotPerDay} from "../../../searchDoctor/model/doctor";
+import {TimeSlot} from "../../../searchDoctor/components/doctor/timeslots/timeslots";
 
 interface IProps {
     timeSlotsPerDay: Array<TimeSlotPerDay>,

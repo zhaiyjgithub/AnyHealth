@@ -1,4 +1,4 @@
-import {Doctor} from "../../findDoctor/model/doctor";
+import {Doctor} from "../../searchDoctor/model/doctor";
 import {sendRequest} from "../../../../utils/http/http";
 import {ApiDoctor} from "../../../../utils/http/api";
 

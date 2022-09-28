@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import NavBar from "./components/navBar/navBar";
-import {$iconDefaultDoctor} from "../findDoctor/assets/assets";
+import {$iconDefaultDoctor} from "../searchDoctor/assets/assets";
 import SectionHeader, {ScrollSectionMenuId} from "./components/sectionHeader/sectionHeader";
 import RecentRatting from "./components/ratting/recentRatting";
 import InsuranceList from "./components/insurance/insuranceList";

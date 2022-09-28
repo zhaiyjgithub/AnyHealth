@@ -3,18 +3,20 @@ import {sendRequest} from "../../../../utils/http/http";
 import {ApiDoctor} from "../../../../utils/http/api";
 import {SearchFilter} from "../model/searchFilter";
 import {DoctorInfo, TimeSlotPerDay} from "../model/doctor";
+import moment from "moment";
 
 export function findDoctor(
     filter: SearchFilter,
     success: (total: number, data: Array<DoctorInfo>) => void,
     fail: () => void
 ) {
+    const endDate = moment(filter.startDate).add(5, "days")
+        .toDate()
     const param = {
         Keyword: filter.keyword,
         AppointmentType: filter.appointmentType,
         StartDate: filter.startDate.toISOString(),
-        EndDate: filter.endDate ? filter.endDate.toISOString() : null,
-        DateRange: 5,
+        EndDate: endDate.toISOString(),
         Gender: filter.gender,
         Specialty: filter.specialty,
         City: filter.city,
@@ -45,11 +47,11 @@ export function findDoctor(
     })
 }
 
-export const getTimeSlots = (npi: number, startDate: string, range: number = 5, success: (list: Array<TimeSlotPerDay>) => void, fail: () => void) => {
+export const getTimeSlots = (npi: number, startDate: string, endDate: string, success: (list: Array<TimeSlotPerDay>) => void, fail: () => void) => {
     const param = {
         Npi: npi,
         StartDate: startDate,
-        range: range,
+        EndDate: endDate,
     }
     sendRequest(ApiDoctor.GetTimeSlots, param, (data) => {
         data.forEach(({date, timeSlots}: TimeSlotPerDay) => {

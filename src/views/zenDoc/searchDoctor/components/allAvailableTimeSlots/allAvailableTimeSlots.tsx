@@ -12,7 +12,7 @@ interface IProps {
     doctorInfo: DoctorInfo,
     timeSlotsPerDay: Array<TimeSlotPerDay>,
     onClose: () => void,
-    onRequestTimeSlots: (date: string) => void
+    onRequestTimeSlots: (date: Date) => void
 }
 
 export default function AllAvailableTimeSlots(props: IProps) {
@@ -61,16 +61,16 @@ export default function AllAvailableTimeSlots(props: IProps) {
 
     const onPrevious = () => {
         const dateUTC = new Date(timeSlotsPerDay[0].date)
-        const m = moment(dateUTC).subtract(5, "days")
-            .toISOString()
-        onRequestTimeSlots && onRequestTimeSlots(m)
+        const d = moment(dateUTC).subtract(5, "days")
+            .toDate()
+        onRequestTimeSlots && onRequestTimeSlots(d)
     }
 
     const onNext = () => {
         const dateUTC = new Date(timeSlotsPerDay[timeSlotsPerDay.length - 1].date)
-        const m = moment(dateUTC).add(1, "days")
-            .toISOString()
-        onRequestTimeSlots && onRequestTimeSlots(m)
+        const d = moment(dateUTC).add(1, "days")
+            .toDate()
+        onRequestTimeSlots && onRequestTimeSlots(d)
     }
     const $timeSlotsView = (
         <TimeSlotsPerDay timeSlotsPerDay={timeSlotsPerDay} doctorName={doctorName} onNext={onNext} onPrevious={onPrevious} />

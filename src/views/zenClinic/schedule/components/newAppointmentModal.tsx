@@ -3,10 +3,13 @@ import FormModal from "../../../../components/modal/formModal";
 import Button from "../../../../components/buttons/button";
 import {Variant} from "../../../../components/buttons/enum";
 import FormInput from "../../../../components/form/formInput";
-import {TimeSlot} from "../../../zenDoc/findDoctor/components/doctor/timeslots/timeslots";
+
+import {getTimeSlots, parseTimeOffset} from "../../../zenDoc/searchDoctor/service/searchDoctorService";
+import {TimeSlot} from "../../../zenDoc/searchDoctor/components/doctor/timeslots/timeslots";
+import {TimeSlotPerDay} from "../../../zenDoc/searchDoctor/model/doctor";
+
 import moment from "moment";
 import {TimeFormat} from "../../../../utils/enum/enum";
-import {getTimeSlots} from "../../../zenDoc/findDoctor/service/searchDoctorService";
 
 interface IProps {
     npi: number,
@@ -30,10 +33,11 @@ export default function NewAppointmentModal(props: IProps) {
             m.isBefore(moment().add(12, "months"), "day")
         ) {
             setErrMsg("")
-            const startDateUTC = m.utc()
+            const startDate = m.utc()
                 .toDate()
                 .toISOString()
-            getTimeSlots(npi, startDateUTC, 1, (list) => {
+            const endDate = startDate
+            getTimeSlots(npi, startDate, endDate, (list) => {
                 if (list.length) {
                     setTimeSlots(list[0].timeSlots)
                 }
@@ -58,6 +62,31 @@ export default function NewAppointmentModal(props: IProps) {
     const $title = (
         <p className={"text-lg font-bold text-primary-focus"}>Add New Appointment</p>
     )
+
+    const getTimeSlotsByNpi = (npi: number, startDate: string) => {
+        const endDate = startDate
+        getTimeSlots(npi, startDate, endDate, (list) => {
+            if (!list.length) {
+                console.log("No more record")
+                return
+            }
+            const perDay: TimeSlotPerDay = list[0]
+            const {date, timeSlots} = perDay
+            const targetDate = moment(date)
+            const initialMinutes = targetDate.hours() * 60
+            timeSlots.forEach((timeSlot) => {
+                const currentOffset = initialMinutes + timeSlot.offset
+                timeSlot.isOverOneDay = currentOffset >= 1440
+                timeSlot.date = date
+                timeSlot.dateTime = parseTimeOffset(currentOffset >= 1440 ? currentOffset - 1440 : currentOffset)
+            })
+            setTimeSlots(timeSlots)
+        }, () => {
+            //
+        })
+    }
+
+    console.log(getTimeSlotsByNpi)
 
     const $dateInput = (
         <FormInput errMsg={errMsg} type={"date"} title={"Appointment Date"} value={selectedDate} onChangeText={(text) => {
