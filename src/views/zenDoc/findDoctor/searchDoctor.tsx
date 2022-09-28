@@ -156,7 +156,6 @@ export default function SearchDoctor() {
     const $footer = (
         <div className={"w-full h-48 bg-red-300"}/>
     )
-    console.log($navBar, $content, $footer)
     return (
         <div className={"flex flex-col w-full min-h-screen"}>
             {$navBar}
