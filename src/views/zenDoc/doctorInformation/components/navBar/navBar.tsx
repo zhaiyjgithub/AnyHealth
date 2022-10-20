@@ -1,17 +1,42 @@
-import React from "react";
+import React, {useState} from "react";
 import LoginDropdown from "../../../searchDoctor/components/login/loginDropdown";
+import useUserAuth from "../../../user/hooks/useUserAuth";
+import UserDropdown from "../../../searchDoctor/components/login/userDropdown";
+import LoginModal from "../../../searchDoctor/components/login/loginModal";
 
 export default function NavBar() {
+    const [show, setShow] = useState<boolean>(false)
+    const useAuth = useUserAuth()
+    const { user } = useAuth
     const $brand = (
         <p className={"font-bold text-4xl text-base-content font-playball"}>
             ZenDoc
         </p>
     )
 
-    const $loginDropdown = (
+    const $inboxButton = (
+        <button type={"button"} className={"px-4 py-2 text-base text-primary-focus bg-white hover:text-white hover:bg-primary-focus"}>
+            0
+        </button>
+    )
+    const $userInfo = (
+        <div className={"flex flex-row items-center space-x-4"}>
+            {$inboxButton}
+            <UserDropdown />
+        </div>
+    )
+
+    const $login = (
         <LoginDropdown onLogin={() => {
-            //
+            setShow(true)
         }}/>
+    )
+    const $info = user.firstName.length ? $userInfo : $login
+
+    const $loginModal = (
+        <LoginModal show={show} onApply={() => {
+            setShow(false)
+        }} />
     )
 
     const $browseButton = (
@@ -31,7 +56,8 @@ export default function NavBar() {
             {$divider}
             {$listPracticeButton}
             {$divider}
-            {$loginDropdown}
+            {$info}
+            {$loginModal}
         </div>
     )
 

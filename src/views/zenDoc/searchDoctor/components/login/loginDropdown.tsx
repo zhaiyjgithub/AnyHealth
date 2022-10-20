@@ -16,7 +16,6 @@ interface IProps {
 
 enum ActionType {
     login,
-
 }
 
 export default function LoginDropdown({ onLogin}: IProps) {
@@ -66,7 +65,7 @@ export default function LoginDropdown({ onLogin}: IProps) {
                     <button type={"button"} className={"max-w-max text-sm text-base-600 font-medium border-primary-focus border-b border-dotted hover:border-solid px-2"}>Sign Up</button>
                 </div>
             </div>
-        
+
             <div className={" h-0.5 my-2 bg-base-300"}/>
 
             <div className={"w-max flex flex-row items-center justify-between space-x-4"}>
@@ -75,7 +74,7 @@ export default function LoginDropdown({ onLogin}: IProps) {
                     <button type={"button"} className={"max-w-max text-sm text-base-600 font-medium border-primary-focus border-b border-dotted hover:border-solid px-2"}>Login</button>
                 </div>
             </div>
-         
+
         </div>
     ) : null
 

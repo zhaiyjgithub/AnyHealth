@@ -9,7 +9,7 @@ export default function UserDropdown() {
         <button onClick={(e) => {
             e.stopPropagation()
             setShow(!show)
-        }} type={"button"} className={`z-10 w-56 relative space-x-2 px-2 py-2 flex flex-row items-center justify-between text-primary-focus font-semibold leading-tight ${show ? "bg-primary-focus" : ""}`}>
+        }} type={"button"} className={`z-10 w-56 relative space-x-2 px-2 py-2 flex flex-row items-center justify-between text-primary-focus font-semibold leading-tight ${show ? "bg-primary-focus" : "bg-base-200"}`}>
             <p className={ `text-base ${show ? "text-white" : "text-primary-focus"}`}>{user.firstName}</p>
             <svg className={`h-5 w-5 text-primary-focus ${show ? "text-white" : ""}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                 fill={show ? "#FFF" : "#343D4E"}>

@@ -93,7 +93,7 @@ export default function TimeSlotsPerDay(props: IProps) {
     )
 
     return (
-        <div className={"w-full mt-8 px-8"}>
+        <div className={"w-full my-8 px-8"}>
             {$calendarTitle}
             {$timeSlotsList}
         </div>
