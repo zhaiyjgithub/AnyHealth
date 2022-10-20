@@ -6,6 +6,7 @@ import CreateAccountPage from "./views/zenDoc/user/register/createAccountPage";
 import UserProvider from "./views/zenDoc/user/hooks/userProvider";
 import BookingPage from "./views/zenDoc/booking/bookingPage";
 import DoctorAdmin from "./views/zenClinic/doctorAdmin";
+import Setting from "./views/zenDoc/setting/setting"
 
 export default function App() {
     return (
@@ -13,6 +14,7 @@ export default function App() {
             <UserProvider>
                 <Switch>
                     <Route exact path={"/doctor/:name"} component={DoctorInformation} />
+                    <Route exact path={"/profile-setting"} component={Setting} />
                     <Route exact path={"/search"} component={DoctorListWrapper} />
                     <Route exact path={"/createuser"} component={CreateAccountPage} />
                     <Route exact path={"/booking"} component={BookingPage} />

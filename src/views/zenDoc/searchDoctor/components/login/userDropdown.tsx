@@ -1,8 +1,11 @@
 import React, {useState} from "react";
 import useUserAuth from "../../../user/hooks/useUserAuth";
+import {useHistory} from "react-router-dom";
 
 export default function UserDropdown() {
     const [show, setShow] = useState<boolean>(false)
+
+    const history = useHistory()
     const userAuth = useUserAuth()
     const { user } = userAuth
     const $toggleButton = (
@@ -31,7 +34,12 @@ export default function UserDropdown() {
             <div className={"w-full bg-white hover:bg-gray-200 px-2"}>
                 <div className={"w-full flex flex-row items-center space-x-4 px-2 py-2"}>
                     <i className="fas fa-cog text-primary-focus text-base"></i>
-                    <button type={"button"} className={"w-full text-primary-focus text-base font-medium"}>Settings</button>
+                    <button onClick={() => {
+                        history.push({
+                            pathname: "/profile-setting",
+                            search: ``,
+                        })
+                    }} type={"button"} className={"w-full text-primary-focus text-base font-medium"}>Settings</button>
                 </div>
             </div>
             <div className={"w-full bg-white hover:bg-gray-200 px-2"}>
