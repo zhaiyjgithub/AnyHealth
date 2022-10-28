@@ -95,7 +95,8 @@ export default function BookingPage() {
             return
         }
         const tDate = new Date(date.toString())
-        setAppointmentDateTime(moment(tDate).format(TimeFormat.YYYYMMDDHHmm))
+        setAppointmentDateTime(moment(tDate).add(parseInt(offset.toString(), 10), "minutes")
+            .format(TimeFormat.YYYYMMDDHHmm))
     }, [])
 
     const getDoctorProfileInfo = () => {
@@ -363,9 +364,9 @@ export default function BookingPage() {
             IsNewPatient: isNewPatient,
         }
         addNewAppointment(appointment, () => {
-            alert('Book success')
+            alert("Book success")
         }, () => {
-            alert('Book failed')
+            alert("Book failed")
         })
     }
     const $bookButton = (

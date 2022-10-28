@@ -14,7 +14,7 @@ export default function App() {
             <UserProvider>
                 <Switch>
                     <Route exact path={"/doctor/:name"} component={DoctorInformation} />
-                    <Route exact path={"/profile-setting"} component={Setting} />
+                    <Route path={"/profile-setting"} component={Setting} />
                     <Route exact path={"/search"} component={DoctorListWrapper} />
                     <Route exact path={"/createuser"} component={CreateAccountPage} />
                     <Route exact path={"/booking"} component={BookingPage} />

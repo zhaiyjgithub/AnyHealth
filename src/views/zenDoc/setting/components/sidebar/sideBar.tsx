@@ -1,28 +1,27 @@
 import React from "react";
-import {useLocation} from "react-router-dom";
+import {useLocation, Link} from "react-router-dom";
+import {SettingRoute} from "../../types";
 
 export default function SideBar() {
     const {pathname} = useLocation()
-    const menus: Array<{name: string, path: string}> = [
-        {name: "Profile", path: "profile-setting/profile"},
-        {name: "Past Appointments", path: "profile-setting/past-appointments"},
-        {name: "Insurance", path: "profile-setting/insurance"},
-        {name: "Data Privacy Settings", path: "profile-setting/data-privacy-settings"},
-    ]
     const isActivePath = (name: string) => {
         return pathname.indexOf(name) !== -1
     }
     return (
         <div className={"w-max"}>
             <ul>
-                {menus.map(({name, path}, idx) => {
+                {SettingRoute.map(({name, path}, idx) => {
                     const isActive = isActivePath(path)
+                    console.log(isActive)
                     return (
                         <li key={idx}>
-                            <div className={"w-full flex flex-row items-center space-x-2 border-b h-max mr-8"}>
-                                <div className={`w-3 h-14 h-full bg-primary-focus bg-primary-focus ${isActive ? "visible" : "invisible"}`}/>
-                                <p className={"text-base font-semibold text-primary-focus"}>{name}</p>
-                            </div>
+                            <Link to={path}>
+                                <div className={`cursor-pointer w-full flex flex-row items-center space-x-2 h-max mr-8 border-l-8 ${isActive ? "border-primary-focus" : "border-transparent"}`}>
+                                    <div className={"w-full border-b "}>
+                                        <p className={"text-base font-bold text-primary-focus py-4 px-4"}>{name}</p>
+                                    </div>
+                                </div>
+                            </Link>
                         </li>
                     )
                 })}

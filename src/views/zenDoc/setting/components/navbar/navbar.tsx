@@ -32,14 +32,12 @@ export default function NavBar() {
     )
 
     return (
-        <div className={"w-full bg-primary flex flex-row items-center justify-center"}>
-            <div className={"container"}>
-                <div className={"flex flex-row items-center justify-between px-8 py-4 "}>
-                    <div className={"flex-1 flex flex-row items-center h-12 space-x-4"}>
-                        {$brand}
-                    </div>
-                    {$navButtons}
+        <div className={"w-full bg-primary"}>
+            <div className={"flex flex-row items-center justify-between px-14 py-4 "}>
+                <div className={"flex-1 flex flex-row items-center h-12 space-x-4"}>
+                    {$brand}
                 </div>
+                {$navButtons}
             </div>
         </div>
     )
