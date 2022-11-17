@@ -11,7 +11,7 @@ export default function ToolTips(props: IProps) {
     const { description, appendStyle, children } = props
     return (
         <div className={"tooltip relative"}>
-            <a className={"hover: text-gray-300"}>
+            <a className={"hover:text-gray-300"}>
                 {children}
             </a>
             <div className={`w-64 p-2.5 bg-white rounded border border-gray-300 absolute left-0 invisible tooltip-item ${appendStyle}`}>

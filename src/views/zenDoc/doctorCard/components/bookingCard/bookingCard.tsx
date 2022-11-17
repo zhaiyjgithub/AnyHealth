@@ -149,7 +149,7 @@ export default function BookingCard(props: IProps) {
         }
         history.push({
             pathname: "/booking",
-            search: `?npi=${npi}&date=${selectedTimeSlot.date}&offset=${selectedTimeSlot.offset}&isNewPatient=${booking.isNewPatient}&insuranceID=${booking.insuranceId}&illnessID=${booking.illnessId}&appointmentType=${booking.appointmentType}`,
+            search: `?npi=${npi}&date=${selectedTimeSlot.date}&dateTime=${selectedTimeSlot.dateTime}&offset=${selectedTimeSlot.offset}&isNewPatient=${booking.isNewPatient}&insuranceID=${booking.insuranceId}&illnessID=${booking.illnessId}&appointmentType=${booking.appointmentType}`,
         })
     }
     const $bookButton = (

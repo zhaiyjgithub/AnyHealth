@@ -1,8 +1,10 @@
 import {SubUser} from "./components/types";
 import {sendRequest} from "../../../utils/http/http";
-import {ApiDoctor, ApiUser} from "../../../utils/http/api";
+import {ApiDoctor, ApiSchedule, ApiUser} from "../../../utils/http/api";
 import {TimeSlotPerDay} from "../searchDoctor/model/doctor";
 import {parseTimeOffset} from "../searchDoctor/service/searchDoctorService";
+import {Appointment} from "./types";
+import {Simulate} from "react-dom/test-utils";
 
 export function createSubUser(subUser:SubUser, completeHandler: (isSuccess: boolean) => void) {
     const param = {
@@ -45,13 +47,13 @@ export function updateSubUserPhone(subUserID: number, phone: string, completeHan
     })
 }
 
-export function getDoctorTimeSlots(npi: number, startDate: string, range: number,
+export function getDoctorTimeSlots(npi: number, startDate: string, endDate: string,
     success: (list: Array<TimeSlotPerDay>) => void, fail: () => void
 ) {
     const param = {
         Npi: npi,
         StartDate: startDate,
-        Range: 4,
+        EndDate: endDate,
     }
     sendRequest(ApiDoctor.GetTimeSlots, param, (data) => {
         data.forEach(({date, timeSlots}: TimeSlotPerDay) => {
@@ -67,5 +69,13 @@ export function getDoctorTimeSlots(npi: number, startDate: string, range: number
         success && success(data)
     }, () => {
         fail && fail()
+    })
+}
+
+export function AddNewAppointment(appointment: Appointment, success: () => void, fail: () => void) {
+    sendRequest(ApiSchedule.AddNewAppointment, appointment, () => {
+        success()
+    }, () => {
+        fail()
     })
 }
