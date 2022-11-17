@@ -54,7 +54,6 @@ export default function EmailSection(props: IProps) {
                 </div>
                 {show ? $editView : $defaultView}
             </div>
-
         </div>
     )
 }

@@ -362,6 +362,7 @@ export default function BookingPage() {
             Insurance: parseInt(insuranceID!.toString(), 10),
             VisitReason: illnessID!.toString(),
             IsNewPatient: isNewPatient,
+            CreatedDate: (new Date()).toISOString(),
         }
         addNewAppointment(appointment, () => {
             alert("Book success")

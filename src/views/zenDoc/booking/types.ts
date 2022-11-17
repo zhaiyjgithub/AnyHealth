@@ -18,4 +18,5 @@ export interface Appointment {
     Insurance :number
     VisitReason :string
     IsNewPatient :boolean
+    CreatedDate: string
 }

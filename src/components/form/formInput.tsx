@@ -25,11 +25,11 @@ export default function FormInput (props: IProps) {
 
     return (
         <div>
-            <p className={'block text-base font-medium text-base-content'}>{title}</p>
+            <p className={"block text-base font-normal text-primary-focus"}>{title}</p>
             <input {...props} onChange={(e) => {
                 onChangeText && onChangeText(e.target.value)
             }} className={"mt-1 w-full px-2 py-3 text-base font-medium text-primary-focus border border-gray-300 transition ease-in-out "}
             />
-            {errMsg && errMsg.length ? <p className={"text-sm italic text-red-500 font-bold mt-1"}>{errMsg}</p> : null}
+            {errMsg && errMsg.length ? <p className={"text-sm italic text-red-500 font-semibold mt-1"}>{errMsg}</p> : null}
         </div>)
 }

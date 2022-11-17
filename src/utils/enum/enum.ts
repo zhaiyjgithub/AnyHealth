@@ -57,6 +57,7 @@ export enum APM {
 export enum TimeFormat {
     YYYYMMDDHHmm= "YYYY-MM-DD HH:mm",
     YYYYMMDD= "YYYY-MM-DD",
+    MMDDYYYY= "MM-DD-YYYY",
     HHmm= "HH:mm",
     RCF3399 = "yyyy-MM-ddTHH:mm:ss.ffZ"
 }

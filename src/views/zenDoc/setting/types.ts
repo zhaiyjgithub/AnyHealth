@@ -5,6 +5,14 @@ const SettingRoute: Array<{name: string, path: string}> = [
     {name: "Data Privacy Settings", path: "/profile-setting/data-privacy-settings"},
 ]
 
+export interface AddressInfo {
+    StreetAddress: string
+    Suit: string
+    City: string
+    State: string
+    ZipCode: string
+}
+
 export {
     SettingRoute,
 }
