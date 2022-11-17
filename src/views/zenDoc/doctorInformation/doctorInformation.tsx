@@ -19,7 +19,7 @@ interface IRouterLocation {
     npi: string
 }
 
-export default function DoctorCard() {
+export default function DoctorInformation() {
     const {search} = useLocation<IRouterLocation>()
     const { npi } = qs.parse(search.replace("?", ""))
     const [doctorDetailInfo, setDoctorDetailInfo] = useState<DoctorDetailInfo | null>(null)
@@ -41,6 +41,10 @@ export default function DoctorCard() {
             left: 0,
         });
     }, [])
+
+    if (!doctorDetailInfo) {
+        return <div className={'w-full h-full'}/>
+    }
 
     const $previewPhotosButton = (
         <button type={"button"} className={"text-lg max-w-max text-blue-600 font-medium border-blue-600 border-b border-dotted hover:border-solid"}>7 Photos</button>
@@ -72,9 +76,9 @@ export default function DoctorCard() {
         </div>
     )
 
-    const name = `${doctorDetailInfo?.namePrefix} ${doctorDetailInfo?.firstName} ${doctorDetailInfo?.lastName}, ${doctorDetailInfo?.credential}`
-    const specialty = `${doctorDetailInfo?.specialty}`
-    const addressForState = `${doctorDetailInfo?.city}, ${doctorDetailInfo?.state}`
+    const name = `${doctorDetailInfo.namePrefix} ${doctorDetailInfo.firstName} ${doctorDetailInfo.lastName}, ${doctorDetailInfo.credential}`
+    const specialty = `${doctorDetailInfo.specialty}`
+    const addressForState = `${doctorDetailInfo.city}, ${doctorDetailInfo.state}`
     const $nameAndSpecialtyAndAddress = (
         <div className={"w-full space-y-1"}>
             <p className={"font-bold text-5xl text-primary-focus"}>{name}</p>
@@ -169,7 +173,7 @@ export default function DoctorCard() {
                 <p className={"text-xl text-primary-focus font-bold"}>{`About ${name}`}</p>
                 <div className={"block mt-2"}>
                     <span className={"text-lg text-primary-focus line-clamp-3"}>
-                        {doctorDetailInfo?.summary}
+                        {doctorDetailInfo.summary}
                         <span><button type={"button"} className={"cursor-pointer leading-none ml-2 text-blue-500 border-b border-blue-500 border-dotted hover:border-solid"}>Show more</button></span>
                     </span>
                 </div>
@@ -177,16 +181,16 @@ export default function DoctorCard() {
         </Section>
     )
 
-    const $insuranceList = doctorDetailInfo?.insurances ? (
+    const $insuranceList = doctorDetailInfo.insurances ? (
         <Section id={ScrollSectionMenuId.insurances}>
-            <InsuranceList data={doctorDetailInfo?.insurances.split(", ")} />
+            <InsuranceList data={doctorDetailInfo.insurances.split(", ")} />
         </Section>
     ) : null
 
     const $locationInfoView = doctorDetailInfo ? (
         <Section id={ScrollSectionMenuId.locations}>
             <div className={"z-10"}>
-                <LocationInfo specialty={specialty} doctorName={name} center={[doctorDetailInfo.lat, doctorDetailInfo.lng]} address={doctorDetailInfo?.address} isVirtualVisitEnable={true} />
+                <LocationInfo specialty={specialty} doctorName={name} center={[doctorDetailInfo.lat, doctorDetailInfo.lng]} address={doctorDetailInfo.address} isVirtualVisitEnable={true} />
             </div>
         </Section>
     ) : null

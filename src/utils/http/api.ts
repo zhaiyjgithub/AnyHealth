@@ -12,7 +12,7 @@ export enum ApiSchedule {
     AddClosedDateSettings= "Schedule/AddClosedDateSettings",
     DeleteClosedDateSettings= "Schedule/DeleteClosedDateSettings",
     GetClosedDateSettings= "Schedule/GetClosedDateSettings",
-    AddNewAppointment = "Schedule/AddNewAppointment"
+    AddAppointment = "Schedule/AddAppointment"
 }
 
 export enum ApiUser {

@@ -4,18 +4,18 @@ import {$iconDefaultDoctor} from "../searchDoctor/assets/assets";
 import {useLocation} from "react-router-dom";
 import qs from "qs";
 import {DoctorProfile, getDoctorProfile} from "../../zenClinic/profile/general/generalProfileService";
-import {AppointmentType} from "../../../utils/enum/enum";
+import {AppointmentType, TimeFormat} from "../../../utils/enum/enum";
 import {formatDateToWeekMonthDayTuple} from "../../../utils/util/dateTool";
 import FormRadio from "../../../components/form/formRadio";
 import useUserAuth from "../user/hooks/useUserAuth";
 import Button from "../../../components/buttons/button";
 import {ButtonSize, ButtonStatus} from "../../../components/buttons/enum";
-import Dropdown from "../doctorCard/components/bookingCard/dropdown";
-import {dataForIllness, dataForInsurance} from "../doctorCard/components/bookingCard/dataForInsuarnce";
+import Dropdown from "../doctorInformation/components/bookingCard/dropdown";
+import {dataForIllness, dataForInsurance} from "../doctorInformation/components/bookingCard/dataForInsuarnce";
 import NewSubPatientModal from "./components/newPatient/newSubPatientModal";
 import PhoneNumberModal from "./components/addPhoneNumber/phoneNumberModal";
 import {SubUser} from "./components/types";
-import {createSubUser, getDoctorTimeSlots, getSubUsers} from "./bookingService";
+import {addNewAppointment, createSubUser, getDoctorTimeSlots, getSubUsers} from "./bookingService";
 import {TimeSlotPerDay} from "../searchDoctor/model/doctor";
 import WeekDayHeader from "./components/weekDayHeader";
 import Timeslots from "./components/timeSlots/timeSlots";
@@ -43,7 +43,7 @@ export default function BookingPage() {
     const {search} = useLocation<IRouterLocation>()
     const urlParams = qs.parse(search.replace("?", ""))
     const { npi, date, offset, appointmentType,
-        illnessID, insuranceID, dateTime,
+        illnessID, insuranceID,
     } = urlParams
 
     const defaultInsuranceID = insuranceID ? insuranceID : dataForInsurance[0].id
@@ -54,13 +54,7 @@ export default function BookingPage() {
     const [subPatientList, setSubPatientList] = useState<SubUser[]>([])
     const [timeSlots, setTimeSlots] = useState<Array<TimeSlotPerDay>>([])
     const [showTimeSlotsView, setShowTimeSlotsView] = useState<boolean>(false)
-    const [selectedTimeSlot, setSelectedTimeSlot] = useState<TimeSlot>({
-        date: date!.toString(),
-        dateTime: dateTime!.toString(),
-        offset: parseInt(offset!.toString(), 10),
-        availableSlotsNumber: 0,
-        isOverOneDay: false,
-    })
+    const [appointmentDateTime, setAppointmentDateTime] = useState<string>("")
 
     const [insurance, setInsurance] = useState<string>(defaultInsuranceID)
     const [illness, setIllness] = useState<number>(defaultIllnessID)
@@ -88,24 +82,27 @@ export default function BookingPage() {
     }, [])
 
     useEffect(() => {
-        getTimeSlotsByNpi()
+        const endDate = moment(startDate).add("days", 4)
+        getDoctorTimeSlots(parseInt(npi.toString(), 10), startDate.toISOString(), endDate.toISOString(), (list) => {
+            setTimeSlots(list)
+        }, () => {
+            //
+        })
     }, [startDate])
+
+    useEffect(() => {
+        if (!date) {
+            return
+        }
+        const tDate = new Date(date.toString())
+        setAppointmentDateTime(moment(tDate).add(parseInt(offset.toString(), 10), "minutes")
+            .format(TimeFormat.YYYYMMDDHHmm))
+    }, [])
 
     const getDoctorProfileInfo = () => {
         npi && getDoctorProfile(parseInt(npi.toString(), 10), (doctorProfile) => {
             setDoctorInfo(doctorProfile)
             console.log(doctorProfile)
-        }, () => {
-            //
-        })
-    }
-
-    const getTimeSlotsByNpi = () => {
-        const endDate = moment(startDate).add(4, "days")
-            .toDate()
-            .toISOString()
-        getDoctorTimeSlots(parseInt(npi.toString(), 10), startDate.toISOString(), endDate, (list) => {
-            setTimeSlots(list)
         }, () => {
             //
         })
@@ -127,15 +124,15 @@ export default function BookingPage() {
         </div>
     )
 
-    const [week, month, day] = formatDateToWeekMonthDayTuple(new Date(selectedTimeSlot.date))
-    const appointmentDateTime = (`${week}, ${month} ${day} - ${selectedTimeSlot.dateTime}`)
-
     const doctorName = `${doctorInfo?.credential} ${doctorInfo?.fullName} ${doctorInfo?.jobTitle}`
     const appointmentTypeDesc = parseInt(appointmentType.toString(), 10) === AppointmentType.virtual ? "Video visit" : doctorInfo?.address
+    const sDate = moment(appointmentDateTime, TimeFormat.YYYYMMDDHHmm)
+    const [week, month, day] = formatDateToWeekMonthDayTuple(sDate.toDate())
+    const sDateTime = sDate.format(TimeFormat.HHmm)
     const $info = (
         <div className={"flex-1"}>
             <p className={"text-base text-primary-focus font-bold leading-snug"}>{doctorName}</p>
-            <p className={"text-sm text-primary-focus font-medium leading-snug text-left"}>{appointmentDateTime}</p>
+            <p className={"text-sm text-primary-focus font-medium leading-snug text-left"}>{`${week}, ${month} ${day} - ${sDateTime}`}</p>
             <p className={"text-sm text-primary-focus leading-snug text-left"}>{appointmentTypeDesc}</p>
         </div>
     )
@@ -226,7 +223,7 @@ export default function BookingPage() {
     )
 
     const $addPhoneNumberButton = (
-        <Button onClick={onAddPhoneNumber} status={ButtonStatus.link} >Add phone number</Button>
+        <Button onClick={onAddPhoneNumber} status={ButtonStatus.link} >{phoneNumber.length ? phoneNumber : "Add phone number"}</Button>
     )
     const $phoneNumberInfo = (
         <div className={"w-full space-y-1"}>
@@ -277,8 +274,8 @@ export default function BookingPage() {
     )
 
     const onClickTimeSlot = (timeSlot: TimeSlot) => {
-        setSelectedTimeSlot(timeSlot)
         setShowTimeSlotsView(false)
+        setAppointmentDateTime(`${timeSlot.date} ${timeSlot.dateTime}`)
     }
 
     const $weekDayHeader = <WeekDayHeader startDate={startDate} onPrevious={() => {
@@ -300,7 +297,7 @@ export default function BookingPage() {
 
     const $selectedTimeSlot = (
         <div className={"w-full flex flex-row items-center justify-between p-4 bg-white border"}>
-            <p className={"text-sm text-primary-focus"}>{appointmentDateTime}</p>
+            <p className={"text-sm text-primary-focus"}>{`${week}, ${month} ${day} - ${sDateTime}`}</p>
             <div className={"w-max"}>
                 {$editAppointmentTimeButton}
             </div>
@@ -343,34 +340,37 @@ export default function BookingPage() {
         </label>
     )
 
-    const onBookAppointment = () => {
-        if (!doctorInfo) {
-            return
+    const bookAppointment = () => {
+        const aptDate = moment(appointmentDateTime, TimeFormat.YYYYMMDDHHmm).toDate()
+            .toISOString()
+        const appointment: Appointment = {
+            DoctorID: 1,
+            Npi: doctorInfo!.npi,
+            AppointmentType: parseInt(appointmentType.toString(), 10),
+            AppointmentDate: aptDate,
+            AppointmentStatus: 1,
+            Offset: 0,
+            Memo: memo,
+            PatientID: user.id,
+            LegalGuardianPatientID: 0,
+            FirstName: user.firstName,
+            LastName: user.lastName,
+            Dob: user.birthday,
+            Gender: user.gender,
+            Email: user.email,
+            Phone: phoneNumber,
+            Insurance: parseInt(insuranceID!.toString(), 10),
+            VisitReason: illnessID!.toString(),
+            IsNewPatient: isNewPatient,
         }
-        // const appointment: Appointment = {
-        //     DoctorID: 0,
-        //     Npi: doctorInfo.npi,
-        //     AppointmentType: appointmentType as any as number,
-        //     AppointmentDate: appointmentDateTime,
-        //     Memo: memo,
-        //     Offset: offset as any as number,
-        //     PatientID: number,
-        //     LegalGuardianPatientID: number,
-        //     FirstName: string,
-        //     LastName: string,
-        //     Dob: string,
-        //     Gender: string,
-        //     Email: string,
-        //     Phone: string,
-        //     Insurance: string,
-        //     InsuranceName: string,
-        //     VisitReason: string,
-        //     IsNewPatient: boolean,
-        //
-        // }
+        addNewAppointment(appointment, () => {
+            alert("Book success")
+        }, () => {
+            alert("Book failed")
+        })
     }
     const $bookButton = (
-        <Button size={ButtonSize.block} onClick={onBookAppointment} >Book appointment</Button>
+        <Button size={ButtonSize.block} onClick={bookAppointment} >Book appointment</Button>
     )
 
     const $contentView = (
