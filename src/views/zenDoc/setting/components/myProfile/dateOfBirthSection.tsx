@@ -55,7 +55,7 @@ export default function DateOfBirthSection(props: IProps) {
         <div className={"flex-1 flex flex-row items-center justify-between space-y-8 pb-8 border-b"}>
             <div className={"flex flex-1 flex-col space-y-2"}>
                 <div className={"flex-1 flex flex-row items-center justify-between"}>
-                    <p className={"text-lg font-semibold text-primary-focus"}>Address</p>
+                    <p className={"text-lg font-semibold text-primary-focus"}>Date of birth</p>
                     <button onClick={() => {
                         setEdit(!edit)
                     }} type={"button"} className={"font-bold text-sm text-primary-focus underline"}>{edit ? "Cancel" : "Edit"}</button>

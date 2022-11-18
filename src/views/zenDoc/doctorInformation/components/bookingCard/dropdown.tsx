@@ -30,8 +30,8 @@ export default function Dropdown(props: IProps) {
         <button onClick={(e) => {
             e.stopPropagation()
             setShow(!show)
-        }} type={"button"} className={`w-full z-10 mt-1 relative p-4 bg-white flex flex-row items-center justify-between border text-primary-focus font-semibold text-sm leading-tight`}>
-            <p className={"font-medium text-sm font-primary-focus"}>{valueName}</p>
+        }} type={"button"} className={"w-full z-10 mt-1 relative p-3 bg-white flex flex-row items-center justify-between border border-gray-300 text-primary-focus font-semibold text-lg leading-tight"}>
+            <p className={"font-medium text-base font-primary-focus"}>{valueName}</p>
             <svg className={"h-5 w-5 text-primary-focus hover:text-focus"} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                 fill="currentColor">
                 <path fillRule="evenodd"
@@ -49,11 +49,11 @@ export default function Dropdown(props: IProps) {
 
     const $item = ({name, id}: DropDownItem, idx: number) => {
         return (
-            <button type={'button'} onClick={() => {
+            <button type={"button"} onClick={() => {
                 setShow(false)
                 onChange && onChange(id)
             }} key={idx} className={"w-full py-2 hover:bg-pink-100 flex flex-row items-center"}>
-                <p className={"text-sm px-2 font-medium text-primary-focus text-left"}>{name}</p>
+                <p className={"text-lg px-2 font-medium text-primary-focus text-left"}>{name}</p>
             </button>
         )
     }

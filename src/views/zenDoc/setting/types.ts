@@ -13,6 +13,18 @@ export interface AddressInfo {
     ZipCode: string
 }
 
+interface Insurance {
+    InsuranceID: string
+    MemberID: string,
+    ImageUrls: Array<string>
+}
+
+export interface InsuranceInfo {
+    Medical: Insurance
+    Dental: Insurance
+    Vision: Insurance
+}
+
 export {
     SettingRoute,
 }
