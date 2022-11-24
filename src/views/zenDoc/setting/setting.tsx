@@ -5,6 +5,7 @@ import {Route, Switch} from "react-router-dom";
 import {InsuranceInfo, SettingRoute} from "./types";
 import MyProfile from "./myProfile";
 import MyInsurance from "./myInsurance";
+import MyAppointment from "./myAppointment";
 
 export default function Setting() {
     const [insuranceInfo] = useState<InsuranceInfo>({Dental: {
@@ -32,7 +33,7 @@ export default function Setting() {
         <div className={"flex-1 px-20"}>
             <Switch>
                 <Route path={SettingRoute[0].path} exact component={MyProfile}/>
-                <Route path={SettingRoute[1].path} exact component={MyProfile}/>
+                <Route path={SettingRoute[1].path} exact component={MyAppointment}/>
                 <Route path={SettingRoute[2].path} exact component={() => {
                     return <MyInsurance insuranceInfo={insuranceInfo} onSave={onUpdateInsurance} />
                 }}/>
