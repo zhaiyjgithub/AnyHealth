@@ -3,6 +3,7 @@ import PhoneNumberModal from "../../../booking/components/addPhoneNumber/phoneNu
 
 interface IProps {
     phoneNumber: string
+    onSave: (phone: string) => void
 }
 
 export default function PhoneNumberSection(props: IProps) {
@@ -12,6 +13,7 @@ export default function PhoneNumberSection(props: IProps) {
         <PhoneNumberModal phoneNumber={phoneNumber} open={show} onApply={(phoneNumber) => {
             setPhoneNumber(phoneNumber)
             setShow(false)
+            props.onSave(phoneNumber)
         }} onClose={() => {
             setShow(false)
         }}/>

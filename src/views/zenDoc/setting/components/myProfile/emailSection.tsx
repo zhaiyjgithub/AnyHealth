@@ -6,6 +6,7 @@ import {validateEmail} from "../../../../../utils/util/commonTool";
 
 interface IProps {
     email: string,
+    onSave: (email: string) => void
 }
 
 export default function EmailSection(props: IProps) {
@@ -14,7 +15,11 @@ export default function EmailSection(props: IProps) {
     const [isValid, setIsValid] = useState<boolean>(false)
 
     useEffect(() => {
-        setIsValid(validateEmail(email))
+        if (email.length) {
+            setIsValid(validateEmail(email))
+        } else {
+            setIsValid(true)
+        }
     }, [email])
 
     const errMsg = !isValid ? "Please type an email." : ""
@@ -26,7 +31,12 @@ export default function EmailSection(props: IProps) {
             }}/>
             <div className={"w-max"}>
                 <Button status={isValid ? ButtonStatus.primary : ButtonStatus.disabled} onClick={() => {
-                    isValid && setShow(false)
+                    if (email.length) {
+                        isValid && setShow(false)
+                        isValid && props.onSave(email)
+                    } else {
+                        setIsValid(false)
+                    }
                 }}>
                     Save
                 </Button>

@@ -9,7 +9,11 @@ export interface User {
     email: string,
     birthday: string,
     phone: string,
-    address: string,
+    streetAddress: string,
+    suit: string,
+    city: string,
+    state: string,
+    zip: string,
     password: string
 }
 
@@ -21,7 +25,11 @@ const defaultUser: User = {
     email: "",
     birthday: "",
     phone: "",
-    address: "",
+    streetAddress: "",
+    suit: "",
+    city: "",
+    state: "",
+    zip: "",
     password: "",
 }
 
@@ -48,9 +56,9 @@ export default function UserProvider({children}: any) {
     const login = (email: string, password: string, completeHandler: (isSuccess: boolean, msg: string) => void) => {
         loginWithEmail(email, password, (user) => {
             setUser(user)
-            completeHandler(true, '')
+            completeHandler(true, "")
         }, () => {
-            completeHandler(false, '')
+            completeHandler(false, "")
         })
     }
     const createUser = (

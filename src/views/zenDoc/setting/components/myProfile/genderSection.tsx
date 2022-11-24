@@ -27,6 +27,7 @@ export default function GenderSection(props: IProps) {
             }} />
             <div className={"w-max"}>
                 <Button status={ButtonStatus.primary} onClick={() => {
+                    setEdit(false)
                     props.onSave(gender)
                 }}>
                     Save

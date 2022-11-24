@@ -17,8 +17,9 @@ export enum ApiSchedule {
 
 export enum ApiUser {
     CreateUser= "User/CreateUser",
-    Login= "/User/Login",
-    CreateSubUser = "/User/CreateSubUser",
-    GetSubUsers = "/User/GetSubUsers",
-    UpdateSubUserPhone = "/User/UpdateSubUserPhone"
+    Login= "User/Login",
+    CreateSubUser = "User/CreateSubUser",
+    GetSubUsers = "User/GetSubUsers",
+    UpdateSubUserPhone = "User/UpdateSubUserPhone",
+    UpdateUserProfile = "User/UpdateUserProfile",
 }

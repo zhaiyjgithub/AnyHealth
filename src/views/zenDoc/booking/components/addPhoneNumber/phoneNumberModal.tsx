@@ -21,8 +21,12 @@ export default function PhoneNumberModal(props: IProps) {
     }, [props.phoneNumber])
 
     useEffect(() => {
-        const ok = validateNumber(phoneNumber)
-        setIsValid(ok)
+        if (phoneNumber.length) {
+            const ok = validateNumber(phoneNumber)
+            setIsValid(ok)
+        } else {
+            setIsValid(true)
+        }
     }, [phoneNumber])
 
     const $title = (

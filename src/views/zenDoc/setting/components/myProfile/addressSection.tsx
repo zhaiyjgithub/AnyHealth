@@ -21,14 +21,14 @@ export default function AddressSection(props: IProps) {
             addressInfo.Suit.length &&
             addressInfo.City.length &&
             addressInfo.State.length &&
-            addressInfo.ZipCode.length
+            addressInfo.Zip.length
         ) ||
             (addressInfo &&
                 !addressInfo.StreetAddress.length &&
                 !addressInfo.Suit.length &&
                 !addressInfo.City.length &&
                 !addressInfo.State.length &&
-                !addressInfo.ZipCode.length
+                !addressInfo.Zip.length
             )
         ) {
             valid = true
@@ -39,7 +39,7 @@ export default function AddressSection(props: IProps) {
     const errMsgForStreetAddress = !isValid && !addressInfo.StreetAddress.length ? "Please enter a street address" : ""
     const errMsgForCity = !isValid && !addressInfo.City.length ? "Please enter a city" : ""
     const errMsgForState = !isValid && !addressInfo.State.length ? "Please enter a state" : ""
-    const errMsgForZipCode = !isValid && !addressInfo.ZipCode.length ? "Please enter a zip code" : ""
+    const errMsgForZipCode = !isValid && !addressInfo.Zip.length ? "Please enter a zip code" : ""
     const $editView = (
         <div className={"w-full flex flex-col space-y-8"}>
             <FormInput errMsg={errMsgForStreetAddress} title={"Street Address"} value={addressInfo?.StreetAddress} onChangeText={(text) => {
@@ -69,10 +69,10 @@ export default function AddressSection(props: IProps) {
                 }}/>
             </div>
             <div className={"w-full grid grid-cols-2 space-x-4"}>
-                <FormInput errMsg={errMsgForZipCode} title={"Zip code"} value={addressInfo?.ZipCode} onChangeText={(text) => {
+                <FormInput errMsg={errMsgForZipCode} title={"Zip code"} value={addressInfo?.Zip} onChangeText={(text) => {
                     setAddressInfo({
                         ...addressInfo,
-                        ZipCode: text,
+                        Zip: text,
                     })
                 }}/>
             </div>
@@ -89,7 +89,7 @@ export default function AddressSection(props: IProps) {
         </div>
     )
 
-    const address = addressInfo.StreetAddress.length ? `${addressInfo.StreetAddress}, ${addressInfo.City}, ${addressInfo.State}, ${addressInfo.ZipCode}` : "Not provide"
+    const address = addressInfo.StreetAddress.length ? `${addressInfo.StreetAddress}, ${addressInfo.City}, ${addressInfo.State}, ${addressInfo.Zip}` : "Not provide"
     const $defaultView = (
         <div className={"flex-1 flex flex-row"}>
             <p className={"text-lg text-primary-focus"}>{address}</p>

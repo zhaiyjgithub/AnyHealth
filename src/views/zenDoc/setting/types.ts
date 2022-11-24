@@ -10,7 +10,7 @@ export interface AddressInfo {
     Suit: string
     City: string
     State: string
-    ZipCode: string
+    Zip: string
 }
 
 interface Insurance {
@@ -23,6 +23,19 @@ export interface InsuranceInfo {
     Medical: Insurance
     Dental: Insurance
     Vision: Insurance
+}
+
+export interface UserProfile {
+    UserID: number
+    Email: string | undefined
+    Phone: string | undefined
+    Birthday: string | undefined
+    Gender: string | undefined
+    StreetAddress: string | undefined
+    Suit: string | undefined
+    City: string | undefined
+    State: string | undefined
+    Zip: string | undefined
 }
 
 export {
