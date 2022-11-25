@@ -1,5 +1,7 @@
 import React, {createContext, useState} from "react"
 import {createNewUser, loginWithEmail} from "../service/userService";
+import {ApiUser} from "../../../../utils/http/api";
+import {sendRequest} from "../../../../utils/http/http";
 
 export interface User {
     id: number,
@@ -43,12 +45,14 @@ export interface UserContextType {
         email: string,
         password: string,
         completeHandler: (isSuccess: boolean, msg: string) => void) => void,
+    getUserByID: (userID: number) => void,
 }
 
 export const UserContext = createContext<UserContextType>({
     user: defaultUser,
     login: () => null,
     createUser: () => null,
+    getUserByID: () => null,
 })
 
 export default function UserProvider({children}: any) {
@@ -86,7 +90,18 @@ export default function UserProvider({children}: any) {
             })
     }
 
-    const value: UserContextType = {user, login, createUser}
+    const getUserByID = (userID: number) => {
+        const param = {
+            UserID: userID,
+        }
+        sendRequest(ApiUser.GetUserByID, param, (user) => {
+            setUser(user)
+        }, () => {
+            //
+        })
+    }
+
+    const value: UserContextType = {user, login, createUser, getUserByID}
     return (
         <UserContext.Provider value={value}>
             {children}

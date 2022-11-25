@@ -4,15 +4,16 @@ import EmailSection from "./components/myProfile/emailSection";
 import AddressSection from "./components/myProfile/addressSection";
 import {AddressInfo, UserProfile} from "./types";
 import GenderSection from "./components/myProfile/genderSection";
-import {Gender} from "../../../utils/enum/enum";
+import {Gender, TimeFormat} from "../../../utils/enum/enum";
 import DateOfBirthSection from "./components/myProfile/dateOfBirthSection";
 import useUserAuth from "../user/hooks/useUserAuth";
 import Button from "../../../components/buttons/button";
 import {ButtonStatus} from "../../../components/buttons/enum";
-import updateProfile from "./service";
+import {updateProfile} from "./service";
+import moment from "moment";
 
 export default function MyProfile() {
-    const {user} = useUserAuth()
+    const {user, getUserByID} = useUserAuth()
     const [addressInfo, setAddressInfo] = useState<AddressInfo>({
         City: user.city,
         State: user.state,
@@ -42,7 +43,7 @@ export default function MyProfile() {
             profile.Email = email
         }
         if (phone.length) {
-            profile.Phone = phone
+            profile.Phone = `+1${phone}`
         }
         if (addressInfo.StreetAddress.length) {
             profile.StreetAddress = addressInfo.StreetAddress
@@ -63,10 +64,12 @@ export default function MyProfile() {
             profile.Gender = gender
         }
         if (birthday.length) {
-            profile.Birthday = birthday
+            const d = moment(birthday, TimeFormat.MMDDYYYY).format(TimeFormat.YYYYMMDD)
+            profile.Birthday = d
         }
         updateProfile(profile, () => {
             alert("Update success")
+            getUserByID(2)
         }, () => {
             alert("Update failed")
         })

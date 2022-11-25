@@ -22,8 +22,9 @@ export default function MyInsurance(props: IProps) {
             setInfo({
                 ...info,
                 Medical: {
+                    ID: info.Medical.ID,
                     InsuranceID: id,
-                    MemberID: "",
+                    MemberID: info.Medical.MemberID,
                     ImageUrls: [],
                 },
             })
@@ -35,8 +36,9 @@ export default function MyInsurance(props: IProps) {
             setInfo({
                 ...info,
                 Dental: {
+                    ID: info.Dental.ID,
                     InsuranceID: id,
-                    MemberID: "",
+                    MemberID: info.Dental.MemberID,
                     ImageUrls: [],
                 },
             })
@@ -48,8 +50,9 @@ export default function MyInsurance(props: IProps) {
             setInfo({
                 ...info,
                 Vision: {
+                    ID: info.Vision.ID,
                     InsuranceID: id,
-                    MemberID: "",
+                    MemberID: info.Vision.MemberID,
                     ImageUrls: [],
                 },
             })
@@ -75,6 +78,7 @@ export default function MyInsurance(props: IProps) {
                             setInfo({
                                 ...info,
                                 Medical: {
+                                    ID: info.Medical.ID,
                                     InsuranceID: info.Medical.InsuranceID,
                                     MemberID: text,
                                     ImageUrls: info.Medical.ImageUrls,
@@ -94,6 +98,7 @@ export default function MyInsurance(props: IProps) {
                             setInfo({
                                 ...info,
                                 Dental: {
+                                    ID: info.Dental.ID,
                                     InsuranceID: info.Dental.InsuranceID,
                                     MemberID: text,
                                     ImageUrls: info.Dental.ImageUrls,
@@ -111,6 +116,7 @@ export default function MyInsurance(props: IProps) {
                             setInfo({
                                 ...info,
                                 Vision: {
+                                    ID: info.Vision.ID,
                                     InsuranceID: info.Vision.InsuranceID,
                                     MemberID: text,
                                     ImageUrls: info.Vision.ImageUrls,

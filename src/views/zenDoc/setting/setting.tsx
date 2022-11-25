@@ -9,14 +9,17 @@ import MyAppointment from "./myAppointment";
 
 export default function Setting() {
     const [insuranceInfo] = useState<InsuranceInfo>({Dental: {
+        ID: 0,
         InsuranceID: "",
         MemberID: "",
         ImageUrls: [],
     }, Medical: {
+        ID: 1,
         InsuranceID: "",
         MemberID: "",
         ImageUrls: [],
     }, Vision: {
+        ID: 2,
         InsuranceID: "",
         MemberID: "",
         ImageUrls: [],

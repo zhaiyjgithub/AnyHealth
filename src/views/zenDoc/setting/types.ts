@@ -14,8 +14,9 @@ export interface AddressInfo {
 }
 
 interface Insurance {
+    ID: number
     InsuranceID: string
-    MemberID: string,
+    MemberID: string
     ImageUrls: Array<string>
 }
 

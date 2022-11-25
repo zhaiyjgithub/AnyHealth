@@ -18,11 +18,13 @@ export default function PhoneNumberSection(props: IProps) {
             setShow(false)
         }}/>
     )
+
+    const formatPhone = phoneNumber.length ? `+1${phoneNumber}` : "Not Provide"
     return (
         <div className={"flex-1 flex flex-row items-center justify-between space-y-8 pb-8 border-b"}>
             <div className={"flex flex-1 flex-col space-y-2"}>
                 <p className={"text-lg font-semibold text-primary-focus"}>Phone Number</p>
-                <p className={"text-lg text-primary-focus"}>{phoneNumber}</p>
+                <p className={"text-lg text-primary-focus"}>{formatPhone}</p>
             </div>
             <button type={"button"} onClick={() => {
                 setShow(true)

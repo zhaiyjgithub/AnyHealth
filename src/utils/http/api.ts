@@ -22,4 +22,7 @@ export enum ApiUser {
     GetSubUsers = "User/GetSubUsers",
     UpdateSubUserPhone = "User/UpdateSubUserPhone",
     UpdateUserProfile = "User/UpdateUserProfile",
+    GetUserByID = "User/GetUserByID",
+    GetUserInsurance = "User/GetUserInsurance",
+    UpdateUserInsurance = "User/UpdateUserInsurance"
 }
