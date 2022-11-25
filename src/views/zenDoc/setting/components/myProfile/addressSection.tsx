@@ -17,18 +17,18 @@ export default function AddressSection(props: IProps) {
     useEffect(() => {
         let valid = false
         if ((addressInfo &&
-            addressInfo.StreetAddress.length &&
-            addressInfo.Suit.length &&
-            addressInfo.City.length &&
-            addressInfo.State.length &&
-            addressInfo.Zip.length
+            addressInfo.streetAddress.length &&
+            addressInfo.suit.length &&
+            addressInfo.city.length &&
+            addressInfo.state.length &&
+            addressInfo.zip.length
         ) ||
             (addressInfo &&
-                !addressInfo.StreetAddress.length &&
-                !addressInfo.Suit.length &&
-                !addressInfo.City.length &&
-                !addressInfo.State.length &&
-                !addressInfo.Zip.length
+                !addressInfo.streetAddress.length &&
+                !addressInfo.suit.length &&
+                !addressInfo.city.length &&
+                !addressInfo.state.length &&
+                !addressInfo.zip.length
             )
         ) {
             valid = true
@@ -36,43 +36,43 @@ export default function AddressSection(props: IProps) {
         setIsValid(valid)
     }, [addressInfo])
     const errMsg = ""
-    const errMsgForStreetAddress = !isValid && !addressInfo.StreetAddress.length ? "Please enter a street address" : ""
-    const errMsgForCity = !isValid && !addressInfo.City.length ? "Please enter a city" : ""
-    const errMsgForState = !isValid && !addressInfo.State.length ? "Please enter a state" : ""
-    const errMsgForZipCode = !isValid && !addressInfo.Zip.length ? "Please enter a zip code" : ""
+    const errMsgForStreetAddress = !isValid && !addressInfo.streetAddress.length ? "Please enter a street address" : ""
+    const errMsgForCity = !isValid && !addressInfo.city.length ? "Please enter a city" : ""
+    const errMsgForState = !isValid && !addressInfo.state.length ? "Please enter a state" : ""
+    const errMsgForZipCode = !isValid && !addressInfo.zip.length ? "Please enter a zip code" : ""
     const $editView = (
         <div className={"w-full flex flex-col space-y-8"}>
-            <FormInput errMsg={errMsgForStreetAddress} title={"Street Address"} value={addressInfo?.StreetAddress} onChangeText={(text) => {
+            <FormInput errMsg={errMsgForStreetAddress} title={"Street Address"} value={addressInfo?.streetAddress} onChangeText={(text) => {
                 setAddressInfo({
                     ...addressInfo,
-                    StreetAddress: text,
+                    streetAddress: text,
                 })
             }}/>
-            <FormInput errMsg={errMsg} title={"Apt, suite, building (optional)"} value={addressInfo?.Suit} onChangeText={(text) => {
+            <FormInput errMsg={errMsg} title={"Apt, suite, building (optional)"} value={addressInfo?.suit} onChangeText={(text) => {
                 setAddressInfo({
                     ...addressInfo,
-                    Suit: text,
+                    suit: text,
                 })
             }}/>
             <div className={"w-full grid grid-cols-2 space-x-4"}>
-                <FormInput errMsg={errMsgForCity} title={"City"} value={addressInfo?.City} onChangeText={(text) => {
+                <FormInput errMsg={errMsgForCity} title={"City"} value={addressInfo?.city} onChangeText={(text) => {
                     setAddressInfo({
                         ...addressInfo,
-                        City: text,
+                        city: text,
                     })
                 }}/>
-                <FormInput errMsg={errMsgForState} title={"State"} value={addressInfo?.State} onChangeText={(text) => {
+                <FormInput errMsg={errMsgForState} title={"State"} value={addressInfo?.state} onChangeText={(text) => {
                     setAddressInfo({
                         ...addressInfo,
-                        State: text,
+                        state: text,
                     })
                 }}/>
             </div>
             <div className={"w-full grid grid-cols-2 space-x-4"}>
-                <FormInput errMsg={errMsgForZipCode} title={"Zip code"} value={addressInfo?.Zip} onChangeText={(text) => {
+                <FormInput errMsg={errMsgForZipCode} title={"Zip code"} value={addressInfo?.zip} onChangeText={(text) => {
                     setAddressInfo({
                         ...addressInfo,
-                        Zip: text,
+                        zip: text,
                     })
                 }}/>
             </div>
@@ -89,7 +89,7 @@ export default function AddressSection(props: IProps) {
         </div>
     )
 
-    const address = addressInfo.StreetAddress.length ? `${addressInfo.StreetAddress}, ${addressInfo.City}, ${addressInfo.State}, ${addressInfo.Zip}` : "Not provide"
+    const address = addressInfo.streetAddress.length ? `${addressInfo.streetAddress}, ${addressInfo.city}, ${addressInfo.state}, ${addressInfo.zip}` : "Not provide"
     const $defaultView = (
         <div className={"flex-1 flex flex-row"}>
             <p className={"text-lg text-primary-focus"}>{address}</p>

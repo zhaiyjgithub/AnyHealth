@@ -1,7 +1,6 @@
-import {InsuranceInfo, UserProfile} from "./types";
+import {Insurance, UserProfile} from "./types";
 import {sendRequest} from "../../../utils/http/http";
 import {ApiUser} from "../../../utils/http/api";
-import {User} from "../user/hooks/userProvider";
 
 export function updateProfile(userProfile: UserProfile, success: () => void, fail: () => void) {
     sendRequest(ApiUser.UpdateUserProfile, userProfile, () => {
@@ -24,22 +23,24 @@ export function getUserInsurance(userID: number, success: (data: any) => void, f
 
 interface UserInsurance {
     ID: number
-    UserID: number
-    PlanID: string
-    MemberID: string
-    Photo: string
+    userID: number
+    planID: string
+    memberID: string
+    photo: string
 }
 
-export function updateUserInsurance(userID: number, info: InsuranceInfo, success: (data: any) => void, fail: () => void) {
-    const list: Array<UserInsurance> = []
-    const medicalInsurance: UserInsurance = {ID: info.Medical.ID, MemberID: info.Medical.MemberID, Photo: "", PlanID: info.Medical.InsuranceID, UserID: userID}
-    const dentalInsurance: UserInsurance = {ID: info.Dental.ID, MemberID: info.Dental.MemberID, Photo: "", PlanID: info.Dental.InsuranceID, UserID: userID}
-    const visionInsurance: UserInsurance = {ID: info.Vision.ID, MemberID: info.Vision.MemberID, Photo: "", PlanID: info.Vision.InsuranceID, UserID: userID}
-    list.push(medicalInsurance, dentalInsurance, visionInsurance)
+export function updateUserInsurance(userID: number, list: Array<Insurance>, success: (data: any) => void, fail: () => void) {
+    const insurances: Array<UserInsurance> = []
+    list.forEach((info) => {
+        insurances.push(
+            {ID: info.ID, memberID: info.memberID, photo: "", planID: info.planID, userID: userID}
+        )
+    })
     const param = {
-        insurances: list,
+        UserID: userID,
+        insurances: insurances,
     }
-    sendRequest(ApiUser.GetUserInsurance, param, (data) => {
+    sendRequest(ApiUser.UpdateUserInsurance, param, (data) => {
         success(data)
     }, () => {
         fail()

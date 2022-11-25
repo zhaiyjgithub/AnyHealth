@@ -1,66 +1,103 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Dropdown from "../doctorInformation/components/bookingCard/dropdown";
 import {dataForInsurance} from "../doctorInformation/components/bookingCard/dataForInsuarnce";
 import FormInput from "../../../components/form/formInput";
-import {InsuranceInfo} from "./types";
+import {Insurance, InsuranceType} from "./types";
 import Button from "../../../components/buttons/button";
 import {ButtonStatus} from "../../../components/buttons/enum";
+import {getUserInsurance, updateUserInsurance} from "./service";
 
-interface IProps {
-    insuranceInfo: InsuranceInfo,
-    onSave: (info: InsuranceInfo) => void
-}
+export default function MyInsurance() {
 
-export default function MyInsurance(props: IProps) {
-    const [info, setInfo] = useState<InsuranceInfo>(props.insuranceInfo)
+    const [list, setList] = useState<Array<Insurance>>([
+        { ID: 0,
+            planID: "",
+            type: InsuranceType.medical,
+            memberID: "",
+            imageFront: "",
+            imageBack: "",
+        },
+        { ID: 0,
+            planID: "",
+            type: InsuranceType.dental,
+            memberID: "",
+            imageFront: "",
+            imageBack: "",
+        },
+        { ID: 0,
+            planID: "",
+            type: InsuranceType.vision,
+            memberID: "",
+            imageFront: "",
+            imageBack: "",
+        },
+    ])
+
+    useEffect(() => {
+        getUserInsurance(2, (data) => {
+            console.log("data", data)
+            data.forEach((item: any) => {
+                if (item.type === InsuranceType.medical) {
+                    list[0].ID = item.ID
+                    list[0].planID = item.planID
+                    list[0].memberID = item.memberID
+
+                } else if (item.type === InsuranceType.dental) {
+                    list[1].ID = item.ID
+                    list[1].planID = item.planID
+                    list[1].memberID = item.memberID
+
+                } else if (item.type === InsuranceType.vision) {
+                    list[2].ID = item.ID
+                    list[2].planID = item.planID
+                    list[2].memberID = item.memberID
+                }
+            })
+            setList([...list])
+            console.log("data source", list)
+        }, () => {
+            //
+        })
+    }, [])
+
     const $title = (
         <p className={"text-2xl font-bold text-primary-focus"}>Insurance</p>
     )
 
-    const $dropdownForMedicalInsurance = (
-        <Dropdown title={""} placeholder={"Choose a medical insurance"} selected={info.Medical.InsuranceID} data={dataForInsurance} onChange={(id) => {
-            setInfo({
-                ...info,
-                Medical: {
-                    ID: info.Medical.ID,
-                    InsuranceID: id,
-                    MemberID: info.Medical.MemberID,
-                    ImageUrls: [],
-                },
-            })
-        }} />
-    )
+    const getTypeName = (type: InsuranceType) => {
+        if (type === InsuranceType.medical) {
+            return InsuranceType[InsuranceType.medical]
+        } else if (type === InsuranceType.dental) {
+            return InsuranceType[InsuranceType.dental]
+        } else if (type === InsuranceType.vision) {
+            return InsuranceType[InsuranceType.vision]
+        }
+        return ""
+    }
 
-    const $dropdownForDetalInsurance = (
-        <Dropdown title={""} placeholder={"Choose a dental insurance"} selected={info.Dental.InsuranceID} data={dataForInsurance} onChange={(id) => {
-            setInfo({
-                ...info,
-                Dental: {
-                    ID: info.Dental.ID,
-                    InsuranceID: id,
-                    MemberID: info.Dental.MemberID,
-                    ImageUrls: [],
-                },
-            })
-        }} />
-    )
-
-    const $dropdownForVisionInsurance = (
-        <Dropdown title={""} placeholder={"Choose a vision insurance"} selected={info.Vision.InsuranceID} data={dataForInsurance} onChange={(id) => {
-            setInfo({
-                ...info,
-                Vision: {
-                    ID: info.Vision.ID,
-                    InsuranceID: id,
-                    MemberID: info.Vision.MemberID,
-                    ImageUrls: [],
-                },
-            })
-        }} />
-    )
+    const $body = list.map((insurance, idx) => {
+        return (
+            <tr className={"border-b"} key={idx}>
+                <td className={"px-4 font-semibold"}>{getTypeName(insurance.type)}</td>
+                <td className={"px-4 py-4"}>
+                    <Dropdown key={idx} title={""} placeholder={"None Selected"} selected={insurance.planID} data={dataForInsurance} onChange={(id) => {
+                        list[idx].planID = id
+                        setList([...list])
+                    }} />
+                </td>
+                <td className={"px-4"}>
+                    <FormInput title={""} value={insurance.memberID} placeholder={"(Optional)"} onChangeText={(text) => {
+                        list[idx].memberID = text
+                        setList([...list])
+                    }}/>
+                </td>
+                <td className={"px-4"}>{"N/A"}</td>
+            </tr>
+        )
+    })
 
     const $table = (
-        <table className="table-fixed w-full">
+        <table className="table-auto w-full ">
             <thead className={"bg-gray-300"}>
                 <tr className={"px-4"}>
                     <th className={"text-left py-4 px-4"}>Type</th>
@@ -70,71 +107,22 @@ export default function MyInsurance(props: IProps) {
                 </tr>
             </thead>
             <tbody>
-                <tr className={"border-b"}>
-                    <td className={"px-4 font-semibold"}>Medical</td>
-                    <td className={"px-4 py-4"}>{$dropdownForMedicalInsurance}</td>
-                    <td className={"px-4"}>
-                        <FormInput title={""} value={info.Medical.MemberID} placeholder={"Optional"} onChangeText={(text) => {
-                            setInfo({
-                                ...info,
-                                Medical: {
-                                    ID: info.Medical.ID,
-                                    InsuranceID: info.Medical.InsuranceID,
-                                    MemberID: text,
-                                    ImageUrls: info.Medical.ImageUrls,
-                                },
-                            })
-                        }}/>
-                    </td>
-                    <td className={"px-4 text-2xl"}>
-                        <i className="fas fa-camera"></i>
-                    </td>
-                </tr>
-                <tr className={"border-b"}>
-                    <td className={"px-4 font-semibold"}>Dental</td>
-                    <td className={"px-4 py-4"}>{$dropdownForDetalInsurance}</td>
-                    <td className={"px-4"}>
-                        <FormInput title={""} value={info.Dental.MemberID} placeholder={"Optional"} onChangeText={(text) => {
-                            setInfo({
-                                ...info,
-                                Dental: {
-                                    ID: info.Dental.ID,
-                                    InsuranceID: info.Dental.InsuranceID,
-                                    MemberID: text,
-                                    ImageUrls: info.Dental.ImageUrls,
-                                },
-                            })
-                        }}/>
-                    </td>
-                    <td className={"px-4"}>{"N/A"}</td>
-                </tr>
-                <tr className={"border-b"}>
-                    <td className={"px-4 font-semibold"}>Vision</td>
-                    <td className={"px-4 py-4"}>{$dropdownForVisionInsurance}</td>
-                    <td className={"px-4"}>
-                        <FormInput title={""} value={info.Vision.MemberID} placeholder={"Optional"} onChangeText={(text) => {
-                            setInfo({
-                                ...info,
-                                Vision: {
-                                    ID: info.Vision.ID,
-                                    InsuranceID: info.Vision.InsuranceID,
-                                    MemberID: text,
-                                    ImageUrls: info.Vision.ImageUrls,
-                                },
-                            })
-                        }}/>
-                    </td>
-                    <td className={"px-4"}>{"N/A"}</td>
-                </tr>
+                {$body}
             </tbody>
         </table>
     )
 
+    const onClickSave = () => {
+        updateUserInsurance(2, list, () => {
+            alert("update success")
+        }, () => {
+            //
+        })
+    }
+
     const $saveButton = (
         <div className={"w-max"}>
-            <Button status={ButtonStatus.primary } onClick={() => {
-                //
-            }}>
+            <Button status={ButtonStatus.primary } onClick={onClickSave}>
                 Save
             </Button>
         </div>

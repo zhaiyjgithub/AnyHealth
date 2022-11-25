@@ -15,11 +15,11 @@ import moment from "moment";
 export default function MyProfile() {
     const {user, getUserByID} = useUserAuth()
     const [addressInfo, setAddressInfo] = useState<AddressInfo>({
-        City: user.city,
-        State: user.state,
-        StreetAddress: user.streetAddress,
-        Suit: user.suit,
-        Zip: user.zip,
+        city: user.city,
+        state: user.state,
+        streetAddress: user.streetAddress,
+        suit: user.suit,
+        zip: user.zip,
     })
     const [gender, setGender] = useState<Gender>(Gender.Female)
     const [phone, setPhone] = useState(user.phone)
@@ -28,44 +28,44 @@ export default function MyProfile() {
 
     const onClickSave = () => {
         const profile: UserProfile = {
-            Birthday: undefined,
-            City: undefined,
-            Email: undefined,
-            Gender: undefined,
-            Phone: undefined,
-            State: undefined,
-            StreetAddress: undefined,
-            Suit: undefined,
-            Zip: undefined,
-            UserID: 2,
+            birthday: undefined,
+            city: undefined,
+            email: undefined,
+            gender: undefined,
+            phone: undefined,
+            state: undefined,
+            streetAddress: undefined,
+            suit: undefined,
+            zip: undefined,
+            userID: 2,
         }
         if (email.length) {
-            profile.Email = email
+            profile.email = email
         }
         if (phone.length) {
-            profile.Phone = `+1${phone}`
+            profile.phone = `+1${phone}`
         }
-        if (addressInfo.StreetAddress.length) {
-            profile.StreetAddress = addressInfo.StreetAddress
+        if (addressInfo.streetAddress.length) {
+            profile.streetAddress = addressInfo.streetAddress
         }
-        if (addressInfo.Suit.length) {
-            profile.Suit = addressInfo.Suit
+        if (addressInfo.suit.length) {
+            profile.suit = addressInfo.suit
         }
-        if (addressInfo.City.length) {
-            profile.City = addressInfo.City
+        if (addressInfo.city.length) {
+            profile.city = addressInfo.city
         }
-        if (addressInfo.State.length) {
-            profile.State = addressInfo.State
+        if (addressInfo.state.length) {
+            profile.state = addressInfo.state
         }
-        if (addressInfo.Zip.length) {
-            profile.Zip = addressInfo.Zip
+        if (addressInfo.zip.length) {
+            profile.zip = addressInfo.zip
         }
         if (gender.length) {
-            profile.Gender = gender
+            profile.gender = gender
         }
         if (birthday.length) {
             const d = moment(birthday, TimeFormat.MMDDYYYY).format(TimeFormat.YYYYMMDD)
-            profile.Birthday = d
+            profile.birthday = d
         }
         updateProfile(profile, () => {
             alert("Update success")

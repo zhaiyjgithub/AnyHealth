@@ -6,37 +6,39 @@ const SettingRoute: Array<{name: string, path: string}> = [
 ]
 
 export interface AddressInfo {
-    StreetAddress: string
-    Suit: string
-    City: string
-    State: string
-    Zip: string
+    streetAddress: string
+    suit: string
+    city: string
+    state: string
+    zip: string
 }
 
-interface Insurance {
+export enum InsuranceType {
+    medical,
+    dental,
+    vision
+}
+
+export interface Insurance {
     ID: number
-    InsuranceID: string
-    MemberID: string
-    ImageUrls: Array<string>
-}
-
-export interface InsuranceInfo {
-    Medical: Insurance
-    Dental: Insurance
-    Vision: Insurance
+    type: InsuranceType,
+    planID: string
+    memberID: string
+    imageFront: string
+    imageBack: string
 }
 
 export interface UserProfile {
-    UserID: number
-    Email: string | undefined
-    Phone: string | undefined
-    Birthday: string | undefined
-    Gender: string | undefined
-    StreetAddress: string | undefined
-    Suit: string | undefined
-    City: string | undefined
-    State: string | undefined
-    Zip: string | undefined
+    userID: number
+    email: string | undefined
+    phone: string | undefined
+    birthday: string | undefined
+    gender: string | undefined
+    streetAddress: string | undefined
+    suit: string | undefined
+    city: string | undefined
+    state: string | undefined
+    zip: string | undefined
 }
 
 export {
