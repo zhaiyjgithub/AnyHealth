@@ -6,6 +6,7 @@ import {SettingRoute} from "./types";
 import MyProfile from "./myProfile";
 import MyInsurance from "./myInsurance";
 import MyAppointment from "./myAppointment";
+import Policy from "./policy";
 
 export default function Setting() {
     const $navbar = (
@@ -18,7 +19,7 @@ export default function Setting() {
                 <Route path={SettingRoute[0].path} exact component={MyProfile}/>
                 <Route path={SettingRoute[1].path} exact component={MyAppointment}/>
                 <Route path={SettingRoute[2].path} exact component={MyInsurance}/>
-                <Route path={SettingRoute[3].path} exact component={MyProfile}/>
+                <Route path={SettingRoute[3].path} exact component={Policy}/>
             </Switch>
         </div>
     )

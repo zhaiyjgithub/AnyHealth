@@ -123,7 +123,7 @@ export default function MyProfile() {
     )
 
     return (
-        <div className={"w-full h-full space-y-8"}>
+        <div className={"w-4/5 h-full space-y-8"}>
             {$title}
             {$list}
             {$saveButton}
