@@ -34,7 +34,9 @@ export default function NavBar() {
     const $info = user.firstName.length ? $userInfo : $login
 
     const $loginModal = (
-        <LoginModal show={show} onApply={() => {
+        <LoginModal show={show} onCancel={() => {
+            setShow(false)
+        }} onLoginSuccess={() => {
             setShow(false)
         }} />
     )
@@ -43,18 +45,12 @@ export default function NavBar() {
         <button type={"button"} className={"text-sm text-base-600 font-semibold border-primary-focus border-b border-dotted hover:border-solid"}>Browse</button>
     )
 
-    const $listPracticeButton = (
-        <button type={"button"} className={"text-sm text-base-600 font-semibold border-primary-focus border-b border-dotted hover:border-solid"}>List your practice on Zocdoc</button>
-    )
-
     const $divider = (
         <div className={"h-5 w-px bg-primary-focus"}/>
     )
     const $navButtons = (
         <div className={"flex flex-row items-center space-x-4"}>
             {$browseButton}
-            {$divider}
-            {$listPracticeButton}
             {$divider}
             {$info}
             {$loginModal}

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import PhoneNumberModal from "../../../booking/components/addPhoneNumber/phoneNumberModal";
+import PhoneNumberModal from "../../../appointment/components/addPhoneNumber/phoneNumberModal";
 
 interface IProps {
     phoneNumber: string

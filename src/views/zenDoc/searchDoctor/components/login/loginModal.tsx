@@ -3,17 +3,17 @@ import Button from "../../../../../components/buttons/button";
 import {ButtonSize, ButtonStatus, Variant} from "../../../../../components/buttons/enum";
 import {validateEmail} from "../../../../../utils/util/commonTool";
 import useUserAuth from "../../../user/hooks/useUserAuth";
-import {useHistory} from "react-router-dom";
 import {MD5} from "crypto-js"
 import FormModal from "../../../../../components/modal/formModal";
 
 interface IProps {
     show: boolean,
-    onApply: () => void,
+    onCancel: () => void,
+    onLoginSuccess: () => void
 }
 
 export default function LoginModal(props: IProps) {
-    const {show, onApply} = props
+    const {show, onCancel, onLoginSuccess} = props
     const [email, setEmail] = useState<string>("yuanji.zhai@outlook.com")
     const [password, setPassword] = useState<string>("12345678")
     const [loginFailed, setLoginFailed] = useState<boolean>(false)
@@ -23,7 +23,6 @@ export default function LoginModal(props: IProps) {
     })
     const [loading, setLoading] = useState<boolean>(false)
     const { login } = useUserAuth()
-    const history = useHistory()
 
     const onLogin = () => {
         setLoading(true)
@@ -32,11 +31,9 @@ export default function LoginModal(props: IProps) {
         login(email, hash, (isSuccess) => {
             setLoading(false)
             setLoginFailed(false)
-            onApply && onApply()
+            onCancel && onCancel()
             if (isSuccess) {
-                history.push({
-                    pathname: "/search",
-                })
+                onLoginSuccess()
             } else {
                 setLoginFailed(true)
             }
@@ -44,7 +41,7 @@ export default function LoginModal(props: IProps) {
     }
 
     function closeModal() {
-        onApply && onApply()
+        onCancel && onCancel()
     }
 
     const $title = (

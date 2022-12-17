@@ -86,7 +86,6 @@ function reducer(state : SearchFilter, actions: ActionForFilter) {
     default:
         return state
     }
-
 }
 
 export const SearchFilterContext = createContext<{

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import Dropdown from "../doctorInformation/components/bookingCard/dropdown";
-import {dataForInsurance} from "../doctorInformation/components/bookingCard/dataForInsuarnce";
+import Dropdown from "../doctorInformation/components/appointmentInfoPanel/dropdown";
+import {dataForInsurance} from "../doctorInformation/components/appointmentInfoPanel/dataForInsuarnce";
 import FormInput from "../../../components/form/formInput";
 import {Insurance, InsuranceType} from "./types";
 import Button from "../../../components/buttons/button";

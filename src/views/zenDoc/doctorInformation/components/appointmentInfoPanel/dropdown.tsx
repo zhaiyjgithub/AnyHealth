@@ -13,13 +13,14 @@ export interface DropDownItem {
 interface IProps {
     title: string,
     placeholder: string,
+    errMsg?: string,
     data: Array<DropDownItem>,
     selected: any,
     onChange: (id: any) => void,
 }
 
 export default function Dropdown(props: IProps) {
-    const { title, data, selected, onChange, placeholder} = props
+    const { title, data, selected, onChange, placeholder, errMsg} = props
     const [show, setShow] = useState<boolean>(false)
 
     const value = data.find((_item) => {
@@ -53,7 +54,7 @@ export default function Dropdown(props: IProps) {
                 setShow(false)
                 onChange && onChange(id)
             }} key={idx} className={"w-full py-2 hover:bg-pink-100 flex flex-row items-center"}>
-                <p className={"text-lg px-2 font-medium text-primary-focus text-left"}>{name}</p>
+                <p className={"text-base px-2 font-medium text-primary-focus text-left"}>{name}</p>
             </button>
         )
     }
@@ -71,10 +72,15 @@ export default function Dropdown(props: IProps) {
     const $title = title.length ? (
         <p className={"text-base font-semibold text-primary-focus"}>{title}</p>
     ) : null
+
+    const $err = errMsg?.length ? (
+        <p className={"text-xs text-error italic"}>{errMsg}</p>
+    ) : null
     return (
         <div className={"relative w-full"}>
             {$title}
             {$toggleButton}
+            {$err}
             {$bg}
             {$list}
         </div>

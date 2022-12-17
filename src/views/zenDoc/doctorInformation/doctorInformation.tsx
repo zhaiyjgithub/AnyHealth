@@ -10,7 +10,7 @@ import Sticky from "react-sticky-el";
 import {ScrollingProvider, Section} from "react-scroll-section"
 import Faq from "./components/faq/faq";
 import Button from "../../../components/buttons/button";
-import BookingCard from "./components/bookingCard/bookingCard";
+import AppointmentInfoPanel from "./components/appointmentInfoPanel/appointmentInfoPanel";
 import {useLocation} from "react-router-dom";
 import qs from "qs";
 import {DoctorDetailInfo, getDoctorDetailInfoByNpi} from "./service/doctorCardService";
@@ -43,7 +43,7 @@ export default function DoctorInformation() {
     }, [])
 
     if (!doctorDetailInfo) {
-        return <div className={'w-full h-full'}/>
+        return <div className={"w-full h-full"}/>
     }
 
     const $previewPhotosButton = (
@@ -210,7 +210,7 @@ export default function DoctorInformation() {
     const npiForBookingCard = (typeof npi === "string") && parseInt(npi) ? parseInt(npi) : 0
     const $bookCard = (
         <div className={"w-2/5"}>
-            <BookingCard npi={npiForBookingCard}/>
+            <AppointmentInfoPanel npi={npiForBookingCard}/>
         </div>
     )
     return (

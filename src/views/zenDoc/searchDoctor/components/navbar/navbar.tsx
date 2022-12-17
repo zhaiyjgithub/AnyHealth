@@ -41,9 +41,11 @@ export default function Navbar() {
 
     const $info = user.firstName.length ? $userInfo : $login
     const $loginModal = (
-        <LoginModal show={show} onApply={() => {
+        <LoginModal show={show} onCancel={() => {
             setShow(false)
-        }} />
+        }} onLoginSuccess={() => {
+            setShow(false)
+        }}/>
     )
     return (
         <div className={"w-full flex flex-row items-center justify-between px-8 py-4 bg-base-200 border"}>

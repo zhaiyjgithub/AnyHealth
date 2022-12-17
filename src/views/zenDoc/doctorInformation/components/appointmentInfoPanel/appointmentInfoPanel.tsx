@@ -22,7 +22,7 @@ interface IProps {
     npi: number
 }
 
-export default function BookingCard(props: IProps) {
+export default function AppointmentInfoPanel(props: IProps) {
     const {npi} = props
     const [dataForAllAvailable, setDataForAllAvailable] = useState<Array<TimeSlotPerDay>>([])
     const [booking, setBooking] = useState<Booking>({
@@ -31,6 +31,7 @@ export default function BookingCard(props: IProps) {
         appointmentType: AppointmentType.inClinic,
         isNewPatient: undefined,
     })
+    const [clickedBook, setClickedBook] = useState<boolean>(false)
     const [selectedTimeSlot, setSelectedTimeSlot] = useState<TimeSlot | null>(null)
     const [startDate, setStartDate] = useState<Date>(new Date())
     const history = useHistory()
@@ -54,8 +55,9 @@ export default function BookingCard(props: IProps) {
         <p className={"font-bold text-2xl text-primary-focus"}>Book an appointment for free</p>
     )
 
+    const errMsgForInsurance = clickedBook && !booking.insuranceId.length ? "Insurance is required" : ""
     const $dropdownForInsurance = (
-        <Dropdown title={"What's your insurance plan?"} placeholder={"Choose an insurance"} selected={booking.insuranceId} data={dataForInsurance} onChange={(id) => {
+        <Dropdown errMsg={errMsgForInsurance} title={"What's your insurance plan?"} placeholder={"Choose an insurance"} selected={booking.insuranceId} data={dataForInsurance} onChange={(id) => {
             setBooking({
                 ...booking,
                 insuranceId: id,
@@ -63,8 +65,9 @@ export default function BookingCard(props: IProps) {
         }} />
     )
 
+    const errMsgForIllness = clickedBook && !booking.illnessId ? "Reason of your visit is required" : ""
     const $dropdownForIllness = (
-        <Dropdown title={"What's the reason of your visit?"} placeholder={"Illness"} selected={booking.illnessId} data={dataForIllness} onChange={(id) => {
+        <Dropdown errMsg={errMsgForIllness} title={"What's the reason of your visit?"} placeholder={"Illness"} selected={booking.illnessId} data={dataForIllness} onChange={(id) => {
             setBooking({
                 ...booking,
                 illnessId: id,
@@ -72,27 +75,33 @@ export default function BookingCard(props: IProps) {
         }} />
     )
 
+    const errMsgForNewPatientOptionView = clickedBook && booking.isNewPatient === undefined ? "Please choose one of them" : ""
     const $newPatientOptionView = (
         <div className={"w-full"}>
-            <p className={"text-base text-primary-focus font-semibold"}>Has the patient seen this doctor before?</p>
-            <div className={"flex flex-row items-center justify-between border border-base-300 mt-1 bg-white"}>
-                <div className={"px-3 py-2.5 flex flex-1 flex-row"}>
-                    <FormRadio key={3} title={"No"} checked={booking.isNewPatient === true} onChange={() => {
-                        setBooking({
-                            ...booking,
-                            isNewPatient: true,
-                        })
-                    }}/>
-                </div>
-                <div className={"px-3 py-2.5 flex flex-1 flex-row border-l"}>
-                    <FormRadio key={4} title={"Yes"} checked={booking.isNewPatient === false} onChange={() => {
-                        setBooking({
-                            ...booking,
-                            isNewPatient: false,
-                        })
-                    }}/>
+            <div className={"w-full"}>
+                <p className={"text-base text-primary-focus font-semibold"}>Has the patient seen this doctor before?</p>
+                <div className={"flex flex-row items-center justify-between border border-base-300 mt-1 bg-white"}>
+                    <div className={"px-3 py-2.5 flex flex-1 flex-row"}>
+                        <FormRadio key={3} title={"No"} checked={booking.isNewPatient === true} onChange={() => {
+                            setBooking({
+                                ...booking,
+                                isNewPatient: true,
+                            })
+                        }}/>
+                    </div>
+                    <div className={"px-3 py-2.5 flex flex-1 flex-row border-l"}>
+                        <FormRadio key={4} title={"Yes"} checked={booking.isNewPatient === false} onChange={() => {
+                            setBooking({
+                                ...booking,
+                                isNewPatient: false,
+                            })
+                        }}/>
+                    </div>
                 </div>
             </div>
+            {errMsgForNewPatientOptionView.length ? (
+                <p className={"text-error text-xs italic"}>{errMsgForNewPatientOptionView}</p>
+            ) : null}
         </div>
     )
 
@@ -120,21 +129,28 @@ export default function BookingCard(props: IProps) {
         </div>
     )
 
+    const errMsgForTimeSlot = clickedBook && !selectedTimeSlot ? "Please choose the time slot" : ""
     const $timeSlotsView = (
-        <TimeSlotsView selectedTimeSlot={selectedTimeSlot} onSelect={(timeSlot) => {
-            setSelectedTimeSlot(timeSlot)
-        }} total={5} startDate={startDate} timeSlotsPerDay={dataForAllAvailable} onPrevious={() => {
-            const previewStartDate = moment(startDate).subtract(4, "days")
-                .toDate()
-            setStartDate(previewStartDate)
-        }} onNext={() => {
-            const nextStartDate = moment(startDate).add(4, "days")
-                .toDate()
-            setStartDate(nextStartDate)
-        }}/>
+        <div className={"w-full"}>
+            <TimeSlotsView selectedTimeSlot={selectedTimeSlot} onSelect={(timeSlot) => {
+                setSelectedTimeSlot(timeSlot)
+            }} total={5} startDate={startDate} timeSlotsPerDay={dataForAllAvailable} onPrevious={() => {
+                const previewStartDate = moment(startDate).subtract(4, "days")
+                    .toDate()
+                setStartDate(previewStartDate)
+            }} onNext={() => {
+                const nextStartDate = moment(startDate).add(4, "days")
+                    .toDate()
+                setStartDate(nextStartDate)
+            }}/>
+            {errMsgForTimeSlot.length ? (
+                <p className={"text-error text-xs italic"}>{errMsgForTimeSlot}</p>
+            ) : null}
+        </div>
     )
 
     const onClickContinueBook = () => {
+        setClickedBook(true)
         if (!booking.insuranceId.length) {
             return;
         }

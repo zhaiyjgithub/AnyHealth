@@ -10,12 +10,12 @@ import FormRadio from "../../../components/form/formRadio";
 import useUserAuth from "../user/hooks/useUserAuth";
 import Button from "../../../components/buttons/button";
 import {ButtonSize, ButtonStatus} from "../../../components/buttons/enum";
-import Dropdown from "../doctorInformation/components/bookingCard/dropdown";
-import {dataForIllness, dataForInsurance} from "../doctorInformation/components/bookingCard/dataForInsuarnce";
+import Dropdown from "../doctorInformation/components/appointmentInfoPanel/dropdown";
+import {dataForIllness, dataForInsurance} from "../doctorInformation/components/appointmentInfoPanel/dataForInsuarnce";
 import NewSubPatientModal from "./components/newPatient/newSubPatientModal";
 import PhoneNumberModal from "./components/addPhoneNumber/phoneNumberModal";
 import {SubUser} from "./components/types";
-import {addNewAppointment, createSubUser, getDoctorTimeSlots, getSubUsers} from "./bookingService";
+import {addNewAppointment, createSubUser, getDoctorTimeSlots, getSubUsers} from "./appointmentService";
 import {TimeSlotPerDay} from "../searchDoctor/model/doctor";
 import WeekDayHeader from "./components/weekDayHeader";
 import Timeslots from "./components/timeSlots/timeSlots";
@@ -38,7 +38,7 @@ interface PatientList {
     id: number,
 }
 
-export default function BookingPage() {
+export default function AppointmentBookingPage() {
     const [doctorInfo, setDoctorInfo] = useState<DoctorProfile | null>(null)
     const {search} = useLocation<IRouterLocation>()
     const urlParams = qs.parse(search.replace("?", ""))
