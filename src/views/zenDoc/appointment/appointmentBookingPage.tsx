@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useState} from "react";
 import NavBar from "./components/navBar/navBar";
 import {$iconDefaultDoctor} from "../searchDoctor/assets/assets";
-import {useLocation} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import qs from "qs";
 import {DoctorProfile, getDoctorProfile} from "../../zenClinic/profile/general/generalProfileService";
 import {AppointmentType, TimeFormat} from "../../../utils/enum/enum";
@@ -63,7 +63,10 @@ export default function AppointmentBookingPage() {
     const [startDate, setStartDate] = useState<Date>(new Date())
     const [phoneNumber, setPhoneNumber] = useState<string>("")
     const [selectedPatientID, setSelectedPatientID] = useState<number>(0)
+    const [clickedBook, setClickedBook] = useState<boolean>(false)
+    const [accepted, setAccepted] = useState<boolean>(false)
     const {user} = useUserAuth()
+    const history = useHistory()
 
     if (!npi || !date || !offset || !appointmentType) {
         return null
@@ -225,6 +228,8 @@ export default function AppointmentBookingPage() {
     const $addPhoneNumberButton = (
         <Button onClick={onAddPhoneNumber} status={ButtonStatus.link} >{phoneNumber.length ? phoneNumber : "Add phone number"}</Button>
     )
+
+    const errMsgForPhoneNumber = clickedBook && !phoneNumber.length ? "Phone Number is required" : ""
     const $phoneNumberInfo = (
         <div className={"w-full space-y-1"}>
             <p className={"text-base font-semibold text-primary-focus"}>Phone number where the doctor can reach you</p>
@@ -233,6 +238,7 @@ export default function AppointmentBookingPage() {
                     {$addPhoneNumberButton}
                 </div>
             </div>
+            <p className={"text-sm text-error italic"}>{errMsgForPhoneNumber}</p>
         </div>
     )
 
@@ -326,21 +332,38 @@ export default function AppointmentBookingPage() {
     const $ternOfServiceViewButton = (
         <Button onClick={() => {
             //
-        }} status={ButtonStatus.link} >term of service</Button>
+        }} status={ButtonStatus.link} >Term of Service</Button>
     )
     const $agreementView = (
-        <label className={"flex flex-row space-x-2 cursor-pointer"}>
-            <input type={"checkbox"} className={"form-checkbox mt-1 w-4 h-4 rounded-none flex-none transition duration-150"}/>
+        <div className={"flex flex-row space-x-2 cursor-pointer"}>
+            <input onChange={() => {
+                setAccepted(!accepted)
+            }} type={"checkbox"} checked={accepted} className={"form-checkbox mt-1 w-4 h-4 rounded-none flex-none transition duration-150"}/>
             <span className={"text-sm font-semibold text-primary-focus leading-snug"}>
                 I certify that the insurance or payment selected is the one that I will be using when I see this medical professional, and that I have read and agree to the Zendoc
                 <span className={"w-max ml-1"}>
                     {$ternOfServiceViewButton}
                 </span>
             </span>
-        </label>
+        </div>
     )
 
     const bookAppointment = () => {
+        setClickedBook(true)
+        if (!phoneNumber.length) {
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: "smooth",
+            });
+            return
+        }
+
+        if (!accepted) {
+            alert("please selected the Term of Service")
+            return;
+        }
+
         const aptDate = moment(appointmentDateTime, TimeFormat.YYYYMMDDHHmm).toDate()
             .toISOString()
         const appointment: Appointment = {
@@ -366,6 +389,7 @@ export default function AppointmentBookingPage() {
         }
         addNewAppointment(appointment, () => {
             alert("Book success")
+            history.replace("/search")
         }, () => {
             alert("Book failed")
         })

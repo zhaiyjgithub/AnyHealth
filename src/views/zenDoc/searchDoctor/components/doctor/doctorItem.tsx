@@ -2,25 +2,16 @@ import React, {useState} from "react";
 import DoctorInformation from "./information/doctorInformation";
 import Timeslots, {TimeSlot} from "./timeslots/timeslots";
 import {DoctorInfo} from "../../model/doctor";
-import {useHistory} from "react-router-dom";
-import {AppointmentType} from "../../../../../utils/enum/enum";
 
 interface IProps {
     doctorInfo: DoctorInfo,
-    onViewAllAvailability: () => void
+    onViewAllAvailability: () => void,
+    onClickTimeSlot: (timeSlot: TimeSlot) => void
 }
 
 export default function DoctorItem(props: IProps) {
-    const history = useHistory()
     const [active, setActive] = useState<boolean>(false)
-    const { doctorInfo, onViewAllAvailability } = props
-
-    const onClickTimeSlot = (timeSlot: TimeSlot) => {
-        history.push({
-            pathname: "/booking",
-            search: `?npi=${doctorInfo.npi}&date=${timeSlot.date}&offset=${timeSlot.offset}&isNewPatient=${false}&insuranceID=${""}&illnessID=${""}&appointmentType=${AppointmentType.inClinic}`,
-        })
-    }
+    const { doctorInfo, onViewAllAvailability, onClickTimeSlot } = props
 
     const $doctorInfoView = (<DoctorInformation active={active} doctorInfo={doctorInfo} />)
     const $timeslotsView = (<Timeslots timeSlotsPerDay={doctorInfo.timeSlotsPerDay} onClick={onClickTimeSlot}/>)

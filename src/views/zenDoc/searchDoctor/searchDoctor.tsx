@@ -11,6 +11,9 @@ import PageFooter from "./components/pageFooter/pageFooter";
 import AllAvailableTimeSlots from "./components/allAvailableTimeSlots/allAvailableTimeSlots";
 import LeafletMap, {Pin} from "../../../components/map/leafletMap";
 import moment from "moment";
+import LoginModal from "./components/login/loginModal";
+import {useHistory} from "react-router-dom";
+import useUserAuth from "../user/hooks/useUserAuth";
 
 export default function SearchDoctor() {
     const [apptType, setApptType] = useState<AppointmentType>(AppointmentType.anyType)
@@ -19,6 +22,9 @@ export default function SearchDoctor() {
     const [total, setTotal] = useState<number>(0)
     const [viewAllIdx, setViewAllIdx] = useState<number>(-1)
     const [dataForAllAvailable, setDataForAllAvailable] = useState<Array<TimeSlotPerDay>>([])
+    const [showLoginModal, setShowLoginModal] = useState<boolean>(false)
+    const history = useHistory()
+    const {user} = useUserAuth()
 
     useEffect(() => {
         findDoctor(state, (total, data) => {
@@ -101,10 +107,19 @@ export default function SearchDoctor() {
         </div>
     )
 
-    const $resultList = (
+    const $doctorList = (
         <div className={"w-full flex flex-col flex-1 z-10"}>
             {data.map((doctor, idx) => {
-                return <DoctorItem doctorInfo={doctor} key={idx} onViewAllAvailability={() => {
+                return <DoctorItem onClickTimeSlot={(timeSlot) => {
+                    if (!user.id) {
+                        setShowLoginModal(true)
+                        return
+                    }
+                    history.push({
+                        pathname: "/booking",
+                        search: `?npi=${doctor.npi}&date=${timeSlot.date}&offset=${timeSlot.offset}&isNewPatient=${false}&insuranceID=${""}&illnessID=${""}&appointmentType=${state.appointmentType}`,
+                    })
+                }} doctorInfo={doctor} key={idx} onViewAllAvailability={() => {
                     setDataForAllAvailable(data[idx].timeSlotsPerDay)
                     setViewAllIdx(idx)
                 }}/>
@@ -148,7 +163,7 @@ export default function SearchDoctor() {
                 {$appointmentTypeTabList}
                 {$filter}
                 {$weekDayStickyHeader}
-                {$resultList}
+                {$doctorList}
                 {$allTimeSlotsModal}
             </div>
             <div className={"flex w-0 xl:w-1/3"}>
@@ -157,14 +172,23 @@ export default function SearchDoctor() {
         </div>
     )
 
+    const $loginModal = (
+        <LoginModal show={showLoginModal} onCancel={() => {
+            setShowLoginModal(false)
+        }} onLoginSuccess={() => {
+            setShowLoginModal(false)
+        }} />
+    )
+
     const $footer = (
-        <div className={"w-full h-48 bg-red-300"}/>
+        <div className={"w-full h-48 bg-base-200"}/>
     )
     return (
         <div className={"flex flex-col w-full min-h-screen"}>
             {$navBar}
             {$content}
             {$footer}
+            {$loginModal}
         </div>
     )
 }

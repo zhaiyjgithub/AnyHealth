@@ -5,6 +5,7 @@ import {validateEmail} from "../../../../../utils/util/commonTool";
 import useUserAuth from "../../../user/hooks/useUserAuth";
 import {MD5} from "crypto-js"
 import FormModal from "../../../../../components/modal/formModal";
+import {useHistory} from "react-router-dom";
 
 interface IProps {
     show: boolean,
@@ -23,6 +24,7 @@ export default function LoginModal(props: IProps) {
     })
     const [loading, setLoading] = useState<boolean>(false)
     const { login } = useUserAuth()
+    const history = useHistory()
 
     const onLogin = () => {
         setLoading(true)
@@ -112,7 +114,7 @@ export default function LoginModal(props: IProps) {
         <div className={"flex flex-row items-center justify-center w-full space-x-1"}>
             <p className={"text-sm text-primary-focus"}>New to Zendoc?</p>
             <button type={"button"} className={"text-sm text-primary-focus border-b border-primary-focus leading-none font-semibold"} onClick={() => {
-                //
+                history.push("/create-user")
             }} >Create an account</button>
         </div>
     )

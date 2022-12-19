@@ -26,7 +26,7 @@ export default function LoginDropdown({ onLogin}: IProps) {
             e.stopPropagation()
             setShow(!show)
         }} type={"button"} className={"z-10 relative space-x-2 flex flex-row items-center border-b border-primary-focus border-dotted hover:border-solid text-primary-focus font-semibold text-sm leading-tight"}>
-            <p>Login / Sign up</p>
+            <p className={"text-sm text-primary-focus"}>Login / Sign up</p>
             <svg className={"h-5 w-5 text-primary-focus hover:text-focus"} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                 fill="currentColor">
                 <path fillRule="evenodd"
