@@ -7,7 +7,7 @@ export default function UserDropdown() {
 
     const history = useHistory()
     const userAuth = useUserAuth()
-    const { user } = userAuth
+    const { user, logOut } = userAuth
     const $toggleButton = (
         <button onClick={(e) => {
             e.stopPropagation()
@@ -36,8 +36,8 @@ export default function UserDropdown() {
                     <i className="fas fa-cog text-primary-focus text-base"></i>
                     <button onClick={() => {
                         history.push({
-                            pathname: "/profile-setting",
-                            search: ``,
+                            pathname: "/profile-setting/profile",
+                            search: "",
                         })
                     }} type={"button"} className={"w-full text-primary-focus text-base font-medium"}>Settings</button>
                 </div>
@@ -45,7 +45,10 @@ export default function UserDropdown() {
             <div className={"w-full bg-white hover:bg-gray-200 px-2"}>
                 <div className={"w-full flex flex-row items-center space-x-4 px-2 py-2"}>
                     <i className="fas fa-sign-out-alt text-primary-focus text-base"></i>
-                    <button type={"button"} className={"w-full text-primary-focus text-base font-medium"}>Sign out</button>
+                    <button onClick={() => {
+                        logOut()
+                        history.replace("/search")
+                    }} type={"button"} className={"w-full text-primary-focus text-base font-medium"}>Sign out</button>
                 </div>
             </div>
         </div>

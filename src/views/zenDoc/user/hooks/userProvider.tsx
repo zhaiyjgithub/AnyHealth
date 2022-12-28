@@ -46,6 +46,7 @@ export interface UserContextType {
         password: string,
         completeHandler: (isSuccess: boolean, msg: string) => void) => void,
     getUserByID: (userID: number) => void,
+    logOut: () => void,
 }
 
 export const UserContext = createContext<UserContextType>({
@@ -53,6 +54,7 @@ export const UserContext = createContext<UserContextType>({
     login: () => null,
     createUser: () => null,
     getUserByID: () => null,
+    logOut: () => null,
 })
 
 export default function UserProvider({children}: any) {
@@ -101,7 +103,11 @@ export default function UserProvider({children}: any) {
         })
     }
 
-    const value: UserContextType = {user, login, createUser, getUserByID}
+    const logOut = () => {
+        setUser(defaultUser)
+    }
+
+    const value: UserContextType = {user, login, createUser, getUserByID, logOut}
     return (
         <UserContext.Provider value={value}>
             {children}

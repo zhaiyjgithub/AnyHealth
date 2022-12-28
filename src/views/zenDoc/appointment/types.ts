@@ -1,22 +1,38 @@
 
 export interface Appointment {
-    DoctorID :number
-    Npi :number
-    AppointmentType :number
-    AppointmentDate :string
-    AppointmentStatus :number
-    Memo :string
-    Offset :number
-    PatientID :number
-    LegalGuardianPatientID :number
-    FirstName :string
-    LastName :string
-    Dob :string
-    Gender :string
-    Email :string
-    Phone :string
-    Insurance :number
-    VisitReason :string
-    IsNewPatient :boolean
-    CreatedDate: string
+    doctorID :number
+    npi :number
+    appointmentType :number
+    appointmentDate :string
+    appointmentStatus :number
+    memo :string
+    offset :number
+    patientID :number
+    legalGuardianPatientID :number
+    firstName :string
+    lastName :string
+    dob :string
+    gender :string
+    email :string
+    phone :string
+    insurance :number
+    visitReason :string
+    isNewPatient :boolean
+    createdDate: string
+}
+
+export interface AppointmentInfo extends Appointment{
+    doctorFullName: string
+    doctorAddress: string,
+    doctorPhone: string,
+    doctorEmail: string,
+    doctorSpecialty: string,
+    doctorSubSpecialty: string,
+}
+
+export enum AppointmentStatus {
+    request,
+    confirmed,
+    canceled,
+    completed,
 }

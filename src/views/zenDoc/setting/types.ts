@@ -1,9 +1,14 @@
+
 const SettingRoute: Array<{name: string, path: string}> = [
     {name: "Profile", path: "/profile-setting/profile"},
     {name: "My Appointments", path: "/profile-setting/past-appointments"},
     {name: "Insurance", path: "/profile-setting/insurance"},
     {name: "Data Privacy Settings", path: "/profile-setting/data-privacy-settings"},
 ]
+
+export {
+    SettingRoute,
+}
 
 export interface AddressInfo {
     streetAddress: string
@@ -39,8 +44,4 @@ export interface UserProfile {
     city: string | undefined
     state: string | undefined
     zip: string | undefined
-}
-
-export {
-    SettingRoute,
 }

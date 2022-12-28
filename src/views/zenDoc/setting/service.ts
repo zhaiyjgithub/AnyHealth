@@ -1,6 +1,7 @@
 import {Insurance, UserProfile} from "./types";
 import {sendRequest} from "../../../utils/http/http";
-import {ApiUser} from "../../../utils/http/api";
+import {ApiSchedule, ApiUser} from "../../../utils/http/api";
+import {AppointmentInfo} from "../appointment/types";
 
 export function updateProfile(userProfile: UserProfile, success: () => void, fail: () => void) {
     sendRequest(ApiUser.UpdateUserProfile, userProfile, () => {
@@ -44,5 +45,18 @@ export function updateUserInsurance(userID: number, list: Array<Insurance>, succ
         success(data)
     }, () => {
         fail()
+    })
+}
+
+export function getAppointmentByPage(patientID: number, page: number, pageSize: number, success: (data: Array<AppointmentInfo>) => void, fail: () => void) {
+    const param = {
+        PatientID: patientID,
+        Page: page,
+        PageSize: pageSize,
+    }
+    sendRequest(ApiSchedule.GetAppointmentByPage, param, (data) => {
+        success(data)
+    }, () => {
+        fail && fail()
     })
 }

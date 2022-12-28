@@ -21,7 +21,7 @@ import WeekDayHeader from "./components/weekDayHeader";
 import Timeslots from "./components/timeSlots/timeSlots";
 import {TimeSlot} from "../searchDoctor/components/doctor/timeslots/timeslots";
 import moment from "moment";
-import {Appointment} from "./types";
+import {Appointment, AppointmentStatus} from "./types";
 
 interface IRouterLocation {
     npi: string,
@@ -367,25 +367,25 @@ export default function AppointmentBookingPage() {
         const aptDate = moment(appointmentDateTime, TimeFormat.YYYYMMDDHHmm).toDate()
             .toISOString()
         const appointment: Appointment = {
-            DoctorID: 1,
-            Npi: doctorInfo!.npi,
-            AppointmentType: parseInt(appointmentType.toString(), 10),
-            AppointmentDate: aptDate,
-            AppointmentStatus: 1,
-            Offset: 0,
-            Memo: memo,
-            PatientID: user.id,
-            LegalGuardianPatientID: 0,
-            FirstName: user.firstName,
-            LastName: user.lastName,
-            Dob: user.birthday,
-            Gender: user.gender,
-            Email: user.email,
-            Phone: phoneNumber,
-            Insurance: parseInt(insuranceID!.toString(), 10),
-            VisitReason: illnessID!.toString(),
-            IsNewPatient: isNewPatient,
-            CreatedDate: (new Date()).toISOString(),
+            doctorID: 1,
+            npi: doctorInfo!.npi,
+            appointmentType: parseInt(appointmentType.toString(), 10),
+            appointmentDate: aptDate,
+            appointmentStatus: AppointmentStatus.request,
+            offset: 0,
+            memo: memo,
+            patientID: user.id,
+            legalGuardianPatientID: 0,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            dob: user.birthday,
+            gender: user.gender,
+            email: user.email,
+            phone: phoneNumber,
+            insurance: parseInt(insuranceID!.toString(), 10),
+            visitReason: illnessID!.toString(),
+            isNewPatient: isNewPatient,
+            createdDate: (new Date()).toISOString(),
         }
         addNewAppointment(appointment, () => {
             alert("Book success")
