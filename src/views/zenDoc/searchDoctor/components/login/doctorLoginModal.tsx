@@ -1,11 +1,10 @@
-import React, {useState} from "react"
+import React, {useContext, useState} from "react"
 import Button from "../../../../../components/buttons/button";
 import {ButtonSize, ButtonStatus, Variant} from "../../../../../components/buttons/enum";
 import {validateEmail} from "../../../../../utils/util/commonTool";
-import useUserAuth from "../../../user/hooks/useUserAuth";
 import {MD5} from "crypto-js"
 import FormModal from "../../../../../components/modal/formModal";
-import {useHistory} from "react-router-dom";
+import {DoctorInfoContext} from "../../../../zenClinic/doctorInfoContext";
 
 interface IProps {
     show: boolean,
@@ -13,9 +12,9 @@ interface IProps {
     onLoginSuccess: () => void
 }
 
-export default function LoginModal(props: IProps) {
+export default function DoctorLoginModal(props: IProps) {
     const {show, onCancel, onLoginSuccess} = props
-    const [email, setEmail] = useState<string>("yuanji.zhai@outlook.com")
+    const [email, setEmail] = useState<string>("Jeffre.Glasser@zendoc.com")
     const [password, setPassword] = useState<string>("12345678")
     const [loginFailed, setLoginFailed] = useState<boolean>(false)
     const [validation, setValidation] = useState<{email: boolean, password: boolean}>({
@@ -23,9 +22,7 @@ export default function LoginModal(props: IProps) {
         password: false,
     })
     const [loading, setLoading] = useState<boolean>(false)
-    const { login } = useUserAuth()
-    const history = useHistory()
-
+    const {login} = useContext(DoctorInfoContext)
     const onLogin = () => {
         setLoading(true)
         const hash = MD5(password).toString()
@@ -33,7 +30,6 @@ export default function LoginModal(props: IProps) {
         login(email, hash, (isSuccess) => {
             setLoading(false)
             setLoginFailed(false)
-            onCancel && onCancel()
             if (isSuccess) {
                 onLoginSuccess()
             } else {
@@ -110,22 +106,12 @@ export default function LoginModal(props: IProps) {
         }} >Log in</Button>
     )
 
-    const $createUserView = (
-        <div className={"flex flex-row items-center justify-center w-full space-x-1"}>
-            <p className={"text-sm text-primary-focus"}>New to Zendoc?</p>
-            <button type={"button"} className={"text-sm text-primary-focus border-b border-primary-focus leading-none font-semibold"} onClick={() => {
-                history.push("/create-user")
-            }} >Create an account</button>
-        </div>
-    )
-
     const $content = (
         <div className={"p-8 w-full flex flex-col space-y-4"}>
             {$title}
             {$emailForm}
             {$passwordForm}
             {$loginButton}
-            {$createUserView}
         </div>
     )
 

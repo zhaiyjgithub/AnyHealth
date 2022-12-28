@@ -1,17 +1,7 @@
 import React, {useState} from "react";
 
-export enum DropdownType {
-    default,
-    block
-}
-
-export interface DropDownItem {
-    name: string,
-    id: any
-}
-
 interface IProps {
-    onLogin: () => void,
+    onLogin: (isPatientLogin: boolean) => void,
 }
 
 enum ActionType {
@@ -20,7 +10,6 @@ enum ActionType {
 
 export default function LoginDropdown({ onLogin}: IProps) {
     const [show, setShow] = useState<boolean>(false)
-
     const $toggleButton = (
         <button onClick={(e) => {
             e.stopPropagation()
@@ -46,7 +35,7 @@ export default function LoginDropdown({ onLogin}: IProps) {
         setShow(false)
         switch (type){
         case ActionType.login:
-            onLogin && onLogin()
+            onLogin && onLogin(true)
             break
         default:
 
@@ -71,7 +60,9 @@ export default function LoginDropdown({ onLogin}: IProps) {
             <div className={"w-max flex flex-row items-center justify-between space-x-4"}>
                 <p className={"text-sm font-bold text-base-content w-16"}>{"Doctor"}</p>
                 <div className={"flex flex-row items-end justify-between py-1"}>
-                    <button type={"button"} className={"max-w-max text-sm text-base-600 font-medium border-primary-focus border-b border-dotted hover:border-solid px-2"}>Login</button>
+                    <button onClick={() => {
+                        onLogin(false)
+                    }} type={"button"} className={"max-w-max text-sm text-base-600 font-medium border-primary-focus border-b border-dotted hover:border-solid px-2"}>Login</button>
                 </div>
             </div>
 

@@ -1,30 +1,24 @@
 import React, {createContext, useState} from "react";
 import {sendRequest} from "../../utils/http/http";
-import {ApiUser} from "../../utils/http/api";
+import {ApiDoctor} from "../../utils/http/api";
 
 export interface DoctorUser {
+    ID: number,
     fullName: string,
     firstName: string,
-    midName: string,
     lastName: string,
     npi: number,
-    jobTitle: string,
-    namePrefix: string,
+    email: string,
+    password: string,
 }
 
 export const defaultDoctorUser: DoctorUser = {
-    fullName: "",
-    firstName: "",
-    midName: "",
-    lastName: "",
-    namePrefix: "",
-    jobTitle: "",
-    npi: 0,
+    email: "", firstName: "", fullName: "", ID: 0, lastName: "", npi: 0, password: "",
 }
 
 interface IDoctorInfoContext {
     doctorUser: DoctorUser
-    login: (email: string, password: string) => void
+    login: (email:string, password: string, completeHandler: (isSuccess: boolean, msg: string) => void) => void,
     logOut: () => void
 }
 
@@ -36,16 +30,26 @@ export const DoctorInfoContext = createContext<IDoctorInfoContext>({
 
 export default function DoctorUserProvider({children}: any) {
     const [doctorUser, setDoctorUser] = useState<DoctorUser>(defaultDoctorUser)
-    const login = (email: string, password: string) => {
+    const login = (email: string, password: string, completeHandler: (isSuccess: boolean, msg: string) => void) => {
         const param = {
             email: email,
             password: password,
         }
 
-        sendRequest(ApiUser.GetUserByID, param, (data) => {
-            setDoctorUser(data)
+        sendRequest(ApiDoctor.DoctorLogin, param, (user) => {
+            const u: DoctorUser = {
+                email: user.email,
+                firstName: user.firstName,
+                fullName: user.fullName,
+                lastName: user.lastName,
+                npi: user.npi,
+                password: user.password,
+                ID: user.id,
+            }
+            setDoctorUser(u)
+            completeHandler(true, "")
         }, () => {
-            //
+            completeHandler(false, "")
         })
     }
 

@@ -4,7 +4,6 @@ import {useHistory} from "react-router-dom";
 
 export default function UserDropdown() {
     const [show, setShow] = useState<boolean>(false)
-
     const history = useHistory()
     const userAuth = useUserAuth()
     const { user, logOut } = userAuth

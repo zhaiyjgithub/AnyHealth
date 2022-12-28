@@ -3,7 +3,8 @@ export enum ApiDoctor {
     GetDoctor= "Doctor/GetDoctor",
     SaveDoctor= "Doctor/SaveDoctor",
     GetTimeSlots = "Doctor/GetTimeSlots",
-    GetDoctorDetailInfo = "Doctor/GetDoctorDetailInfo"
+    GetDoctorDetailInfo = "Doctor/GetDoctorDetailInfo",
+    DoctorLogin = "Doctor/DoctorLogin",
 }
 
 export enum ApiSchedule {

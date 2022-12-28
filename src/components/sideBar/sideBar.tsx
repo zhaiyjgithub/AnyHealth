@@ -1,11 +1,14 @@
-import React, {useContext} from "react";
+import React from "react";
 import {Link, useLocation} from "react-router-dom";
-import {DoctorInfoContext} from "../../views/zenClinic/doctorInfoContext";
+import {DoctorUser} from "../../views/zenClinic/doctorInfoContext";
 import {dataForSideBarRouter, RouterTable} from "../../router/routerTable"
 
-export default function SideBar() {
-    const {doctorUser} = useContext(DoctorInfoContext)
-    const doctorName = `${doctorUser.namePrefix}${doctorUser.fullName} ${doctorUser.jobTitle}`
+interface IProps {
+    doctorUser: DoctorUser
+}
+
+export default function SideBar({doctorUser}: IProps) {
+    const doctorName = `${doctorUser.fullName}`
     const {pathname} = useLocation()
 
     const icons: Array<string> = [

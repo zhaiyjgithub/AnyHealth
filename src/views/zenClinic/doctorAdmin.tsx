@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext, useEffect, useState} from "react";
 import SideBar from "../../components/sideBar/sideBar";
 import {Route, Switch} from "react-router-dom";
 import {dataForSideBarRouter} from "../../router/routerTable";
@@ -6,11 +6,18 @@ import Dashboard from "./dashboard/dashboard";
 import Schedule from "./schedule/schedule";
 import Profile from "./profile/profile";
 import Settings from "./settings/settings"
+import {defaultDoctorUser, DoctorInfoContext, DoctorUser} from "./doctorInfoContext";
 
 export default function DoctorAdmin() {
+    const [user, setUser] = useState<DoctorUser>(defaultDoctorUser)
+    const {doctorUser} = useContext(DoctorInfoContext)
+
+    useEffect(() => {
+        setUser(doctorUser)
+    }, [doctorUser])
     const $sideBar = (
         <div className={"h-screen border-r w-60 sticky top-0"}>
-            <SideBar />
+            <SideBar doctorUser={user}/>
         </div>
     )
     const $contentView = (

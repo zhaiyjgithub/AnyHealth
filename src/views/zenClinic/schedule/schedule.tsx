@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import MonthDropdown from "./components/monthDropdown";
 import WorkDaysList from "./components/workDaysList";
 import moment from "moment";
@@ -7,12 +7,16 @@ import DailyAppointmentList from "./components/dailyAppointment/dailyAppointment
 import {Appointment} from "./components/types";
 import Button from "../../../components/buttons/button";
 import NewAppointmentModal from "./components/newAppointmentModal";
+import {DoctorInfoContext} from "../doctorInfoContext";
 
 const testNpi = 1588665012
 
 export default function Schedule() {
     const [selectedDate, setSelectedDate] = useState<string>(moment().format(TimeFormat.YYYYMMDD))
     const [show, setShow] = useState<boolean>(false)
+    const {doctorUser} = useContext(DoctorInfoContext)
+
+    console.log(doctorUser.fullName)
     const $monthDropdown = (
         <MonthDropdown onChange={(idx) => {
             console.log(idx)
@@ -22,7 +26,7 @@ export default function Schedule() {
         <Button onClick={(e) => {
             e.stopPropagation()
         }}>
-            <div className={'flex space-x-2 items-center'}>
+            <div className={"flex space-x-2 items-center"}>
                 <i className="fas fa-redo-alt"></i>
                 <p>Refresh</p>
             </div>
@@ -33,7 +37,7 @@ export default function Schedule() {
         <Button onClick={() => {
             setShow(true)
         }} >
-            <div className={'flex space-x-2 items-center'}>
+            <div className={"flex space-x-2 items-center"}>
                 <i className="fas fa-plus"></i>
                 <p>New Appointment</p>
             </div>
@@ -56,7 +60,7 @@ export default function Schedule() {
             <div>
                 {$brand}
             </div>
-            <div className={'flex justify-end space-x-8'}>
+            <div className={"flex justify-end space-x-8"}>
                 {$monthDropdown}
                 {$refreshButton}
                 {$newAppointmentButton}
@@ -114,7 +118,7 @@ export default function Schedule() {
     ]
 
     const $appointmentList = (
-        <div className={'pl-10'}>
+        <div className={"pl-10"}>
             <DailyAppointmentList
                 selectedDate={"2022-07-03"}
                 workStartDateTime={"09:00"}

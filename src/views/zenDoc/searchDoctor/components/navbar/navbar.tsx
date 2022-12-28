@@ -4,10 +4,14 @@ import LoginDropdown from "../login/loginDropdown";
 import UserDropdown from "../login/userDropdown";
 import useUserAuth from "../../../user/hooks/useUserAuth";
 import LoginModal from "../login/loginModal";
+import DoctorLoginModal from "../login/doctorLoginModal";
+import {useHistory} from "react-router-dom";
 
 export default function Navbar() {
     const [show, setShow] = useState<boolean>(false)
+    const [showDoctorLoginModal, setDoctorLoginModal] = useState(false)
     const useAuth = useUserAuth()
+    const history = useHistory()
     const { user } = useAuth
     const $brand = (
         <p className={"font-bold text-4xl text-base-content font-playball"}>
@@ -22,8 +26,12 @@ export default function Navbar() {
     )
 
     const $login = (
-        <LoginDropdown onLogin={() => {
-            setShow(true)
+        <LoginDropdown onLogin={(isPatientLogin) => {
+            if (isPatientLogin) {
+                setShow(true)
+            } else {
+                setDoctorLoginModal(true)
+            }
         }} />
     )
 
@@ -47,6 +55,16 @@ export default function Navbar() {
             setShow(false)
         }}/>
     )
+
+    const $doctorUserLoginModal = (
+        <DoctorLoginModal show={showDoctorLoginModal} onCancel={() => {
+            setDoctorLoginModal(false)
+        }} onLoginSuccess={() => {
+            setDoctorLoginModal(false)
+            history.replace("/doctorAdmin/dashboard")
+        }} />
+    )
+
     return (
         <div className={"w-full flex flex-row items-center justify-between px-8 py-4 bg-base-200 border"}>
             <div className={"flex-1 flex flex-row items-center h-12 space-x-8"}>
@@ -55,6 +73,7 @@ export default function Navbar() {
             </div>
             {$info}
             {$loginModal}
+            {$doctorUserLoginModal}
         </div>
     )
 }
