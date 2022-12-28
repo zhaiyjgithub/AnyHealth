@@ -10,14 +10,14 @@ export default function ClosedDateSettings() {
     const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
     const [selectedDeleteIndex, setSelectedDeleteIndex] = useState(-1)
     const [isOpenModal, setIsOpenModal] = useState(false)
-    const doctorInfo = useContext(DoctorInfoContext)
+    const {doctorUser} = useContext(DoctorInfoContext)
 
     useEffect(() => {
         getClosedDateSetting()
     }, [])
 
     const getClosedDateSetting = () => {
-        getClosedDateSettings(doctorInfo.npi, (data) => {
+        getClosedDateSettings(doctorUser.npi, (data) => {
             setSettingsList(data)
         }, () => {
             //
@@ -44,7 +44,7 @@ export default function ClosedDateSettings() {
     const onConfirm = (closedDateSettings: ClosedDate) => {
         closeModal()
         if (closedDateSettings) {
-            addClosedDateSettings(doctorInfo.npi, closedDateSettings, () => {
+            addClosedDateSettings(doctorUser.npi, closedDateSettings, () => {
                 getClosedDateSetting()
             }, () => {
                 //
@@ -55,7 +55,7 @@ export default function ClosedDateSettings() {
     const onDelete = () => {
         onCloseDeleteModal()
         const sid = settingsList[selectedDeleteIndex].sid
-        deleteClosedDateSettingsByID(doctorInfo.npi, sid, () => {
+        deleteClosedDateSettingsByID(doctorUser.npi, sid, () => {
             const list = settingsList.filter((item, idx) => {
                 return idx !== selectedDeleteIndex
             })
@@ -104,7 +104,7 @@ export default function ClosedDateSettings() {
             </td>
         </tr>
     }
-    
+
     const $table = (
         <table className={`w-full ${!settingsList.length ? "hidden" : ""}`}>
             <thead>
@@ -149,7 +149,7 @@ export default function ClosedDateSettings() {
             >
                 {`Are you confirm to delete this closed date [${deleteTitle}] ?`}
             </p>
-        
+
             <p className="text-sm text-gray-500">
                 {"The changes will update to your schedule instantly."}
             </p>

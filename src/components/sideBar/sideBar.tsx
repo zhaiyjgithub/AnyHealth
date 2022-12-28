@@ -4,8 +4,8 @@ import {DoctorInfoContext} from "../../views/zenClinic/doctorInfoContext";
 import {dataForSideBarRouter, RouterTable} from "../../router/routerTable"
 
 export default function SideBar() {
-    const doctorInfo = useContext(DoctorInfoContext)
-    const doctorName = doctorInfo ? `${doctorInfo.namePrefix}${doctorInfo.fullName} ${doctorInfo.jobTitle}` : ""
+    const {doctorUser} = useContext(DoctorInfoContext)
+    const doctorName = `${doctorUser.namePrefix}${doctorUser.fullName} ${doctorUser.jobTitle}`
     const {pathname} = useLocation()
 
     const icons: Array<string> = [

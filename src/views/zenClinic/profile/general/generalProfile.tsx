@@ -7,11 +7,11 @@ import {Gender} from "../../../../utils/enum/enum";
 import Button from "../../../../components/buttons/button";
 
 export default function GeneralProfile() {
-    const doctorInfo = useContext(DoctorInfoContext)
+    const {doctorUser} = useContext(DoctorInfoContext)
     const [doctorProfile, setDoctorProfile] = useState<DoctorProfile | undefined>(undefined)
 
     useEffect(() => {
-        getDoctorProfile(doctorInfo.npi, (profile) => {
+        getDoctorProfile(doctorUser.npi, (profile) => {
             setDoctorProfile(profile)
         })
     }, [])
@@ -185,7 +185,7 @@ export default function GeneralProfile() {
     console.log(onSave)
 
     const $saveButton = (
-        <div className={'w-full flex flex-row items-center justify-end'}>
+        <div className={"w-full flex flex-row items-center justify-end"}>
             <Button onClick={() => {
                 onSave(doctorProfile)
             }} >

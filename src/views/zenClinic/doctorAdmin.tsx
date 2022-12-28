@@ -1,7 +1,6 @@
-import React, {useState} from "react";
+import React from "react";
 import SideBar from "../../components/sideBar/sideBar";
-import {defaultDoctorInfo, DoctorInfoContext, IDoctorInfoContext} from "./doctorInfoContext"
-import {Route, Switch, HashRouter} from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 import {dataForSideBarRouter} from "../../router/routerTable";
 import Dashboard from "./dashboard/dashboard";
 import Schedule from "./schedule/schedule";
@@ -9,7 +8,6 @@ import Profile from "./profile/profile";
 import Settings from "./settings/settings"
 
 export default function DoctorAdmin() {
-    const [doctorInfo] = useState<IDoctorInfoContext>(defaultDoctorInfo)
     const $sideBar = (
         <div className={"h-screen border-r w-60 sticky top-0"}>
             <SideBar />
@@ -26,13 +24,10 @@ export default function DoctorAdmin() {
         </div>
     )
     return (
-        <HashRouter>
-            <DoctorInfoContext.Provider value={doctorInfo}>
-                <div className={"w-full min-h-screen bg-base-100 flex flex-row"}>
-                    {$sideBar}
-                    {$contentView}
-                </div>
-            </DoctorInfoContext.Provider>
-        </HashRouter>
+        <div className={"w-full min-h-screen bg-base-100 flex flex-row"}>
+            {$sideBar}
+            {$contentView}
+        </div>
+
     )
 }

@@ -7,19 +7,22 @@ import UserProvider from "./views/zenDoc/user/hooks/userProvider";
 import AppointmentBookingPage from "./views/zenDoc/appointment/appointmentBookingPage";
 import DoctorAdmin from "./views/zenClinic/doctorAdmin";
 import Setting from "./views/zenDoc/setting/setting"
+import DoctorUserProvider from "./views/zenClinic/doctorInfoContext";
 
 export default function App() {
     return (
         <BrowserRouter>
             <UserProvider>
-                <Switch>
-                    <Route exact path={"/doctor/:name"} component={DoctorInformation} />
-                    <Route path={"/profile-setting"} component={Setting} />
-                    <Route exact path={"/search"} component={DoctorListWrapper} />
-                    <Route exact path={"/create-user"} component={CreateAccountPage} />
-                    <Route exact path={"/booking"} component={AppointmentBookingPage} />
-                    <Route path={"/doctorAdmin"} component={DoctorAdmin} />
-                </Switch>
+                <DoctorUserProvider>
+                    <Switch>
+                        <Route exact path={"/doctor/:name"} component={DoctorInformation} />
+                        <Route path={"/profile-setting"} component={Setting} />
+                        <Route exact path={"/search"} component={DoctorListWrapper} />
+                        <Route exact path={"/create-user"} component={CreateAccountPage} />
+                        <Route exact path={"/booking"} component={AppointmentBookingPage} />
+                        <Route path={"/doctorAdmin"} component={DoctorAdmin} />
+                    </Switch>
+                </DoctorUserProvider>
             </UserProvider>
         </BrowserRouter>
     )
