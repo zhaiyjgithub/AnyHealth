@@ -18,12 +18,14 @@
 
 ...
 
-![](../../../Desktop/search.jpg)![](../../../Desktop/doctor-info.jpg)![](../../../Desktop/doctor-about.jpg)
-![](../../../Desktop/booking.jpg)
-![](../../../Desktop/setting.jpg)
-![](../../../Desktop/setting-appts.jpg)
-![](../../../Desktop/setting-insurance.jpg)
-![](../../../Desktop/clinc-schedule.jpg)
-![](../../../Desktop/doctor-profile.jpg)
-![](../../../Desktop/doctor-setting-edit.jpg)
-![](../../../Desktop/doctor-settings.jpg)
+![](./documents/images/search.jpg)
+![](./documents/images/doctor-info.jpg)
+![](./documents/images/doctor-about.jpg)
+![](./documents/images/booking.jpg)
+![](./documents/images/setting.jpg)
+![](./documents/images/setting-appts.jpg)
+![](./documents/images/setting-insurance.jpg)
+![](./documents/images/clinc-schedule.jpg)
+![](./documents/images/doctor-profile.jpg)
+![](./documents/images/doctor-setting-edit.jpg)
+![](./documents/images/doctor-settings.jpg)
