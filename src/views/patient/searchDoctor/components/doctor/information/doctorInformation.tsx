@@ -1,10 +1,11 @@
 import React, {useContext} from "react";
 import {DoctorInfo} from "../../../model/doctor";
 import {SearchFilterContext} from "../../../searchFilterProvider";
-import {AppointmentType} from "../../../../../../utils/enum/enum";
-import {$iconDefaultDoctor} from "../../../assets/assets";
+import {AppointmentType, Gender} from "../../../../../../utils/enum/enum";
 import {Link} from "react-router-dom"
 import ToolTips from "./toolTips";
+import doctorAvatarFemale from "../../../../../../assets/doctor-female.png"
+import doctorAvatarMale from "../../../../../../assets/doctor-male.png"
 
 interface IProps {
     active: boolean
@@ -29,8 +30,8 @@ export default function DoctorInformation(props: IProps) {
         </div>
     ) : null
     const $avatar = (
-        <div className={"h-32 w-32 p-2 flex items-center justify-center flex flex-none relative"}>
-            {$iconDefaultDoctor}
+        <div className={"h-32 w-32 p-2 flex items-center justify-center flex flex-none rounded-full relative overflow-hidden border-2 border-primary p-1"}>
+            <img className={"w-[120px] h-[120px]"} src={doctorInfo.gender === Gender.Female ? doctorAvatarFemale : doctorAvatarMale}/>
             {$virtualVisitIcon}
         </div>
     )

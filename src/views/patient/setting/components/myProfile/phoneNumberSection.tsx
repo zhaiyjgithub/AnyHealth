@@ -19,7 +19,7 @@ export default function PhoneNumberSection(props: IProps) {
         }}/>
     )
 
-    const formatPhone = phoneNumber.length ? `+1${phoneNumber}` : "Not Provide"
+    const formatPhone = phoneNumber.length ? `${phoneNumber}` : "Not Provide"
     return (
         <div className={"flex-1 flex flex-row items-center justify-between space-y-8 pb-8 border-b"}>
             <div className={"flex flex-1 flex-col space-y-2"}>

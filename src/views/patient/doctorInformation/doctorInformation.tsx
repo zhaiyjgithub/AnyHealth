@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import NavBar from "./components/navBar/navBar";
-import {$iconDefaultDoctor} from "../searchDoctor/assets/assets";
 import SectionHeader, {ScrollSectionMenuId} from "./components/sectionHeader/sectionHeader";
 import RecentRatting from "./components/ratting/recentRatting";
 import InsuranceList from "./components/insurance/insuranceList";
@@ -14,6 +13,9 @@ import AppointmentInfoPanel from "./components/appointmentInfoPanel/appointmentI
 import {useLocation} from "react-router-dom";
 import qs from "qs";
 import {DoctorDetailInfo, getDoctorDetailInfoByNpi} from "./service/doctorCardService";
+import {Gender} from "../../../utils/enum/enum";
+import doctorAvatarFemale from "../../../assets/doctor-female.png";
+import doctorAvatarMale from "../../../assets/doctor-male.png";
 
 interface IRouterLocation {
     npi: string
@@ -21,7 +23,7 @@ interface IRouterLocation {
 
 export default function DoctorInformation() {
     const {search} = useLocation<IRouterLocation>()
-    const {npi} = qs.parse(search.replace("?", ""))
+    const { npi } = qs.parse(search.replace("?", ""))
     const [doctorDetailInfo, setDoctorDetailInfo] = useState<DoctorDetailInfo | null>(null)
     const [isHeaderFixed, setIsHeaderFixed] = useState<boolean>(false)
 
@@ -47,14 +49,12 @@ export default function DoctorInformation() {
     }
 
     const $previewPhotosButton = (
-        <button type={"button"}
-            className={"text-lg max-w-max text-blue-600 font-medium border-blue-600 border-b border-dotted hover:border-solid"}>7
-            Photos</button>
+        <button type={"button"} className={"text-lg max-w-max text-blue-600 font-medium border-blue-600 border-b border-dotted hover:border-solid"}>7 Photos</button>
     )
     const $avatar = (
         <div className={"flex flex-col items-center justify-center space-y-2 flex-none"}>
-            <div className={"h-32 w-32 p-2 flex items-center justify-center flex flex-none relative"}>
-                {$iconDefaultDoctor}
+            <div className={"h-32 w-32 p-2 flex items-center justify-center flex flex-none relative rounded-full relative overflow-hidden border-2 border-primary"}>
+                <img className={"w-[120px] h-[120px]"} src={doctorDetailInfo.gender === Gender.Female ? doctorAvatarFemale : doctorAvatarMale}/>
             </div>
             {$previewPhotosButton}
         </div>
@@ -106,8 +106,8 @@ export default function DoctorInformation() {
     const $doctorInfoForHeader = (
         <div className={"flex flex-row items-center space-x-8"}>
             <div className={"flex flex-row items-center space-x-4"}>
-                <div className={"w-12 h-12 rounded-full border"}>
-
+                <div className={"w-12 h-12 rounded-full border-2 border-primary overflow-hidden p-1"}>
+                    <img className={"w-full h-full object-cover"} src={doctorDetailInfo.gender === Gender.Female ? doctorAvatarFemale : doctorAvatarMale}/>
                 </div>
                 <div>
                     <p className={"text-lg text-primary-focus font-bold"}>{name}</p>
@@ -126,7 +126,7 @@ export default function DoctorInformation() {
                     left: 0,
                     behavior: "smooth",
                 });
-            }}>
+            }} >
                 View availability
             </Button>
         </div>
@@ -137,11 +137,10 @@ export default function DoctorInformation() {
             <Sticky stickyClassName={`z-50 ${isHeaderFixed ? "left-0 container" : ""}`} onFixedToggle={(fixed) => {
                 setIsHeaderFixed(fixed)
             }}>
-                <div
-                    className={`relative ${isHeaderFixed ? "w-screen flex flex-row justify-center bg-base-200 border-b" : ""}`}>
+                <div className={`relative ${isHeaderFixed ? "w-screen flex flex-row justify-center bg-base-200 border-b" : ""}`}>
                     <div className={`${isHeaderFixed ? "container px-6" : "bg-white"}`}>
                         <div className={`${isHeaderFixed ? "" : "border-b border-t"}`}>
-                            <SectionHeader/>
+                            <SectionHeader />
                         </div>
                     </div>
                     <div className={`absolute right-8 top-2 ${isHeaderFixed ? "" : "hidden"}`}>
@@ -166,7 +165,7 @@ export default function DoctorInformation() {
 
     const $recenterRattingView = (
         <Section id={ScrollSectionMenuId.rating}>
-            <RecentRatting/>
+            <RecentRatting doctorName={name}/>
         </Section>
     )
 
@@ -177,8 +176,7 @@ export default function DoctorInformation() {
                 <div className={"block mt-2"}>
                     <span className={"text-lg text-primary-focus line-clamp-3"}>
                         {doctorDetailInfo.summary}
-                        <span><button type={"button"}
-                            className={"cursor-pointer leading-none ml-2 text-blue-500 border-b border-blue-500 border-dotted hover:border-solid"}>Show more</button></span>
+                        <span><button type={"button"} className={"cursor-pointer leading-none ml-2 text-blue-500 border-b border-blue-500 border-dotted hover:border-solid"}>Show more</button></span>
                     </span>
                 </div>
             </div>
@@ -187,29 +185,27 @@ export default function DoctorInformation() {
 
     const $insuranceList = doctorDetailInfo.insurances ? (
         <Section id={ScrollSectionMenuId.insurances}>
-            <InsuranceList data={doctorDetailInfo.insurances.split(", ")}/>
+            <InsuranceList data={doctorDetailInfo.insurances.split(", ")} />
         </Section>
     ) : null
 
     const $locationInfoView = doctorDetailInfo ? (
         <Section id={ScrollSectionMenuId.locations}>
             <div className={"z-10"}>
-                <LocationInfo specialty={specialty} doctorName={name}
-                    center={[doctorDetailInfo.lat, doctorDetailInfo.lng]} address={doctorDetailInfo.address}
-                    isVirtualVisitEnable={true}/>
+                <LocationInfo specialty={specialty} doctorName={name} center={[doctorDetailInfo.lat, doctorDetailInfo.lng]} address={doctorDetailInfo.address} isVirtualVisitEnable={true} />
             </div>
         </Section>
     ) : null
 
     const $educationView = doctorDetailInfo ? (
         <Section id={ScrollSectionMenuId.educations}>
-            <EducationBackground doctorInfo={doctorDetailInfo}/>
+            <EducationBackground doctorInfo={doctorDetailInfo} />
         </Section>
     ) : null
 
     const $faqView = (
-        <Section id={ScrollSectionMenuId.faq}>
-            <Faq doctorName={name}/>
+        <Section id={ScrollSectionMenuId.faq} >
+            <Faq doctorName={name} />
         </Section>
     )
 
@@ -222,7 +218,7 @@ export default function DoctorInformation() {
     return (
         <ScrollingProvider offset={-80}>
             <div className={"w-full"}>
-                <NavBar/>
+                <NavBar />
                 <div className={"flex flex-col items-center"}>
                     <div className={"container px-8 py-4 flex flex-row space-x-8"}>
                         <div className={"w-3/5 space-y-8"}>

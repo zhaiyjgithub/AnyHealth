@@ -1,10 +1,9 @@
 import React, {useEffect, useMemo, useState} from "react";
 import NavBar from "./components/navBar/navBar";
-import {$iconDefaultDoctor} from "../searchDoctor/assets/assets";
 import {useHistory, useLocation} from "react-router-dom";
 import qs from "qs";
 import {DoctorProfile, getDoctorProfile} from "../../clinic/profile/general/generalProfileService";
-import {AppointmentType, TimeFormat} from "../../../utils/enum/enum";
+import {AppointmentType, Gender, TimeFormat} from "../../../utils/enum/enum";
 import {formatDateToWeekMonthDayTuple} from "../../../utils/util/dateTool";
 import FormRadio from "../../../components/form/formRadio";
 import useUserAuth from "../user/hooks/useUserAuth";
@@ -22,6 +21,8 @@ import Timeslots from "./components/timeSlots/timeSlots";
 import {TimeSlot} from "../searchDoctor/components/doctor/timeslots/timeslots";
 import moment from "moment";
 import {Appointment, AppointmentStatus} from "./types";
+import doctorAvatarFemale from "../../../assets/doctor-female.png";
+import doctorAvatarMale from "../../../assets/doctor-male.png";
 
 interface IRouterLocation {
     npi: string,
@@ -123,8 +124,8 @@ export default function AppointmentBookingPage() {
     }
 
     const $avatar = (
-        <div className={"h-16 w-16 rounded-full bg-red-300 flex-none"}>
-            {$iconDefaultDoctor}
+        <div className={"h-16 w-16 rounded-full flex-none overflow-hidden border-2 border-primary p-1"}>
+            <img className={"w-full h-full object-cover"} src={doctorInfo?.gender === Gender.Female ? doctorAvatarFemale : doctorAvatarMale}/>
         </div>
     )
 

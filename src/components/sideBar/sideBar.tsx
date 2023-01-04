@@ -2,6 +2,7 @@ import React from "react";
 import {Link, useLocation} from "react-router-dom";
 import {DoctorUser} from "../../views/clinic/doctorInfoContext";
 import {dataForSideBarRouter, RouterTable} from "../../router/routerTable"
+import doctorAvatarMale from "../../assets/doctor-male.png";
 
 interface IProps {
     doctorUser: DoctorUser
@@ -46,7 +47,7 @@ export default function SideBar({doctorUser}: IProps) {
     const $doctorInfo = (
         <div className={"mt-4 w-full flex flex-col justify-center items-center"}>
             <div className="rounded-full overflow-hidden w-16 h-16 ring ring-primary ring-offset-base-100 ring-offset-2">
-                <img src="http://daisyui.com/tailwind-css-component-profile-1@94w.png" alt={""} />
+                <img className={"w-full h-full"} src={doctorAvatarMale}/>
             </div>
             <p className={"py-4 border-b border-base-300 font-semibold text-base px-4 text-base-content font-playball"}>{doctorName}</p>
         </div>
