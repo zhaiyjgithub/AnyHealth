@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import "./views/zenDoc/searchDoctor/components/filter/calendarCustom.css";
+import "./views/patient/searchDoctor/components/filter/calendarCustom.css";
 import "leaflet/dist/leaflet.css";
 import reportWebVitals from "./reportWebVitals";
 import L from "leaflet";

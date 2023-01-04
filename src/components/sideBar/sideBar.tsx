@@ -1,6 +1,6 @@
 import React from "react";
 import {Link, useLocation} from "react-router-dom";
-import {DoctorUser} from "../../views/zenClinic/doctorInfoContext";
+import {DoctorUser} from "../../views/clinic/doctorInfoContext";
 import {dataForSideBarRouter, RouterTable} from "../../router/routerTable"
 
 interface IProps {

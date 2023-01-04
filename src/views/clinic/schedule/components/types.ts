@@ -1,0 +1,3 @@
+enum Rest {}
+
+export {Rest}

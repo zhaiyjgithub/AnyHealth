@@ -14,7 +14,8 @@ export enum ApiSchedule {
     DeleteClosedDateSettings= "Schedule/DeleteClosedDateSettings",
     GetClosedDateSettings= "Schedule/GetClosedDateSettings",
     AddAppointment = "Schedule/AddAppointment",
-    GetAppointmentByPage = "Schedule/GetAppointmentByPage"
+    GetAppointmentByPage = "Schedule/GetAppointmentByPage",
+    GetAppointmentByDate = "Schedule/GetAppointmentByDate"
 }
 
 export enum ApiUser {
