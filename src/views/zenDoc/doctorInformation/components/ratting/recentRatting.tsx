@@ -2,7 +2,11 @@ import React from "react";
 import Button from "../../../../../components/buttons/button";
 import {Variant} from "../../../../../components/buttons/enum";
 
-export default function RecentRatting() {
+interface IProps {
+    doctorName: string
+}
+
+export default function RecentRatting({doctorName}: IProps) {
     const $star = (
         <i className="fas fa-star text-red-400"/>
     )
@@ -34,7 +38,7 @@ export default function RecentRatting() {
         return (
             <div className={"w-full space-y-2"}>
                 <div className={"block"}>
-                    <span className={"w-full text-base font-primary-focus line-clamp-3"}>{"Dr. Suri was very thorough and asked important questions regarding y background and medical history. He explained my afib with pictures and explanations which no other doctor did. I find fib with pictures and explanations which no other doctor did. I find"}</span>
+                    <span className={"w-full text-base font-primary-focus line-clamp-3"}>{`${doctorName} was very thorough and asked important questions regarding y background and medical history. He explained my afib with pictures and explanations which no other doctor did. I find fib with pictures and explanations which no other doctor did. I find`}</span>
                     <button type={"button"} className={"cursor-pointer text-blue-500 border-b border-blue-500 border-dotted hover:border-solid"}>Show more</button>
                 </div>
                 <p className={"text-base text-gray-400"}>Marie C.March 9, 2022</p>

@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import NavBar from "./components/navBar/navBar";
-import {$iconDefaultDoctor} from "../searchDoctor/assets/assets";
 import SectionHeader, {ScrollSectionMenuId} from "./components/sectionHeader/sectionHeader";
 import RecentRatting from "./components/ratting/recentRatting";
 import InsuranceList from "./components/insurance/insuranceList";
@@ -14,6 +13,9 @@ import AppointmentInfoPanel from "./components/appointmentInfoPanel/appointmentI
 import {useLocation} from "react-router-dom";
 import qs from "qs";
 import {DoctorDetailInfo, getDoctorDetailInfoByNpi} from "./service/doctorCardService";
+import {Gender} from "../../../utils/enum/enum";
+import doctorAvatarFemale from "../../../assets/doctor-female.png";
+import doctorAvatarMale from "../../../assets/doctor-male.png";
 
 interface IRouterLocation {
     npi: string
@@ -52,7 +54,7 @@ export default function DoctorInformation() {
     const $avatar = (
         <div className={"flex flex-col items-center justify-center space-y-2 flex-none"}>
             <div className={"h-32 w-32 p-2 flex items-center justify-center flex flex-none relative"}>
-                {$iconDefaultDoctor}
+                <img className={"w-[120px] h-[120px]"} src={doctorDetailInfo.gender === Gender.Female ? doctorAvatarFemale : doctorAvatarMale}/>
             </div>
             {$previewPhotosButton}
         </div>
@@ -163,7 +165,7 @@ export default function DoctorInformation() {
 
     const $recenterRattingView = (
         <Section id={ScrollSectionMenuId.rating}>
-            <RecentRatting />
+            <RecentRatting doctorName={name}/>
         </Section>
     )
 
